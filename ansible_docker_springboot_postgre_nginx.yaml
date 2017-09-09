@@ -1,0 +1,98 @@
+---
+- hosts: localhost
+  connection: local
+  become: true
+  gather_facts: true
+  vars_files:
+    - settings.yaml
+  vars:
+    proj_name: "devopscicd"
+    nginx_host: "devopscicd.xyz.com"
+    nginx_port: 80
+    dashboard_ui_port: 8092
+    dashboard_api_port: 8091
+    postgresql_db_port: 5432
+  tasks:
+  - name: Create the network
+    docker_network:
+      name: dodashb_network
+
+  - name: build ./nginx/ image  
+    docker_image: 
+      path: ./dev/docker/webserv/
+      name: ddb_webserv
+
+  - name: build ./postgresql/ image  
+    docker_image: 
+      path: ./dev/docker/postgresql/
+      name: postgresql_db
+
+  - name: build ./nginx/ image  
+    docker_image: 
+      path: ./dev/docker/nginx/
+      name: ddb_nginx
+
+  - name: build ./dashboard-api/ image  
+    docker_image: 
+      path: ./dev/docker/dashboard-api/
+      name: dashboard-api
+
+  - name: start postresql_db container
+    docker_container:
+      name: postgresql_db
+      image: postgresql_db
+      volumes:
+        - ./postgresql/db:/var/lib/postgresql/data
+      ports:
+        - "5432:5432"
+      env:
+        DEBUG: "false"
+        POSTGRES_USER: "sa"
+        POSTGRES_PASS: "password"
+        POSTGRES_DB: "devopscicd_db"
+      state: "started"
+      restart: "yes"
+      networks:
+        - name: dodashb_network
+
+  - name: start dashboard-api container
+    docker_container:
+      name: dashboard-api
+      image: dashboard-api
+      volumes:
+        - ./dashboard-api/logs:/opt/logs
+        - ./dashboard-api/app:/opt/target
+      ports:
+        - "8091:8091"
+      links:
+        - postgresql_db
+      networks:
+        - name: dodashb_network
+      state: "started"
+      restart: "yes"
+
+  - name: run dashboard_ui container
+    docker_container:
+      name: dashboard_ui
+      image: ddb_webserv
+      volumes:
+        - ./dashboard/app:/var/www
+      ports:
+        - "8092 : 80"
+      networks:
+        - name: dodashb_network
+      state: "started"
+      restart: "yes"
+
+  - name: start nginx container
+    docker_container:
+      name: ddb_nginx_webserv
+      image: ddb_nginx
+      volumes:
+        - ./ddb_nginx/app:/var/www
+      ports:
+        - "80 : 80"
+      networks:
+        - name: dodashb_network
+      state: "started"
+      restart: "yes"
