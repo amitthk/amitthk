@@ -1,0 +1,55 @@
+* Spring Boot Angular 2 Continuou Delivery Pipeline
+** Setting up Spring Boot Microservices
+*** Authentication API
+**** Maven begin project
+**** Set up H2 Database
+**** Set up User Table
+**** Set up Rest API
+**** Set up Persistence Model
+**** Liquibase Migration
+**** Using Mybatis
+**** Setup JWT token authentication
+**** Setup Spring Security
+*** Dashboard API
+**** Set Up JWT Token Authentication
+** Setting up front end
+*** NPM initiate Angular 2 Project
+**** Add bootstrap
+**** Add login and register controls
+**** Add authentication service
+**** Add dashboard service
+**** Add Authentication guard and UI
+** Continuous Integration
+*** Front End
+**** Dockerfile and Docker-Compose
+***** Our infratructure
+***** Nginx
+**** Using Make to perform the build
+***** Clean
+***** Install and Build
+***** Archive
+***** Publish
+***** Cleanprod, Deploy
+**** Jenkinsfile
+*** Back end APIs 
+**** Dockerfile and Docker-Compose
+***** Spring boot java application
+***** active profiles
+**** Maven
+***** Clean Pakcage
+**** Make 
+***** publish
+***** clean deploy
+**** Jenkinsfile
+** Continuous Deployment
+*** Playbook roles
+**** Download latest
+**** Install prerequisites
+**** Build Images
+**** Run containers
+***** Postgresql database
+***** Authentication API
+****** Liquibase Migrations
+***** Front End
+****** Nginx hosting the front end
+****** Nginx Mapping to upstream containers
