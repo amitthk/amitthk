@@ -1,24 +1,63 @@
 * linux
 
+
+
+
 ** Commands
-*** ssh-keygen -R <server> : reset ssh keys
+*** reset ssh keys
+#+BEGIN_SRC 
+ ssh-keygen -R <server>
+#+END_SRC
+
 - If this doesn't work -> 
-nano /Users/amit/.ssh/known_hosts
+#+BEGIN_SRC 
+vi ~/.ssh/known_hosts
+#+END_SRC
+
 
 and delete the correstonding host entry
 
 ** git pull all branches
+#+BEGIN_SRC 
 git branch -r | grep -v '\->' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
 git fetch --all
 git pull --all
 git branch -a
  
+#+END_SRC
+
+** linux command line monitoring performance
+ - 1. Top – Linux Process Monitoring
+ - 2. VmStat – Virtual Memory Statistics
+ - 3. Lsof – List Open Files
+ - 4. Tcpdump – Network Packet Analyzer
+ - 5. Netstat – Network Statistics
+ - 6. Htop – Linux Process Monitoring
+ - 7. Iotop – Monitor Linux Disk I/O
+ - 8. Iostat – Input/Output Statistics
+ - 9. IPTraf – Real Time IP LAN Monitoring
+ - 10. Psacct or Acct – Monitor User Activity
+ - 11. Monit – Linux Process and Services Monitoring
+ - 12. NetHogs – Monitor Per Process Network Bandwidth
+ - 13. iftop – Network Bandwidth Monitoring
+ - 14. Monitorix – System and Network Monitoring
+ - 15. Arpwatch – Ethernet Activity Monitor
+ - 16. Suricata – Network Security Monitoring
+ - 17. VnStat PHP – Monitoring Network Bandwidth
+ - 18. Nagios – Network/Server Monitoring
+ - 19. Nmon: Monitor Linux Performance
+ - 20. Collectl: All-in-One Performance Monitoring Tool
+
 ** Rsync from/to remote server
 
 - rsync a remote file to local
+#+BEGIN_SRC 
 rsync -v -e ssh pi@192.168.0.102:~/atksv/inbox.org /tmp
 
+#+END_SRC
+
 - backup samba config
+#+BEGIN_SRC 
 rsync /etc/samba/smb.conf administrator@192.168.0.109:/Users/administrator/Documents/src
 rsync /etc/httpd/conf/httpd.conf
 administrator@192.168.0.109:/Users/administrator/Documents/src
@@ -36,6 +75,8 @@ cp /etc/apache2/sites-enabled/000-default.conf ~/000-default.conf.bak1
 
 rsync ~/000-default.conf.bak1 -rtvpl administrator@192.168.0.109:/Users/administrator/Documents/src
 
+
+#+END_SRC
 ** getting list of all hostnames in lan
   // unknown was orangepi
  nmap -sP 192.168.1.* 
@@ -98,11 +139,14 @@ grep -ve ^# -ve ‘^;’ -ve ^$ smb.conf.2015-12-07   >  smb.conf
 
 5.  Edit /etc/samba/smb.conf .Add the share information :
 
+#+BEGIN_SRC 
 [data]
         comment = Data share
         path = /data-share
         browseable = yes
         read only = no
+
+#+END_SRC
 
 6. Test config:
 testparm
@@ -121,7 +165,10 @@ smbpasswd -a pi
 
 ** static ip
 - backup interfaces file
+#+BEGIN_SRC 
 sudo cp /etc/network/interfaces /etc/network/interfaces.bak
+
+#+END_SRC
 
 -  updat the /etc/network/interfaces file
 
@@ -131,6 +178,7 @@ sudo cp /etc/network/interfaces /etc/network/interfaces.bak
 iface eth0 inet dhcp
 
 -> Update the static ip
+#+BEGIN_SRC 
  # The loopback interface
  auto lo
  iface lo inet loopback
@@ -145,6 +193,8 @@ iface eth0 inet dhcp
  network 192.168.1.0
  broadcast 192.168.1.255
 
+
+#+END_SRC
 
 - restart the network service
 sudo /etc/init.d/networking restart
@@ -427,31 +477,6 @@ sudo make install
  sudo update-rc.d -f  startnoip remove
 
 
-
-
-** linux command line monitoring performance
- - 1. Top – Linux Process Monitoring
- - 2. VmStat – Virtual Memory Statistics
- - 3. Lsof – List Open Files
- - 4. Tcpdump – Network Packet Analyzer
- - 5. Netstat – Network Statistics
- - 6. Htop – Linux Process Monitoring
- - 7. Iotop – Monitor Linux Disk I/O
- - 8. Iostat – Input/Output Statistics
- - 9. IPTraf – Real Time IP LAN Monitoring
- - 10. Psacct or Acct – Monitor User Activity
- - 11. Monit – Linux Process and Services Monitoring
- - 12. NetHogs – Monitor Per Process Network Bandwidth
- - 13. iftop – Network Bandwidth Monitoring
- - 14. Monitorix – System and Network Monitoring
- - 15. Arpwatch – Ethernet Activity Monitor
- - 16. Suricata – Network Security Monitoring
- - 17. VnStat PHP – Monitoring Network Bandwidth
- - 18. Nagios – Network/Server Monitoring
- - 19. Nmon: Monitor Linux Performance
- - 20. Collectl: All-in-One Performance Monitoring Tool
-
-
 ** configuring httpd Lamp server from aws docs
 
 *** Add the user
@@ -600,6 +625,7 @@ Navigate to the directory /etc/init.d/:
 
 cd /etc/init.d/
 Create a new file here containing the following script:
+#+BEGIN_SRC 
 
 #! /bin/sh
 # /etc/init.d/vncboot
@@ -638,6 +664,8 @@ case "$1" in
 esac
 
 exit 0
+
+#+END_SRC
 Save this file as vncboot (for example)
 
 Make this file executable:
