@@ -1,12 +1,17 @@
 * linux
 
 ** Commands
-**** ssh-keygen -R <server> : reset ssh keys
+*** ssh-keygen -R <server> : reset ssh keys
 - If this doesn't work -> 
 nano /Users/amit/.ssh/known_hosts
 
 and delete the correstonding host entry
 
+** git pull all branches
+git branch -r | grep -v '\->' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
+git fetch --all
+git pull --all
+git branch -a
  
 ** Rsync from/to remote server
 
