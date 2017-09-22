@@ -26,6 +26,71 @@ git branch -a
  
 #+END_SRC
 
+** setup the git ssh keys
+
+First setup the ssh config to use specific keys for specific hosts:
+#+BEGIN_SRC
+vi ~/.ssh/config
+#+END_SRC
+
+#+BEGIN_SRC 
+host bitbucket.com
+ HostName bitbucket.com
+ IdentityFile ~/.ssh/id_rsa_bitbucket
+ User amitthk
+
+host github.com
+ HostName github.com
+ IdentityFile ~/.ssh/id_rsa_github
+ User amitthk
+
+#+END_SRC
+
+Copy over the downloaded keys and setup permissions for them:
+#+BEGIN_SRC 
+sudo cp ~/download/id_rsa_bitbucket  ~/.ssh/
+sudo chown amitthk:amitthk ~/.ssh/id_rsa_bitbucket
+sudo chmod 400 ~/.ssh/id_rsa_bitbucket
+sudo cp ~/download/id_rsa_github  ~/.ssh/
+sudo chown amitthk:amitthk ~/.ssh/id_rsa_github
+sudo chmod 400 ~/.ssh/id_rsa_github
+#+END_SRC
+
+
+** Create user
+
+User without home
+#+BEGIN_SRC 
+useradd demouser
+
+#+END_SRC
+
+Add a home directory to existing user
+
+#+BEGIN_SRC 
+
+mkdir -p /home/demouser
+chown newuser:newuser /home/demouser
+usermod -d /home/demouser demouser
+
+#+END_SRC
+
+Create a new User with home directory
+
+#+BEGIN_SRC 
+
+useradd -m demouser
+
+#+END_SRC
+
+Make the user sudo(er)
+
+#+BEGIN_SRC 
+
+usermod -aG sudo demouser
+
+#+END_SRC
+
 ** linux command line monitoring performance
  - 1. Top – Linux Process Monitoring
  - 2. VmStat – Virtual Memory Statistics
