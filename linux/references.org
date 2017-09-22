@@ -1,10 +1,6 @@
 * linux
 
-
-
-
-** Commands
-*** reset ssh keys
+** reset ssh keys
 #+BEGIN_SRC 
  ssh-keygen -R <server>
 #+END_SRC
@@ -16,73 +12,6 @@ vi ~/.ssh/known_hosts
 
 
 and delete the correstonding host entry
-
-** git pull all branches
-#+BEGIN_SRC 
-git branch -r | grep -v '\->' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
-git fetch --all
-git pull --all
-git branch -a
- 
-#+END_SRC
-
-Pull all branches from list of git repo (read list from file params.txt)
-
-#+BEGIN_SRC 
-#!/bin/bash
-
-gitpull(){
-echo "git clone ${1}@${2}:${3}/${4}.git"
-mkdir "${4}"
-git clone "${1}@${2}:${3}/${4}.git" "${4}"
-cd ${4}
-git branch -r | grep -v '\->' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
-git fetch --all
-git pull --all
-git branch -a
-cd ..
-}
-
-getall(){
-while read x y
-do
-echo "gitpull git bitbucket.org ${x} ${y}"
-gitpull git bitbucket.org ${x} ${y}
-done < params.txt
-}
-
-#+END_SRC
-
-** setup the git ssh keys
-
-First setup the ssh config to use specific keys for specific hosts:
-#+BEGIN_SRC
-vi ~/.ssh/config
-#+END_SRC
-
-#+BEGIN_SRC 
-host bitbucket.com
- HostName bitbucket.com
- IdentityFile ~/.ssh/id_rsa_bitbucket
- User amitthk
-
-host github.com
- HostName github.com
- IdentityFile ~/.ssh/id_rsa_github
- User amitthk
-
-#+END_SRC
-
-Copy over the downloaded keys and setup permissions for them:
-#+BEGIN_SRC 
-sudo cp ~/download/id_rsa_bitbucket  ~/.ssh/
-sudo chown amitthk:amitthk ~/.ssh/id_rsa_bitbucket
-sudo chmod 400 ~/.ssh/id_rsa_bitbucket
-sudo cp ~/download/id_rsa_github  ~/.ssh/
-sudo chown amitthk:amitthk ~/.ssh/id_rsa_github
-sudo chmod 400 ~/.ssh/id_rsa_github
-#+END_SRC
-
 
 ** Create user
 
@@ -118,28 +47,6 @@ usermod -aG sudo demouser
 
 #+END_SRC
 
-** linux command line monitoring performance
- - 1. Top – Linux Process Monitoring
- - 2. VmStat – Virtual Memory Statistics
- - 3. Lsof – List Open Files
- - 4. Tcpdump – Network Packet Analyzer
- - 5. Netstat – Network Statistics
- - 6. Htop – Linux Process Monitoring
- - 7. Iotop – Monitor Linux Disk I/O
- - 8. Iostat – Input/Output Statistics
- - 9. IPTraf – Real Time IP LAN Monitoring
- - 10. Psacct or Acct – Monitor User Activity
- - 11. Monit – Linux Process and Services Monitoring
- - 12. NetHogs – Monitor Per Process Network Bandwidth
- - 13. iftop – Network Bandwidth Monitoring
- - 14. Monitorix – System and Network Monitoring
- - 15. Arpwatch – Ethernet Activity Monitor
- - 16. Suricata – Network Security Monitoring
- - 17. VnStat PHP – Monitoring Network Bandwidth
- - 18. Nagios – Network/Server Monitoring
- - 19. Nmon: Monitor Linux Performance
- - 20. Collectl: All-in-One Performance Monitoring Tool
-
 ** Rsync from/to remote server
 
 - rsync a remote file to local
@@ -169,6 +76,28 @@ rsync ~/000-default.conf.bak1 -rtvpl administrator@192.168.0.109:/Users/administ
 
 
 #+END_SRC
+
+** linux command line monitoring performance
+ - 1. Top – Linux Process Monitoring
+ - 2. VmStat – Virtual Memory Statistics
+ - 3. Lsof – List Open Files
+ - 4. Tcpdump – Network Packet Analyzer
+ - 5. Netstat – Network Statistics
+ - 6. Htop – Linux Process Monitoring
+ - 7. Iotop – Monitor Linux Disk I/O
+ - 8. Iostat – Input/Output Statistics
+ - 9. IPTraf – Real Time IP LAN Monitoring
+ - 10. Psacct or Acct – Monitor User Activity
+ - 11. Monit – Linux Process and Services Monitoring
+ - 12. NetHogs – Monitor Per Process Network Bandwidth
+ - 13. iftop – Network Bandwidth Monitoring
+ - 14. Monitorix – System and Network Monitoring
+ - 15. Arpwatch – Ethernet Activity Monitor
+ - 16. Suricata – Network Security Monitoring
+ - 17. VnStat PHP – Monitoring Network Bandwidth
+ - 18. Nagios – Network/Server Monitoring
+ - 19. Nmon: Monitor Linux Performance
+ - 20. Collectl: All-in-One Performance Monitoring Tool
 ** getting list of all hostnames in lan
   // unknown was orangepi
  nmap -sP 192.168.1.* 
@@ -425,6 +354,8 @@ sudo resize2fs /dev/mmcblk0p2
 
 ** httpd.conf config for subdomain
 
+#+BEGIN_SRC 
+
  <VirtualHost *:80>
  #    ServerAdmin webmaster@amitthk.com
       DocumentRoot /var/www/vhosts/blog
@@ -435,6 +366,8 @@ sudo resize2fs /dev/mmcblk0p2
      AllowOverride All
      </Directory>
  </VirtualHost>
+
+#+END_SRC
 
 ** docker on raspberry pi
 
@@ -468,10 +401,14 @@ sudo resize2fs /dev/mmcblk0p2
  sudo nano /etc/apache2/sites-enabled/000-default.conf
 
  ## Add this
+#+BEGIN_SRC 
+
  <Directory /var/www/html/redmine>
      RailsBaseURI /redmine
      PassengerResolveSymlinksInDocumentRoot on
  </Directory>
+
+#+END_SRC
 
 **** touch the gemfile
  sudo touch /usr/share/redmine/Gemfile.lock
@@ -516,6 +453,7 @@ sudo make install
 
 
 *** Enter the contents of the script
+#+BEGIN_SRC 
  #! /bin/sh
  # /etc/init.d/noip 
 
@@ -550,6 +488,8 @@ sudo make install
  esac
 
  exit 0
+
+#+END_SRC
 
 
 *** make script executable
@@ -631,7 +571,8 @@ sudo make install
  sudo vim /etc/httpd/conf/httpd.conf
 
 **** User permissions
- sudo usermod -a -G www apache
+ #+BEGIN_SRC 
+sudo usermod -a -G www apache
 
  sudo chown -R apache /var/www
 
@@ -644,6 +585,8 @@ sudo make install
  find /var/www -type f -exec sudo chmod 0664 {} \;
 
  sudo service httpd restart
+ 
+ #+END_SRC
 
 
  [[http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/hosting-wordpress.html#create_user_and_database]]
@@ -691,9 +634,12 @@ sudo apt-get install xtightvncviewer
 to remember it:
 
 Create a file containing the following shell script:
+#+BEGIN_SRC 
 
 #!/bin/sh
 vncserver :1 -geometry 1920x1080 -depth 24 -dpi 96
+
+#+END_SRC
 Save this as vnc.sh (for example)
 
 Make the file executable:
@@ -876,6 +822,7 @@ adduser amit ftppublicgroup
 
 
 **** emacs /etc/proftpd/proftpd.conf
+#+BEGIN_SRC 
 
 Include /etc/proftpd/conf.d/
 <Global>
@@ -915,14 +862,19 @@ DefaultRoot ~
  </Directory>
  
 
+#+END_SRC
+
 **** service proftpd restart
 
 ** Writing orangepi image from mac
  http://rayhightower.com/blog/2015/11/27/orange-pi-mini-2-setup-for-mac-os-x/
 
+#+BEGIN_SRC 
  diskutil list
  diskutil unmountDisk /dev/disk1
  sudo dd if=Lubuntu_1404_For_OrangePi2-mini2_v0_8_0_.img of=/dev/disk1 bs=1m
+
+#+END_SRC
 
 
 
