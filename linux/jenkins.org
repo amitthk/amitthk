@@ -1,0 +1,91 @@
+* Jenkins
+** Install Jenkins
+#+BEGIN_SRC 
+wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -
+echo deb http://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list
+sudo apt-get update
+sudo apt-get install -y jenkins
+
+#+END_SRC
+
+
+** Set The HTTP_PORT
+#+BEGIN_SRC 
+vi /etc/default/jenkins
+#+END_SRC
+
+
+** Install nodejs, openjdk, maven (optional)
+
+#+BEGIN_SRC 
+
+sudo apt-get install curl -y
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+sudo su
+apt-get install nodejs -y
+apt-get install openjdk-8-jdk -y
+apt-get install openjdk-8-jre -y
+apt-cache search maven
+apt-get install maven
+exit
+
+#+END_SRC
+
+** Install the necessary plugins
+Some of important plugins are necessary like Pipeline suite,Credentials Binding Plugin, Git Pipeline integration, Maven Pipeline integration plugin, Cloudbees Amazon Web Services Credentials plugin etc.
+** Git SSH Keys must be set properly
+For some reason coying the keys to the /var/lib/jenkins/.ssh/id_rsa_xyz, and then specifying the path to it is not working.
+
+So we need to generate the key from Jenkins User:
+
+#+BEGIN_SRC 
+sudo su jenkins
+ssh-keygen
+#follow the prompts
+#+END_SRC
+Now copy this public key to bitbucket account. And 
+
+** Fix the NPM Permission issue while running npm install
+
+#+BEGIN_SRC 
+sudo su jenkins
+sudo chown -R $(whoami) ~/.npm
+#+END_SRC
+
+This doesnt fix all the problems follow the following blog:
+https://docs.npmjs.com/getting-started/fixing-npm-permissions
+
+Or else, follow these steps:
+
+1. If your npm directory is /usr/local
+
+Run this command
+
+#+BEGIN_SRC 
+ npm config get prefix
+#+END_SRC
+
+If it says /usr/local  - thatś great. (OTHERWISE MOVE to Option 2 below)
+
+#+BEGIN_SRC 
+ sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}
+#+END_SRC
+
+1. Change npm default directory
+
+   1. Make a directory for global installations:
+
+	mkdir ~/.npm-global
+
+   2. Configure npm to use the new directory path:
+
+	   npm config set prefix '~/.npm-global'
+
+   3. Open or create a ~/.profile file and add this line:
+
+	      export PATH=~/.npm-global/bin:$PATH
+
+   4.  Back on the command line, update your system variables:
+
+      source ~/.profile
+
