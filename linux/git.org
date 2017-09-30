@@ -1,0 +1,272 @@
+* git
+
+** git bare basics
+
+*** git local repo
+git init
+git add *.java
+git add README.md
+git commit -m 'first project commit'
+
+*** branches
+
+Create a branch 
+
+#+BEGIN_SRC 
+
+git branch develop
+
+#+END_SRC
+
+
+A brand new branch and check it out 
+
+#+BEGIN_SRC 
+git checkout -b develop
+
+#+END_SRC
+
+branch out from exisiting branch
+
+#+BEGIN_SRC 
+git checkout -b feature/01-DEVAKTHK-CreateMavenProject develop
+
+#+END_SRC
+
+Now check all your branches
+
+#+BEGIN_SRC 
+
+git branch
+git branch -a
+
+#+END_SRC
+
+Merge the branch
+
+#+BEGIN_SRC 
+
+git checkout develop
+git merge --no-ff feature/01-DEVAKTHK-CreateMavenProject
+
+#+END_SRC
+
+Delete the branch
+
+#+BEGIN_SRC 
+
+git branch -d feature/01-DEVAKTHK-CreateMavenProject
+
+#+END_SRC
+
+*** git status and diff
+
+**** Always check the status
+
+#+BEGIN_SRC 
+git status
+
+#+END_SRC
+
+**** And add the changes to staging if there are changes
+
+#+BEGIN_SRC 
+
+git add --all
+
+#+END_SRC
+
+or
+
+#+BEGIN_SRC 
+
+git add MyApp.java
+
+#+END_SRC
+
+**** Commit the changes to requisite branch
+
+#+BEGIN_SRC 
+
+git commit -m "here's some changes"
+
+#+END_SRC
+
+or add and commit the changes together
+#+BEGIN_SRC 
+
+git commit -am "here's some changes"
+
+#+END_SRC
+
+**** What changed and not yet staged
+#+BEGIN_SRC 
+
+git diff
+
+#+END_SRC
+
+**** What are the changes staged compared to original
+
+#+BEGIN_SRC 
+
+git diff --cached
+
+#+END_SRC
+
+**** Lets say we want to revert one file
+
+#+BEGIN_SRC 
+
+git checkout MyApp.java
+
+#+END_SRC
+*** git remote
+
+
+#+BEGIN_SRC 
+git remote add origin <repourl>
+git pull origin master
+#+END_SRC 
+
+or
+
+#+BEGIN_SRC 
+git clone <repourl> .
+#+END_SRC
+
+Now see what remotes we have
+
+#+BEGIN_SRC 
+
+git remote -v show
+
+#+END_SRC
+
+*** git push current branch to remote
+
+push to the current branch which is checked out
+
+#+BEGIN_SRC 
+
+git push origin HEAD
+
+#+END_SRC
+
+or push a branch provided explicitly
+
+#+BEGIN_SRC 
+
+git push origin develop
+
+#+END_SRC
+
+*** git stash
+
+Once you're in middle of some changes and you want to stash them for a while and come back later do this
+
+#+BEGIN_SRC 
+
+git stash
+
+#+END_SRC
+
+The changes will be stashed and can be seen here
+
+#+BEGIN_SRC 
+
+git stash list
+
+#+END_SRC
+
+Now once you come back later and want to apply the stashed changes again, use this command
+
+- to apply the latest stash
+
+#+BEGIN_SRC 
+
+git stash apply
+
+#+END_SRC
+
+To apply the previous stash
+
+#+BEGIN_SRC 
+git stash apply  stash@{1}
+
+#+END_SRC
+
+And to create branch from the stash use this:
+
+#+BEGIN_SRC 
+
+git stash branch feature/2-DEVAKTHK-Testfeature
+
+#+END_SRC
+
+** setup the git ssh keys
+
+First setup the ssh config to use specific keys for specific hosts:
+#+BEGIN_SRC
+vi ~/.ssh/config
+#+END_SRC
+
+#+BEGIN_SRC 
+host bitbucket.com
+ HostName bitbucket.com
+ IdentityFile ~/.ssh/id_rsa_bitbucket
+ User amitthk
+
+host github.com
+ HostName github.com
+ IdentityFile ~/.ssh/id_rsa_github
+ User amitthk
+
+#+END_SRC
+
+Copy over the downloaded keys and setup permissions for them:
+#+BEGIN_SRC 
+sudo cp ~/download/id_rsa_bitbucket  ~/.ssh/
+sudo chown amitthk:amitthk ~/.ssh/id_rsa_bitbucket
+sudo chmod 400 ~/.ssh/id_rsa_bitbucket
+sudo cp ~/download/id_rsa_github  ~/.ssh/
+sudo chown amitthk:amitthk ~/.ssh/id_rsa_github
+sudo chmod 400 ~/.ssh/id_rsa_github
+#+END_SRC
+
+** git pull all branches
+#+BEGIN_SRC 
+git branch -r | grep -v '\->' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
+git fetch --all
+git pull --all
+git branch -a
+ 
+#+END_SRC
+
+Pull all branches from list of git repo (read list from file params.txt)
+
+#+BEGIN_SRC 
+#!/bin/bash
+
+gitpull(){
+echo "git clone ${1}@${2}:${3}/${4}.git"
+mkdir "${4}"
+git clone "${1}@${2}:${3}/${4}.git" "${4}"
+cd ${4}
+git branch -r | grep -v '\->' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
+git fetch --all
+git pull --all
+git branch -a
+cd ..
+}
+
+getall(){
+while read x y
+do
+echo "gitpull git bitbucket.org ${x} ${y}"
+gitpull git bitbucket.org ${x} ${y}
+done < params.txt
+}
+
+#+END_SRC
+
