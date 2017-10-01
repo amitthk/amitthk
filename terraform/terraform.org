@@ -2,6 +2,7 @@
 ** Providers
 https://www.terraform.io/docs/providers/index.html
 e.g.
+#+BEGIN_SRC 
 provider "vsphere" {
   user           = "${var.vsphere_user}"
   password       = "${var.vsphere_password}"
@@ -11,14 +12,19 @@ provider "vsphere" {
   allow_unverified_ssl = true
 }
 
-** Resources
+#+END_SRC
+
+** [#B] Resources
 *** declaration
 component "provider_type" "name"
 e.g.
-resource "aws_instance" "tomcatserver" 
+#+BEGIN_SRC 
+resource "aws_instance" "tomcatserver"
+#+END_SRC 
 ** Provisioners
 Used to execute scripts on a local or remote machine as part of resource creation or destruction.
 e.g. 
+#+BEGIN_SRC 
 resource "aws_instance" "tomcatserver" {
   # ...
 
@@ -27,6 +33,7 @@ resource "aws_instance" "tomcatserver" {
     on_failure = "continue"
   }
 }
+#+END_SRC
 ** Terraform Execution
 *** terrform init
 *** terraform plan
