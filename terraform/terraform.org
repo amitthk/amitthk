@@ -1,0 +1,34 @@
+* Terraform
+** Providers
+https://www.terraform.io/docs/providers/index.html
+e.g.
+provider "vsphere" {
+  user           = "${var.vsphere_user}"
+  password       = "${var.vsphere_password}"
+  vsphere_server = "${var.vsphere_server}"
+
+  # if you have a self-signed cert
+  allow_unverified_ssl = true
+}
+
+** Resources
+*** declaration
+component "provider_type" "name"
+e.g.
+resource "aws_instance" "tomcatserver" 
+** Provisioners
+Used to execute scripts on a local or remote machine as part of resource creation or destruction.
+e.g. 
+resource "aws_instance" "tomcatserver" {
+  # ...
+
+  provisioner "local-exec" {
+    command    = "echo ${aws_instance.tomcatserver.private_ip} > file.txt"
+    on_failure = "continue"
+  }
+}
+** Terraform Execution
+*** terrform init
+*** terraform plan
+*** terraform execute
+*** terraform destroy
