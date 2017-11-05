@@ -602,6 +602,17 @@ sudo usermod -a -G www apache
 
  http://stackoverflow.com/questions/3939914/how-to-install-redmine-on-fedora-11-linux/7427751#7427751
 
+** Install jupyter
+#+BEGIN_SRC 
+sudo apt-get install -y python-dev
+sudo pip install --upgrade pip
+sudo pip install jupyter
+sudo apt-get install -y python-seaborn python-pandas
+sudo apt-get install -y ttf-bitstream-vera
+
+#+END_SRC
+
+Run with the command jupyter notebook
 
 ** Reinstalling ruby
 
