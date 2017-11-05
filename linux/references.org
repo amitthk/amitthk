@@ -253,6 +253,239 @@ sudo /etc/init.d/networking reload
 
 ** nginx on docker
  $ docker run --name amitthk-nginx -v /some/content:/usr/share/nginx/html:ro -d nginx
+** Apache / httpd
+
+ Virtual Hosts
+ Dynamic Loading Modules
+ Multiple Process and Threads
+ Access Control and Authentication, network filtering
+ Encryption (https)
+ Compression
+ URL Rewrite
+
+people > access > resources
+
+*** Install and configuration 
+
+ yum install httpd httpd-tools httpd-manual
+
+ main config  /etc/httpd/conf/httpd.conf
+
+ additional config
+ /etc/httpd/conf.d/*
+ Example config
+ /usr/shar/doc/httpd-<version>/
+ httpd-default.conf,  httpd-vhosts.....
+
+
+*** Directives
+ configuration directives (default /etc/httpd)
+ ServerRoot
+ Listen
+ Include (other config in )
+ User/Group
+ DocumentRoot
+ Options
+ AllowOverride (.HTaccess  which configs allow override)
+
+ ========
+ scoped config. directives
+ ...common  
+ <Directory />
+ AllowOverride none
+ Require all deny
+ </Directory>
+
+
+ =======
+
+ sudo yum install httpd httpd-tools httpd-manual -y
+ sudo firewall-cmd --add-service=httpd --permanent
+ sudo firewall-cmd --reload
+ systemctl staus httpd
+
+ ====
+
+*** Virtualhosts
+ #+BEGIN_SRC 
+
+
+ <VirtualHost *:80>
+ ServerName www.bb.com
+ DcoumentRoot "/var/www/html/www.bb.com"
+ </VirtualHost>
+
+
+ #+END_SRC
+
+ #+BEGIN_SRC 
+
+ apachectl status
+ vi /sbin/apachects
+ sudo apachectl stop
+ apachectl configtest
+ sudo vi /etc/httpd/conf/httpd.conf
+
+ httpd -t < Syntax OK>
+ httpd -t -D DUMP_VHOSTS
+ systemctl restart httpd.service
+
+
+ #+END_SRC
+
+ ====
+ cd /.../conf.d/
+ mkdir -p /var/www/html/www.bb.com
+ mv /var/www/html/index.thml /var/www/html/www.bb.com/
+ cp www.psdemo.local.conf  www.bb.com.conf
+
+  ======
+
+*** HTTPS or SSL over TLS
+ 
+ <VirtualHost *:443>
+ ServerName www.bb.com:443
+ DcoumentRoot "/var/www/html/www.bb.com"
+ SSLEngine On
+ SSLCertificateFile /etc/pki/tls/certs/www.bb.com.crt
+ SSLCertificateKeyFile /etc/pki/tls/private/www.bb.com.local.key
+ </VirtualHost>
+
+ ======
+**** Self signed certificate
+ yum install openssl openssl-libs -y
+ openssl genrsa -out www.bb.com.local.key 2048
+
+***** Generate a certificate request
+ openssl req -new -key www.bb.com.local.key -out www.bb.com.csr
+ <follow the prompts>
+***** Generate certificate now
+ openssl x509 -req -days 365 -signkey www.bb.local.key -in www.bb.local.csr -out www.bb.local.crt
+ chmod 600 ww.bb.local.*
+
+***** Move to respective places
+ mv www.bb.local.key /etc/pki/tls/private/
+ mv www.bb.local.crt /etc/pki/tls/certs/
+ restorecon -RvF /etc/pki/tls/
+
+***** Now install the SSL module
+ yum install mod_ssl
+ vi /etc/httpd/conf.d
+
+ <configure the above directives>
+
+ systemctl restart httpd.service
+ firewall -cmd --add-service=https --permanent
+
+***** Test the certificate
+ openssl s_client -connect www.bb.com.local:443 -state | more
+
+*** Access control
+
+ Filtering 
+ - By IP ,
+ - Range of IPS,
+ - Domain Names
+
+**** Access Control
+
+***** Users
+ #+BEGIN_SRC
+ <Directory /var/www/html/www.bb.com.local/>
+ AllowOverride None
+ AuthType Basic
+ AuthName "Please enter a valid username and password"
+ AuthUserFile /etc/httpd/conf.d/.userdb
+ Require user demo
+ </Directory>
+
+ #+END_SRC
+****** Simplified
+ #+BEGIN_SRC 
+ <Directory /var/www/html/www.bb.com.local/>
+ AllowOverride AuthConfig
+ Require user demo
+ </Directory>
+
+
+ #+END_SRC
+******* Create .htaccess inside the target directory
+ #+BEGIN_SRC 
+ AuthType Basic
+ AuthName "Please enter a valid username and password"
+ AuthUserFile /etc/httpd/conf.d/.userdb
+ #+END_SRC
+
+ Create httpassword
+
+ #+BEGIN_SRC 
+ httpasswd -c /etc/httpd/conf.d/.userdb demo
+
+ httpd -t -D DUMP_VHOSTS
+ systemctl restart httpd.service
+ #+END_SRC
+
+***** IP
+ #+BEGIN_SRC 
+ <Directory /var/www/html/www.bb.com/>
+
+ Require ip 192.168.0.0/24
+ </Directory>
+
+ #+END_SRC
+
+  Block b y IP
+ #+BEGIN_SRC 
+
+ <Directory /var/www/html/www.bb.com/>
+   <RequireALL>
+    Require all granted
+    Require not ip 192.168.2.0/24
+   </RequireAll>
+ </Directory>
+
+
+ #+END_SRC
+
+*** Logging
+ Server logs
+ VSHost level logs
+
+ Logging:
+ - AccessLog
+   - LogFormat
+ - ErrorLog
+   - ErrorLogFormat
+   - LogFormat
+ - LogFormat
+   - format string   Comon - %h %l %u %t \ "%r\" %>s %b
+   - Combined .....
+   - Custom:
+     - LogFormat %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\" Combined
+ - Log file location
+   - default: /etc/httpd/logs -> /var/log/httpd
+   - ServerRoot /etc/httpd
+   - CustomLog  "logs/access_log" combined
+
+ Log file rotation (system rotates logs by dates)
+
+**** Examining logs
+ Common log examine commands
+ - tail -f
+ - grep/egrep
+ - awk
+
+
+ ll /etc/httpd
+ vi /etc/httpd/conf.d/www.bb.com.conf
+
+ #+BEGIN_SRC 
+ <virtualhost ****>
+ CustomLog "logs/www.bb.com.local.access_log" combined
+ #+END_SRC
+
+
+ ~awk '{print $1}' access_log* | sort | uniq -c | sort~
 
 
 
@@ -905,3 +1138,4 @@ DefaultRoot ~
   sudo sh -c 'echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet/ trusty main" > /etc/apt/sources.list.d/dotnetdev.list'
 
   sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
+
