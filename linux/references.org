@@ -267,14 +267,14 @@ people > access > resources
 
 *** Install and configuration 
 
- yum install httpd httpd-tools httpd-manual
+~yum install httpd httpd-tools httpd-manual~
 
- main config  /etc/httpd/conf/httpd.conf
+ main config  ~/etc/httpd/conf/httpd.conf~
 
  additional config
- /etc/httpd/conf.d/*
+ ~/etc/httpd/conf.d/*~
  Example config
- /usr/shar/doc/httpd-<version>/
+ ~/usr/shar/doc/httpd-<version>/~
  httpd-default.conf,  httpd-vhosts.....
 
 
@@ -291,19 +291,23 @@ people > access > resources
  ========
  scoped config. directives
  ...common  
+ #+BEGIN_SRC 
  <Directory />
  AllowOverride none
  Require all deny
  </Directory>
 
+ #+END_SRC
 
  =======
 
+#+BEGIN_SRC 
  sudo yum install httpd httpd-tools httpd-manual -y
  sudo firewall-cmd --add-service=httpd --permanent
  sudo firewall-cmd --reload
  systemctl staus httpd
 
+#+END_SRC
  ====
 
 *** Virtualhosts
@@ -334,15 +338,18 @@ people > access > resources
  #+END_SRC
 
  ====
+#+BEGIN_SRC 
  cd /.../conf.d/
  mkdir -p /var/www/html/www.bb.com
  mv /var/www/html/index.thml /var/www/html/www.bb.com/
  cp www.psdemo.local.conf  www.bb.com.conf
 
+#+END_SRC
   ======
 
 *** HTTPS or SSL over TLS
  
+#+BEGIN_SRC 
  <VirtualHost *:443>
  ServerName www.bb.com:443
  DcoumentRoot "/var/www/html/www.bb.com"
@@ -351,34 +358,44 @@ people > access > resources
  SSLCertificateKeyFile /etc/pki/tls/private/www.bb.com.local.key
  </VirtualHost>
 
+#+END_SRC
  ======
 **** Self signed certificate
+#+BEGIN_SRC 
  yum install openssl openssl-libs -y
  openssl genrsa -out www.bb.com.local.key 2048
 
+#+END_SRC
 ***** Generate a certificate request
- openssl req -new -key www.bb.com.local.key -out www.bb.com.csr
+ ~openssl req -new -key www.bb.com.local.key -out www.bb.com.csr~
  <follow the prompts>
 ***** Generate certificate now
- openssl x509 -req -days 365 -signkey www.bb.local.key -in www.bb.local.csr -out www.bb.local.crt
- chmod 600 ww.bb.local.*
+ ~openssl x509 -req -days 365 -signkey www.bb.local.key -in www.bb.local.csr -out www.bb.local.crt~
+ ~chmod 600 ww.bb.local.*~
 
 ***** Move to respective places
- mv www.bb.local.key /etc/pki/tls/private/
+ #+BEGIN_SRC 
+mv www.bb.local.key /etc/pki/tls/private/
  mv www.bb.local.crt /etc/pki/tls/certs/
  restorecon -RvF /etc/pki/tls/
 
+ 
+ #+END_SRC
 ***** Now install the SSL module
+#+BEGIN_SRC 
  yum install mod_ssl
  vi /etc/httpd/conf.d
 
+#+END_SRC
  <configure the above directives>
 
+#+BEGIN_SRC 
  systemctl restart httpd.service
  firewall -cmd --add-service=https --permanent
 
+#+END_SRC
 ***** Test the certificate
- openssl s_client -connect www.bb.com.local:443 -state | more
+ ~openssl s_client -connect www.bb.com.local:443 -state | more~
 
 *** Access control
 
