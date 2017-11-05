@@ -347,6 +347,23 @@ people > access > resources
 #+END_SRC
   ======
 
+**** httpd.conf config for subdomain
+
+  #+BEGIN_SRC 
+
+   <VirtualHost *:80>
+   #    ServerAdmin webmaster@amitthk.com
+	DocumentRoot /var/www/vhosts/blog
+	ServerName default:80
+   #    ErrorLog /var/logs/amitthk.com-error_log
+   #    CustomLog /var/logs/amitthk.com-access_log common
+       <Directory /var/www/vhosts/blog>
+       AllowOverride All
+       </Directory>
+   </VirtualHost>
+
+  #+END_SRC
+
 *** HTTPS or SSL over TLS
  
 #+BEGIN_SRC 
@@ -505,6 +522,53 @@ mv www.bb.local.key /etc/pki/tls/private/
  ~awk '{print $1}' access_log* | sort | uniq -c | sort~
 
 
+** Management/common Commands
+- Logs
+#+BEGIN_SRC 
+dmesg | less
+tail -f -n 5 /var/log/syslog
+less /var/log/messages
+more -f /var/log/messages
+cat /var/log/messages
+tail -f /var/log/messages
+grep -i error /var/log/messages
+awk '{print $1}' /var/log/httpd/access_log* | sort | uniq -c | sort
+
+
+#+END_SRC
+
+- Processes and Ports
+#+BEGIN_SRC 
+lsof -i :port -S
+netstat -a | grep port
+ps -A
+ps -e
+ps -aux | less
+pgrep -u root sshd
+ top -b -n1 > /tmp/process.log
+pstree
+# Threads
+ps -eLF
+ps axms
+# Security
+ps -eo euser,ruser,suser,fuser,f,comm,label
+ps axZ
+ps -eM
+
+
+#+END_SRC
+- Permissions
+#+BEGIN_SRC 
+sudo usermod -a -G www apache
+ sudo chown -R apache /var/www
+ sudo chgrp -R www /var/www
+ sudo chmod 2775 /var/www
+ find /var/www -type d -exec sudo chmod 2775 {} \;
+ find /var/www -type f -exec sudo chmod 0664 {} \;
+ sudo service httpd restart
+#+END_SRC
+
+
 
 
 ** apt-get de-install broken packages
@@ -601,23 +665,6 @@ sudo reboot
 once the system has reboot and you are back at the commandline enter the following command:
 
 sudo resize2fs /dev/mmcblk0p2
-
-** httpd.conf config for subdomain
-
-#+BEGIN_SRC 
-
- <VirtualHost *:80>
- #    ServerAdmin webmaster@amitthk.com
-      DocumentRoot /var/www/vhosts/blog
-      ServerName default:80
- #    ErrorLog /var/logs/amitthk.com-error_log
- #    CustomLog /var/logs/amitthk.com-access_log common
-     <Directory /var/www/vhosts/blog>
-     AllowOverride All
-     </Directory>
- </VirtualHost>
-
-#+END_SRC
 
 ** docker on raspberry pi
 
@@ -1152,7 +1199,9 @@ DefaultRoot ~
 
 *** Here are dotnet core keys
 
-  sudo sh -c 'echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet/ trusty main" > /etc/apt/sources.list.d/dotnetdev.list'
+  #+BEGIN_SRC 
+sudo sh -c 'echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet/ trusty main" > /etc/apt/sources.list.d/dotnetdev.list'
 
   sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
-
+  
+  #+END_SRC
