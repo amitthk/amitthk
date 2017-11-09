@@ -59,6 +59,12 @@ git branch -d feature/01-DEVAKTHK-CreateMavenProject
 
 #+END_SRC
 
+Force push a branch to another
+
+#+BEGIN_SRC 
+git push feature/01-DEVAKTHK-CreateMavenProject:develop -f 
+#+END_SRC
+
 *** git status and diff
 
 **** Always check the status
@@ -204,6 +210,7 @@ git stash branch feature/2-DEVAKTHK-Testfeature
 
 #+END_SRC
 
+*** 
 ** setup the git ssh keys
 
 First setup the ssh config to use specific keys for specific hosts:
