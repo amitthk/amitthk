@@ -89,3 +89,17 @@ If it says /usr/local  - thatś great. (OTHERWISE MOVE to Option 2 below)
 
       source ~/.profile
 
+** Webhook for multibranch pipeline
+
+- Use the endpoint  /job/job-name/build.
+- Create a user with an API token
+  - go to Manage Jenkins
+  - Manage Users
+  - Gear icon
+  - Show API Token,
+- Use the username and token for your request as:
+  - http://polluser:00b8a600-2360-4e06-a545-818244dae05a@myjenkins.net/job/user-api/build
+- If you get curmb issue, you will need to disable CRSF in Global Security Settings. 
+
+Worth it? Not sure. Better use specialized plugins. Polling is expensive.
+
