@@ -1,0 +1,53 @@
+* docker
+
+
+** Useful dockerfiles
+
+*** Ansible 
+
+#+BEGIN_SRC 
+FROM ubuntu:trusty
+
+# Prevent dpkg errors
+ENV TERM=xterm-256color
+
+# Install Ansible
+RUN apt-get update -qy && \
+    apt-get install -qy software-properties-common && \
+    apt-add-repository -y ppa:ansible/ansible && \
+    apt-get update -qy && \
+    apt-get install -qy ansible
+
+# Copy baked in playbooks
+COPY ansible /ansible
+
+# Add volume for Ansible playbooks
+VOLUME /ansible
+WORKDIR /ansible
+
+# Entrypoint
+ENTRYPOINT ["ansible-playbook"]
+CMD ["main.yml"]
+
+
+#+END_SRC
+
+
+** docker composes
+
+*** jenkins
+
+#+BEGIN_SRC 
+---
+version: '2'
+services:
+  jenkins:
+    image: 'jenkins'
+    ports:
+      - '8080:8080'
+    volumes:
+      - './jenkins_home/:/var/jenkins_home'
+#      - '/var/run/docker.sock:/var/run/docker.sock'
+#      - '/usr/bin/docker:/usr/bin/docker'
+
+#+END_SRC

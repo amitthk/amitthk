@@ -1,3 +1,57 @@
+* ansible
+
+* ansible-playbook
+
+** Ansible playbook some parameters
+
+**** Inventory
+ansible-playbook -i hosts main.yaml
+
+**** Host key checking disable
+
+~ansible-playbook -i hosts -e 'host_key_checking=False' main.yaml~
+
+**** Extra params
+
+#+BEGIN_SRC 
+ansible-playbook -i hosts -e "host_key_checking=False" main.yaml --extra-vars "deploy_host=${envname}"
+#+END_SRC
+
+...and receive it like this in playbook:
+
+#+BEGIN_SRC 
+hosts: "{{ deploy_host | default('dev') }}"
+#+END_SRC
+
+**** ansible.cfg to configure params
+#+BEGIN_SRC 
+[defaults]
+hostfile = hosts
+ansible_connection=local
+Add a comment to this line
+vault_password_file = vault_pass.py
+host_key_checking = False
+
+#+END_SRC
+
+http://docs.ansible.com/ansible/latest/intro_configuration.html
+
+**** copy remote src
+#+BEGIN_SRC 
+    - name: Unzip WAR file
+      unarchive:
+        src: "{{ playbook_dir }}/target/{{ warName }}"
+        dest: /usr/share/tomcat/webapps/{{project_id}}/ 
+        mode: 0755
+        remote_src: yes
+        owner: tomcat
+        group: tomcat
+      become: true
+#+END_SRC
+
+*** Docker, Springboot, Postgresql, Nginx kickstart playbook
+
+#+BEGIN_SRC 
 ---
 - hosts: localhost
   connection: local
@@ -96,3 +150,34 @@
         - name: dodashb_network
       state: "started"
       restart: "yes"
+
+#+END_SRC
+
+
+*** Probe host 
+
+#+BEGIN_SRC 
+---
+- name: Probe a system until it is up
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  vars:
+    probe_host: "{{ probe_host | default('dev.devakthk.ddns.net') }}"
+    probe_port: "{{ probe_port | default('80') }}"
+    probe_delay: "{{ probe_delay | default('0') }}"
+    probe_timeout: "{{ probe_timeout | default('180') }}"
+  tasks:
+  - name: Message
+    debug: 
+      msg: >
+        Probing {{ probe_host }}:{{ probe_port }} with delay={{ probe_delay }}s
+        and timeout={{ probe_timeout}}s
+  - name: Waiting for host to respond...
+    local_action: >
+      wait_for host={{ probe_host }}
+      port={{ probe_port }}
+      delay={{ probe_delay }}
+      timeout={{ probe_timeout }}
+
+#+END_SRC
