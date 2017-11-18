@@ -1,4 +1,50 @@
 * ansible
+#+BEGIN_SRC 
+ $ansible <system>
+-i <inventory file>
+-m <module>
+-u <username>
+-k <passowr prompt>
+-v <verbose -vv debug level 2 / -vvv debug level 3)
+
+#+END_SRC
+
+- Change Management
+
+- Provisioning
+Transiton from one state to another. Pepare system to be ready
+- Automation
+Sequence of steps to perform automated
+- Orchestration
+Coordinates automation between systems
+
+- Why?
+No agents
+no database
+No residual software
+No complex upgrades (no external dependencies)
+
+Easy to implement easy to progarm inherently secure. ssh very extensible
+
+
+
+Inventory(maps hosts)
+||
+PlayBook => Ansible Config(configuration sets, ansible parameters) => Python => SSH =>......servers.....
+||
+Modules (define actions)
+
+- Variables
+  - Host Variables
+    - User variables, inventory per host or group
+  - Facts
+    - Use data gathered from remote managed host
+  - Dynamic variables
+    - use data gathered by tasks or created by runtime
+
+- Control server =(package)=> Remote Servers
+- Remote server =(results.json)=> Control Server
+
 
 * ansible-playbook
 
