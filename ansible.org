@@ -49,6 +49,7 @@ Modules (define actions)
 * ansible-playbooks
 
 ** Tasks
+#+BEGIN_SRC 
  - hosts: all
    user: root
    sudo: no
@@ -59,14 +60,18 @@ Modules (define actions)
    handlers:
      - ...
 
+#+END_SRC
 ** Includes
 
+#+BEGIN_SRC 
  tasks:
    - include: db.yml
  handlers:
    - include: db.yml user=timmy
- 
+
+#+END_SRC 
 ** Handlers
+#+BEGIN_SRC 
  handlers:
    - name: start apache2
      action: service name=apache2 state=started
@@ -76,8 +81,10 @@ Modules (define actions)
      action: apt pkg=apache2 state=latest
      notify:
        - start apache2
- 
+
+#+END_SRC 
 ** Vars
+#+BEGIN_SRC 
  - host: lol
    vars_files:
      - vars.yml
@@ -87,9 +94,11 @@ Modules (define actions)
      - name: Create the SSH directory.
        file: state=directory path=${project_root}/home/.ssh/
        only_if: "$vm == 0"
- 
+
+#+END_SRC 
 ** Roles
- - host: xxx
+#+BEGIN_SRC 
+ - host: xyz
    roles:
      - db
      - { role:ruby, sudo_user:$user }
@@ -98,8 +107,10 @@ Modules (define actions)
  # Uses:
  # roles/db/tasks/*.yml
  # roles/db/handlers/*.yml
- 
-** Roles
+
+#+END_SRC 
+** Roles dir structure
+#+BEGIN_SRC 
 
 roles/
   common/
@@ -111,9 +122,11 @@ roles/
     vars/
     defaults/main.yml
 
+#+END_SRC
 
 ** Task: Failures
 
+#+BEGIN_SRC 
  - name: my task
    command: ...
    register: result
@@ -123,12 +136,15 @@ roles/
 
    changed_when: "result.rc != 2"
 
+#+END_SRC
  
 ** Env vars
 
+#+BEGIN_SRC 
  vars:
    local_home: ""
 
+#+END_SRC
 
 ** Ansible commands
 
@@ -144,29 +160,32 @@ roles/
 #+END_SRC
 
  # Run Infos
+#+BEGIN_SRC 
  ansible-playbook <YAML> --list-hosts
  ansible-playbook <YAML> --list-tasks
 
+#+END_SRC
  # Syntax Check
- ansible-playbook --syntax-check <YAML> 
+ ~ansible-playbook --syntax-check <YAML>~
 
 *** Remote Execution
 
-  ansible all -m ping
+~ansible all -m ping~
 
  # Execute arbitrary commands
- ansible <hostgroup> -a <command>
- ansible all -a "ifconfig -a"
+ ~ansible <hostgroup> -a <command>~
+ ~ansible all -a "ifconfig -a"\~
 
 *** Debugging
 
  List facts and state of a host
 
- ansible <host> -m setup
- ansible <host> -m setup -a 'filter=ansible_eth*'
+ ~ansible <host> -m setup~
+ ~ansible <host> -m setup -a 'filter=ansible_eth*'\~
 
 ** Common Modules
 *** Aptitude
+#+BEGIN_SRC 
 
  - apt_key: id=AC40B2F7 url="http://..."
      state=present
@@ -178,7 +197,9 @@ roles/
  apt: deb=https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb
  - apt_repository: repo='deb https://... raring main'
      state=present
+#+END_SRC
 *** file
+#+BEGIN_SRC 
 
  - file:
      state=directory # file | link | hard | touch | absent
@@ -196,36 +217,60 @@ roles/
  - template:
      src=config/redis.j2
      dest=/etc/redis.conf
+#+END_SRC
 *** git
+#+BEGIN_SRC 
 
  - git: repo=git://github.com/
      dest=/srv/checkout
      version=master
      depth=10
      bare=yes
+#+END_SRC
 *** user
+#+BEGIN_SRC 
 
  - user: state=present name=git
      system=yes
      shell=/bin/sh
      comment="Git Version Control"
+#+END_SRC
 *** service
 
- - service: name=nginx state=started [enabled=yes]
+ ~- service: name=nginx state=started [enabled=yes]~
 *** shell
 
- - shell: apt-get install nginx -y
- - script: /x/y/script.sh
+ ~- shell: apt-get install nginx -y~
+ ~- script: /x/y/script.sh~
 *** local_action
+#+BEGIN_SRC 
 
  - name: do something locally
    local_action: shell echo hello
 
+#+END_SRC
 *** debug
+#+BEGIN_SRC 
 
  - debug:
      msg: "Hello "
 
+#+END_SRC
+*** register
+#+BEGIN_SRC 
+- name: "list the latest {{project.artifact_type}} from {{project.project_id}} from s3 bucket"
+  shell: "aws s3 ls --recursive s3://{{s3_bucket_name}}/{{project.project_id}} | sort | tail -n 1 | awk -F \" \" '{print $4}'"
+  register: resp
+- debug: var=resp
+#+END_SRC
+*** set_fact
+#+BEGIN_SRC 
+- set_fact: project="{{item}}"
+# - name: Starts from scratch {{base_dir}}docker/{{project.project_id}}
+#   file: path={{base_dir}}docker/{{project.project_id}} state=directory
+- include: download_tar.yaml
+  when: project.artifact_type=='tar.gz'
+#+END_SRC
 ** Ansible playbook some parameters
 
 **** Inventory
