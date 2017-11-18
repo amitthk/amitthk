@@ -35,6 +35,36 @@ CMD ["main.yml"]
 
 ** docker composes
 
+*** postgresql springboot
+
+#+BEGIN_SRC 
+version: '2.0'
+services:
+    postresql_db:
+        build: 
+            context: ./ansible/dev/docker/postgresql/
+        volumes:
+            - ./ansible/dev/docker/postgresql/db:/var/lib/postgresql/data
+        ports:
+            - 5432:5432
+        environment:
+            - DEBUG=false
+            - POSTGRES_USER=sa
+            - POSTGRES_PASS=db_password
+            - POSTGRES_DB=mypostgredatabase
+
+    my_springboot_api:
+        build: 
+            context: ./ansible/dev/docker/my_springboot_api/
+        volumes:
+            - ./ansible/dev/docker/my_springboot_api/logs:/opt/logs
+            - ./ansible/dev/docker/my_springboot_api/app:/opt/target
+        ports:
+            - 8091:8091
+    #    links:
+    #        - postgresql_db
+#+END_SRC
+
 *** jenkins
 
 #+BEGIN_SRC 

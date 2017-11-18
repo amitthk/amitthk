@@ -103,3 +103,66 @@ If it says /usr/local  - thatś great. (OTHERWISE MOVE to Option 2 below)
 
 Worth it? Not sure. Better use specialized plugins. Polling is expensive.
 
+** Jenkins cannot connect to docker daemon
+*** Make sure jenkin is in docker group *
+#+BEGIN_SRC 
+sudo sudo usermod -aG docker $USER
+sudo usermod -aG docker jenkins
+
+#+END_SRC
+**** Update the docker.service **
+
+Edit the following file : 
+~vi /usr/lib/systemd/system/docker.service~
+
+*** And edit this rule to expose the API : 
+
+~ExecStart=/usr/bin/docker daemon -H unix:// -H tcp://localhost:2375 *~
+
+#+BEGIN_SRC 
+systemctl daemon-reload
+systemctl restart docker
+#+END_SRC
+
+Restart the jenkins service:
+
+```
+~sudo /etc/init.d/jenkins restart~
+```
+
+**** Ubuntu 16.04 **
+
+*** update /lib/systemd/system/docker.service: *
+replace:
+~ExecStart=/usr/bin/dockerd fd://~
+with
+~ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375~
+
+*** Update file /etc/init.d/docker*:
+replace
+~DOCKER_OPTS=~
+
+with
+
+~DOCKER_OPTS="-H tcp://0.0.0.0:2375"\~
+
+** Jenkinsfile add input
+#+BEGIN_SRC 
+stage 'promotion'
+def userInput = input(
+ id: 'userInput', message: 'Let\'s promote?', parameters: [
+ [$class: 'TextParameterDefinition', defaultValue: 'uat', description: 'Environment', name: 'env'],
+ [$class: 'TextParameterDefinition', defaultValue: 'uat1', description: 'Target', name: 'target']
+])
+echo ("Env: "+userInput['env'])
+echo ("Target: "+userInput['target'])
+#+END_SRC
+
+#+BEGIN_SRC 
+stage 'promotion'
+def userInput = input(
+ id: 'userInput', message: 'Let\'s promote?', parameters: [
+ [$class: 'TextParameterDefinition', defaultValue: 'uat', description: 'Environment', name: 'env']
+])
+echo ("Env: "+userInput)
+#+END_SRC
