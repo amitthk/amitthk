@@ -46,7 +46,7 @@ Modules (define actions)
 - Remote server =(results.json)=> Control Server
 
 
-* ansible-playbook
+* ansible-playbooks
 
 ** Ansible playbook some parameters
 
@@ -69,7 +69,7 @@ ansible-playbook -i hosts -e "host_key_checking=False" main.yaml --extra-vars "d
 hosts: "{{ deploy_host | default('dev') }}"
 #+END_SRC
 
-**** ansible.cfg to configure params
+*** ansible.cfg to configure params
 #+BEGIN_SRC 
 [defaults]
 hostfile = hosts
@@ -82,7 +82,7 @@ host_key_checking = False
 
 http://docs.ansible.com/ansible/latest/intro_configuration.html
 
-**** copy remote src
+*** copy remote src
 #+BEGIN_SRC 
     - name: Unzip WAR file
       unarchive:
@@ -95,7 +95,7 @@ http://docs.ansible.com/ansible/latest/intro_configuration.html
       become: true
 #+END_SRC
 
-*** Docker, Springboot, Postgresql, Nginx kickstart playbook
+** Docker, Springboot, Postgresql, Nginx kickstart playbook
 
 #+BEGIN_SRC 
 ---
@@ -200,7 +200,7 @@ http://docs.ansible.com/ansible/latest/intro_configuration.html
 #+END_SRC
 
 
-*** Probe host 
+** Probe host 
 
 #+BEGIN_SRC 
 ---
@@ -226,4 +226,24 @@ http://docs.ansible.com/ansible/latest/intro_configuration.html
       delay={{ probe_delay }}
       timeout={{ probe_timeout }}
 
+#+END_SRC
+
+** List s3 buckets
+
+#+BEGIN_SRC 
+- hosts: localhost
+  connection: local
+  vars:
+    s3_bucket_name: mybucket-repo
+    project_id: auth-api
+  tasks:
+    - name: "list all jars in s3 bucket"
+      shell: "aws s3 ls --recursive s3://{{s3_bucket_name}}/{{project_id}} | grep '.*\\.jar$' | awk -F \" \" '{print $4}'"
+      register: resp
+    - debug: var=resp
+
+    - name: "list the latest jar in s3 bucket"
+      shell: "aws s3 ls s3://{{s3_bucket_name}}/{{project_id}}/ --recursive | sort | tail -n 1 | awk -F \" \" '{print $4}'"
+      register: resp
+    - debug: var=resp
 #+END_SRC
