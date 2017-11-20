@@ -470,3 +470,73 @@ http://docs.ansible.com/ansible/latest/intro_configuration.html
       register: resp
     - debug: var=resp
 #+END_SRC
+
+
+** Ensure ../tomcat/bin/setenv.sh file exists if not - create it and ensure it sets environment variables
+
+#+BEGIN_SRC 
+    - stat: path=/usr/share/tomcat/bin/setenv.sh
+      register: setenv_status
+      become: true
+
+    - name: create blank 'setenv'
+      file:
+        path: "/usr/share/tomcat/bin/setenv.sh"
+        state: touch
+        owner: tomcat
+        group: tomcat
+        mode: 0755
+      when: setenv_status.stat.exists is defined and not setenv_status.stat.exists
+      become: true
+
+    - name: Ensures /usr/share/tomcat/bin/setenv.sh exists
+      file:
+        path: "/usr/share/tomcat/bin/setenv.sh"
+        state: file
+        mode: 0755
+        owner: tomcat
+        group: tomcat
+      become: true
+      
+    - name: Set the SPRING_PROFILES_ACTIVE in setenv.sh to keep it permanent
+      lineinfile: "dest=/usr/share/tomcat/bin/setenv.sh line='export SPRING_PROFILES_ACTIVE=local' insertafter='EOF' state=present mode=0755"
+      become: true
+      
+    - name: ensure SPRING_PROFILES_ACTIVE environment variable
+      shell: "source /usr/share/tomcat/bin/setenv.sh && echo $SPRING_PROFILES_ACTIVE"
+      become: true
+      become_user: tomcat
+      args:
+        executable: "/bin/bash"
+      register: spring_profiles_active_value
+    
+    - debug: var=spring_profiles_active_value
+#+END_SRC
+
+** Set bashrc for user
+
+#+BEGIN_SRC 
+    - name: Ensures /usr/share/tomcat/.bashrc exists
+      file:
+        path: "/usr/share/tomcat/.bashrc"
+        state: file
+        mode: 0644
+        owner: tomcat
+        group: tomcat
+      become: true
+      
+    - name: Set the SPRING_PROFILES_ACTIVE in bashrc to keep it permanent
+      lineinfile: "dest=/usr/share/tomcat/.bashrc line='export SPRING_PROFILES_ACTIVE=local' insertafter='EOF' state=present mode=0644"
+      become: true
+      
+    - name: ensure SPRING_PROFILES_ACTIVE environment variable
+      shell: "source /usr/share/tomcat/.bashrc && echo $SPRING_PROFILES_ACTIVE"
+      become: true
+      become_user: tomcat
+      args:
+        executable: "/bin/bash"
+      register: spring_profiles_active_value
+    
+    - debug: var=spring_profiles_active_value
+
+#+END_SRC
