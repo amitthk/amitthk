@@ -1205,3 +1205,20 @@ sudo sh -c 'echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet
   sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
   
   #+END_SRC
+** postgresql open port
+
+~vi /etc/postgresql/9.5/main/postgresql.conf~
+
+Add this
+~listen_addresses = '*'\~
+
+~vi /etc/postgresql/9.5/main/pg_hba.conf~
+
+Add this
+
+#+BEGIN_SRC 
+host all all  ::1/128  md5
+host all postgres 127.0.0.1/32 md5
+#host  all  all 0.0.0.0/0 md5
+#hostnossl  all  all  0.0.0.0/0  trust
+#+END_SRC
