@@ -1,6 +1,9 @@
 * Jenkins
 ** Install Jenkins
 #+BEGIN_SRC 
+sudo apt-get install openjdk-8-jdk -y
+sudo apt-get install openjdk-8-jre -y
+
 wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -
 echo deb http://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list
 sudo apt-get update
@@ -13,6 +16,14 @@ sudo apt-get install -y jenkins
 #+BEGIN_SRC 
 vi /etc/default/jenkins
 #+END_SRC
+
+Note: We can't listen to ports below 1024 without root privileges. It is better to not use jenkins under root permissions.
+So we should either reverse proxy via Apache to jenkins or we can redirect via iptables.
+~iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080~
+
+For more info:
+https://serverfault.com/questions/112795/how-to-run-a-server-on-port-80-as-a-normal-user-on-linux
+
 
 
 ** Install nodejs, openjdk, maven (optional)
