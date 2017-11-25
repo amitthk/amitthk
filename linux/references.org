@@ -1222,3 +1222,36 @@ host all postgres 127.0.0.1/32 md5
 #host  all  all 0.0.0.0/0 md5
 #hostnossl  all  all  0.0.0.0/0  trust
 #+END_SRC
+** Jenkins server initial setup
+
+#+BEGIN_SRC 
+sudo apt-get install openjdk-8-jdk -y
+sudo apt-get install openjdk-8-jre -y
+
+wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -
+echo deb http://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list
+sudo apt-get update
+sudo apt-get install jenkins -y
+
+sudo apt-get update
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo apt-key fingerprint 0EBFCD88
+sudo add-apt-repository    "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt-get update
+sudo apt-get install docker-ce -y
+
+sudo apt-get update
+sudo apt-get install git -y
+sudo apt-get install python -y
+sudo apt-get install software-properties-common -y
+sudo apt-add-repository ppa:ansible/ansible
+sudo apt-get update
+sudo apt-get install ansible -y
+sudo apt-get install python-pip -y
+pip install awscli --upgrade --user
+sudo apt-get install python-software-properties
+
+sudo apt-get install curl -y
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+sudo apt-get install nodejs 
+#+END_SRC
