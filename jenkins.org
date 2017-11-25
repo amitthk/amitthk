@@ -42,6 +42,21 @@ exit
 
 #+END_SRC
 
+** Python and ansible
+
+#+BEGIN_SRC
+sudo apt-get update
+sudo apt-get install git -y
+sudo apt-get install python -y
+sudo apt-get install software-properties-common -y
+sudo apt-add-repository ppa:ansible/ansible
+sudo apt-get update
+sudo apt-get install ansible -y
+sudo apt-get install python-pip -y
+pip install awscli --upgrade --user
+sudo apt-get install python-software-properties -y
+#+END_SRC
+
 ** Install the necessary plugins
 Some of important plugins are necessary like Pipeline suite,Credentials Binding Plugin, Git Pipeline integration, Maven Pipeline integration plugin, Cloudbees Amazon Web Services Credentials plugin etc.
 ** Git SSH Keys must be set properly
