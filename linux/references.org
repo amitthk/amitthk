@@ -1255,3 +1255,30 @@ sudo apt-get install curl -y
 curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 sudo apt-get install nodejs 
 #+END_SRC
+** http
+v1.1 1997
+v1.0 1990s
+*** v1.1
+- Messaging syntax and routing RFC 7230
+- Semantix and content RFC 7231
+- Conditional requests RFC 7232
+- Range Requests RFC 7233
+- Caching RFC 7234
+- Authentication RFC 7235
+- Authentication Scheme Registrations RFC 7236
+- Method Registrations RFC 7237
+
+Caching 
+requests -> Reverse proxy with caching -> load balancer -> api
+
+- Expiration caching
+Authorized request should use to avoid another user to sniff stale data.
+  - Expires header
+  - Cache-Control header  max-age=3600, s-maxage=1200 (shared cache of proxy)
+  - Validation caching
+    - Etag: "<some versioning string>"
+      1) Client sends current etag
+      2) Proxy responds header only 304: Not modified
+      3) Client safe to use
+      4) Another request: last modified changed - 202 Header with body returned from server
+      5) Client uses the new body
