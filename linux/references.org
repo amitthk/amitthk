@@ -1282,3 +1282,26 @@ Authorized request should use to avoid another user to sniff stale data.
       3) Client safe to use
       4) Another request: last modified changed - 202 Header with body returned from server
       5) Client uses the new body
+** python test postgresql locally can connect
+write the file pgtest.py
+
+#+BEGIN_SRC 
+import psycopg2
+
+def pg_test():
+
+    try:
+        conn = psycopg2.connect("dbname='mypydb' user='sa' host='localhost' password='paxxword' connect_timeout=1 ")
+        conn.close()
+        return True
+    except:
+        return False
+#+END_SRC
+
+Go to python and run it like
+#+BEGIN_SRC 
+python
+>> import pgtest
+>> pgtest.pg_test()
+>> exit()
+#+END_SRC
