@@ -202,7 +202,33 @@ Filter, follow stream
 ***** Spring boot java application
 ***** active profiles
 **** Maven
-***** Clean Pakcage
+***** Eclipse shows errors even if maven compiles
+1. Go to Window -> Show View -> Problems
+
+Or check if any warnings are shown in your Maven build. If any of the Jars show up signature issues - delete the old ones get the new ones.
+
+If you found some of the Jar's giving problem in your .m2 directory. Delete them and rebuild the pom.
+
+Get rid of all the warnings. Then
+
+Project > Clean and
+Maven > Update Project
+
+2. Get the latest Maven from Here:
+https://maven.apache.org/download.cgi
+
+Install it and set the M2_HOME and Path.
+
+3. Set the maven to system one in Windows > Preferences > Maven > Installations and ADD the location to your maven installation.
+
+
+4. Download Latest m2e plugin
+
+http://download.eclipse.org/technology/m2e/releases
+
+Nothing helped? Download the latest eclipse/STS.
+
+***** Clean PacKage
 **** Make 
 ***** publish
 ***** clean deploy
