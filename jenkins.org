@@ -32,13 +32,9 @@ https://serverfault.com/questions/112795/how-to-run-a-server-on-port-80-as-a-nor
 
 sudo apt-get install curl -y
 curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-sudo su
-apt-get install nodejs -y
-apt-get install openjdk-8-jdk -y
-apt-get install openjdk-8-jre -y
-apt-cache search maven
-apt-get install maven
-exit
+sudo apt-get install nodejs -y
+sudo apt-cache search maven
+sudo apt-get install maven
 
 #+END_SRC
 
@@ -53,6 +49,7 @@ sudo apt-add-repository ppa:ansible/ansible
 sudo apt-get update
 sudo apt-get install ansible -y
 sudo apt-get install python-pip -y
+export LC_ALL=C
 pip install awscli --upgrade --user
 sudo apt-get install python-software-properties -y
 #+END_SRC
