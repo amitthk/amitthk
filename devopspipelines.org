@@ -1,0 +1,74 @@
+* Setting up end to end DevOps delivery pipelines for n-Tier/Microservices application
+** Introduction
+
+In this blog I want to present (and invite ideas, feedback and constructive inputs from experts here) towards the setup of and End-to-end Continuous delivery pipelines for an application structured in following tiers:
+
+1. The Web/UI component - Angular 4, Bootstrap Application
+2. A Load Balancer/Reverse Proxy - Apache
+3. Java Microservices - Spring Boot Applications
+4. Database Tier
+5. Database Migratiions, Communications (JMS/IB) and other interoperability components
+6. Logging and Monitoring
+
+Over the period of time through the series of articles I intend to demonstrate the Branching Model, Technical Architecture and Continuous delivery strategy for the above components.
+
+Our demo application is written in Angular 4 , Spring boot microservices, Postgresql Databse, Liquibase is used for database migrations.
+Other components like RabbitMQ/IB setup, Logstash or Upguard etc. are not in scope of sample application but will be presented in conceptual perspective. 
+
+
+** The vertical Pipelines : Provision, Install and Setup
+
+The purpose of vertical pipelines as shown in the above diagram is to provision and setup the stack of infrasctructure for a certain environment. 
+For example for one DEV environment, we may need one S3 bucket, One Apache Loadbalancer/reverse proxy hosted on EC2, one server hosting the backend Spring Boot API(s), one Postgresql RDS(Or simple Postgres hosted on EC2 instance).
+
+Likewise there might be a number of dev environments. Each time we spawn a new Dev environment a new set of IPs are updated into the respective hosts file of the environment.
+Thereafter the rest of the playbooks use the updated host files to perform configuration management on the respective environments.
+
+The logic to decide which environment will be spawned based on specific branch is coded into the Jenkins file.
+
+
+*** Provisioning the DEV Environment(s)
+
+The sequence followed by the playbooks here is :
+1. Inject the prerequisites (Python, build essentials, essential python packages etc.)
+2. Install Apache to the LoadBalancer group of servers
+3. Install Java and prerequisites to App group of servers
+4. Install Postgresql database to the DB group of servers
+5. Configure the load balancer
+6. Configure the App servers (on approval)
+7. Configure the Postgresql db
+8. Run Migrations (on approval)
+9. Configure the Web component (on approval)
+10. Configure the set of API(s) (On approval)
+
+
+
+*** Provisioning the rest of environments
+
+Rest of the environments follow the same sequence of tasks. But the environment is chosen on the basis of branch. As discussed earlier the logic to decide which environment to target is located in the Jenkinsfile.
+
+** The horizontal pipelines : Build and Deployment
+
+*** Continuously Delivering the Web Component (Angular 4 App) to respective environments
+
+For collaboration the regular git flow branching model if in use. The code is to be promoted to the respective environments after the testing and approval is done.
+
+All the feature branches undergo regular build, code quality scans, testing and reporting. The code is also deployed to the respective DEV envrionment for the team to take a look and perform manual/selenium testing where required.
+
+The develop branch once the code is merged here it gets deployed to the SIT environment.
+
+Once the release is created the regular builds undergo the code scan, testing and publish the build to nexus/s3 bucket. 
+
+Code promotion to the further environments is based on the tag of the release. We switch off the build portion hereafter. The package is pulled from the nexus / repository and promoted to respective environments upon approval. Of course the environment specific deployment configuration is managed in the ansible playbook here in horizontal pipeline.
+
+*** Continuously Delivering the App component(s) (Java Maven Springboot App) to the corresponding environments
+
+The delivery of the Java components is also the same with only difference:
+
+The libraries are not deployed , the undergo the regular gitflow and code promotion and approval and get published to the Nexus/s3 maven repository.
+
+The release once finalized the POM is updated. The version is automatically incremented by the build and the updated POM and the corresponding tag is also pushed to the repository.
+
+*** Delivering the Database migrations to corresponding environments\
+
+The liquibase migrations for the respective environments are publised according to the environment specific branch as well.
