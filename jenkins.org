@@ -189,3 +189,22 @@ def userInput = input(
 ])
 echo ("Env: "+userInput)
 #+END_SRC
+
+
+** Jenkinsfile aws credentials
+#+BEGIN_SRC 
+stage 'Download Artifacts'
+withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 's3repoadmin', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']])  
+     {
+     //run_playbook('downloadartifacts.yaml',deploy_env);
+     }
+#+END_SRC
+
+Environment variables in the playbook:
+
+#+BEGIN_SRC 
+- name: "example task"
+  set_fact:
+    aws_access_key_id: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    aws_secret_access_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
+#+END_SRC
