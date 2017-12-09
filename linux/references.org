@@ -1352,3 +1352,51 @@ Set path
 export PATH=${PATH}:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:$ANDROID_HOME/build-tools/25.0.2/
 source /etc/profile
 #+END_SRC
+
+** Vagrant provision EC2
+
+Courtesy : https://blog.scottlowe.org/2016/09/15/using-vagrant-with-aws/
+
+- first of all install vagrant
+- vagrant plugin install vagrant-aws
+- vagrant plugin install vagrant-winnfsd
+- vagrant box add aws-dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
+
+
+
+- Crate AWS access key id and secret key
+  - aws mgmt console
+  - name > my security credentials > access keys
+  - generate access keys and download
+-   Create SSH Keypair
+  -  Ec2 console
+  -  Network and Security
+  -  Keypair download pem
+
+Write the vagrantfile 
+
+#+BEGIN_SRC 
+
+require "vagrant-aws"
+
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "aws-dummy"
+  config.vm.network "private_network", ip:"192.168.90.20", type: "dhcp"
+  
+  config.vm.provider "aws" do |aws, override|
+
+    aws.access_key_id = "dfasdfsdaf"
+    aws.secret_access_key = "fdsfdsafasddfsafdasdsfasfs"
+    aws.keypair_name = "mykeypairname"
+
+    aws.ami = "ami-fc5ae39f"
+    aws.region = "ap-southeast-1"
+    aws.instance_type = "t2.micro"
+    aws.security_groups = ["default"]
+
+    override.ssh.username = "ubuntu"
+    override.ssh.private_key_path = "C:\\Apps\\Tools\\aws\\mykeypairname.pem"
+  end
+end
+#+END_SRC
