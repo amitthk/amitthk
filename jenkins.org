@@ -169,7 +169,8 @@ with
 
 ~DOCKER_OPTS="-H tcp://0.0.0.0:2375"\~
 
-** Jenkinsfile add input
+** Jenkinsfile
+*** Jenkinsfile add input
 #+BEGIN_SRC 
 stage 'promotion'
 def userInput = input(
@@ -191,7 +192,7 @@ echo ("Env: "+userInput)
 #+END_SRC
 
 
-** Jenkinsfile aws credentials
+*** Jenkinsfile aws credentials
 #+BEGIN_SRC 
 stage 'Download Artifacts'
 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 's3repoadmin', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']])  
@@ -207,4 +208,44 @@ Environment variables in the playbook:
   set_fact:
     aws_access_key_id: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
     aws_secret_access_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
+#+END_SRC
+
+*** Jenkinsfile environment parameters
+#+BEGIN_SRC 
+withEnv(["DOCKER_USER=$(DOCKER_USER)","DOCKER_PASSWORD=$(DOCKER_PASSWORD")"])
+{
+sh "make login"
+}
+
+#+END_SRC
+
+*** Git print the latest revision tag
+#+BEGIN_SRC 
+sh "printf \$(git rev-parse --short HEAD) > tag.tmp"
+def imageTag = readFile 'tag.tmp'
+
+#+END_SRC
+
+**** Call a job with parameters
+#+BEGIN_SRC 
+build job: DEPLOY_JOB, parameters: [[
+$class: 'StringParameterValue',
+name: 'IMAGE_TAG',
+value: 'amitthk/todoapp:' + imageTag
+]]
+#+END_SRC
+
+**** Jenkinsfile add Vault password to build
+#+BEGIN_SRC 
+
+withEnv(["VAULT_PASSWORD=$(VAULT_PASSWORD)")]){
+sh 'ansible-playbook site.yml --vault-password-file vault.py -e "@extras.json"'
+}
+
+#+END_SRC
+- vault.py
+#+BEGIN_SRC 
+#!/usr/bin/python
+import os
+print os.environ['VAULT_PASSWORD']
 #+END_SRC
