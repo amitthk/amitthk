@@ -541,6 +541,112 @@ http://docs.ansible.com/ansible/latest/intro_configuration.html
 
 #+END_SRC
 
+** Postgresql Setup the User, Database and use no_password_change on RDS
+
+RDS gives following error on update to db, for this no_password_change parameter is required.
+
+permission denied for relation pg_authid
+
+#+BEGIN_SRC 
+---
+- name: Ensure python-psycopg2 is installed
+  package:
+    name: python-psycopg2
+    state: present
+  become: true
+
+- name: ensure database is created
+  postgresql_db:
+    name: "{{app_dbname}}"
+    login_host: "{{db_login_host}}"
+    port: "{{db_login_port}}"
+    login_password: "{{db_login_password}}"
+    login_user: "{{db_login_user}}"
+
+- debug:
+    msg:  "login_host: {{db_login_host}} login_user: {{db_login_user}} port: {{db_login_port}} db: {{app_dbname}} name: {{app_dbuser}}"
+
+# For RDS  : https://github.com/ansible/ansible/issues/8547
+- name: ensure user has access to database
+  #become: true
+  #become_user: "{{db_login_user}}"
+  postgresql_user: 
+    login_host: "{{db_login_host}}"
+    login_password: "{{db_login_password}}"
+    login_user: "{{db_login_user}}"
+    port: "{{db_login_port}}"
+    db: "{{app_dbname}}"
+    name: "{{app_dbuser}}"
+    password: "{{app_dbpassword}}"
+    no_password_changes: true
+    state: present
+
+- name: ensure user does not have unnecessary privilege
+  postgresql_user: 
+    login_host: "{{db_login_host}}"
+    port: "{{db_login_port}}"
+    login_password: "{{db_login_password}}"
+    login_user: "{{db_login_user}}"
+    # db: "{{app_dbname}}"
+    name: "{{app_dbuser}}"
+    # password: "{{app_dbpassword}}"
+    no_password_changes: true
+    role_attr_flags: "NOSUPERUSER,NOCREATEDB"
+
+- name: ensure no other user can access the database
+  postgresql_privs: 
+    login_host: "{{db_login_host}}"
+    port: "{{db_login_port}}"
+    login_password: "{{db_login_password}}"
+    login_user: "{{db_login_user}}"
+    db: "{{app_dbname}}"
+    role: PUBLIC
+    type: database
+    priv: ALL
+    state: absent
+
+# - debug:
+#     msg: "app_dbschemas: {{item}}"
+#   with_items:
+#     - "{{app_dbschemas}}"
+
+# - name: "setup the postgresql schemas"
+#   postgresql_schema: 
+#     login_host: "{{db_login_host}}"
+#     login_password: "{{app_dbpassword}}"
+#     login_user: "{{app_dbuser}}"
+#     port: "{{db_login_port}}"
+#     name: "{{item}}"
+#     database: "{{app_dbname}}"
+#     owner: "{{app_dbuser}}"
+#     state: present
+#   with_items:
+#     - "{{app_dbschemas}}"
+#+END_SRC
+
+** Using AWS credentials from Environment variables
+
+#+BEGIN_SRC 
+  environment:
+    AWS_ACCESS_KEY_ID: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    AWS_SECRET_ACCESS_KEY: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
+    AWS_DEFAULT_REGION: "{{AWS_DEFAULT_REGION}}" #"{{ lookup('env', 'AWS_DEFAULT_REGION') }}"
+    AWS_DEFAULT_OUTPUT: "{{AWS_DEFAULT_OUTPUT}}" #"{{ lookup('env', 'AWS_DEFAULT_OUTPUT') }}"
+  pre_tasks:
+    - name: Ensure aws CLI is present
+      pip: name=awscli state=present
+
+    - name: "list the latest {{project_id}} {{artifact_type}} from s3 bucket"
+      shell: "aws s3 ls --recursive s3://{{s3_bucket_name}}/{{project_id}}/builds | grep '.*\\.war$' | sort | tail -n 1 | awk -F \" \" '{print $4}'"
+      register: resp
+      when: artifact_type == 'war'
+    - debug: var=resp
+
+    - name: "download the latest war to user temp directory: {{base_dir}}tmp/{{project_id}}/"
+      shell: "aws s3 cp s3://{{s3_bucket_name}}/{{resp.stdout}} {{base_dir}}tmp/app/{{project_id}}/"
+
+#+END_SRC
+
 * Quick ref
  - Inventory and Config
   - features
