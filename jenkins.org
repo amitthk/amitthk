@@ -45,12 +45,13 @@ sudo apt-get update
 sudo apt-get install git -y
 sudo apt-get install python -y
 sudo apt-get install software-properties-common -y
-sudo apt-add-repository ppa:ansible/ansible
+sudo apt-add-repository ppa:ansible/ansible-2.3
 sudo apt-get update
 sudo apt-get install ansible -y
 sudo apt-get install python-pip -y
 export LC_ALL=C
 pip install awscli --upgrade --user
+pip install ansible==2.3.1.0
 sudo apt-get install python-software-properties -y
 #+END_SRC
 
