@@ -1,0 +1,102 @@
+* .net recap
+** Frameworks
+*** .Net
+**** logging
+***** Elmah
+***** log4net
+**** profiling
+***** Glimpse
+***** Warden
+**** .Net Openauth
+**** Ionic.zip
+*** .Net Core
+*** WPF
+**** XAML
+**** Caliburn Micro
+**** Prism MVVM
+**** MVVM Light
+**** Magellan
+***** Mvc type navigation
+**** Telerik Controls
+**** VistaDB
+**** Awsomium
+**** Applife Updates
+**** Reprise Licensing
+**** MSI Installer
+***** Inno Setup
+***** Visual Studio Installer
+***** Wix
+**** Obfuscation
+***** Smart Assembly
+***** .Net Reactor obfuscator
+*** Parallel programming/Threading
+**** Threads, Thread synchronization
+**** TPL
+***** Factory.StartWith...
+***** ContinueWith
+**** Async/Await
+***** await Task.Run(()=> DoSomeWork()); DoSomeAfterWork();
+*** Windows Desktop
+*** Xamarin
+** Web
+*** Front End/UI
+**** Phantomjs
+**** Casperjs
+**** Gulp
+**** Npm
+**** Node
+**** Bower
+**** Angular
+**** React Native
+**** Meteor
+***10 Ionic
+***11 Nativescript
+*** Web API
+** WCF
+** Fundamentals
+*** Oops
+**** Abstraction
+**** Encapsulation
+**** Inheritance
+**** Polymorphism
+*** SOLID
+**** Single Responsibility
+**** Open Closed
+***** open for extension, closed for modification
+**** Liskov Substitution
+***** Object should be replaceable with instance of subtypes
+**** Interface Segregation
+***** many client interfaces better
+**** Dependency Inversion
+*** Interfaces
+*** Abstract Classes
+** .Net CLR
+*** Assembly Info
+*** IL Code Intermediate L code
+*** JIT (Just in time) compiler
+** Testing
+*** MSTest
+*** NUnit
+*** JMeter
+*** Chrome Developer Tools
+*** RhinoMocks
+*** Selenium UI
+*** Casperjs
+*** Phantomjs
+** Profiling
+*** Redgate ANTS
+*** dotTrace (Jetbrains)
+*** Equatec
+*** Sysinternals Process Monitor
+*** Process Explorer
+*** FxCop
+*** CssCop
+** Persistence
+*** Hibernate
+*** Dapper
+*** Protbuf.Net
+** DevOps
+*** MSBuild
+*** VSTS
+*** NANT
+*** TeamCity
