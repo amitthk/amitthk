@@ -48,6 +48,25 @@ Modules (define actions)
 
 * ansible-playbooks
 
+** Inventory, Config and Parameters
+Behavioral Inventory Parameters, Ansible.cfg
+| ansible_ssh_user             | remote_user      |
+| ansible_ssh_port             | remote_port      |
+| ansible_ssh_private_key_file | private_key_file |
+| ansible_shell_type           | executable       |
+| ansible_ssh_connection       |                  |
+| ansible_python_interpreter   |                  |
+
+#+BEGIN_SRC 
+[web]
+web[1:20].example.com
+#+END_SRC
+
+Dynameic inventory scripts:
+https://github.com/ansible/ansible/tree/release1.5.0/plugins/inventory
+
+add_host and group_by
+
 ** Tasks
 #+BEGIN_SRC 
  - hosts: all
@@ -543,77 +562,78 @@ http://docs.ansible.com/ansible/latest/intro_configuration.html
 
 * Quick ref
  - Inventory and Config
-  - features
-   - Behavioral params
-   - Groups
-   - Group of groups
-   - Assign Variables
-   - Scaling multiple
-   - Static/Dynamic
-  - vars director structure
-#+BEGIN_SRC 
- dev 
-  - group_vars 
-    -all 
-    -db 
-    -webservers 
-  - host_vars 
-    -web1 
- inventory_dev
-#+END_SRC
-  - variable file
-   - start wiht ---
-  - order of precedence
-   - all
-    - 
-   - group<name>
-   - host vars
-  - imp ~ansible_python_interpreter=/usr/bin/python -~
-  - configs
-   - config order of prec
-    - $ansible_config
-    - ./ansible.cfg
-    - ~/.ansible.cfg
-    - /etc/ansible/ansible.cfg
-    - 
-   - configs are not merged
-    - override by $ansible_<variable name>
-   - defaults
-    - forks default=*
-    - host_key_checking default=true
-    - log_path default=null
-   - 
+   - features
+     - Behavioral params
+     - Groups
+     - Group of groups
+     - Assign Variables
+     - Scaling multiple
+     - Static/Dynamic
+   - vars director structure
+     #+BEGIN_SRC 
+      dev 
+       - group_vars 
+         -all 
+         -db 
+         -webservers 
+       - host_vars 
+         -web1 
+      inventory_dev
+     #+END_SRC
+
+   - variable file
+     - start wiht ---
+   - order of precedence
+     - all
+       - 
+     - group<name>
+     - host vars
+   - imp ~ansible_python_interpreter=/usr/bin/python -~
+   - configs
+     - config order of prec
+       - $ansible_config
+       - ./ansible.cfg
+       - ~/.ansible.cfg
+       - /etc/ansible/ansible.cfg
+       - 
+     - configs are not merged
+       - override by $ansible_<variable name>
+     - defaults
+       - forks default=*
+       - host_key_checking default=true
+       - log_path default=null
+     - 
  - Modules
-  - docs
-   - ansible-doc -l
-   - ansible-doc <name>
-   - ansible-doc -s <name> //for play
-  - copy
-  - apt
-  - yum
-  - service
-  - ansible web* -i inveontory setup
-   - returns the facts of the system
+   - docs
+     - ansible-doc -l
+     - ansible-doc <name>
+     - ansible-doc -s <name> //for play
+   - copy
+   - apt
+   - yum
+   - service
+   - ansible web* -i inveontory setup
+     - returns the facts of the system
  - host/group target patterns
-  - OR grp*:grp*
-  - NOT !group*
-  - Wildcard web* .ex.com
-  - regex web[*-*]+
+   - OR grp*:grp*
+   - NOT !group*
+   - Wildcard web1 .ex.com
+   - regex web[*-*]+
  - playbooks
-  - declarations
-   - top: hosts:, vars:, sudo:, sudo_user:, gather_facts:<no>
-   - tasks:
-    - name module:params
-  - retry files for failed tasks
-   - ansible-playbook x.yaml --limit @/home/vagrant/web_db.yaml.retry
-  - Important modules
-   - include: loadbalancer.yml
-   - include_vars: xx.yaml
-   - debug: msg="this is {{xx}} "
-    - var=varname
-   - vars_prompt
-   - task>notify: handlers:
-   - command: /ls/... register: result when: result|failed
-   - template:
-    - src: templates/xx.j*
-    - dest=/etc/.... owner=httpd
+   - declarations
+     - top: hosts:, vars:, sudo:, sudo_user:, gather_facts:<no>
+     - tasks:
+       - name module:params
+   - retry files for failed tasks
+     - ansible-playbook x.yaml --limit @/home/vagrant/web_db.yaml.retry
+   - Important modules
+     - include: loadbalancer.yml
+     - include_vars: xx.yaml
+     - debug: msg="this is {{xx}} "
+       - var=varname
+     - vars_prompt
+     - task>notify: handlers:
+     - command: /ls/... register: result when: result|failed
+     - template:
+       - src: templates/xx.j*
+       - dest=/etc/.... owner=httpd

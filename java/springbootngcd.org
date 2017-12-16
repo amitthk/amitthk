@@ -2,6 +2,13 @@
 ** Setting up Spring Boot Microservices
 *** Authentication API
 **** Maven begin project
+**** Security
+***** Authentication
+Authentication Filter  > Authentication Manager
+> Authentication Provider > User Details Service > User Details > Authentication
+> SecurityContext
+***** Authorziation
+
 **** Set up H2 Database
 **** Set up User Table
 **** Set up Rest API
