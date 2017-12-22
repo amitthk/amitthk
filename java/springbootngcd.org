@@ -332,6 +332,51 @@ public MyFilter myFilter(){
 
 ** Tools
 *** Swagger, Apiary
+
+Swagger dependency
+
+#+BEGIN_SRC 
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-data-rest</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+#+END_SRC 
+
+Swagger config
+
+#+BEGIN_SRC 
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+@Configuration
+@EnableSwagger2
+public class SwaggerConfig {
+	@Bean
+	public Docket api() {
+		return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any())
+				.paths(PathSelectors.any()).build();
+	}
+}
+#+END_SRC
+
 *** Postman, Curl
 *** Burp/Charles/Fiddler
 *** Wireshark
@@ -406,3 +451,24 @@ Nothing helped? Download the latest eclipse/STS.
 ***** Front End
 ****** Nginx hosting the front end
 ****** Nginx Mapping to upstream containers
+** Bug fixes
+*** java ClassNotFoundException for org.h2.Driver
+Upgrade/downgrade accordingly the dependency for 
+#+BEGIN_SRC 
+  <dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+    <version>xxx</version> <!-- ex: 1.4.195 -->
+  </dependency>
+#+END_SRC
+*** NoClassDefFoundError: org/hibernate/boot/MetadataBuilder, NoClassDefFoundError: org/hibernate/HibernateException
+#+BEGIN_SRC 
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-core</artifactId>
+    <version>5.0.4.Final</version>
+</dependency>
+#+END_SRC
+
+
+
