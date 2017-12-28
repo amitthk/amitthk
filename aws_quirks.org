@@ -75,3 +75,8 @@
 }
 
 #+END_SRC
+* EC2
+** Metadata
+~curl http://169.254.169.254/latest/meta-data/~
+~curl http://169.254.169.254/latest/meta-data/public-ipv4 > dev1_ip.log~
+

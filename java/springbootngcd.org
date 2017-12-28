@@ -452,6 +452,74 @@ Nothing helped? Download the latest eclipse/STS.
 ****** Nginx hosting the front end
 ****** Nginx Mapping to upstream containers
 * Bug fixes
+** Spring boot compile both as JAR and deployable WAR
+
+In <properties> ensure
+ ~<start-class>com.boot.BlogpostApp</start-class>~
+and default packaging type ~<packaging.type>war</packaging.type>~
+
+Add the profiles for compilation to JAR or WAR
+
+#+BEGIN_SRC 
+<profiles>
+    <profile>
+      <id>jar</id>
+      <properties>
+        <packaging.type>jar</packaging.type>
+      </properties>
+    </profile>
+    <profile>
+      <id>war</id>
+      <activation>
+      <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <packaging.type>war</packaging.type>
+      </properties>
+       <dependencies>
+        <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-tomcat</artifactId>
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
+#+END_SRC
+
+Add following plugin cusotmizations in the <build>
+
+#+BEGIN_SRC 
+<plugin>
+     <groupId>org.springframework.boot</groupId>
+     <artifactId>spring-boot-maven-plugin</artifactId>
+   </plugin>		
+<plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-jar-plugin</artifactId>
+	<configuration>
+		<archive>
+			<manifest>
+				<mainClass>com.boot.BlogpostApp</mainClass>
+				<addClasspath>true</addClasspath>
+			</manifest>
+		</archive>
+	</configuration>
+</plugin>
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-war-plugin</artifactId>
+  <configuration>
+    <archive>
+      <manifest>
+      	<mainClass>com.boot.BlogpostApp</mainClass>
+        <addClasspath>true</addClasspath>
+      </manifest>
+    </archive>
+  </configuration>
+</plugin>
+#+END_SRC
+
 ** Spring boot Jar runs locally but WAR shows no activity on tomcat. 
 
 Ensure you extend the 
