@@ -451,8 +451,8 @@ Nothing helped? Download the latest eclipse/STS.
 ***** Front End
 ****** Nginx hosting the front end
 ****** Nginx Mapping to upstream containers
-** Bug fixes
-*** java ClassNotFoundException for org.h2.Driver
+* Bug fixes
+** java ClassNotFoundException for org.h2.Driver
 Upgrade/downgrade accordingly the dependency for 
 #+BEGIN_SRC 
   <dependency>
@@ -461,7 +461,7 @@ Upgrade/downgrade accordingly the dependency for
     <version>xxx</version> <!-- ex: 1.4.195 -->
   </dependency>
 #+END_SRC
-*** NoClassDefFoundError: org/hibernate/boot/MetadataBuilder, NoClassDefFoundError: org/hibernate/HibernateException
+** NoClassDefFoundError: org/hibernate/boot/MetadataBuilder, NoClassDefFoundError: org/hibernate/HibernateException
 #+BEGIN_SRC 
 <dependency>
     <groupId>org.hibernate</groupId>
@@ -469,6 +469,75 @@ Upgrade/downgrade accordingly the dependency for
     <version>5.0.4.Final</version>
 </dependency>
 #+END_SRC
+** no main manifest attribute
+Following plugins to your build will add the main manifest
 
+#+BEGIN_SRC 
+<plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-jar-plugin</artifactId>
+	<configuration>
+		<archive>
+			<manifest>
+				<mainClass>com.boot.BlogpostApp</mainClass>
+				<addClasspath>true</addClasspath>
+			</manifest>
+		</archive>
+	</configuration>
+</plugin>
+<plugin>
+       <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-war-plugin</artifactId>
+       <configuration>
+         <archive>
+           <manifest>
+           	<mainClass>com.boot.BlogpostApp</mainClass>
+                <addClasspath>true</addClasspath>
+           </manifest>
+         </archive>
+       </configuration>
+</plugin>
+#+END_SRC
 
+** java.lang.NoClassDefFoundError: org/springframework/boot/SpringApplication
+Add this plugin to <build> in pom.xml re-compile and run the jar, now it will package the full JAR
+#+BEGIN_SRC 
+    <plugin>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-maven-plugin</artifactId>
+    </plugin>
+#+END_SRC
 
+** Spring Boot 403 Error on POST requests
+Ensure in controller:
+~@PostMapping(value = "/blogpost")~  Or  ~@RequestMapping(method = RequestMethod.POST)~
+
+In Web security config either Disable CSRF or add the CSRF filter accordingly. Below is for disabling the csrf:
+
+#+BEGIN_SRC 
+@Configuration
+@EnableWebSecurity
+class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private static final String[] AUTH_WHITELIST = {
+		"/webjars/**", 
+		"/*.html", 
+		"/favicon.ico", 
+		"/**/*.css", 
+		"/**/*.js",
+		"/v2/api-docs/**", 
+		"/swagger-resources/**",
+            "/blogpost/*"
+    };
+    
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+
+        http.csrf().disable();
+        
+        http.authorizeRequests()
+                .antMatchers(AUTH_WHITELIST).permitAll()
+                .antMatchers("/**/*").denyAll();
+    }
+}
+#+END_SRC
