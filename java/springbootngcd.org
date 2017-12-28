@@ -452,6 +452,25 @@ Nothing helped? Download the latest eclipse/STS.
 ****** Nginx hosting the front end
 ****** Nginx Mapping to upstream containers
 * Bug fixes
+** Spring boot Jar runs locally but WAR shows no activity on tomcat. 
+
+Ensure you extend the 
+#+BEGIN_SRC 
+@SpringBootApplication
+@EnableConfigurationProperties
+public class BlogpostApp extends SpringBootServletInitializer
+{
+    private static final Logger log = LoggerFactory.getLogger(BlogpostApp.class);
+
+    public static void main( String[] args )
+    {
+    	log.info("Start Application BlogpostApp");
+	ConfigurableApplicationContext context = SpringApplication.run(BlogpostApp.class, args);
+	log.info("Started context "+ context.getApplicationName());
+    }
+}
+#+END_SRC
+
 ** java ClassNotFoundException for org.h2.Driver
 Upgrade/downgrade accordingly the dependency for 
 #+BEGIN_SRC 
