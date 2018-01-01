@@ -39,3 +39,74 @@ resource "aws_instance" "tomcatserver" {
 *** terraform plan
 *** terraform execute
 *** terraform destroy
+** Modules
+Dir Structure
+#+BEGIN_SRC 
+- Modules
+   - s3
+     - main.tf
+   - vpc
+     - main.tf
+     - variables.tf
+     - output.tf
+#+END_SRC
+
+Using it inside resources.tf
+
+#+BEGIN_SRC 
+
+module vpc {
+   source = ".\\Modules\\vpc"
+   name= "${var.environment_tag}"
+
+   azs = "${slice(data.aws_availability_zones.availability.name,0,var.subnet_count)}"
+   ...
+   ...
+}
+
+#+END_SRC
+
+Later in resources.tf
+
+#+BEGIN_SRC 
+        subnet_id = "${element.vpc.public_subnets,count.index % var.subnet_count)}"
+...
+...
+
+provisioner "file" {
+  access_key = ${module.bucket.iam_access_key_id}
+  secret_key = ${module.bucket.iam_secret_access_key}
+  use_https= True
+  bucket_location=US
+
+}
+#+END_SRC
+
+** Environment specific setup
+
+ - dev
+   - development.tfvars
+ - uat
+   - uat.tfvars
+ - prod
+   - prod.tfvars
+ - Modules
+   - s3
+     - main.tf
+   - vpc
+     - main.tf
+     - variables.tf
+     - output.tf
+ - src
+   - index.html
+   - ...
+ - outputs.tf
+ - resources.tf
+ - variables.tf
+
+*** Env specific execution
+#+BEGIN_SRC 
+terraform plan -var-files="..\terraformtf.vars" -var-file=".\dev\dev.tfvars" -state=".\dev\dev.state"
+terraform plan -var-files="..\terraformtf.vars" -var-file=".\dev\dev.tfvars" -state=".\dev\dev.state"
+terraform plan -var-files="..\terraformtf.vars" -var-file=".\dev\dev.tfvars" -state=".\dev\dev.state"
+#+END_SRC
