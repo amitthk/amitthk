@@ -1,14 +1,18 @@
-* Setting up end to end DevOps delivery pipelines for n-Tier/Microservices application
+* DevOps : How to get 4 Environments (for N-Tier app.) set up-and-running for Agile delivery in 20 minutes 
+
+ 
 ** Introduction
 
-In this blog I want to present (and invite ideas, feedback and constructive inputs from experts here) towards the setup of and End-to-end Continuous delivery pipelines for an application structured in following tiers:
+In this Article we take a look at how we to get 4 development Environments (namely - DEV, SIT, UAT, PROD) of and End-to-end Continuous delivery pipelines for an application structured in following tiers:
 
 1. The Web/UI component - Angular 4, Bootstrap Application
-2. A Load Balancer/Reverse Proxy - Apache
-3. Java Microservices - Spring Boot Applications
+2. A Load Balancer/Reverse Proxy - Apache or Zuul
+3. Application Tier - Spring Boot App. - Hosted on tomcat or self hosted.
 4. Database Tier
+
+Components not covered in this article are:
 5. Database Migratiions, Communications (JMS/IB) and other interoperability components
-6. Logging and Monitoring
+6. Logging, Monitoring and Failover/Fault Tolerance
 
 Over the period of time through the series of articles I intend to demonstrate the Branching Model, Technical Architecture and Continuous delivery strategy for the above components.
 

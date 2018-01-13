@@ -1,5 +1,5 @@
 ** Amazon Web Services
-  
+   
 *** Introduction
 **** Cloud computing
 - On demand
@@ -106,6 +106,48 @@
  
 **** Storage
  
+ 
+- General storage types
+  - block storage - lower level - fixed-size blocks - over a network in form of Storage area network (SAN) - protocols iSCSI, Fibre Channel
+  - file storage - OS level - named hierarchy of files & folders - over a network in form of Network Attached Storage (NAS) file server or "filer" - Common Internet File System(CIFS) or NFS
+  
+  
+***** S3
+ 
+- storage for EBS, RDS snapshots, data staging or loading mechanism for Redshift and DynamoDB etc.
+
+- use lifecyle policies to migrate data to most appropriate storage
+
+- simple flat folder, no bucket inside bucket -you GET and PUT object as whole. can't "mount" a bucket and "open" and object or install OS or run DB on it.
+
+- Buckets op level namespace.  63 lowercase letters, numbers, hyphens and periods.  100 per account by default.
+
+- Namespace is global but data is stored in region. u can explicity copy data to another bucket in different region.
+
+- object range 0byest to 5TB. one bucket can store unlimited objects. S3 = unlimited storage.
+- Durability - will my data be there in future - 99.99999 (11 nines) 
+
+- availabilty - can i access my data right now - 99.99%
+
+- Storage classes
+  - Standard/ general purpose - low first-byte latency and hight throughput
+  - Infrequent access - same durability, low latency and hight throughput - designed for long-lived less frequent
+    - lower per-GB montly cost
+    - minimum object size 128KB. minimum duration 30 days, and per-GB retrieval cost
+    - suitable for data tored for longer than 30 days
+  - Reduced redundancy -  archive - lower durability (4 nines). suitable for derived data that can be reproduced like thumbnails.
+  - Glacier - issue a restore command - 3 to 5 hours later copied to S3 RRS.
+  - 5% of s3 data free every month
+- eventually consistent
+  - data auto replicated qaccross servers in region
+  - PUT - read after write
+  - PUT to existing object - DELETEs for object - eventual consistency
+- Access control
+  - coarse grained - ACLs
+  - fine grained - bucket policies, AWS IAM policies, query-string auth.
+
+
+
 ***** EBS
 - 1GB to 16GB
 - DB, FileSystem, Block level storage
@@ -125,13 +167,12 @@
   - S3 durable, scalable store for static files
   - *
  
- 
- 
- 
- 
-***** S3
- 
 ***** Glacier
+optimized for data archiving - cold data.
+
+used both as storage class (lifecyle management) and independent archival storage service.
+
+
 - Backup
 - High Durability  99.999999999  (11 nines)
 - Retrieve in several hours
