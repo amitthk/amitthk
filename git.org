@@ -210,7 +210,17 @@ git stash branch feature/2-DEVAKTHK-Testfeature
 
 #+END_SRC
 
-*** 
+*** git reset master branch
+#+BEGIN_SRC 
+git checkout --orphan newBranch
+git add -A  # Add all files and commit them
+git commit
+git branch -D master  # Deletes the master branch
+git branch -m master  # Rename the current branch to master
+git push -f origin master  # Force push master branch to github
+git gc --aggressive --prune=all     # remove the old files
+#+END_SRC
+
 ** setup the git ssh keys
 
 First setup the ssh config to use specific keys for specific hosts:
