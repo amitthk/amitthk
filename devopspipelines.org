@@ -30,6 +30,86 @@ Thereafter the rest of the playbooks use the updated host files to perform confi
 
 The logic to decide which environment will be spawned based on specific branch is coded into the Jenkins file.
 
+*** Controlling the environments via code (configuration management and control points)
+
+**** Control point 1: Which environment are we targetting: get the "deploy_env" based on branch name
+
+In our jenkinsfile we have the functions ~getDeployEnv(branch_name)~. This function basically gives us which environment we are going to target based upon the branch it is executed from.
+
+In our multi branch pipeline, the Jenkinsfile remains the same, but the task that is performed is controlled via this top level control point. That is - the branch name decides what actions will be performed.
+
+As we notice below the setup is pretty straightforward. The develop branch targets "dev" environment. The "sit" branch targets "sit" environment and so on.
+
+Also notice that for all the feature branches we are only performing CI portion (which will include Code Analysis and Unit tests only). This integrates over the nightly builds when developers push their code to feature branch at end of the day.
+
+For all the rest of the environments as soon as the code merge is approved - it gets deployed to the target environment. The rest of the integration tests and other tests can then be performed and reports are sent accordingly.
+
+#+BEGIN_SRC 
+def getTargetEnv(String branchName){
+	def deploy_env="dev";
+	switch(branchName){
+		case('develop'):
+		deploy_env="dev";
+		break;
+		case('sit'):
+		deploy_env="sit";
+		break;
+		case('uat'):
+		deploy_env="uat";
+		break;
+		case('release'):
+		deploy_env="release";
+		break;
+		case('master'):
+		deploy_env="prod";
+		break;
+		case('cdp'):
+		deploy_env="all";
+		break;
+		default:
+			if(branchName.startsWith("feature")){
+				deploy_env="none"
+			}
+		break;
+	}
+	return deploy_env;
+}
+#+END_SRC
+
+**** Control point 2: Overall which tasks will be performed : "playbook_name"
+
+Which particular tasks will be performed or which particular roles will be called in order to achieve the desired configuration of our environment, this we are controlling from the top itself from our jenkinsfile.
+
+The parameter "playbook_name" toggles between the playbooks based on the branch name.
+
+#+BEGIN_SRC 
+ansible-playbook  -i ${deploy_env} ${playbook_name} --extra-vars 'deploy_host=${deploy_hosts}'"
+#+END_SRC
+
+***** Ansible Roles : Re-usable infrastructure code
+
+The above ansible playbooks utilize a set of re-usable ansible roles.
+
+**** Control point 3: The configuration of environment and which component is deployed where - defined by Ansible inventories, controlled by  "deploy_env"
+
+We wanted to have the flexibility to control which environment we are going to target. For this reason we are controlling the inventory file from the jenkinsfile.
+
+In real environment our inventories are pulled from the configuration store via python script.  Ansible uses this inventory to target the environment.
+
+#+BEGIN_SRC 
+ ansible-playbook  -i ${deploy_env} ${playbook_name} --extra-vars 'deploy_host=${deploy_hosts}'"
+#+END_SRC
+
+
+**** Control point 4: Which group of servers will this playbook run upon. Controlled by "deploy_hosts"
+
+Likewise which particular group of hosts we want to target from the respective inventories - this information we are controlling through the parameter "deploy_hosts".
+Of course this parameter is also controlled from jenkinsfile itself and is switched based on targetted branch.
+
+#+BEGIN_SRC 
+ansible-playbook  -i ${deploy_env} ${playbook_name} --extra-vars 'deploy_host=${deploy_hosts}'"
+#+END_SRC
+
 
 *** Provisioning the DEV Environment(s)
 

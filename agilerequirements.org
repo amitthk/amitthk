@@ -1,0 +1,134 @@
+* agile requirements
+** Process
+*** Get everyone in room
+*** Define project vision
+*** Brainstorm features list
+*** Uncover constraings and assumptions
+*** Limit to minimum viable product
+** Agilemanifesto
+*** Individuals and interactions over processes and tools
+*** Working software over comprehensive documentation
+*** Customer collaboration over contract negotiation
+*** Responding to change over following a plan
+** Meeting preparation
+*** Agenda
+**** Introductions
+**** Ground Rules
+**** Objective
+Project charter. Primary goals, constraints, restrictions. Target date for the first release of most business critical features.
+
+Specific
+Measureable
+Achievable
+Releavant
+Time-bound
+
+**** User Roles
+**** Features
+150 minutes
+
+As a "specific user", I want to be able to "some feature", so that "business case"
+
+Acceptance Criteria.
+Use cases, test cases.
+***** Product Overview
+****** T24
+******* Browser
+******* App
+******** JBoss
+******** AAA
+******** DB
+****** TAP
+******* TCIB
+******* OCS
+******* FIN
+******* DB
+******* WS
+****** TDS
+******* APP
+******* DB
+**** Roadmap/Blueprint
+***** Vertical Pipelines (Provisioning Install & Setup)
+****** Provisioning
+****** Setup and Install
+
+***** Horizontal Pipelines (Build, Package, Deployments)
+****** Packaging
+****** Deployment Artifacts
+******* Files Loading
+******* Scripts
+******* Packages
+***** DevOps Dashboard
+****** Technical Architecture
+******* UX - Bootstrap
+******* UI - Angular 4
+******* Backend - Spring Boot Microservices
+******* JPA/Mybatis
+******* Liquibase migrations
+******* DB - Postgresql
+******* Load Balancer Apache (/Zuul)
+****** Solution Architecture
+******* API:Data Collector/Agents and Pub-Sub Interface
+******* User API
+******* ServerInfo API
+******* ServerStatus API
+******* BusinessValue API
+******* Code Quality API
+******* Monitoring API
+******* Data Collectors
+******* DBMigrations API
+******* API Gateway/Zuul Proxy
+******* Front End
+******* Database
+
+**** Assumptions
+
+**** Constraints
+
+**** Prioritization
+
+**** Core Featue Set for Minimum Viable Product
+
+** Priorities
+*** MoSCoW
+**** Must have this requirement to meet the business needs
+**** Should have this requirement if possible, but project success does not rely on it
+**** Could have this requirement if it does not affect anything else on the project
+**** Would like to have this requirement later, but delivery won't be this time
+*** 4 types of tickets in JIRA (developer's desk)
+
+**** Errors
+You're seing an error page.
+
+**** Bugs
+Wrong results for right workflow.
+
+**** Issues
+It works, but result is not desirable one.
+
+***** Issue type - choose an issue type using these guidelines:
+****** bug - the issue is reporting a defect
+****** epic (product owner) - this will be used by the product owner to create new epics - please do *not* create issues of this type!
+****** story - the issue is a user story - typically for some larger change or improvement to ONOS
+
+**** Features Requests
+Something new to be implemented.
+
+*** 3 control points to define prioritization in JIRA (product owner's desk)
+**** Status:
+***** New - this has been reported but not yet reviewed by team for validity
+***** Feedback/Awaiting - We need more information from the person reporting the issue before continuing work
+***** Confirmed - This usually means that someone has verified that the described bug occurs or that the requested feature should be added to the application.
+***** Assigned - A specific person has been named to work on the problem
+***** Resolved - The assignee believes that no more work remains to be done to fix the problem
+***** Closed - Someone, usually the reporter or QA, agrees that the problem as reported has been addressed
+**** Priority: Set this to Normal. Other values should only be assigned after consulting with QA, Tech Support, Professional Services, or Product Management. Here are the values and how we use them:
+***** Urgent - This issue is important enough to delay releasing a new version of the affected software
+***** High - This issue is important and we should address it soon
+***** Normal - Most issues fall into this group
+***** Low - It would be nice to fix this bug or add this feature but it's not particularly important to anyone
+**** Severity: The following list is in order of severity:
+***** Blocker - You cannot perform a business-critical task
+***** Major - You can work but it's difficult
+***** Normal - You can work but the application doesn't behave correctly
+***** Minor - You found a problem but it's either something you don't see very often or easy to work around
