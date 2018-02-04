@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>agilerequirements</title>
+<!-- 2018-01-15 Mon 00:19 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">agilerequirements</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. agile requirements</a>
+<ul>
+<li><a href="#sec-1-1">1.1. Process</a>
+<ul>
+<li><a href="#sec-1-1-1">1.1.1. Get everyone in room</a></li>
+<li><a href="#sec-1-1-2">1.1.2. Define project vision</a></li>
+<li><a href="#sec-1-1-3">1.1.3. Brainstorm features list</a></li>
+<li><a href="#sec-1-1-4">1.1.4. Uncover constraings and assumptions</a></li>
+<li><a href="#sec-1-1-5">1.1.5. Limit to minimum viable product</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-2">1.2. Agilemanifesto</a>
+<ul>
+<li><a href="#sec-1-2-1">1.2.1. Individuals and interactions over processes and tools</a></li>
+<li><a href="#sec-1-2-2">1.2.2. Working software over comprehensive documentation</a></li>
+<li><a href="#sec-1-2-3">1.2.3. Customer collaboration over contract negotiation</a></li>
+<li><a href="#sec-1-2-4">1.2.4. Responding to change over following a plan</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">1.3. Meeting preparation</a>
+<ul>
+<li><a href="#sec-1-3-1">1.3.1. Agenda</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-4">1.4. Priorities</a>
+<ul>
+<li><a href="#sec-1-4-1">1.4.1. MoSCoW</a></li>
+<li><a href="#sec-1-4-2">1.4.2. 4 types of tickets in JIRA (developer's desk)</a></li>
+<li><a href="#sec-1-4-3">1.4.3. 3 control points to define prioritization in JIRA (product owner's desk)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> agile requirements</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Process</h3>
+<div class="outline-text-3" id="text-1-1">
+</div><div id="outline-container-sec-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> Get everyone in room</h4>
+</div>
+<div id="outline-container-sec-1-1-2" class="outline-4">
+<h4 id="sec-1-1-2"><span class="section-number-4">1.1.2</span> Define project vision</h4>
+</div>
+<div id="outline-container-sec-1-1-3" class="outline-4">
+<h4 id="sec-1-1-3"><span class="section-number-4">1.1.3</span> Brainstorm features list</h4>
+</div>
+<div id="outline-container-sec-1-1-4" class="outline-4">
+<h4 id="sec-1-1-4"><span class="section-number-4">1.1.4</span> Uncover constraings and assumptions</h4>
+</div>
+<div id="outline-container-sec-1-1-5" class="outline-4">
+<h4 id="sec-1-1-5"><span class="section-number-4">1.1.5</span> Limit to minimum viable product</h4>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Agilemanifesto</h3>
+<div class="outline-text-3" id="text-1-2">
+</div><div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> Individuals and interactions over processes and tools</h4>
+</div>
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2"><span class="section-number-4">1.2.2</span> Working software over comprehensive documentation</h4>
+</div>
+<div id="outline-container-sec-1-2-3" class="outline-4">
+<h4 id="sec-1-2-3"><span class="section-number-4">1.2.3</span> Customer collaboration over contract negotiation</h4>
+</div>
+<div id="outline-container-sec-1-2-4" class="outline-4">
+<h4 id="sec-1-2-4"><span class="section-number-4">1.2.4</span> Responding to change over following a plan</h4>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Meeting preparation</h3>
+<div class="outline-text-3" id="text-1-3">
+</div><div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> Agenda</h4>
+<div class="outline-text-4" id="text-1-3-1">
+</div><ol class="org-ol"><li><a id="sec-1-3-1-1" name="sec-1-3-1-1"></a>Introductions<br  /></li>
+<li><a id="sec-1-3-1-2" name="sec-1-3-1-2"></a>Ground Rules<br  /></li>
+<li><a id="sec-1-3-1-3" name="sec-1-3-1-3"></a>Objective<br  /><div class="outline-text-5" id="text-1-3-1-3">
+<p>
+Project charter. Primary goals, constraints, restrictions. Target date for the first release of most business critical features.
+</p>
+
+<p>
+Specific
+Measureable
+Achievable
+Releavant
+Time-bound
+</p>
+</div>
+</li>
+
+<li><a id="sec-1-3-1-4" name="sec-1-3-1-4"></a>User Roles<br  /></li>
+<li><a id="sec-1-3-1-5" name="sec-1-3-1-5"></a>Features<br  /><div class="outline-text-5" id="text-1-3-1-5">
+<p>
+150 minutes
+</p>
+
+<p>
+As a "specific user", I want to be able to "some feature", so that "business case"
+</p>
+
+<p>
+Acceptance Criteria.
+Use cases, test cases.
+</p>
+</div>
+<ol class="org-ol"><li><a id="sec-1-3-1-5-1" name="sec-1-3-1-5-1"></a>Product Overview<br  /><ol class="org-ol"><li><a id="sec-1-3-1-5-1-1" name="sec-1-3-1-5-1-1"></a>T24<br  /><ol class="org-ol"><li><a id="sec-1-3-1-5-1-1-1" name="sec-1-3-1-5-1-1-1"></a>Browser<br  /></li>
+<li><a id="sec-1-3-1-5-1-1-2" name="sec-1-3-1-5-1-1-2"></a>App<br  /><ol class="org-ol"><li><a id="sec-1-3-1-5-1-1-2-1" name="sec-1-3-1-5-1-1-2-1"></a>JBoss<br  /></li>
+<li><a id="sec-1-3-1-5-1-1-2-2" name="sec-1-3-1-5-1-1-2-2"></a>AAA<br  /></li>
+<li><a id="sec-1-3-1-5-1-1-2-3" name="sec-1-3-1-5-1-1-2-3"></a>DB<br  /></li></ol>
+</li></ol>
+</li>
+<li><a id="sec-1-3-1-5-1-2" name="sec-1-3-1-5-1-2"></a>TAP<br  /><ol class="org-ol"><li><a id="sec-1-3-1-5-1-2-1" name="sec-1-3-1-5-1-2-1"></a>TCIB<br  /></li>
+<li><a id="sec-1-3-1-5-1-2-2" name="sec-1-3-1-5-1-2-2"></a>OCS<br  /></li>
+<li><a id="sec-1-3-1-5-1-2-3" name="sec-1-3-1-5-1-2-3"></a>FIN<br  /></li>
+<li><a id="sec-1-3-1-5-1-2-4" name="sec-1-3-1-5-1-2-4"></a>DB<br  /></li>
+<li><a id="sec-1-3-1-5-1-2-5" name="sec-1-3-1-5-1-2-5"></a>WS<br  /></li></ol>
+</li>
+<li><a id="sec-1-3-1-5-1-3" name="sec-1-3-1-5-1-3"></a>TDS<br  /><ol class="org-ol"><li><a id="sec-1-3-1-5-1-3-1" name="sec-1-3-1-5-1-3-1"></a>APP<br  /></li>
+<li><a id="sec-1-3-1-5-1-3-2" name="sec-1-3-1-5-1-3-2"></a>DB<br  /></li></ol>
+</li></ol>
+</li></ol>
+</li>
+<li><a id="sec-1-3-1-6" name="sec-1-3-1-6"></a>Roadmap/Blueprint<br  /><ol class="org-ol"><li><a id="sec-1-3-1-6-1" name="sec-1-3-1-6-1"></a>Vertical Pipelines (Provisioning Install &amp; Setup)<br  /><ol class="org-ol"><li><a id="sec-1-3-1-6-1-1" name="sec-1-3-1-6-1-1"></a>Provisioning<br  /></li>
+<li><a id="sec-1-3-1-6-1-2" name="sec-1-3-1-6-1-2"></a>Setup and Install<br  /></li></ol>
+</li>
+
+<li><a id="sec-1-3-1-6-2" name="sec-1-3-1-6-2"></a>Horizontal Pipelines (Build, Package, Deployments)<br  /><ol class="org-ol"><li><a id="sec-1-3-1-6-2-1" name="sec-1-3-1-6-2-1"></a>Packaging<br  /></li>
+<li><a id="sec-1-3-1-6-2-2" name="sec-1-3-1-6-2-2"></a>Deployment Artifacts<br  /><ol class="org-ol"><li><a id="sec-1-3-1-6-2-2-1" name="sec-1-3-1-6-2-2-1"></a>Files Loading<br  /></li>
+<li><a id="sec-1-3-1-6-2-2-2" name="sec-1-3-1-6-2-2-2"></a>Scripts<br  /></li>
+<li><a id="sec-1-3-1-6-2-2-3" name="sec-1-3-1-6-2-2-3"></a>Packages<br  /></li></ol>
+</li></ol>
+</li>
+<li><a id="sec-1-3-1-6-3" name="sec-1-3-1-6-3"></a>DevOps Dashboard<br  /><ol class="org-ol"><li><a id="sec-1-3-1-6-3-1" name="sec-1-3-1-6-3-1"></a>Technical Architecture<br  /><ol class="org-ol"><li><a id="sec-1-3-1-6-3-1-1" name="sec-1-3-1-6-3-1-1"></a>UX - Bootstrap<br  /></li>
+<li><a id="sec-1-3-1-6-3-1-2" name="sec-1-3-1-6-3-1-2"></a>UI - Angular 4<br  /></li>
+<li><a id="sec-1-3-1-6-3-1-3" name="sec-1-3-1-6-3-1-3"></a>Backend - Spring Boot Microservices<br  /></li>
+<li><a id="sec-1-3-1-6-3-1-4" name="sec-1-3-1-6-3-1-4"></a>JPA/Mybatis<br  /></li>
+<li><a id="sec-1-3-1-6-3-1-5" name="sec-1-3-1-6-3-1-5"></a>Liquibase migrations<br  /></li>
+<li><a id="sec-1-3-1-6-3-1-6" name="sec-1-3-1-6-3-1-6"></a>DB - Postgresql<br  /></li>
+<li><a id="sec-1-3-1-6-3-1-7" name="sec-1-3-1-6-3-1-7"></a>Load Balancer Apache (/Zuul)<br  /></li></ol>
+</li>
+<li><a id="sec-1-3-1-6-3-2" name="sec-1-3-1-6-3-2"></a>Solution Architecture<br  /><ol class="org-ol"><li><a id="sec-1-3-1-6-3-2-1" name="sec-1-3-1-6-3-2-1"></a>API:Data Collector/Agents and Pub-Sub Interface<br  /></li>
+<li><a id="sec-1-3-1-6-3-2-2" name="sec-1-3-1-6-3-2-2"></a>User API<br  /></li>
+<li><a id="sec-1-3-1-6-3-2-3" name="sec-1-3-1-6-3-2-3"></a>ServerInfo API<br  /></li>
+<li><a id="sec-1-3-1-6-3-2-4" name="sec-1-3-1-6-3-2-4"></a>ServerStatus API<br  /></li>
+<li><a id="sec-1-3-1-6-3-2-5" name="sec-1-3-1-6-3-2-5"></a>BusinessValue API<br  /></li>
+<li><a id="sec-1-3-1-6-3-2-6" name="sec-1-3-1-6-3-2-6"></a>Code Quality API<br  /></li>
+<li><a id="sec-1-3-1-6-3-2-7" name="sec-1-3-1-6-3-2-7"></a>Monitoring API<br  /></li>
+<li><a id="sec-1-3-1-6-3-2-8" name="sec-1-3-1-6-3-2-8"></a>Data Collectors<br  /></li>
+<li><a id="sec-1-3-1-6-3-2-9" name="sec-1-3-1-6-3-2-9"></a>DBMigrations API<br  /></li>
+<li><a id="sec-1-3-1-6-3-2-10" name="sec-1-3-1-6-3-2-10"></a>API Gateway/Zuul Proxy<br  /></li>
+<li><a id="sec-1-3-1-6-3-2-11" name="sec-1-3-1-6-3-2-11"></a>Front End<br  /></li>
+<li><a id="sec-1-3-1-6-3-2-12" name="sec-1-3-1-6-3-2-12"></a>Database<br  /></li></ol>
+</li></ol>
+</li></ol>
+</li>
+
+<li><a id="sec-1-3-1-7" name="sec-1-3-1-7"></a>Assumptions<br  /></li>
+
+<li><a id="sec-1-3-1-8" name="sec-1-3-1-8"></a>Constraints<br  /></li>
+
+<li><a id="sec-1-3-1-9" name="sec-1-3-1-9"></a>Prioritization<br  /></li>
+
+<li><a id="sec-1-3-1-10" name="sec-1-3-1-10"></a>Core Featue Set for Minimum Viable Product<br  /></li></ol>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Priorities</h3>
+<div class="outline-text-3" id="text-1-4">
+</div><div id="outline-container-sec-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1"><span class="section-number-4">1.4.1</span> MoSCoW</h4>
+<div class="outline-text-4" id="text-1-4-1">
+</div><ol class="org-ol"><li><a id="sec-1-4-1-1" name="sec-1-4-1-1"></a>Must have this requirement to meet the business needs<br  /></li>
+<li><a id="sec-1-4-1-2" name="sec-1-4-1-2"></a>Should have this requirement if possible, but project success does not rely on it<br  /></li>
+<li><a id="sec-1-4-1-3" name="sec-1-4-1-3"></a>Could have this requirement if it does not affect anything else on the project<br  /></li>
+<li><a id="sec-1-4-1-4" name="sec-1-4-1-4"></a>Would like to have this requirement later, but delivery won't be this time<br  /></li></ol>
+</div>
+<div id="outline-container-sec-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2"><span class="section-number-4">1.4.2</span> 4 types of tickets in JIRA (developer's desk)</h4>
+<div class="outline-text-4" id="text-1-4-2">
+</div><ol class="org-ol"><li><a id="sec-1-4-2-1" name="sec-1-4-2-1"></a>Errors<br  /><div class="outline-text-5" id="text-1-4-2-1">
+<p>
+You're seing an error page.
+</p>
+</div>
+</li>
+
+<li><a id="sec-1-4-2-2" name="sec-1-4-2-2"></a>Bugs<br  /><div class="outline-text-5" id="text-1-4-2-2">
+<p>
+Wrong results for right workflow.
+</p>
+</div>
+</li>
+
+<li><a id="sec-1-4-2-3" name="sec-1-4-2-3"></a>Issues<br  /><div class="outline-text-5" id="text-1-4-2-3">
+<p>
+It works, but result is not desirable one.
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="sec-1-4-2-3-1" name="sec-1-4-2-3-1"></a>Issue type - choose an issue type using these guidelines:<br  /><ol class="org-ol"><li><a id="sec-1-4-2-3-1-1" name="sec-1-4-2-3-1-1"></a>bug - the issue is reporting a defect<br  /></li>
+<li><a id="sec-1-4-2-3-1-2" name="sec-1-4-2-3-1-2"></a>epic (product owner) - this will be used by the product owner to create new epics - please do <b>not</b> create issues of this type!<br  /></li>
+<li><a id="sec-1-4-2-3-1-3" name="sec-1-4-2-3-1-3"></a>story - the issue is a user story - typically for some larger change or improvement to ONOS<br  /></li></ol>
+</li></ol>
+</li>
+
+<li><a id="sec-1-4-2-4" name="sec-1-4-2-4"></a>Features Requests<br  /><div class="outline-text-5" id="text-1-4-2-4">
+<p>
+Something new to be implemented.
+</p>
+</div>
+</li></ol>
+</div>
+
+<div id="outline-container-sec-1-4-3" class="outline-4">
+<h4 id="sec-1-4-3"><span class="section-number-4">1.4.3</span> 3 control points to define prioritization in JIRA (product owner's desk)</h4>
+<div class="outline-text-4" id="text-1-4-3">
+</div><ol class="org-ol"><li><a id="sec-1-4-3-1" name="sec-1-4-3-1"></a>Status:<br  /><ol class="org-ol"><li><a id="sec-1-4-3-1-1" name="sec-1-4-3-1-1"></a>New - this has been reported but not yet reviewed by team for validity<br  /></li>
+<li><a id="sec-1-4-3-1-2" name="sec-1-4-3-1-2"></a>Feedback/Awaiting - We need more information from the person reporting the issue before continuing work<br  /></li>
+<li><a id="sec-1-4-3-1-3" name="sec-1-4-3-1-3"></a>Confirmed - This usually means that someone has verified that the described bug occurs or that the requested feature should be added to the application.<br  /></li>
+<li><a id="sec-1-4-3-1-4" name="sec-1-4-3-1-4"></a>Assigned - A specific person has been named to work on the problem<br  /></li>
+<li><a id="sec-1-4-3-1-5" name="sec-1-4-3-1-5"></a>Resolved - The assignee believes that no more work remains to be done to fix the problem<br  /></li>
+<li><a id="sec-1-4-3-1-6" name="sec-1-4-3-1-6"></a>Closed - Someone, usually the reporter or QA, agrees that the problem as reported has been addressed<br  /></li></ol>
+</li>
+<li><a id="sec-1-4-3-2" name="sec-1-4-3-2"></a>Priority: Set this to Normal. Other values should only be assigned after consulting with QA, Tech Support, Professional Services, or Product Management. Here are the values and how we use them:<br  /><ol class="org-ol"><li><a id="sec-1-4-3-2-1" name="sec-1-4-3-2-1"></a>Urgent - This issue is important enough to delay releasing a new version of the affected software<br  /></li>
+<li><a id="sec-1-4-3-2-2" name="sec-1-4-3-2-2"></a>High - This issue is important and we should address it soon<br  /></li>
+<li><a id="sec-1-4-3-2-3" name="sec-1-4-3-2-3"></a>Normal - Most issues fall into this group<br  /></li>
+<li><a id="sec-1-4-3-2-4" name="sec-1-4-3-2-4"></a>Low - It would be nice to fix this bug or add this feature but it's not particularly important to anyone<br  /></li></ol>
+</li>
+<li><a id="sec-1-4-3-3" name="sec-1-4-3-3"></a>Severity: The following list is in order of severity:<br  /><ol class="org-ol"><li><a id="sec-1-4-3-3-1" name="sec-1-4-3-3-1"></a>Blocker - You cannot perform a business-critical task<br  /></li>
+<li><a id="sec-1-4-3-3-2" name="sec-1-4-3-3-2"></a>Major - You can work but it's difficult<br  /></li>
+<li><a id="sec-1-4-3-3-3" name="sec-1-4-3-3-3"></a>Normal - You can work but the application doesn't behave correctly<br  /></li>
+<li><a id="sec-1-4-3-3-4" name="sec-1-4-3-3-4"></a>Minor - You found a problem but it's either something you don't see very often or easy to work around<br  /></li></ol>
+</li></ol>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2018-01-15 Mon 00:19</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

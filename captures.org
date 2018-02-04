@@ -1,0 +1,335 @@
+
+* Linux clear history and exit
+
+cat /dev/null > ~/.bash_history && history -c && exit
+
+
+* list all processes use maximum columns
+
+ps auxwww | grep some
+
+* Kill a process(s) by names
+
+pkill -USR1 git
+
+* list the ports if occupied
+
+netstat -an | grep 8080
+
+* java vm processes
+
+jps | grep Bootstrap
+
+ps auwwx | grep catalina.startup.Bootstrap 
+
+* terminate or kill a process
+
+kill -TERM <process id>
+kill -KILL <process id>
+
+* Sed clear the config file
+
+#+BEGIN_SRC 
+sudo sed '/^[[:blank:]]*#/d;s/#.*//' /etc/httpd/conf/httpd.conf
+
+#if all ok run it
+sudo -i.bak sed '/^[[:blank:]]*#/d;s/#.*//' /etc/httpd/conf/httpd.conf
+#+END_SRC
+
+* start tomcat with runlevel at startup
+
+chkconfig --level 2345 tomcat on
+chkconfig --list tomcat
+
+** solaris
+chmod 755 /etc/init.d/tomcat
+chown root /etc/init.d/tomcat
+ghrgp sys /etc/init.d/tomcat
+
+
+# ln -s /etc/init.d/tomcat /etc/rc3.d/S63tomcat
+# ln -s /etc/init.d/tomcat /etc/rc3.d/K37tomcat
+
+
+* route 80 to 8080
+
+# iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8080
+# iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
+
+** relay connections for only one ip
+
+# iptables -t nat -I PREROUTING -p tcp --dst 192.168.1.100 --dport 80 -j REDIRECT --to-ports 8080
+# iptables -t nat -I OUTPUT -p tcp --dst 192.168.1.100 --dport 80 -j REDIRECT --to-ports 8080
+
+* standard tomcat startup script
+
+#+BEGIN_SRC 
+#!/bin/sh
+set CATALINA_BASE="/opt/tomcat-instance/groovywigs.com"
+set CATALINA_HOME="/opt/tomcat"
+export CATALINA_BASE CATALINA_HOME
+service tomcat start # Standard way to start on Linux
+#+END_SRC
+
+* get jsvc working to host from port 80
+
+#+BEGIN_SRC 
+
+# cd /home/jasonb
+# gunzip apache-tomcat-6.0.14.tar.gz
+# tar xvf apache-tomcat-6.0.14.tar
+# cd apache-tomcat-6.0.14/bin
+# gunzip jsvc.tar.gz
+# tar xvf jsvc.tar.gz
+
+# cd jsvc-src
+
+# ./configure ¡Vwith-java=$JAVA_HOME
+
+# make
+
+# which jsvc
+
+# cp jsvc /opt/tomcat/bin/
+# chmod 700 /opt/tomcat/bin
+# chown root.root /opt/tomcat/bin/jsvc
+
+# useradd -d /opt/tomcat/temp -s /sbin/nologin -g nobody tomcat
+
+# set CATALINA_HOME=/opt/tomcat
+# export CATALINA_HOME
+# chown -R tomcat $CATALINA_HOME/logs
+# chown -R tomcat $CATALINA_HOME/temp
+# chown -R tomcat $CATALINA_HOME/webapps
+# chown -R tomcat $CATALINA_HOME/work
+
+# /opt/tomcat/bin/catalina.sh start
+
+# ps auwwx | grep java
+
+
+## starting with jsvc
+# /opt/tomcat/bin/jsvc -user tomcat -home /usr/java/jdk1.6.0_02 -wait 10 -pidfile /
+var/run/jsvc.pid -outfile /opt/tomcat/logs/catalina.out -errfile /opt/tomcat/logs/
+catalina.out -Djvm=tomcat -Xmx384M -Djava.awt.headless=true -Djava.util.logging.
+manager=org.apache.juli.ClassLoaderLogManager -Djava.util.logging.config.file=/opt/
+tomcat/conf/logging.properties -Djava.endorsed.dirs=/opt/tomcat/common/endorsed -
+classpath :/opt/tomcat/bin/bootstrap.jar:/opt/tomcat/bin/commons-logging-api.jar -
+Dcatalina.base=/opt/tomcat -Dcatalina.home=/opt/tomcat -Djava.io.tmpdir=/opt/tomcat/
+temp org.apache.catalina.startup.Bootstrap start
+
+
+##stopping with jsvc
+# ./jsvc -stop -pidfile /var/run/jsvc.pid org.apache.catalina.startup.Bootstrap
+
+#+END_SRC
+
+* what ports are actually in use.
+
+~netstat -a -finet~
+
+the -a option means active, and the -f inet limits it to Internet [IPV4] connections
+
+
+* Jvm options
+
+| Use                  | JVM option                | Meaning                                                  |   |   |
+| Memory setting       | -Xms384M                  | Sets the heap memory size at JVM startup time.           |   |   |
+| Memory setting       | -Xmx384M                  | Sets the maximum heap memory size the JVM can expand to. |   |   |
+| Debugging   security | -Djava.security.debug=all | Turns on all debug output for security.a                 |   |   |
+| Debugging            | -enableassertions         | Enables assertion checking.b                             |   |   |
+Debugging -verbose:class Enables verbose class loading debug output.
+Debugging -verbose:gc Enables verbose garbage collection debug output.
+Graphical -Djava.awt.headless=true Allows the JVM to run without any graphical display software
+installed.
+Localization -Duser.language=en Sets the language bundle that Tomcat uses.
+Localization -Dfile.encoding=UTF-8 Sets the default file encoding that Tomcat uses.
+Networking -Djava.net.
+preferIPv4Stack=true
+Configures the JVM to use IPv4 instead of IPv6; thus, any misconfiguration of IPv6 does not prevent Tomcat from working properly over Ipv4. On some operating systems such as FreeBSD, this
+switch appears to be required for Tomcat to work
+
+
+eg.
+
+#+BEGIN_SRC 
+JAVA_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"
+#+END_SRC
+
+* Locale
+#+BEGIN_SRC 
+$ LANG=en_US
+$ catalina.sh start
+
+or 
+
+-Duser.language=en
+#+END_SRC
+
+* Realms
+
+** UserDatabaseRealms
+
+tomcat-users.xml
+
+user,passwords,roles
+manager role.
+not production ready
+
+
+** JDBC Realm
+<!-- Set up a JDBC Real for JabaDot user database -->
+<Realm className="org.apache.catalina.realm.JDBCRealm"
+driverName="org.postgresql.Driver"
+connectionURL="jdbc:postgresql:jabadot"
+connectionName="system"
+connectionPassword="something top secret"
+userTable="users" userCredCol="passwd"
+userRoleTable="controls" roleNameCol="roles"
+userNameCol="nick"/>
+
+
+** JNDI Realm (Active directory/LDAP)
+<!-- Set up a JDBC Real for JabaDot user database -->
+<Realm className="org.apache.catalina.realm.JDBCRealm"
+driverName="org.postgresql.Driver"
+connectionURL="jdbc:postgresql:jabadot"
+connectionName="system"
+connectionPassword="something top secret"
+userTable="users" userCredCol="passwd"
+userRoleTable="controls" roleNameCol="roles"
+userNameCol="nick"/>
+
+
+** JAASRealm
+JAASRealm is a realm implementation that authenticates users via the Java Authentication andAuthorization Service (JAAS).
+
+export JAVA_OPTS=\
+'-Djava.security.auth.login.config=/root/.java.login.config'
+
+Example 2-4. A web.xml snippet showing security-constraint, login-config, and security-role
+elements configured for JAASRealm
+#+BEGIN_SRC 
+<security-constraint>
+<web-resource-collection>
+<web-resource-name>Entire Application</web-resource-name>
+<url-pattern>/*</url-pattern>
+</web-resource-collection>
+<auth-constraint>
+<role-name>0</role-name>
+</auth-constraint>
+</security-constraint>
+
+
+<login-config>
+<auth-method>FORM</auth-method>
+<realm-name>My Club Members-only Area</realm-name>
+<form-login-config>
+<form-login-page>/login.html</form-login-page>
+<form-error-page>/error.html</form-error-page>
+</form-login-config>
+</login-config>
+
+
+<security-role>
+<role-name>0</role-name>
+</security-role>
+#+END_SRC
+Example 2-5. The complete contents of a JAAS .java.login.conf file that is stored in the home
+directory of the user who runs Tomcat
+Tomcat {
+com.sun.security.auth.module.UnixLoginModule required debug=true;
+};
+
+
+** Container-Managed Security
+
+*** Basic authentication
+The user¡¦s passwordis requiredvia HTTP authentication as base64-encoded
+text. Security flaw.
+
+Club site with members-only subdirectory
+#+BEGIN_SRC 
+<!--
+Define the Members-only area, by defining
+a "Security Constraint" on this Application, and
+mapping it to the subdirectory (URL) that we want
+to restrict.
+-->
+<security-constraint>
+<web-resource-collection>
+<web-resource-name>
+Entire Application
+</web-resource-name>
+<url-pattern>/members/*</url-pattern>
+</web-resource-collection>
+<auth-constraint>
+<role-name>member</role-name>
+</auth-constraint>
+</security-constraint>
+<!-- Define the Login Configuration for this Application -->
+<login-config>
+<auth-method>BASIC</auth-method>
+<realm-name>My Club Members-only Area</realm-name>
+</login-config>
+#+END_SRC
+
+*** Digest authentication
+The user¡¦s password is requested via HTTP authentication as a digest-encoded
+string.
+
+#+BEGIN_SRC 
+<security-constraint>
+<web-resource-collection>
+<web-resource-name>
+Entire Application
+</web-resource-name>
+<url-pattern>/members/*</url-pattern>
+</web-resource-collection>
+<auth-constraint>
+<role-name>member</role-name>
+</auth-constraint>
+</security-constraint>
+<login-config>
+<auth-method>DIGEST</auth-method>
+<realm-name>My Club Members-only Area</realm-name>
+</login-config>
+#+END_SRC
+
+in your server.xml
+#+BEGIN_SRC 
+<Realm className="org.apache.catalina.realm.UserDatabaseRealm"
+resourceName="UserDatabase" digest="MD5"/>
+#+END_SRC
+
+encode your password like this
+
+#+BEGIN_SRC 
+jasonb$ cd $CATALINA_HOME
+jasonb$ bin/digest.sh -a MD5 user-password
+user-password:9a3729201fdd376c76ded01f986481b1
+#+END_SRC
+
+tomcat-users.xml
+
+#+BEGIN_SRC 
+<?xml version='1.0'?>
+<tomcat-users>
+<role rolename="tomcat"/>
+<role rolename="role1"/>
+<role rolename="member"/>
+<user username="jasonb"
+password="9a3729201fdd376c76ded01f986481b1"
+roles="member"/>
+</tomcat-users>
+#+END_SRC
+
+
+*** Form authentication
+The user¡¦s password is requested on a web page form.
+
+
+
+*** Client-cert authentication
+The user is verified by a client-side digital certificate.
+

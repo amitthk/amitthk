@@ -269,6 +269,18 @@ people > access > resources
 
 ~yum install httpd httpd-tools httpd-manual~
 
+~sudo firewall-cmd --add-service=http --permanent~
+~sudo firewallcmd --reload~
+~systemctl status httpd~
+
+#+BEGIN_SRC 
+systemctl start httpd
+systemctl enable httpd
+ps -aux --forest
+sudo vi /etc/httpd/conf/httpd.conf
+
+#+END_SRC
+
  main config  ~/etc/httpd/conf/httpd.conf~
 
  additional config
@@ -322,6 +334,30 @@ people > access > resources
 
  #+END_SRC
 
+
+Multiple dir
+
+#+BEGIN_SRC 
+<VirtualHost *:80>
+ ServerName www.bb.com
+ DcoumentRoot "/var/www/html/www.bb.com"
+</VirtualHost>
+
+<Directory /var/www/vhosts/blog>
+     AllowOverride none
+     Require all granted
+</Directory>
+
+<Directory /var/www2/vhosts/blog>
+    Options Indexes FollowSymlinks       
+    AllowOverride none
+    Require all granted
+</Directory>
+
+#+END_SRC
+
+
+
  #+BEGIN_SRC 
 
  apachectl status
@@ -330,7 +366,8 @@ people > access > resources
  apachectl configtest
  sudo vi /etc/httpd/conf/httpd.conf
 
- httpd -t < Syntax OK>
+ httpd -t
+# < Syntax OK>
  httpd -t -D DUMP_VHOSTS
  systemctl restart httpd.service
 
@@ -345,6 +382,9 @@ people > access > resources
  cp www.psdemo.local.conf  www.bb.com.conf
 
 #+END_SRC
+
+
+
   ======
 
 **** httpd.conf config for subdomain
