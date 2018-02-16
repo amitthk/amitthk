@@ -16,6 +16,11 @@ pkill -USR1 git
 
 netstat -an | grep 8080
 
+* Open a port permanent firewall
+
+firewall-cmd --zone=public --add-port=80/tcp --permanent
+firewall-cmd --reload
+
 * java vm processes
 
 jps | grep Bootstrap

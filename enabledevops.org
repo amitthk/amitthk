@@ -1,0 +1,110 @@
+* Enable DevOps delivery and roadmap
+** Situation , Task, Action, Results
+** Delivery strategy
+Four goals from mission statement:
+- Agile
+- Cloud Migration
+- End to End DevOps
+- APIs/Microservices & Containerization (Free from Vendor locking)
+
+We created a POC all the way from scratch. I have shown you a POC during the DevOps brownbag session. We work on similar approach.
+
+End to end devops.
+Vertical pipelines.
+Horizontal pipelines.
+We will discuss later how this enging works.
+
+
+** branching and merging strategy
+Delivery of the project was pretty much ad-hoc. There was a clear intention to adopt Git/bitbucket. But the team was using SVN and we had a difficult time teaching them GIT.
+
+
+
+Below is the final branching strategy we finalized after discussing with some of the expersts from SCB. One of them being Gaurav Tiwari who joined SCB from Atlassian.
+In one of his projects earlier he created an extensive python  wrapper for customized branching model for another bank. This guy definitely knows what he is talking. 
+We discussed/argueued with him and after few rounds of intensive discussions come up with something suitable for both the project structure and our DevOps continuous delivery.
+
+...
+- PT -> PT
+- UAT -> UAT (pull based on tags.CI turned off. Only deploy)
+- release/0.0.1  -> SIT1 
+- release/1.0.0a  -> SIT2
+
+- ws1.0 (OneAston)  -> DEV1
+  - feature/WMTP-xyz
+- ws1.2 (Accenture)  -> DEV2
+  - feature/WMTP-abc
+- ws2.0 (Techmahindra)  -> DEV3
+  - feature/WMTP-aac  
+- ws3.0 (Accenture) -. DEV4
+  - feature/WMTP-efg
+
+
+** Provisioning
+Manual process. Error prone, once the data migrate to one environment ends up giving trouble - infra team will start all over again from scratch. 
+Because the application is heavily Data and artifacts reliant. 
+
+We implemented the automation both for On premise and cloud. For cloud we have terraform provisioner scripts which provision ec2 instance and RDS Instances 
+
+
+** Environments Inventory, Management and Status
+The infrastructure team was managing an inventory in excel sheets. And lot of information was basically only with some people. There was a very little transparancy  around what is hosted where. 
+
+And all this is something we did from scratch.
+We started with Containerized infrastructure managed by Ansible. 
+All started from the lucky Accenture maching of the DevOps lead of this project ;-)
+
+What powers this is the backend Server info api. We can manage and map the servers to appropriate environment.
+
+- Portfolio (Wealth Management Transformation Program)
+  - Program (Enable Program)
+    - Project (Enable DevOps project)
+      - Environment Categories
+	- DEV
+	  - DEV1
+	    - dashboard-ui - EC2
+	    - Load Balancer (Apache httpd) - EC2
+	    - serverinfo-api - EC2
+	    - jobdispatcher-api - EC2
+	    - serverstatus-api - EC2, ONPREM
+	    - messenger-api - EC2
+	    - users-api - ONPREM etc...
+	  - DEV2
+	    - dashboard-ui ...
+	- SIT
+	- UAT
+	- PT(Performance Testing)
+	- DRH(Dress Rehersal)
+	- PROD
+
+
+Under each environment group, like SIT, UAT, RT there are different environments. For the management it is important to know what is the high level availability of the environment.
+The team in turn might be interested in the availability of each server and the deployed components for each environment.
+
+So we come up with Serverstatus api. This guy collects live information from the servers and map reduces it into live avaialability dashboard.
+Again this is something we conceptualize and created it from scratch.
+
+
+** Packaging
+Packaging was pretty much manual. Lead time was high due to human dependency.
+
+We automated and come up with the dashboard something like this to enable anybody to login and click a button to package a component from any of selected github branch for the particular component.
+
+We also get rolling notifications of what is going on in background as you see. Logs coming in from the bitbucket commit id. Then Jenkins starts and sends a message. 
+Jenkins build succeeds we get 100% progress bar and a notification message at bottom.
+
+What powers this are two of our reliable work horses:-
+- Jobdispatcher-api.  - interacts with github, updates the properties based on the parameters provided from frontend to upstream job.  Then webhooks are triggerred to invoke Jenkins.
+- messenger-api - the Jenkins jobs then send regular updates to the messenger api. Our dashboard-ui subscribes to live updates.
+
+
+** Deployment
+Deployments were basically all manual and again involved lead time and human errors due to human dependency.
+
+We provided the following dashboard. As you will notice you can pick up any of the published JARS from the artifactory and deploy it to the environment of your choice.
+
+At backend it calls the jenkins jobs which in turn fire up Ansible playbooks to do the job.
+
+Here again our work horses are our two friend apis:-
+- jobdispatcher-api - to interface with git/bitbucket and trigger appropriate upstream/downstream jobs in Jenkins.
+- messenger-api - for rolling updates
