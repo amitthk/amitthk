@@ -1,0 +1,33 @@
+* py-s3-analysis
+** Frontend
+Simple angular js 2.0 frontedn in mobile first layout with bootstrap 3.
+
+This frontend invokes the backend api and displays live results in dashboard page. Users can login from frontend.
+
+Frontend is deployed to s3 bucket. Develop branch is continuously deployed to s3 bucket and can be tested directly here:
+dev.py-s3-analysis. aws bucket
+
+production version can be tested at 
+dev.pys3analysis.dynu.org
+
+Prod is hosted on APACche tomcat httpd. Reverse proxies back to django hosted on same machine.
+
+** Backend DJango rest api
+
+The django rest api is powered by s3stats to gather the live data.
+https://pypi.python.org/pypi/s3stat
+
+And map reduce to get live information from buckets at fast speed using HADOOP.
+
+http://www.michael-noll.com/tutorials/writing-an-hadoop-mapreduce-program-in-python/
+
+
+http://www.michael-noll.com/tutorials/running-hadoop-on-ubuntu-linux-multi-node-cluster/\
+
+** Command line interface
+
+
+** End to end devops
+Jenkinsfiles, Ansible, (docker or not), scalable fault tolerant.
+
+Dynamic inventories  get_inventory.py . Based on parameters.
