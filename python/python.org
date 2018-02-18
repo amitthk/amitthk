@@ -1,0 +1,55 @@
+* python
+
+** Pycharm 
+
+*** Sphinx quickstart
+
+tools > sphinx-quickstart
+
+
+*** bash console (with venv)
+
+tools > add new bash console
+
+*** django quickstart
+
+#+BEGIN_SRC 
+django-admin startproject mysite
+
+#+END_SRC
+
+
+** Anaconda
+https://www.anaconda.com/downloads
+
+Jupyter install
+
+Pycharm, Spyder
+** git and github
+
+git-scm.com  (walkthrough learning online)
+
+github
+
+gits -> dropbox
+
+guides.github.com
+
+gitimmersion.com
+** data types
+
+| Name           | Type  | Desc                                            |
+| Integers       | int   |                                                 |
+| Floating point | float |                                                 |
+| Strings        | str   |                                                 |
+| Lists          | list  |                                                 |
+| Dictionary     | dict  |                                                 |
+| Tuples         | tup   | Immutable. Cannot change order in that sequence |
+| Sets           | set   |                                                 |
+| Booleans       | bool  |                                                 |
+|                |       |                                                 |
+** important links
+
+github.com/vina/awesome-python
+
+https://techietweak.wordpress.com/2016/05/16/file-handling-in-aws-s3-with-python-boto-library/

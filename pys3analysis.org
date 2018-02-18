@@ -1,4 +1,25 @@
 * py-s3-analysis
+** Module implementation
+https://github.com/vinta/awesome-python
+
+https://github.com/trending/python
+Python wheel/pip release
+
+https://github.com/MunGell/awesome-for-beginners
+
+** Expose via cli
+
+use click to wrap the module and test it
+** DJango REST Api
+
+Continuously delivered to develop -> dev
+
+release/1.0.0 -> SIT (Integration tests performed)
+
+prod -> prod (pulls tags . latest from the tag directory)
+
+s3bucket as repo
+
 ** Frontend
 Simple angular js 2.0 frontedn in mobile first layout with bootstrap 3.
 
