@@ -250,3 +250,14 @@ sh 'ansible-playbook site.yml --vault-password-file vault.py -e "@extras.json"'
 import os
 print os.environ['VAULT_PASSWORD']
 #+END_SRC
+
+*** Get current branch
+
+#+BEGIN_SRC 
+def getCurrentBranch () {
+    return sh (
+        script: 'git rev-parse --abbrev-ref HEAD',
+        returnStdout: true
+    ).trim()
+}
+#+END_SRC

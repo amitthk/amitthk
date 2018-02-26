@@ -53,3 +53,117 @@ gitimmersion.com
 github.com/vina/awesome-python
 
 https://techietweak.wordpress.com/2016/05/16/file-handling-in-aws-s3-with-python-boto-library/
+** python and pip
+
+Linux
+
+vi ~/.bashrc
+
+MacOs
+
+vi ~/.profile
+
+Windows:
+
+Path variable
+*** pip
+
+import functools
+help(functools.wraps)
+help('collections.defaultdict')
+
+
+python3 -m pip install banknumber
+
+- Install to personal library:
+python3 -m pip install --user requests
+
+python3 -m pip list
+
+python3 -m pip install --upgrade requests
+
+python3 -m pip uninstall requests
+
+pip help install
+
+python3 -m pip search asyncio
+
+
+** packages
+
+*** python looks in sys.path
+
+#+BEGIN_SRC 
+import sys
+sys .path
+#+END_SRC
+
+*** __init__py turns a folder into package
+
+#+BEGIN_SRC 
+import demopackage
+exit()
+#+END_SRC
+
+*** importing all package modules
+
+in __init__.py file add packages to the list called __all__
+
+~__all__ = ['foo' 'baz' 'bar']~
+
+
+When the JOJU file is missing, the folder becomes part of a OBNFTQBDFQBDLBHF folder.
+When Python is importing, it combines all of the OBNFTQBDFQBDLBHF folders it finds, that
+share a name, into a single logical package
+
+e.g.
+
+- demopackage
+  - __init__.py
+  - /demo1/nsdemo
+  - /demo2/nsdemo
+
+
+#+BEGIN_SRC 
+import sys
+
+sys.path.append('demo1')
+sys.path.append('demo2')
+
+from nsdemo import foo, bar
+
+#+END_SRC
+
+
+*** package structure and interface
+
+#+BEGIN_SRC 
+
+#+END_SRC
+
+**** attempted relative import with no known parent package
+
+Import error occurs due to CR/LF insertion by IDE when we try to edit the __init__.py
+
+delete the __init__.py and recreate an empty one.  The parent and child packages must have empty __init__.py
+
+Then we can directly import the packages with packagename like
+
+#+BEGIN_SRC 
+from pys3viewercli import CommandLineHelper
+#+END_SRC
+
+There is one more catch in this scenario. All our packages are modules so we must run them as modules as below:
+
+
+**** ImportError: attempted relative import with no known parent package
+
+- Parent and child directories must have __init__.py
+- go to parent directory and run the package as modules:
+
+
+
+#+BEGIN_SRC 
+python -m pys3viewercli.main
+#+END_SRC
+
