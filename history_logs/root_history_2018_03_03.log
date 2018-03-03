@@ -1,0 +1,189 @@
+    1  yum install httpd httpd-tools httpd-manual
+    2  sudo sed -i.bak '/^[[:blank:]]*#/d;s/#.*//g' /etc/httpd/conf/httpd.conf
+    3  service httpd restart
+    4  mkdir /var/www/pys3viewerui
+    5  tar -xf /tmp/dist.tar -C /var/www/pys3viewerui
+    6  vi /etc/httpd/conf/httpd.cofn
+    7  vi /etc/httpd/conf/httpd.conf
+    8  vi /etc/httpd/conf.d/vhosts.conf
+    9  /etc/httpd/bin
+   10  which httpd
+   11  /sbin/httpd -S
+   12  apachectl configtest
+   13  mkdir /var/www/pys3viewerapi/
+   14  service httpd restart
+   15  chown -R apache:apache /var/www/pys3viewerui
+   16  chown -R apache:apache /var/www/pys3viewerapi
+   17  service httpd restart
+   18  vi /etc/httpd/conf.d/welcome.conf
+   19  vi /etc/httpd/conf.d/welcome.conf
+   20  vi /etc/httpd/conf.d/default.conf
+   21  apachectl configtest
+   22  vi /etc/httpd/conf.d/default.conf
+   23  apachectl configtest
+   24  ls /var/www/pys3viewerui
+   25  cd /var/www/pys3viewerui
+   26  mv dist/* ./
+   27  ls
+   28  cd ..
+   29  ls
+   30  ls -l
+   31  find . 
+   32  find . | ls la
+   33  find . -ls
+   34  find . -ls
+   35  service httpd restart
+   36  apachectl configtest
+   37  vi /etc/httpd/conf.d/default.conf
+   38  apachectl configtest
+   39  service httpd restart
+   40  vi /etc/httpd/conf/httpd.conf
+   41  apachectl configtest
+   42  service httpd restart
+   43  vi /etc/httpd/conf/httpd.conf
+   44  vi /etc/httpd/conf.d/default.conf
+   45  apachectl configtet
+   46  apachectl configtest
+   47  service httpd restart
+   48  vi /etc/httpd/conf.d/default.conf
+   49  rm /etc/httpd/conf.d/default.conf
+   50  service httpd restart
+   51  vi /etc/httpd/conf/httpd.conf
+   52  ls /etc/httpd/conf.d/
+   53  vi /etc/httpd/conf/vhosts.conf
+   54  vi /etc/httpd/conf/httpd.conf
+   55  /sbin/httpd -S
+   56  vi /etc/httpd/conf/vhosts.conf
+   57  vi /etc/httpd/conf.d/vhosts.conf
+   58  vi /etc/httpd/conf/httpd.conf
+   59  apachectl configtest
+   60  service httpd restart
+   61  vi /var/www/pys3viewerapi/index.html
+   62  vi /etc/httpd/conf/httpd.conf
+   63  /sbin/httpd -S
+   64  vi /etc/hosts
+   65  service httpd restart
+   66  vi /etc/httpd/conf/httpd.conf
+   67  vi /etc/httpd/conf.d/vhosts.conf
+   68  apachectl configtest
+   69  service httpd restart
+   70  /sbin/httpd -s
+   71  /sbin/httpd -S
+   72  view /etc/httpd/conf/httpd.conf
+   73  view /etc/httpd/conf.d/vhosts.conf
+   74  vi /etc/httpd/conf.d/vhosts.conf
+   75  vi /etc/httpd/conf.d/example.conf
+   76  vi /etc/httpd/conf.d/sample.conf
+   77  ls /etc/httpd/conf.d
+   78  vi /etc/httpd/conf.d/welcome.conf
+   79  vi /etc/httpd/conf.d/vhosts.conf
+   80  apachectl configtest
+   81  service httpd restart
+   82  vi /etc/httpd/conf.d/vhosts.conf
+   83  service httpd restart
+   84  vi /etc/httpd/conf.d/vhosts.conf
+   85  apachectl configtest
+   86  service httpd restart
+   87  view /etc/httpd/conf/httpd.conf
+   88  vi /etc/httpd/conf.d/vhosts.conf
+   89  apachectl configtest
+   90  service httpd restart
+   91  view /etc/httpd/conf/httpd.conf
+   92  vi /etc/httpd/conf.d/vhosts.conf
+   93  view /etc/httpd/conf/httpd.conf
+   94  vi /etc/httpd/conf.d/vhosts.conf
+   95  apachectl configtest
+   96  service httpd restart
+   97  vi /etc/httpd/conf.d/vhosts.conf
+   98  apachectl configtest
+   99  service httpd restart
+  100  vi /etc/httpd/conf.d/vhosts.conf
+  101  apachectl configtest
+  102  vi /etc/httpd/conf.d/vhosts.conf
+  103  apachectl configtest
+  104  service httpd restart
+  105  vi /etc/httpd/conf.d/vhosts.conf
+  106  view /etc/httpd/conf/httpd.conf
+  107  service httpd restart
+  108  view /etc/httpd/conf/httpd.conf
+  109  /sbin/httpd -
+  110  /sbin/httpd -S
+  111  view /etc/httpd/conf/httpd.conf
+  112  /sbin/httpd -S
+  113  vi /etc/httpd/conf/httpd.conf
+  114  cp /etc/httpd/conf/httpd.conf /etc/httpd/conf/httpd.conf.back.x
+  115  vi /etc/httpd/conf/httpd.conf
+  116  /sbin/httpd -S
+  117  vi /etc/httpd/conf/httpd.conf
+  118  /sbin/httpd -S
+  119  vi /etc/httpd/conf/httpd.conf
+  120  /sbin/httpd -S
+  121  service httpd restart
+  122  journalctl -xe
+  123  vi /etc/httpd/conf/httpd.conf
+  124  service httpd restart
+  125  vi /etc/httpd/conf/httpd.conf
+  126  cd /etc/httpd/conf
+  127  rm -rf httpd.conf
+  128  mv httpd.conf.bak.rm httpd.conf
+  129  ls
+  130  mv httpd.conf.bak.x httpd.conf
+  131  mv httpd.conf.back.x httpd.conf
+  132  ls
+  133  vi httpd.conf
+  134  service httpd restart
+  135  vi /var/www/pys3viewerui/.htaccess
+  136  service httpd restart
+  137  vi httpd.conf
+  138  /sbin/httpd -S
+  139  vi httpd.conf
+  140  /sbin/httpd -S
+  141  service httpd restart
+  142  vi httpd.conf
+  143  rm -rf /var/www/pys3viewerui/*
+  144  ls /var/www/pys3viewerui/
+  145  history | grep tar
+  146  $ tar -xf /tmp/dist.tar -C /var/www/pys3viewerui
+  147  $ tar -xf /tmp/dist.tar -C /var/www/pys3viewerui
+  148  tar
+  149  $ tar -xf /tmp/dist.tar -C /var/www/pys3viewerui
+  150   tar -xf /tmp/dist.tar -C /var/www/pys3viewerui
+  151  sudo chown -R apache:apach /var/www/pys3viewerui
+  152  sudo chown -R apache:apache /var/www/pys3viewerui
+  153  service httpd restart
+  154  vi httpd.conf
+  155  service httpd restart
+  156  vi httpd.conf
+  157  /sbin/httpd -S
+  158  cd ..
+  159  /var/httpd/conf.d/vhosts.conf
+  160  /etc/httpd/conf.d/vhosts.conf
+  161  pwd
+  162  /etc/httpd/conf.d/vhosts.conf
+  163   /etc/httpd/conf.d
+  164  exit
+  165  ls /var/logs/httpd
+  166  ls /var/log/httpd/
+  167  tail /var/log/httpd/access_log.log
+  168  tail /var/log/httpd/error_log.log
+  169  sudo vi /etc/httpd/conf.d/vhosts.conf
+  170  service httpd restart
+  171  tail /var/log/httpd/error_log.log
+  172  httpd -M
+  173  sudo vi /etc/httpd/conf/httpd.conf
+  174  sudo vi /etc/httpd/conf/httpd.conf
+  175  service httpd restart
+  176  sudo vi /etc/httpd/conf.d/vhosts.conf
+  177  apachectl configtest
+  178  service httpd restart
+  179  apachectl configtest
+  180  sudo vi /etc/httpd/conf.d/vhosts.conf
+  181  sudo vi /etc/httpd/conf.d/vhosts.conf
+  182  service httpd restart
+  183  sudo service httpd restart
+  184  sudo vi /etc/httpd/conf.d/vhosts.conf
+  185  apachectl configtest
+  186  service httpd restart
+  187  history | grep gunicorn
+  188  exit
+  189  history > /tmp/root_history_2018_03_03.log

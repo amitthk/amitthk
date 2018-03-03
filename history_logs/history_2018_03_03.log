@@ -1,0 +1,186 @@
+    1  ls 
+    2  yum install httpd httpd-tools httpd-manual
+    3  sudo su
+    4  sudo vi /etc/httpd/conf.d/vhosts.conf
+    5  service httpd restart
+    6  sudo service httpd restart
+    7  mv /var/www/pys3viewerui/dist/*  /var/www/pys3viewerui/
+    8  sudo mv /var/www/pys3viewerui/dist/*  /var/www/pys3viewerui/
+    9  sudo vi /etc/httpd/conf.d/vhosts.conf
+   10  sudo service httpd restart
+   11  sudo vi /etc/httpd/conf.d/vhosts.conf
+   12  sudo service httpd restart
+   13  sudo vi /etc/httpd/conf.d/vhosts.conf
+   14  sudo service httpd restart
+   15  sudo vi /etc/httpd/conf.d/vhosts.conf
+   16  sudo service httpd restart
+   17  sudo view /etc/httpd/conf.d/vhosts.conf
+   18  /sbin/httpd -S
+   19  cd /var/www/pys3viewerapi
+   20  yum install -y git
+   21  sudo yum install -y git
+   22  git clone https://github.com/amitthk/pys3viewer.git ./
+   23  git clone https://github.com/amitthk/pys3viewer.git .
+   24  git clone https://github.com/amitthk/pys3viewer.git 
+   25  sud
+   26  sudo sud
+   27  git clone https://github.com/amitthk/pys3viewer.git 
+   28  sudo git clone https://github.com/amitthk/pys3viewer.git 
+   29  mv pys3viewer/* ./
+   30  sudo mv pys3viewer/ code
+   31  ls
+   32  sudo mv code/* ./
+   33  ls
+   34  rm -rf code
+   35  sudo rm -rf code
+   36  sudo yum install gcc openssl-devel bzip2-devel
+   37  cd /usr/src
+   38  sudo wget https://www.python.org/ftp/python/3.6.4/Python-3.6.4.tgz
+   39  sudo yum install -y wget
+   40  sudo wget https://www.python.org/ftp/python/3.6.4/Python-3.6.4.tgz
+   41  sudo tar xzf Python-3.6.4.tgz
+   42  cd Python-3.6.4
+   43  sudo ./configure --enable-optimizations
+   44  sudo make altinstall
+   45  cd /usr/src/
+   46  sudo wget https://pypi.python.org/packages/d4/0c/9840c08189e030873387a73b90ada981885010dd9aea134d6de30cd24cb8/virtualenv-15.1.0.tar.gz#md5=44e19f4134906fe2d75124427dc9b716
+   47  sudo /usr/local/bin/pip3.6 install virtualenv-15.1.0.tar.gz 
+   48  cd /var/www/pys3viewerapi/
+   49  ls
+   50  sudo /usr/local/bin/python3.6 setup.py install
+   51  /usr/local/bin/python3.6 -m virtualenv pys3venv -p /usr/local/bin/python3.6
+   52  sudo /usr/local/bin/python3.6 -m virtualenv pys3venv -p /usr/local/bin/python3.6
+   53  source pys3venv/bin/activate
+   54  pip install -r requirements.txt
+   55   pip install -r requirements.txt
+   56  sudo pip install -r requirements.txt
+   57  python -m pys3viewerapi.main
+   58  pip install flask
+   59  sudo pip install flask
+   60  exit
+   61  sudo /usr/local/bin/python3.6 -m pip install flask
+   62  sudo /usr/local/bin/python3.6 -m pip install -r requirements.txt
+   63  source pys3venv/bin/activate
+   64  cd /var/www/pys3viewerapi/
+   65  source pys3venv/bin/activate
+   66  python -m pys3viewerapi.main
+   67  pip3.6 install flask
+   68  sudo pip3.6 install flask
+   69  sudo pip3 install flask
+   70  sudo pip install flask
+   71  exit
+   72  cd /var/www/pys3viewerapi/pys3venv/bin/pip install -r /var/www/pys3viewerapi/requirements.txt 
+   73  /var/www/pys3viewerapi/pys3venv/bin/pip install -r /var/www/pys3viewerapi/requirements.txt 
+   74  ls -la /var/www/pys3viewerapi
+   75  sudo chmod 775 -r /var/www/pys3viewerapi
+   76  sudo chmod -R 775 /var/www/pys3viewerapi
+   77  ls -la /var/www/pys3viewerapi
+   78  /var/www/pys3viewerapi/pys3venv/bin/pip install -r /var/www/pys3viewerapi/requirements.txt 
+   79  sudo chown -R apache:apache /var/www/pys3viewerapi
+   80  source pys3venv/bin/activate
+   81  source /var/www/pys3viewerapi/pys3venv/bin/activate
+   82  pip install flask
+   83  exit
+   84  curl
+   85  curl http://127.0.0.1:8081/
+   86  ls
+   87  cd /var/www/pys3viewerapi
+   88  ls
+   89  vi s3v.wsgi
+   90  sudo vi s3v.wsgi
+   91  vi /etc/httpd/var
+   92  sudo vi /etc/httpd/conf.d/vhosts.conf
+   93  sudo /sbing/httpd -S
+   94  sudo /sbin/httpd -S
+   95  /var/www/pys3viewerapi/pys3venv/bin/pip install gunicorn
+   96  source /var/www/pys3viewerapi/pys3venv/bin/activate
+   97  ls
+   98  gunicorn 
+   99  gunicorn --bind 0.0.0.0:8081 wsgi:app
+  100  gunicorn --bind 0.0.0.0:8081 sev:app
+  101  gunicorn --bind 0.0.0.0:8081 s3v:app
+  102  gunicorn --bind 0.0.0.0:8081 pys3viewerapp.main:app
+  103  gunicorn --bind 0.0.0.0:8081 pys3viewerapi.main:app
+  104  sudo vi /etc/systemd/system/pys3viewerapi.service
+  105  sudo systemctl service start pys3viewerapi
+  106  :q
+  107  deactivate
+  108  sudo systemctl service start pys3viewerapi
+  109  sudo systemctl start pys3viewerapi
+  110  sudo systemctl status pys3viewerapi
+  111  /var/www/pys3viwerapi/pys3venv/bin/gunicorn --workers 3 --bind unix:pys3viewerapi.sock -m 007 pys3viewerapi.main:app
+  112  ls /var/www/pys3viwerapi/pys3venv/bin/
+  113  sudo ls /var/www/pys3viwerapi/pys3venv/bin/
+  114  sudo vi /etc/systemd/system/pys3viewerapi.service
+  115  sudo systemctl start pys3viewerapi
+  116  sudo systemctl daemon-reload
+  117  sudo systemctl start pys3viewerapi
+  118  sudo systemctl status pys3viewerapi
+  119  sudo systemctl enable pys3viewerapi
+  120  sudo systemctl start pys3viewerapi
+  121  sudo systemctl status pys3viewerapi
+  122  /var/www/pys3viewerapi/pys3venv/bin/gunicorn --workers 3 --bind unix:pys3viewerapi.sock -m 007 pys3viewerapi.main:app
+  123  sudo vi /etc/systemd/system/pys3viewerapi.service
+  124  pkill pys3viewerapi
+  125  sudo systemctl daemon-reload
+  126  sudo systemctl start pys3viewerapi
+  127  sudo systemctl status pys3viewerapi
+  128  sudo vi /etc/systemd/system/pys3viewerapi.service
+  129  sudo systemctl daemon-reload
+  130  sudo systemctl start pys3viewerapi
+  131  sudo systemctl daemon-reload
+  132  sudo systemctl start pys3viewerapi
+  133  sudo systemctl status pys3viewerapi
+  134  journalctl -xe
+  135  lsof 
+  136  netstat -a
+  137  netstat -a | grep 8081
+  138  netstat -a | grep port
+  139  journalctl -u pys3viewerapi
+  140  sudo systemctl status pys3viewerapi
+  141  sudo vi /etc/systemd/system/pys3viewerapi.service
+  142  pkill pys3viewerapi
+  143  sudo systemctl stop pys3viewerapi
+  144  sudo systemctl start pys3viewerapi
+  145  sudo systemctl daemon-reload
+  146  sudo systemctl start pys3viewerapi
+  147  sudo systemctl status pys3viewerapi
+  148  view /etc/systemd/system/pys3viewerapi.service
+  149  view /etc/httpd/conf/httpd.conf
+  150  view /etc/httpd/conf.d/vhosts.conf
+  151  sudo vi /etc/httpd/conf.d/vhosts.conf
+  152  sudo vi /etc/systemd/system/pys3viewerapi.service
+  153  tail -f /var/www/pys3viewerapi/access_log
+  154  tail -f /var/www/pys3viewerapi/access_log.log
+  155  sudo ls /var/www/pys3viewerapi/
+  156  sudo ls /var/www/pys3viewerapi/pys3viewerapi
+  157  sudo ls /var/www/pys3viewerapi/
+  158  sudo service pys3viewer restart
+  159  sudo systemctl restart pys3veiwerapi
+  160  sudo systemctl daemon-reload
+  161  sudo systemctl restart pys3veiwerapi
+  162  sudo systemctl status pys3viewerapi
+  163* 
+  164  sudo systemctl restart pys3viewerapi
+  165  tail -f /var/www/pys3viewerapi/access_log.log
+  166  tail -f /var/www/pys3viewerapi/gunicorn-access.log
+  167  tail -f /var/www/pys3viewerapi/gunicorn-error.log
+  168  netstat --listen
+  169  sudo netstat -tulpn | grep LISTEN
+  170  view /etc/httpd/conf.d/vhosts.conf
+  171  sudo vi /etc/httpd/conf.d/vhosts.conf
+  172  journalctl configtest
+  173  apachectl configtest
+  174  sudo service httpd restart
+  175  tail -f /var/www/pys3viewerapi/access_log.log
+  176  tail -f /var/www/pys3viewerapi/gunicorn-access.log
+  177  tail -f /var/www/pys3viewerapi/gunicorn-error.log
+  178  journalctl -xe
+  179  tail /var/httpd/log/error_log
+  180  ls /var/httpd/log
+  181  sudo su
+  182  history | grep gunicorn
+  183  history > history_2018_03_03.log
+  184  sudo history > history_2018_03_03.log
+  185  sudo history > /tmp/history_2018_03_03.log
+  186  history > /tmp/history_2018_03_03.log

@@ -22,6 +22,13 @@ people > access > resources
  ~/usr/shar/doc/httpd-<version>/~
  httpd-default.conf,  httpd-vhosts.....
 
+*** Test/debug the configuration
+
+#+BEGIN_SRC 
+apachectl configtest
+/sbin/httpd -S
+#+END_SRC
+
 *** Simple reverse proxy 
 
 Let's clean up the httpd.conf
@@ -59,7 +66,130 @@ Add the following virtualhost config:
 </VirtualHost>
 #+END_SRC
 
-**** RHEL not able to proxy - gives Service Unavailable
+
+*** Setting up two domains pointing to same httpd
+
+Here we simply separate the two websites using the ServerName
+
+At the root we only we simply host the 
+
+#+BEGIN_SRC 
+
+Listen 80
+
+Include conf.modules.d/*.conf
+
+User apache
+Group apache
+
+
+ServerAdmin root@localhost
+
+<Directory />
+    AllowOverride none
+    Require all denied
+</Directory>
+
+NameVirtualHost *:80
+
+#DocumentRoot "/var/www/html"
+
+<Directory "/var/www">
+    AllowOverride None
+    Require all granted
+</Directory>
+
+#.......
+
+IncludeOptional conf.d/*.conf
+
+#+END_SRC
+
+/etc/httpd/conf.d/vhosts.conf  looks like this:
+
+#+BEGIN_SRC 
+<VirtualHost *:80>
+    DocumentRoot "/home/user/site1/"
+    ServerName api.jvcdp.mywire.org
+</VirtualHost>
+
+<VirtualHost *:80>
+    DocumentRoot "/home/user/site2/"
+    ServerName ui.jvcdp.mywire.org
+</VirtualHost>
+#+END_SRC
+
+*** Setting up two sites in subdirectories  ???**
+
+Root of our config /etc/httpd/conf/httpd.conf is simple:
+
+#+BEGIN_SRC 
+
+Listen 80
+
+Include conf.modules.d/*.conf
+
+User apache
+Group apache
+
+
+ServerAdmin root@localhost
+
+<Directory />
+    AllowOverride none
+    Require all denied
+</Directory>
+
+NameVirtualHost *:80
+
+#DocumentRoot "/var/www/html"
+
+<Directory "/var/www">
+    AllowOverride None
+    Require all granted
+</Directory>
+
+#.......
+
+IncludeOptional conf.d/*.conf
+
+#+END_SRC
+
+/etc/httpd/conf.d/vhosts.conf  looks like this:
+
+#+BEGIN_SRC 
+<VirtualHost *:80>
+    DocumentRoot /var/www/pys3viewerui
+    ServerName localhost
+
+
+Alias /pys3viewerui/ "/var/www/pys3viewerui/"
+
+<Directory /var/www/pys3viewerui>
+    Options FollowSymLinks
+    AllowOverride All
+    order allow,deny
+    allow from all
+</Directory>
+
+Alias /pys3viewerapi/ "/var/www/pys3viewerapi/"
+
+<Directory /var/www/pys3viewerapi>
+    Options FollowSymLinks
+    AllowOverride All
+    order allow,deny
+    allow from all
+</Directory>
+
+
+</VirtualHost>
+
+#+END_SRC
+
+
+
+
+*** RHEL not able to proxy - gives Service Unavailable
 
 Run this command:
 
