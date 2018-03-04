@@ -119,6 +119,36 @@ IncludeOptional conf.d/*.conf
 </VirtualHost>
 #+END_SRC
 
+
+*** Setting up front end on static and backend on reverse proxy
+
+#+BEGIN_SRC 
+<VirtualHost *:80>
+    DocumentRoot /var/www/pys3viewerui
+    ServerName localhost
+
+ProxyPreserveHost On
+
+
+Alias /pys3viewerui/ "/var/www/pys3viewerui/"
+
+<Directory /var/www/pys3viewerui>
+    Options FollowSymLinks
+    AllowOverride All
+    order allow,deny
+    allow from all
+</Directory>
+
+
+#ProxyPass        "/pys3viewerapi/" "unix:/var/www/pys3viewerapi/pys3viewerapi.sock|pys3viewerapi://localhost/pys3viewerapi/"
+
+ProxyPass /pys3viewerapi/ http://127.0.0.1:8081/
+ProxyPassReverse /pys3viewerapi/ http://127.0.0.1:8081/
+
+
+</VirtualHost>
+#+END_SRC
+
 *** Setting up two sites in subdirectories  ???**
 
 Root of our config /etc/httpd/conf/httpd.conf is simple:
@@ -162,24 +192,26 @@ IncludeOptional conf.d/*.conf
     DocumentRoot /var/www/pys3viewerui
     ServerName localhost
 
+    Alias /pys3viewerui/ "/var/www/pys3viewerui/"
 
-Alias /pys3viewerui/ "/var/www/pys3viewerui/"
+#this directory will be the root context as well. it will be first hit
 
-<Directory /var/www/pys3viewerui>
-    Options FollowSymLinks
-    AllowOverride All
-    order allow,deny
-    allow from all
-</Directory>
+    <Directory /var/www/pys3viewerui>
+        Options FollowSymLinks
+        AllowOverride All
+        order allow,deny
+        allow from all
+   </Directory>
 
-Alias /pys3viewerapi/ "/var/www/pys3viewerapi/"
+#for the requests going to /pys3viewerapi/*  this site will be hit
+    Alias /pys3viewerapi/ "/var/www/pys3viewerapi/"
 
-<Directory /var/www/pys3viewerapi>
-    Options FollowSymLinks
-    AllowOverride All
-    order allow,deny
-    allow from all
-</Directory>
+   <Directory /var/www/pys3viewerapi>
+      Options FollowSymLinks
+      AllowOverride All
+      order allow,deny
+      allow from all
+   </Directory>
 
 
 </VirtualHost>

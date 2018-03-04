@@ -187,3 +187,159 @@
   187  history | grep gunicorn
   188  exit
   189  history > /tmp/root_history_2018_03_03.log
+  190  exit
+  191  ls /var/www/pys3viewerapi/pys3venv/lib/python3.6
+  192  cd /var/www/pys3viewerapi/
+  193  ls
+  194  mv s3v.wsgi wsgi.py
+  195  ls
+  196  ls -la
+  197  sudo chown apache:apache wsgi.py
+  198  vi wsgi.py
+  199  /sbin/httpd -M
+  200  cd /tmp
+  201  wget https://github.com/GrahamDumpleton/mod_wsgi/archive/4.5.24.tar.gz
+  202  ls
+  203  sudo vi /etc/httpd/conf/httpd.conf
+  204  apachectl configtest
+  205  tar -xvf 4.5.24.tar.gz 
+  206  ls
+  207  cd mod_wsgi-4.5.24/
+  208  ls
+  209  ./configure
+  210  which python3.6
+  211  /usr/local/bin/python3.6
+  212  ./configure --with-python=/usr/local/bin/python3.6
+  213  make
+  214  cd ..
+  215  rm -rf mod_wsgi-4.5.24
+  216  tar -xvf 4.5.24.tar.gz 
+  217  cd mod_wsgi-4.5.24/
+  218  ./configure --with-python=/usr/local/bin/python3.6
+  219  make
+  220  yum install httpd-devel
+  221  make
+  222  yum -y install mod_wsgi
+  223  apachectl configtest
+  224  service httpd restart
+  225  exit
+  226  history | grep *.log
+  227  history | grep log
+  228  tail /var/log/httpd/error_log.log
+  229  echo history?httpd.conf?
+  230  echo history?httpd.conf
+  231  echo echo history?httpd.conf
+  232  echo echo echo history?httpd.conf
+  233  echo history?httpd.conf
+  234  history
+  235  sudo vi /etc/httpd/conf/httpd.conf
+  236  sudo vi /etc/httpd/conf.d/vhosts.conf
+  237  service httpd restart
+  238  tail /var/log/httpd/error_log.log
+  239  vi /var/www/pys3viewerapi/wsgi.py
+  240  service httpd restart
+  241  tail /var/log/httpd/error_log.log
+  242  vi /var/www/pys3viewerapi/wsgi.py
+  243  tail /var/log/httpd/error_log.log
+  244  service httpd restart
+  245  tail /var/log/httpd/error_log.log
+  246  tail /var/log/httpd/error_log.log
+  247  vi /var/www/pys3viewerapi/wsgi.py
+  248  service httpd restart
+  249  vi /var/www/pys3viewerapi/wsgi.py
+  250  tail /var/log/httpd/error_log.log
+  251  vi /var/www/pys3viewerapi/wsgi.py
+  252  tail /var/log/httpd/error_log.log
+  253  vi /var/www/pys3viewerapi/wsgi.py
+  254  tail /var/log/httpd/error_log.log
+  255  vi /var/www/pys3viewerapi/wsgi.py
+  256  tail /var/log/httpd/error_log.log
+  257  sudo vi /etc/httpd/conf.d/vhosts.conf
+  258  service httpd restart
+  259  vi /var/www/pys3viewerapi/wsgi.py
+  260  tail /var/log/httpd/error_log.log
+  261  vi /var/www/pys3viewerapi/wsgi.py
+  262  tail /var/log/httpd/error_log.log
+  263  vi /var/www/pys3viewerapi/wsgi.py
+  264  tail /var/log/httpd/error_log.log
+  265  vi /var/www/pys3viewerapi/wsgi.py
+  266  tail /var/log/httpd/error_log.log
+  267  vi /var/www/pys3viewerapi/wsgi.py
+  268  tail /var/log/httpd/error_log.log
+  269  vi /var/www/pys3viewerapi/wsgi.py
+  270  tail /var/log/httpd/error_log.log
+  271  vi /var/www/pys3viewerapi/wsgi.py
+  272  vi /var/www/pys3viewerapi/wsgi.py
+  273  vi /var/www/pys3viewerapi/wsgi.py
+  274  service httpd restart
+  275  tail /var/log/httpd/error_log.log
+  276  sudo vi /etc/httpd/conf.d/vhosts.conf
+  277  /usr/local/bin/python3.6
+  278  sudo vi /etc/httpd/conf.d/vhosts.conf
+  279  /usr/local/bin/python
+  280  service httpd restart
+  281  tail /var/log/httpd/error_log.log
+  282  tail /var/log/httpd/access_log.log
+  283  tail /var/log/httpd/access_log.log
+  284  tail /var/log/httpd/access_log.log
+  285  tail /var/log/httpd/access_log.log
+  286  tail -f /var/log/httpd/access_log.log
+  287  vi /var/www/pys3viewerapi/wsgi.py
+  288  sudy systemctl enable pys3viewerapi
+  289  systemctl enable pys3viewerapi
+  290  systemctl start pys3viewerapi
+  291  sudo vi /etc/httpd/conf.d/vhosts.conf
+  292  sudo vi /etc/httpd/conf.d/vhosts.conf
+  293  sudo vi /etc/httpd/conf/httpd.conf
+  294  service httpd restart
+  295  systemctl status pys3viewerapi
+  296  systemctl status pys3viewerapi
+  297  systemctl restart pys3viewerapi
+  298  clear
+  299  history | grep logs
+  300  history | grep log
+  301  tail /var/log/httpd/access_log.log
+  302  history | grep gunicorn
+  303  exit
+  304  sudo vi /etc/httpd/conf/httpd.conf
+  305  sudo vi /etc/httpd/conf.d/vhosts.conf
+  306  systemctl restart pys3viewerapi
+  307  service httpd restart
+  308  exit
+  309  systemctl stop pys3viewerapi
+  310  sudo vi /etc/systemd/system/pys3viewerapi.service
+  311  sudo systemctl daemon-reload
+  312  sudo systemctl start pys3viewerapi
+  313  sudo systemctl status pys3viewerapi
+  314  sudo vi /etc/httpd/conf.d/vhosts.conf
+  315  service httpd restart
+  316  tail /var/httpd/log/error_log
+  317  tail /var/httpd/log/error_log.log
+  318  tail /var/httpd/log/
+  319  ls /var/httpd/log
+  320  ls /var/httpd/log
+  321  ls /etc/httpd/log
+  322  ls /etc/httpd
+  323  ls /etc/httpd/logs/
+  324  tail /etc/httpd/logs/access_log.log
+  325  tail -f /etc/httpd/logs/access_log.log
+  326  /usr/sbin/setsebool httpd_can_network_connect 1
+  327  sudo vi /etc/httpd/conf.d/vhosts.conf
+  328  service httpd restart
+  329  sudo vi /etc/httpd/conf.d/vhosts.conf
+  330  service httpd restart
+  331  view /etc/httpd/conf.d/vhosts.conf
+  332  view /etc/httpd/conf/httpd.conf
+  333  ls /tmp
+  334  rm -rf /var/www/pys3viewerui/*
+  335  tar -xf /tmp/dist.tar -C /var/www/pys3viewerui/
+  336  cd /var/www/pys3viewerui/
+  337  ls
+  338  mv dist/* ./
+  339  ls
+  340  cd /
+  341  sudo chown apache:apache -R /var/www/pys3viewerui
+  342  sudo chmod 775 -R /var/www/pys3viewerui
+  343  service httpd restart
+  344  sudo apt-get install apache2 apache2.2-common apache2-mpm-prefork apache2-utils libexpat1
+  345  history > /tmp/root_history_2018_03_03.log
