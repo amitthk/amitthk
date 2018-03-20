@@ -25,7 +25,22 @@ For more info:
 https://serverfault.com/questions/112795/how-to-run-a-server-on-port-80-as-a-normal-user-on-linux
 
 
+** Nodejs process continuously killed
 
+#+BEGIN_SRC 
+sudo dd if=/dev/zero of=/myswap count=4096 bs=1MiB
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+sudo swapon --show
+sudo cp /etc/fstab /etc/fstab.bak
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+sudo sysctl vm.swappiness=10
+echo 'vm.swappiness=10' | sudo tee -a /etc/sysctl.conf
+sudo sysctl vm.vfs_cache_pressure=50
+echo 'vm.vfs_cache_pressure=50' | sudo tee -a /etc/sysctl.conf
+
+#+END_SRC
 ** Install nodejs, openjdk, maven (optional)
 
 #+BEGIN_SRC 

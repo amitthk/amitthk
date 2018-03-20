@@ -101,6 +101,61 @@ rsync ~/000-default.conf.bak1 -rtvpl administrator@192.168.0.109:/Users/administ
 ** getting list of all hostnames in lan
   // unknown was orangepi
  nmap -sP 192.168.1.* 
+** etcd
+
+#+BEGIN_SRC 
+etcdctl set /name Amit
+
+etcdctl get /name
+
+etcdctl rm /name
+
+etcdctl mkdir /all-services
+
+etcdctl set /all-services/app-server localhost:8080
+
+etcdctl ls /all-services
+#+END_SRC
+
+*** Watching the etcdctl recursively for changes
+
+~etcdctl watch --recursive /all-services~
+
+#+BEGIN_SRC 
+[Unit]
+Description=MyContainers
+After=docker.service
+Requires=docker.service
+After=mycontainer_config.service
+Requires=mycontainer_config.service
+
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill %p
+ExecStartPre=-/usr/bin/docker rm %p
+ExecStartPre=/usr/bin/docker pull busybox
+ExecStart=/usr/bin/docker run --name %p --env-file=/etc/mycontainer_config.env busybox /bin/sh -c "while true;do echo Hello $NAME; sleep 1; done"
+
+[Install]
+WantedBy=multi-user.target
+#+END_SRC
+
+
+
+#+BEGIN_SRC 
+[Unit]
+Description=Generates /etc/mycontainer_config.env file
+After=etc2.service
+Requires=etcd2.service
+After=fleet.service
+Requires=fleet.service
+
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/sh -c "/usr/bin/echo NAME=$(etcdctl get /name) > /etc/mycontainer_config.env"
+#+END_SRC
 
 ** setup samba 
   sudo apt-get install samba samba-common-bin
