@@ -1,0 +1,191 @@
+* elasticsearch
+** How search works
+
+- Web Crawler
+- Inverted index
+- Scoring
+- Search
+
+** inverted index
+
+words -> frequency of occurance -> document
+
+Different types of searches:
+- Geo 
+- Metaphonic (phonetic rhyme)
+
+** Lucene
+
+Just like Hadoop a nucleus of various tech
+
+- Solr : search server
+  - distributed indexing
+  - load balancing
+  - replication etc.
+- Nutch: web crawling and index parsing
+- Elasticsearch: distributed search and analytics engine
+
+
+** Elasticsearch 
+
+- Distributed
+- High availability
+- Restfull api
+- Powerfull query dsl
+- Schemaless : index data without any specific schema
+
+Start with params:
+./bin/elasticsearch -Ecluster.name=amitthk_cluster -Enode.name=node_one
+
+
+*** Node
+- Single server
+- Performs indexing
+- Allows search
+- Has unique id and name
+
+*** Cluster
+- Collection of nodes
+- Has unique name
+- Nodes join cluster
+
+*** Documents
+- Basic unit of information to be indexed
+- Expressed in JSON
+- Resides in an index
+- Assigned with a type
+
+*** Types
+- Logical partitioning of documents
+- User defined symantic groupings
+- Documents with "same fields" belong to one  type
+
+*** Index
+- Collection of similar documents
+  - Documents are divided into multiple types (like catalogs, reports, video index etc.)
+- Identified by name
+- Any number of indices in a cluster
+- Different indices for different logical grouping of data
+
+Index can be split into multiple Shards. A shard can be replicated zero or more times.
+
+By default an index in elasticsearch has 5 shards and 1 replica.
+
+**** Shards
+- Index on one node slow
+- Search in parallel on multiple nodes
+- Split the index accross multiple nodes in a cluster
+- Every node will have a near subset of your index
+
+**** Replicas
+- Every shard will have a corresponding replica
+- If node fails, replica can balance
+
+http://localhost:9200/_cat/health?v&pretty
+
+http://localhost:9200/_cat/nodes?v&pretty
+
+
+** CRUD operations
+
+*** List indices
+http://localhost:9200/_cat/indices?v&pretty
+
+
+*** Create index
+xPUT  http://localhost:9200/products?&pretty
+http://localhost:9200/customers?&pretty
+http://localhost:9200/orders?&pretty
+
+
+*** Create document
+xPUT  
+
+http://localhost:9200/products/mobiles/1?pretty -d'
+
+{
+"name" : "iphone 7",
+"camera" : "12MP",
+"display" : "4.7 inch",
+"comments" : ["Last best iphone by far", "Expensive"]
+}'
+
+*** List only partial source
+
+http://localhost:9200/products/mobiles/1?pretty&_source=false
+
+http://localhost:9200/products/mobiles/1?pretty&_source=name,comments
+
+*** Add a new field to document
+
+-XPOST
+
+http://localhost:9200/products/mobiles/1/_update?pretty
+
+{
+"doc": {
+        "color" : ["black","white","silver","gold"]
+       }
+}
+
+
+ 
+*** Bulk operations
+
+xPOST
+
+http://localhost:9200/_bulk?pretty -d '
+
+{"index": { "_index" : "products", "_type" : "mobiles", "_id": "1"}}
+{ "name" : "Samsung Galaxy S3", "camera" : "12MP", "display" : "4.7 inches"}
+{"index": { "_index" : "products", "_type" : "mobiles", "_id": "2"}}
+{ "name" : "Samsung Galaxy S8", "camera" : "18MP", "display" : "5.2 inches"}
+
+
+**** without specifying _index in url
+
+http://localhost:9200/products/_bulk?pretty -d '
+
+{"index": { "_type" : "mobiles", "_id": "1"}}
+{ "name" : "Samsung Galaxy S3", "camera" : "12MP", "display" : "4.7 inches"}
+{"index": { "_type" : "mobiles", "_id": "2"}}
+{ "name" : "Samsung Galaxy S8", "camera" : "18MP", "display" : "5.2 inches"}
+
+*** Bulk indexing
+
+customers.json
+#+BEGIN_SRC 
+{"index": {}}
+{"name": "Sara", "age": 34}
+{"index": {}}
+{"name": "Sam", "age": 34}
+{"index": {}}
+{"name": "Douglas", "age": 34}
+#+END_SRC
+
+curl -H "Content-Type: application/x-ndjson" -XPOST 'localhost:9200/customers/personal/_bulk?pretty&refresh' --data-binary @ "customers.json"
+
+** Queries
+
+- Query Context: How well the document match
+- Filter Context: Does the document match
+
+
+http://json-generator.com
+
+#+BEGIN_SRC 
+[
+'{{repeat(1000,1000)}}',
+{
+name: '{{firstName()}} {{surname()}}',
+age: '{{integer(18,75)}}',
+gender: '{{gender()}}',
+email: '{{email()}}',
+phone: '+1 {{phone()}}',
+street: '{{integer(100,999)}} {{street()}}',
+city: '{{city()}}',
+state: '{{state()}} {{integer(100,10000)}}'
+}
+]
+#+END_SRC
+
