@@ -1,5 +1,11 @@
 * linux
+** kubernetes
+#+BEGIN_SRC 
 
+minikube start --vm-driver "hyperv" --hyperv-virtual-switch "Minikube Virtual Switch" --v=7 --alsologtostderr 
+kubectl get pods -n kube-system
+minikube stop
+#+END_SRC
 ** reset ssh keys
 #+BEGIN_SRC 
  ssh-keygen -R <server>

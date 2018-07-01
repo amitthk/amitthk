@@ -1,4 +1,22 @@
 * Spring Boot Angular 2 Continuou Delivery Pipeline
+
+In this tutorial we want to set up the spring boot microservices based application from grounds up.
+
+We run the vertical pipelines to setup the required software.
+
+We're skipping some of the details to keep the demo simple and straightforward. For production systems however, it would require all the considerations including more elaborate configuration management, load balancing, data management, observability etc.
+
+I have already provisioned ec2 machine, we can use simple terraform available online and publish the inventory information into consul or any other app.
+I will run the setup and install playbook to get out machine ready.
+
+On the top of this we run the horizontal pipeline for dashboard-api and we see the front end is ready for us to use.
+
+Now we run the users api. Then we run the messenger api.
+
+Now we run the zuul proxy.
+
+Our microservices are up and running. Now we go ahead and regist and login to our app.
+
 ** Setting up Spring Boot Microservices
 *** Authentication API
 **** Maven begin project

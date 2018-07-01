@@ -1,0 +1,332 @@
+* Building blocks
+
+- store process scale
+- monolithic vs distributed
+  - single server vs
+  - Cluster of nodes
+- Software to co-ordinate cluster
+  - partition data
+  - co-ordinate computing tasks
+  - handle fault tolerance and recovery
+  - Allocate capacity to processes
+- History
+  - Google developed propretiery s/w for distributed systems
+    - Google file system - distributed storage
+    - Mapreduce - distributed computing
+  - Apache developed open source version
+    - HDFS 
+    - MapReduce
+  - 2013 Apache hadoop 2.0
+    - HDFS - storage
+    - Mapreduce - define a data processing task
+    - YARN - Fx to run data processing task
+  - Hadoop ecosystem
+    - Hive
+      - sql like queries
+      - for folks who don't know OOP in java
+    - HBase
+      - dbms on top of hadoop
+      - integrates with your app like traditional database
+    - Pig
+      - data manipulation language
+      - unstructured data to structured
+    - Oozie
+      - workflow management system
+    - Flume/Sqoop
+      - tools to put/get data from hadoop
+      - migrate data from other systems
+    - Spark
+      - distributed computing enging used with hadoop
+      - interactive shell (python/scala etc) quickly process datasets
+      - bunch of built in libraries
+      - way to perform transformations in functional way
+    - Install modes
+      - Standalone
+	- local file system no HDFS/YARN
+	- single jvm process single node
+      - Pseudo-distributed
+	- single node
+	- 2 jvm processes to simulate 2 nodes
+	- HDFS storage, YARN task
+      - Fully distributed
+	- Enterprize
+	- enterprize editions
+	  - Cloudera, MapR, Hotonworks
+
+** Install
+- setup java
+- download hadoop from apache tar.gz
+- unpack
+  - bin - binaries
+  - etc - configurations
+  - share - jars for use of mapreduce jobs
+- run
+#+BEGIN_SRC 
+cd hadoop-2.7.3
+mkdir input
+cp ~/testfiles/* ./input
+bin/hadoop jar share/hadoop/mapreduce ..... examples-2.7.3.jar
+
+cat output/*
+ls -l output
+
+
+#+END_SRC
+
+*** pseudo distributed
+
+#+BEGIN_SRC 
+
+ssh localhost
+<should work passwordless authentication>
+exit
+
+ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa
+
+cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
+
+# configuration
+
+cd /etc/hadoop
+vi hadoop-env.sh
+<add export JAVA_HOME=<java path>
+export HADOOP_PREFIX=<current/hadoop2-7.3>>
+vi core-site.xml
+
+vi hdfs-site.xml
+<configuration>
+ <property>
+  <name>dfs.replication</name>
+  <value>1</value>
+ </property>
+</configuration>
+
+touch mapred-site.xml
+vi mapred-site.xml
+<configuration>
+ <property>
+  <name>mapreduce.framework.name</name>
+  <value>yarn</value>
+ </property>
+</configuration>
+
+vi yarn-site.xml
+<configuration>
+ <property>
+  <name>yarn.nodemanager.aux-services</name>
+  <value>mapreduce_shuffle</value>
+ </property>
+</configuration>
+
+
+cd <hadoop dir>/hadoop-2.7.3
+
+bin/hdfs namenode -format
+
+sbin/start-dfs.sh
+
+# visit localhost:50070/
+
+
+bin/hdfs dfs -mkdir /user/amitthk
+
+jps
+<java utility list of java processes running>
+
+sbin/start-yarn.sh
+
+jps
+<nodemanager, resourcemanager should be running>
+
+
+# localhost:8088/cluster  lists cluster info
+
+bin/hdfs dfs -mkdir input
+cp ~/exm/* ./input/.
+
+bin/hadoop jar share/hadoop/mapreduce/....jar grep input output 'dfs[a-z.]+'
+
+# localhost:8088/cluster shows jobs running
+
+#+END_SRC
+
+
+
+*** hdfs
+
+- name node,
+  - overall file system
+  - metadata
+  - directory structure
+- data node(s)
+  - actual data
+- break data into blocks
+  - different length files treated same way
+  - storage simplified
+  - 128MB blocks optimum
+  - block size is tradeof
+    - higher - reduce parallism
+    - lower - high paralism
+    - seek time vs fetch time
+#+BEGIN_SRC 
+
+cd hadoop...
+ls -l
+# hadoop.cmd, hdfs.cmd
+
+#hadoop fs deal with any type of filesystem
+hadoop fs -help
+
+#can also use bin/hdfs for hdfs only
+bin/hdfs dfs 
+
+export PATH=$PATH;$HADOOP_PREFIX/bin
+
+hadoop fs
+hdfs fs
+
+hadoop fs -mkdir /test
+
+hadoop fs -ls /test
+
+hadoop fs -copyFromLocal etc/hadoop/hadoop-env.sh /test/
+
+hadoop fs -ls /test
+
+hadoop fs -put etc/hadoop/core-site.xml /test
+
+hadoop fs -mkdir /test-dest
+
+hadoop fs -cp /test* /test-dest
+
+hadoop fs -copyToLocal ....
+
+hadoop fs -get /test/* fromhdfs/
+
+hadoop fs 
+
+#+END_SRC
+
+- fault tolerance and replication
+  - default fully distributed replication 3
+  - first replica at random
+  - second replica on second rack
+  - third replica on same second rack different node
+  - reduce network latency
+- name node failiute
+  - metadata files replication
+    - fsimage
+    - edits
+    - configure backup location
+      - dfs.namenode.name.dir
+  - two named nodes
+    - name node
+      - fsimage
+      - edits
+    - secondary name node
+      - fsimage
+      - edits
+    - set properties in hdfs-site.xml
+      - dfs.namenode.checkpoint.period
+      - dfs.namenode.checkpoint.check.period
+      - dfs.namenode.checkpoint.txns
+
+** Mapreduce data processing
+
+- map
+  - one record
+  - key value output
+  - parallel operation, on small portions of dataset
+- reduce
+  - combine map-output(s)
+- basic mapreduce questions
+  - What {key,value} pairs should be emitted in map step?
+  - How should values with same key be combined?
+- implement in java
+  - map class (extends mapper class)
+    - <input keys, values>
+    - <output keys,values>
+  - reducer class
+    - <similar like above>
+  - main class ( instantiates job object>)
+    - bunch of properties to configure
+      - input filepath
+      - output filepath
+      - mapper class
+      - reducer class
+      - output data types
+
+#+BEGIN_SRC 
+
+cp ~/myproj/target/wordcount.jar .
+hadoop fs -mkdir /mapreduce
+
+hadoop fs -mkdir/mapreduce/input
+<cipy files>
+
+hadoop jar wordcount.jar com.amitthk.wordcount.Main /mapreduce/input /mapreduce/output
+
+#license file issue fix
+zip -d wordcount.jar META-INF/LICENSE
+
+hadoop jar wordcount.jar com.amitthk.wordcount.Main /mapreduce/input /mapreduce/output
+
+# you can search by jobid on localhost:8088/cluster
+
+#+END_SRC
+
+** YARN - yet another resource co-ordinator
+- yarn
+  - co-ordinates tasks running on cluster
+  - allocate nodes if fail
+  - resource manager
+    - run on single master node
+    - schedule task across nodes
+    - runs task inside "container"
+    - 1 nodemanager can have multiple containers
+    - container - application master process
+  - node manager(s)
+    - run on all other nodes
+    - manages tasks on individual nodes
+  - location contstraint - minimize write bandwidth
+    - Scheduling policies how task assigned to containers
+      - FIFO
+	- wait untile job finish
+      - Capacity
+	- split capacity in different queues
+	- each queue allocated cluster resources
+	- within queue FIFO
+      - Fair
+	- overcomes underutilizatoion of cluster resources
+	- resources are proportionally allocated to all jobs
+	- zero wait time for any job
+    - set it in yarn-site.xml
+      - yarn.resourcemanager.scheduler.class
+
+#+BEGIN_SRC 
+vi etc/hadoop/capacity-scheduler.xml
+
+<!-- 30% first queue-->
+ <property>
+  <name>yarn.scheduler.capacity.root.dev.capacity</name>
+  <value>30</value>
+ </property>
+
+<!-- 70% second queue -->
+ <property>
+  <name>yarn.scheduler.capacity.root.prod.capacity</name>
+  <value>70</value>
+ </property>
+
+sbin/stop-yarn.sh
+
+sbin/start-yarn.sh
+
+jps
+
+# next specify the queue name in your job else it will look for default queue
+
+hadoop jar wordcount.jar com.amitthk.wordcount.Main  -D mapreduce.job.queuename=prod  /mapreduce/input /mapreduce/output
+
+
+#+END_SRC
