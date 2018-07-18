@@ -67,7 +67,7 @@ mkdir input
 cp ~/testfiles/* ./input
 bin/hadoop jar share/hadoop/mapreduce ..... examples-2.7.3.jar
 
-cat output/*
+cat output/* #list all files from output
 ls -l output
 
 
