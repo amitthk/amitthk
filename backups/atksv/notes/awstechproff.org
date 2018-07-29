@@ -1,0 +1,525 @@
+** AWS Technology Professional
+  
+*** Introduction
+**** Cloud computing
+- On demand
+- IT resources
+- Accessible online
+- Pay as you go
+- Low Cost
+- Elastic (Scale up or down)
+- Flexible(select what you need)
+- Secure
+ 
+***** Gartner Magic Quadrant - AWS at the top
+ 
+***** AWS Advantages
+- No upfront investment
+- Low ongoing cost
+- Focus on Innovations
+- Flexible Capacity
+  - Precision when needed
+  - Turn off if you don't need
+- Speed & Agility - fast on demand precision
+- Global reach
+  - Deploy to regions on demand
+  - Low latency
+ 
+ 
+|---------------------+-------------------------------------------|
+| On premise          | AWS                                       |
+| Security            | Security groups, NACLs, Access management |
+| Network             | ELB, VPC                                  |
+| Servers             | AMI =EC2=> Instances                      |
+| Storage & Databases | Ephemeral  EBS  SS RDS                    |
+|                     |                                           |
+- Each region has multiple Availability Zones
+- Availability Zone
+  - Collection of datacenters in region
+  - Isolated
+  - Connected vial low latency link
+- Edge Locations
+  - Amazon Cloudfront
+    - Host a CDN
+    - Request routed to nearest Edge Location
+    - Addition to Availability Zone
+ 
+ 
+ 
+*** AWS Core Services
+ 
+- Popular
+  - Compute
+  - Storage & CDN
+  - DB
+  - Networking
+  - Management tools
+  - Security & Identity
+  - Analytics
+  - Application Services
+  - Enterprise Applications
+ 
+**** Compute
+***** EC2
+- Instances optimized for
+  - memory
+  - compute
+  - storage
+  - GPU
+  - General purpose
+- Or Choose an OS and customize your own
+ 
+ 
+| General Purpose | compute | Storage, IO | GPU | Memory Optimized | Smaller Instances |
+| M4              | C4      | I2 D2       | G2  | R3               | t2                |
+| m3              | c3      | i2          |     |                  |                   |
+| M1              | c1 cc2  | hI1 HS1     | CG1 | M2 CR1           | t1                |
+|                 |         |             |     |                  |                   |
+ 
+- Pricing Models
+  - Purchase Types
+    - On demand
+      - Pay by hour
+      - No long term contract
+    - Pay Upfront
+      - 50 - 75% lower
+    - Reserved instances
+    - Spot Instances
+      - Bid for unused EC2
+    - Dedicated
+      - In your VPC
+      - Isolated at your vpc
+      - Steady state workload
+- Marketplace - configured AMIs with software
+ 
+ 
+***** Amazone ECS (container service)
+ 
+ 
+***** Amazon Lambda (Run code without provisioning)
+ 
+- Event driven
+- code in response to events
+- manage compute infrastructure
+- run code without provisioning servers
+ 
+ 
+**** Storage
+ 
+***** EBS
+- 1GB to 16GB
+- DB, FileSystem, Block level storage
+- Auto replication on A2
+- Snapshot backup to S3
+- IO Provisioning
+   - Provision or select IO
+ 
+| Standard                | IOPS Provisioned        | General Purpose                  |
+| Busty IO (e.g. Boot)    | IO Intensive            | Moderate Io                      |
+| aVERAGE 100 iops        | 30 iops/gb              | Steady state                     |
+| busrst to hundreds      | 4000 IOPS/GB ps         | 3 IOPS bust to 300 to 10,000IOPS |
+| stripe multiple volumes | stripe multiple volumes | stripe multiple volumes          |
+|                         |                         |                                  |                          |                         |                                  |
+ 
+- S3 vs EBS
+  - S3 durable, scalable store for static files
+  - *
+ 
+ 
+ 
+ 
+ 
+***** S3
+ 
+***** Glacier
+- Backup
+- High Durability  99.999999999  (11 nines)
+- Retrieve in several hours
+- $0.01 per GB/month
+- Life cycle S3 to Glacier
+  - Define rules
+    - Identify apffected object
+    - set a timeline
+    - Actions to take
+    - One way S3 -> Glacier
+    - Glacier to permanent deletion
+ 
+ 
+***** Snowball
+ 
+- Petabyte data transport
+- transfer large amount of data
+- Simple fast secure
+ 
+- Create job in AWS Management console  -> Snowball appliance will be shipped to  -> attach snowball to your network -> Amazon S3 AWS transfer to S3 bucket
+ 
+- Common User Cases
+  - Cloud migration
+  - Dis... Procuenncy
+  - Datacenter Decomissioning
+  - Content distribution
+ 
+ 
+ 
+***** Cloudfront
+- Global CDN
+- Can deliver static, streaming & interactive content
+- No long term contract
+ 
+**** Databases & CDN
+***** RDS
+ 
+- Compatible
+  - SQL
+  - MySql
+  - Orac le
+  - Prstgre sql
+  - Appley patches updates automatically
+ 
+***** DynamoDB
+ 
+- Fast flexible nosql
+- key value
+- pay only for throughput and storage you need
+ 
+***** DB Migration Services (DMS)
+- Migrate your data from commercial & open source db(s)
+- Oracle -> Oracle
+- MSSQL -> MYsql
+- Stream data to Redshift
+ 
+ 
+***** Redshift
+- Fully managed
+- petabyte scale
+- data warehousing & analytics
+- JDBC, ODBC, PostGreSql drivers
+- Security
+  - Encryption SSL, AES-256
+  - Network Isolation
+  - Audit and compliance
+ 
+**** Networking
+***** VPC
+- AWS VPC
+  - IP Address
+  - Public private subnets
+  - Network topologies
+  - Route tables & NACLs
+  - Control Access & Security Groups
+- Connect VPC to your OnPremise via VPN
+- Attach an Elastic IP - internet accessible
+ 
+- VPC
+  - Internet - Internet Gateways
+  - Corporate Data Centers - Virtual Private Gateways
+  - Internet and Corporste DC - Internet Gateways & VP Gateways
+  - VPC - other VPC
+ 
+- Elastic
+  - Up to 200 subnets per VPC
+  - Flexible
+  - Secure
+  - Low Cost
+ 
+***** AWS Direct Connect - OnPremise connect
+- Direct connect from your OnPremise to AWS
+- Can be provisioned to Virtual interfaces
+- user same connection to access private resources
+- Reduce bandwidth cost
+- Consistent network performance
+- Compatibl3e with all AWS svs
+- Private connectivity to your amazone VPC
+- Elastic
+ 
+***** Route 53 - DNS
+- Powerful management of dns records
+- low latency dns resolution
+- resolve user requests to both aws rsources and other infra
+- Pay only for
+  - Managed domains
+  - number of queries resolved
+- Routing policies
+  - latency based
+  - weighted round robin
+  - DNS failover
+- route 53 - ELB integrated
+- Cloudfront Zone Apex Support
+- S3 Zone Apex support
+- Management Console
+ 
+**** Management tools
+ 
+***** cloudwatch
+ 
+- Monitor AWS resources automatically
+- custom metrices
+- Resource utilization, operational performance, overall demand patterns
+- metrics including CPU utilization, disk reads & writes, N/W traffic
+- accessible via:
+  - aws management console
+  - api
+  - sdk
+  - CLi
+ 
+***** cloudformation
+ 
+- automated cration of aws structures & environments
+- templates for aws resources creation
+- deploy AWS resources using JSOn formatted template
+- use sample template or create your own aws scenarios
+- modify resources
+  - template => stack
+ 
+***** AWS trusted advisor
+ 
+- advise on
+  - Cost optimization
+  - performance
+  - security
+  - fault tolerance
+ 
+ 
+**** Security & Identity
+ 
+***** IAM : Identity and Access management
+ 
+- configurable aws access controls
+ 
+- Create users
+  - Manage permissions using groups
+  - Password policy
+  - Multifactored authentication MFA for previledged Users
+  - IAM for ec2
+  - IAM roles to share acces
+  - Rotate security credentials
+ 
+ 
+- IAM
+  - Master User
+    - Root/Admin
+    - AWS Management console login
+    - All permissions
+  - IAM User
+    - Granular permissions
+    - Choose permissions
+ 
+- Federation
+  - AWS management console & API
+  - Corporate directory or third party (e.g. Facebook/google etc.)
+ 
+***** Web Application Firewall WAF
+ 
+- rules to restrict attacks
+  - like SQL Injection, corss site scripting etc.
+ 
+**** Analytics
+ 
+***** EMR: Elastic map reduce
+- process vast amount of data "hadoop:
+ 
+- Elastic map reduce
+  - web indexing
+  - data mining
+  - log file analysis
+  - financial analysis
+  - swifsdafasdf etc.
+ 
+***** Kinesis (for streaming data)
+ 
+- streaming data collected, stored, processed continuously
+ 
+- Capture -> firehose  -> S3/Redshift/AWS ES -> process -> analytics
+ 
+- Kinesis (data) analytics
+  - sql queries on streaming data
+  - insights
+ 
+- Kinesis streams
+  - e.g. Captured streaming data (readers stats, personalized contents, suggestions) -> streams -> custom app built on kinesis
+ 
+**** Application services
+ 
+- A restful API
+- Exposes
+  - Lambda functions
+  - HTTP endpoints
+  - Other AWS services
+ 
+- Adv
+  - Low cost
+  - Scale
+  - Monitor
+  - Development - multiple versions
+  - Flexible security
+  - Restful
+- Functionality
+  - Traffic management
+  - authorization & access control
+  - Monitoring
+  - API Version management
+ 
+***** Amazon SQS
+- Scalable Messaging Queue
+- Stores messages in transit
+- e.g. point & click
+ 
+e.g.
+ 
+Users  ->
+ 
+|       |     | -----AWS----------- | ---------------------- | ------------------ |
+|       |     |                     | --> Request Queue -->  |                    |
+| Users | --> | Web Server          |                        | Processing Servers |
+|       |     |                     | <-- Response Queue <-- |                    |
+|       |     | ------------------- | ---------------------- | -----------------  |
+ 
+ 
+***** Amazon Workspaces
+- Manageed desktop computing services
+- cloud based desktop
+- access from - Windows linux, MacOS etc.
+- Ports 43, 4172, UDP -> 4172 open
+ 
+ 
+***** User experience
+  - OS , MS Office
+  - Buy your own licenses
+ 
+  - query api(s)
+    - Low level api(s)
+    - Make api calls using HTTP
+    - Signature to auth. your req.
+ 
+*** Professional Cloud Architecture & solutions 1
+- AWS Devops
+  - CI & Delivery
+    - CI
+      - Find & address bugs quickly
+      - Imprrove S/W quality
+      - reduce time to validate & release updated software
+    - Continuous Delivery
+      - Always have a trusted deployment ready copy
+    - AWS Codepipeline (build, test, release )
+      - Private GIT hosting
+      - AWS Codecommit (GIT)
+      - Deploy Automation
+      - AWS CodeDeploy
+                - Software release automation
+  - Microservices
+    - User containers
+    - AWS Lambda
+  - Infrastructure as code
+    - Programatically provision
+    - Scale
+    - CloudFormation
+    - Opswork(Chef)
+    - Policy as code (AWS Config)
+  - Monitoring & logging
+    - Active Monitoring
+      - Cloudwatch
+      - Cloudtrail
+                - Records API Calls
+                - Delivers logs
+  - Platform as service
+    - Elastic Beanstalk
+      - Upload code and EBS manages deployment of Web Apps
+  - Version control
+    - GIT, Codecommit
+ 
+ 
+- Managed cloud migration
+  - Direct connect - Dedicated Network connection 1GB - 10GB VPC line
+  - Import Export Snowbal - 50/80TB
+  - AWS Storage Gateways
+    - Data is compressed and securely transferred to AWS
+    - Storate Area Network - cache volume backups
+    - Virtual Tape Library
+  - S3 Transfer acceleration
+  - Kinesis Firehose
+- Unmanaged Cloud migration
+  - rsync
+  - S3 CLI (up to 5GB in one operation or multipart operation)
+  - Glacier CLI - low movement of data
+ 
+ 
+- Application Discovery Service
+  - Identify Apps on premise data centers
+  - dependencies
+  - performance profiling
+  - information is encrypted & can be exported as csv
+    - Discover applications
+      - Hostname, IP, MAC
+    - Dependencies
+      - Network communication
+    - Measure application performance
+      - CPU, memory utilization etc.
+ 
+- AWS Server Migration Service
+  - Large scale server migration
+  - Create AMI's automatically and migrate
+  - Automatic
+  - Web, Mobile, IOT, BigData
+  - AWS pricint tool
+ 
+ 
+- Mobile
+  - Automated dynamic scaling
+  - global ....
+  - all programming languages
+  - Mobile API(s)
+  - Built in CMS
+  - Presiion testing fleets
+    - test load
+    - beta (simulate traffic)
+    - Pre-Production e.g. staging
+- Mobile features
+  - Signature login
+  - Data storage - S3
+  - Lambda - cloud logi..g
+  - NoSQL  - DynamoDB
+  - App Analytics - AWS Analytics, Redshift
+  - Content delivery
+    - cloudfront
+   - S3
+  - Push Notifications - SNS
+  - App testing - AWS Device farm
+- Security groups
+  - traffic filtering
+    - Edge
+    - host
+  - ECL Security groups
+    - firewall
+    - protocols, Ports, IP ranges
+- AWS IOT
+- BigData
+  - Collect -> s3 upload or AWS export/import
+ 
+   
+*** AWS Security
+- ....
+- .....
+- AWS cerfication compliance and low level security compliance
+- EC2 separated physically
+- Hypervisor - Xen level security layer
+- At EC2 level
+  - Host OS
+    - Only admin with perm
+    - Multi factor authentication
+    - Pupose bult hosts
+    - Audits
+  - Virtual os(gust os)
+    - customer responsibility
+    - secure your SSH etc
+  - Firewall default deny all
+  - Signed API calls
+- AWS Cloudtrail
+  - Records all API calls
+  - Log files
+- AWS Best Practices
+  - Formal design Reviews
+  - threat modelling
+  - Risk assesment
+  - static code analysis
+  - Penetration testing
+  - risk assesment reviews

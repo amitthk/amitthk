@@ -1,0 +1,2895 @@
+* references
+
+
+** Have a great day - Kick Start Ritual
+
+*** Reading Pomodoro
+[Reading reference]
+*** Memory pomodoro
+[Memory 4 Factors]
+
+
+** specialized references
+
+*** tics reference
+
+**** Understanding what's happening & addressing it.
+
+1. You're stretching your eyes, once you're in flow of some work over the time.
+Put eyes open wide. Concentrated.
+
+2. You're stretching, twitching your forehead.
+Keep the forehead relaxed.
+
+3. You're pulling your ears up and stretching your temples.
+Keep ears and temples relaxed.
+
+4. You're tensing the back of your neck.
+Keep neck & spine straight & relaxed.
+
+5. You're getting restless
+Stillness.
+
+6. Energies are getting too negative.
+Be proactive. Maintain high positive energy.
+
+If you bring awareness to it - it is just a tingling sensation. At time of control, tingling isn't really there or is low, ignorable. Reflexes are just of habit. More prominent the sensation is - stronger concentration you need. Be seriously concentrated if need be.  
+
+Bad habits must be replaced with good habits.
+Strictly Stop restless legs.
+
+Sleepiness/drowsiness is a big culprit. If you had your sleep well it ticks are under total control.
+Stillness, concentration and proactive-ness still helps. Do the 5min. Stillness trataka.
+
+7. Confused/stressed
+Its all in mind. Keep calm, still and concentrate on your thoughts & energy. Move out of the body. Observe it from third perspective.
+
+8. Habit is difficult to nail down.
+Concentrate, hold tight to stillness. Switch of the mind - total silence. If body is experiencing something observe it objectively. Don't get involved with it. Don't do it yourself - neither try to stop it. Observe it calmly.
+
+8. Disoriented
+More prominent the sensation is - stronger concentration you need. Be seriously concentrated if need be. 
+
+7. Mind is producing negative thoughts & emotional energy.
+Switch Mind off at your will. Stop creating anything at all.
+
+8. Body mind and energies feel out of sync & in confusion.
+Awareness. Maintain general feeling of Satisfaction, restfulness & pleasantness. 
+
+9. Energies are low
+Concentrate your energies at the mast of your head. Charge your aura with positive energy and wield it like a shield around you.
+
+Smile. You're bigger than any situation that you have created. If you created it - you can control it.
+
+**** Magnesium & Vitamin B6
+
+http://birthfaith.org/nutrition/magnesium-for-tics-and-tourette-syndrome
+http://www.ncbi.nlm.nih.gov/pubmed/19087826
+http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2660319/
+http://althealth.blogspot.sg/2008/02/can-diet-changes-to-increase-magnesium_23.html
+http://cat.inist.fr/?aModele=afficheN&cpsidt=13453700
+
+
+** git checklist
+
+git init
+git remote add origin https://github.com/amitthk/angdnx.git
+git pull origin master
+
+git fetch origin master
+git diff
+git merge origin/master
+git mergetool
+git commit -m message
+
+git clean -n
+git clean -f 
+
+** Travel Checklist:-
+
+
+1. Water bottles
+2. Diapers, Towel for Kuhu
+3. Pram
+4. Disposable glasses
+5. Plates/saucers
+6. Paper tissues
+7. Food for kuhu
+8. Milk for kuhu
+9. Food
+10. Snacks~
+11. Juice/Drink
+
+
+** .net core
+npm install
+npm install -g gulp
+npm install
+gulp <taskname>
+
+*** Windows:-
+https://dotnet.github.io/getting-started/
+install official msi
+install visual c++ redistributable
+install dotnet code(optional)
+download & install Nodejs
+
+npm install -g bower
+http://andy-carter.com/blog/a-beginners-guide-to-package-manager-bower-and-using-gulp-to-manage-components
+
+npm install -g gulp
+http://andy-carter.com/blog/a-beginners-guide-to-the-task-runner-gulp
+
+add bower.json
+add dependencies e.g. bootstrap:"^3.3.6"
+
+add package.json npm config file
+add dependencies like:  gulp, gulp-concat
+
+add  GulpFile.js gulp configuration file: 
+var gulp=require("gulp").require("gulp-concat") ….
+
+bower update
+nom update
+npm link gulp (link global gulp locally)
+gulp -b  "<project base dir>"  -gulpfile "<location to GulpFile.js"
+
+dnvm list (list all execution environments)
+dmvm use "<appropriate execution environment>"
+dnu restore
+dnu build
+dnx web
+*** Authorization
+https://github.com/blowdart/AspNetAuthorizationWorkshop
+
+** TODO Asp.net core authentication & authorization
+   SCHEDULED: <2016-03-17 Thu>
+https://blogs.msdn.microsoft.com/webdev/2016/03/11/first-look-authentication-in-asp-net-core/
+https://blogs.msdn.microsoft.com/webdev/2016/03/15/get-started-with-asp-net-core-authorization-part-1-of-2/
+https://github.com/blowdart/AspNetAuthorizationWorkshop
+   [2016-03-17 Thu]
+   [[file:e:/Amit_Backup/Roaming/Box%20Sync/Docs/src/atksv/todos.org::*Bluetooth%20headphone/earplugs][Bluetooth headphone/earplugs]]
+** Lynda 
+*** Download script/Httrack
+**** youtube-dl (working)
+ youtube-dl -o G:\VideoTut\ --cookies cookies.txt lynda_course_weblink
+
+
+
+***** Linux
+ sudo apt-get update
+ sudo apt-get install youtube-dl
+
+ OR
+
+ sudo curl https://yt-dl.org/downloads/2015.07.28/youtube-dl -o /usr/local/bin/youtube-dl
+ sudo chmod a+rx /usr/local/bin/youtube-dl
+
+ OR
+
+ sudo wget https://yt-dl.org/downloads/2015.07.28/youtube-dl -O /usr/local/bin/youtube-dl
+ sudo chmod a+rx /usr/local/bin/youtube-dl
+
+**** Using Beautifulsoup
+
+ - Create this python file
+
+ import os
+ import httplib2
+ from BeautifulSoup import BeautifulSoup, SoupStrainer
+
+ http = httplib2.Http()
+ status, response =      http.request('http://www.lynda.com/Bootstrap-tutorials/Up-Running-Bootstrap-3/133339-2.html') #URL from the site you'd like to scrape
+
+ for link in BeautifulSoup(response, parseOnlyThese=SoupStrainer('a')):
+    if link.has_key('href'):
+	if 'http://www.lynda.com/Bootstrap-tutorials/' in link['href']: #Parse only the links that contain the key URL to your specific tutorial
+            l = link['href']
+            #print link['href']
+            os.system("youtube-dl --username your_lynda_username --password your_lynda_password " + l)
+
+  #(The space after _password is necessary, keep in attention).
+
+
+ - Download beautiful soup
+ http://www.crummy.com/software/BeautifulSoup/bs4/download/4.4/
+
+ - Untar
+ tar -zxvf beautifulsoup4-4.4.0.tar.gz
+
+ python setup.py
+
+
+ sudo apt-cache search beautifulsoup
+
+ sudo apt-get install the_latest_version_of_python4.x-bs4 //check if this is what comes on terminal
+
+ python lynda.py
+
+ youtube-dl --username your_lynda_username --password your_lynda_password
+
+ OR
+
+ youtube-dl -o /your_choice_of_download_directory/ --username your_lynda_username --password your_lynda_password
+
+**** learn phantomjs, create scripts
+*** Productivity
+**** PMI PDU(s)
+ - http://www.lynda.com/Business-Skills-tutorials/Project-Management-Fundamentals/80780-2.html
+ - http://www.lynda.com/Business-Skills-tutorials/Business-Writing-Fundamentals/147532-2.html
+ - http://www.lynda.com/Business-Skills-tutorials/Time-Management-Fundamentals/397387-2.html
+ - http://www.lynda.com/Charts-Graphs-tutorials/Gantt-Charts-Explained/365730-2.html
+ - http://www.lynda.com/Outlook-tutorials/Time-Management-Fundamentals/77533-2.html
+
+**** More Productivity
+ http://www.lynda.com/Business-Skills-tutorials/Enhancing-Your-Productivity/88536-2.html
+ http://www.lynda.com/Business-Skills-tutorials/Organizing-Your-Office-Maximum-Efficiency/365214-2.html
+ http://www.lynda.com/Business-Skills-tutorials/Organizing-Your-Office-Maximum-Efficiency/365214-2.html
+*** Management
+ - http://www.lynda.com/Accounting-tutorials/Personal-Investing-Basics/382578-2.html?srchtrk=index:1%0Alinktypeid:2%0Aq:management%0Apage:1%0As:relevance%0Asa:true%0Aproducttypeid:2
+ - http://www.lynda.com/Business-Skills-tutorials/Management-Fundamentals/142070-2.html
+ - http://www.lynda.com/Business-Skills-tutorials/Business-Fundamentals/365727-2.html
+ - http://www.lynda.com/Business-Accounting-tutorials/Managerial-Accounting/368916-2.html
+ - http://www.lynda.com/Business-Skills-tutorials/Competitive-Strategy-Fundamentals/182403-2.html
+ - http://www.lynda.com/Business-Skills-tutorials/Bootstrapping-Your-Business/165609-2.html
+ - http://www.lynda.com/Business-Skills-tutorials/Designing-Growth-Strategies/373563-2.html
+ - http://www.lynda.com/Business-Accounting-tutorials/Finance-Non-Financial-Managers/368915-2.html
+ - http://www.lynda.com/Business-Skills-tutorials/Creating-Your-IT-Strategy/418270-2.html?srchtrk=index:1%0Alinktypeid:2%0Aq:management%0Apage:1%0As:relevance%0Asa:true%0Aproducttypeid:2
+ - http://www.lynda.com/Business-Skills-tutorials/Management-Tips/126132-2.html
+ - http://www.lynda.com/Business-Skills-tutorials/Starting-Business-Family-Friends/374183-2.html?srchtrk=index:1%0Alinktypeid:2%0Aq:management%0Apage:1%0As:relevance%0Asa:true%0Aproducttypeid:2
+ - http://www.lynda.com/Business-Skills-tutorials/Managing-Your-Manager/157140-2.html?srchtrk=index:1%0Alinktypeid:2%0Aq:management%0Apage:1%0As:relevance%0Asa:true%0Aproducttypeid:2
+ - http://www.lynda.com/Business-Skills-tutorials/Small-Business-Secrets/156584-2.html
+ - http://www.lynda.com/Business-Skills-tutorials/Decision-Making-Fundamentals/186697-2.html
+ - http://www.lynda.com/Business-Skills-tutorials/Achieving-Your-Goals/96757-2.html
+
+*** Programming
+ - http://www.lynda.com/Ruby-tutorials/essential-training/47905-2.html
+ - http://www.lynda.com/Ruby-Rails-tutorials/Ruby-Rails-4-Essential-Training/139989-2.html?srchtrk=index:1%0Alinktypeid:2%0Aq:ruby%2Bon%2Brails%0Apage:1%0As:relevance%0Asa:true%0Aproducttypeid:2
+ - http://www.lynda.com/JavaScript-tutorials/Foundations-of-Programming-Fundamentals/83603-2.html
+ - http://www.lynda.com/Ruby-tutorials/Code-Clinic-Ruby/164143-2.html?srchtrk=index:1%0Alinktypeid:2%0Aq:ruby%2Bon%2Brails%0Apage:1%0As:relevance%0Asa:true%0Aproducttypeid:2
+ - http://www.lynda.com/Android-tutorials/Android-Essential-Training-REVISION-Q4-2015/418271-2.html
+
+**** Linux
+
+ - http://www.lynda.com/Bash-tutorials/Up-Running-Bash-Scripting/142989-2.html?srchtrk=index:1%0Alinktypeid:2%0Aq:emacs%0Apage:1%0As:relevance%0Asa:true%0Aproducttypeid:2
+ - http://www.lynda.com/Raspberry-Pi-tutorials/Up-Running-Raspberry-Pi/191267-2.html?srchtrk=index:1%0Alinktypeid:2%0Aq:linux%0Apage:1%0As:relevance%0Asa:true%0Aproducttypeid:2
+
+**** Java 
+ - http://www.lynda.com/Apache-tutorials/Practical-Apache-Web-Server-Administration/164983-2.html?srchtrk=index:1%0Alinktypeid:2%0Aq:apache%2Bjava%0Apage:1%0As:relevance%0Asa:true%0Aproducttypeid:2
+ - http://www.lynda.com/Java-tutorials/Java-Advanced-Training/107061-2.html?srchtrk=index:1%0Alinktypeid:2%0Aq:apache%2Bjava%0Apage:1%0As:relevance%0Asa:true%0Aproducttypeid:2
+ - http://www.lynda.com/Java-tutorials/Java-Essential-Training/377484-2.html?srchtrk=index:1%0Alinktypeid:2%0Aq:apache%2Bjava%0Apage:1%0As:relevance%0Asa:true%0Aproducttypeid:2
+ - http://www.lynda.com/Developer-Programming-Languages-tutorials/Building-Web-Services-Java-EE/149837-2.html
+
+*** Finance
+ - http://www.lynda.com/Accounting-tutorials/Personal-Investing-Basics/382578-2.html?srchtrk=index:1%0Alinktypeid:2%0Aq:management%0Apage:1%0As:relevance%0Asa:true%0Aproducttypeid:2
+ - http://www.lynda.com/Business-Accounting-tutorials/Finance-Fundamentals/174917-2.html
+ - http://www.lynda.com/Business-Accounting-tutorials/Personal-Finance-Fundamentals/363223-2.html?srchtrk=index:1%0Alinktypeid:2%0Aq:investing%0Apage:1%0As:relevance%0Asa:true%0Aproducttypeid:2 
+**** Useful links collection for lynda
+ - https://stacksocial.com/sales/learn-to-code-2015-course-bundle?aid=a-777o79wh
+
+** linux
+
+*** useful commands
+
+**** ssh-keygen -R <server> : reset ssh keys
+- If this doesn't work -> 
+nano /Users/amit/.ssh/known_hosts
+
+and delete the correstonding host entry
+
+ 
+*** Rsync from/to remote server
+
+- rsync a remote file to local
+rsync -v -e ssh pi@192.168.0.102:~/atksv/inbox.org /tmp
+
+- backup samba config
+rsync /etc/samba/smb.conf administrator@192.168.0.109:/Users/administrator/Documents/src
+rsync /etc/httpd/conf/httpd.conf
+administrator@192.168.0.109:/Users/administrator/Documents/src
+rsync /etc/hostname
+administrator@192.168.0.109:/Users/administrator/Documents/src
+rsync /etc/hosts
+administrator@192.168.0.109:/Users/administrator/Documents/src
+rsync /etc/network/interfaces
+administrator@192.168.0.109:/Users/administrator/Documents/src
+ rsync /etc/samba/smb.conf administrator@192.168.0.109:/Users/administrator/Documents/src
+
+
+
+cp /etc/apache2/sites-enabled/000-default.conf ~/000-default.conf.bak1
+
+rsync ~/000-default.conf.bak1 -rtvpl administrator@192.168.0.109:/Users/administrator/Documents/src
+
+*** getting list of all hostnames in lan
+  // unknown was orangepi
+ nmap -sP 192.168.1.* 
+
+*** setup samba 
+  sudo apt-get install samba samba-common-bin
+
+ sudo mkdir -m 1777 /data-share
+
+**** backup the samba config file
+ sudo mv /etc/samba/smb.conf /etc/samba/smb.conf.$(date +%F)
+
+**** cleanup and create the fresh smb.conf
+   sudo grep -ve ^# -ve '^;' -ve ^$ smb.conf.2016-03-08 > smb.conf
+
+**** Go into bash and add the data share directory to the end of smb.conf
+ sudo bash
+ sudo nano smb.conf
+
+ ==> add the following data
+ [data]
+         comment = Data share
+         path = /data-share
+         browseable = yes
+         read only = no
+
+ ==> test the config
+ testparm
+
+ ==> add samba user
+ sudo smbpasswd -a pi
+
+
+*** setup network
+**** Option 1
+
+Just edit /etc/network/interfaces and write:
+
+auto wlan0
+iface wlan0 inet dhcp 
+                wpa-ssid {ssid}
+                wpa-psk  {password}
+After that write and close file and use command:
+
+sudo dhclient wlan0
+Replace {ssid} and {password} with your respective WiFi SSID and password.
+
+**** Option 2
+
+This is going to be more of a 1. Assuming your Wireless network card is wlan0 2. Assuming your Wireless network is "Wifi2Home" 2. Assuming your Wireless network key is ASCII code ABCDE12345
+
+First, get your WiFi card up and running:
+
+sudo ifconfig wlan0 up
+Now scan for a list of WiFi networks in range. You might be typing your name wr$
+
+sudo iwlist wlan0 scan
+This will show you a list of wireless networks, pick yours from the list:
+
+sudo iwconfig wlan0 essid Wifi2Home key s:ABCDE12345
+To obtain the IP address, now request it with the Dynamic Host Client:
+
+sudo dhclient wlan0
+You should then be connected to the WiFi network. The first option is better, because it will be able to run as a cron job to start up the wifi whenever you need it going. If you need to turn off your WiFi for whatever reason, just type:
+
+sudo ifconfig wlan0 down
+
+**** Option 3
+- sudo nano /etc/network/interfaces.d/wlan0
+
+- //add following
+auto wlan0
+iface wlan0 inet static
+wpa-ssid groundnet
+wpa-psk e995b6d38127c3fdc819e90ccbe5dab54198cea5c592426d85933c13905d92b8
+address 192.168.0.108
+netmask 255.255.255.0
+network 192.168.0.0
+broadcast 192.168.0.255
+gateway 192.168.0.1
+dns-nameservers 192.168.0.1, 192.168.0.108, 8.8.8.8
+if-up ifconfig eth0 down
+if-down ifconfig eth0 up
+
+- sudo chmod u+s /bin/ping
+
+- sudo nano /etc/resolv.conf
+
+nameserver 192.168.0.1
+nameserver 192.168.0.2
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+
+
+
+*** setup samba
+1. Install:
+sudo apt-get update
+sudo apt-get install samba samba-common-bin
+
+
+2. Create share directory:
+sudo mkdir -m 1777 /data-share
+
+/******
+
+    1: sets the sticky bit. This set on a directory ensures that users can only delete files they own.
+    7: sets RWX read , write and execute for the user owner
+    7: sets RWX read , write and execute for the group owner
+    7: sets RWX read , write and execute for others
+
+******/
+
+
+3. Backup smb.conf
+sudo mv /etc/samba/smb.conf /etc/samba/smb.conf.$(date +%F)
+
+4. Now copy back the trim down smb.conf with share directory information
+
+sudo bash
+grep -ve ^# -ve ‘^;’ -ve ^$ smb.conf.2015-12-07   >  smb.conf
+
+5.  Edit /etc/samba/smb.conf .Add the share information :
+
+[data]
+        comment = Data share
+        path = /data-share
+        browseable = yes
+        read only = no
+
+6. Test config:
+testparm
+
+7. Restart samba:-
+service samba restart
+
+if that doesn't work:
+
+sudo /etc/init.d/smbd start
+
+8. Create samba users:-
+
+smbpasswd -a root
+smbpasswd -a pi
+
+*** static ip
+- backup interfaces file
+sudo cp /etc/network/interfaces /etc/network/interfaces.bak
+
+-  updat the /etc/network/interfaces file
+
+ sudo nano /etc/network/interfaces
+
+-> If this line is there - comment it out
+iface eth0 inet dhcp
+
+-> Update the static ip
+ # The loopback interface
+ auto lo
+ iface lo inet loopback
+ auto eth0
+ iface eth0 inet static
+ #your static IP (required)
+ address 192.168.1.118  
+ #your gateway IP
+ gateway 192.168.1.1
+ netmask 255.255.255.0 (required)
+ #your network address "family"
+ network 192.168.1.0
+ broadcast 192.168.1.255
+
+
+- restart the network service
+sudo /etc/init.d/networking restart
+
+OR
+
+sudo /etc/init.d/networking reload
+
+- check the status in ifconfig
+
+*** setup hostname
+ sudo nano /etc/hosts
+ sudo nano /etc/hostname
+
+ sudo reboot
+
+
+
+
+*** connect to ec2
+
+ ssh -i 'Box Sync'/Docs/amitthk_aws_keypair.pem  ec2-user@ec2-52-36-166-157.us-west-2.compute.amazonaws.com
+
+*** install mysql
+
+**** create busybox repository:-
+ sudo docker run -v /var/lib/mysql --name=mysql_datastore -d busybox
+ echo 'My Datastore'
+
+**** use the repository and start mysql
+ sudo docker run --name d-mysql -e MYSQL_ROOT_PASSWORD=ditstudent --volumes-from mysql_datastore  -d mysql
+
+**** install wordpress and point it to above mysql instance. also set the port accordingly
+ sudo docker run --link=d-mysql:mysql -p 8983:80 -d wordpress
+
+**** nginx on docker
+ $ docker run --name amitthk-nginx -v /some/content:/usr/share/nginx/html:ro -d nginx
+
+
+
+
+*** apt-get de-install broken packages
+
+**** Approach 1
+ Make a backup of /var/lib/dpkg/status:
+
+ sudo cp /var/lib/dpkg/status /var/lib/dpkg/status.bkup
+
+ Open /var/lib/dpkg/status:
+
+ sudo nano /var/lib/dpkg/status
+
+ Search through the file for any reference to that package name (i.e. linux-headers-3.0.0-19) and CAREFULLY delete that entry. Don't delete anything else. Save the file and quite.
+
+ Do sudo apt-get update.
+
+**** Approach 2
+
+ If you get nowhere with any of the other offerings I've used this in the past
+
+ dpkg --remove --force-remove-reinstreq
+ From the dpkg manual
+
+ remove-reinstreq: Remove a package, even if it's broken
+ So run:
+
+ sudo dpkg --remove --force-remove-reinstreq  linux-headers-3.0.0-19
+
+
+ https://askubuntu.com/questions/122699/how-to-remove-package-in-bad-state-software-center-freezes-no-synaptic/122737#122737?newreg=4bfa6d05048c478a814a2a80dd8c109c
+
+
+*** kernel modules
+**** list the modules:-
+ uname -r
+
+**** should match the libraries:-
+ ls /lib/modules
+
+**** Else compile the latest
+ sudo aptitude install linux-image-rpi-rpfv linux-headers-rpi-rpfv
+
+
+
+*** httpd
+
+ httpd -V
+ sudo nano /etc/httpd/conf/httpd.conf
+ sudo nano /etc/httpd/logs/error_log
+ sudo service httpd restart
+
+ sudo chown -R www-data:www-data /var/www/wordpress
+ sudo chown -R www-data:www-data /var/www/vhosts/blog
+
+
+
+*** fdisk resize partition
+
+From the command line or a terminal window enter the following
+
+sudo fdisk /dev/mmcblk0
+then type p to list the partition table
+
+you should see two partitions. if you look in the last column labeled System you should have
+
+Linux
+
+make a note of the start number for partiton 2, you will need this later. though it will likely still be on the screen (just in case).
+
+next type d to delete a partition.
+
+You will then be prompted for the number of the partition you want to delete. In the case above you want to delete both the Linux and Linux swap partitions.
+
+So type 2
+
+Now you can resize the main partition.
+
+type n to create a new partition.
+
+This new partition needs to be a primary partition so type p.
+
+Next enter 2 when prompted for a partition number.
+
+You will now be prompted for the first sector for the new partition. Enter the start number from the earlier step (the Linux partition)
+
+Next you will be prompted for the last sector you can just hit enter to accept the default which will utilize the remaining disk space.
+
+Type w to save the changes you have made.
+
+Next reboot the system with the following command:
+
+sudo reboot
+once the system has reboot and you are back at the commandline enter the following command:
+
+sudo resize2fs /dev/mmcblk0p2
+
+*** httpd.conf config for subdomain
+
+ <VirtualHost *:80>
+ #    ServerAdmin webmaster@amitthk.com
+      DocumentRoot /var/www/vhosts/blog
+      ServerName default:80
+ #    ErrorLog /var/logs/amitthk.com-error_log
+ #    CustomLog /var/logs/amitthk.com-access_log common
+     <Directory /var/www/vhosts/blog>
+     AllowOverride All
+     </Directory>
+ </VirtualHost>
+
+*** docker on raspberry pi
+
+ wget https://downloads.hypriot.com/docker-hypriot_1.10.2-1_armhf.deb
+ dpkg -i docker-hypriot_1.10.2-1_armhf.deb
+
+*** redmine on raspberry pi
+
+ http://www.tylerforsythe.com/2015/04/install-redmine-onto-raspberry-pi-2-this-is-the-tutorial-you-want/
+
+*** mysql and apache2 on raspberrypi/linux
+ sudo apt-get install apache2 mysql-server
+
+**** connect to mysql
+  mysql -u root mydatabase
+ or
+  mysql -u root
+
+ mysql> show databases;
+ use redmine_default;
+ show tables;
+
+
+**** apache 2
+***** backup the default config
+ sudo cp /etc/apache2/sites-enabled/000-default.conf
+ /etc/apache2/sites-enabled/000-default.conf.bak
+
+***** edit the default config to include subsite
+
+ sudo nano /etc/apache2/sites-enabled/000-default.conf
+
+ ## Add this
+ <Directory /var/www/html/redmine>
+     RailsBaseURI /redmine
+     PassengerResolveSymlinksInDocumentRoot on
+ </Directory>
+
+***** touch the gemfile
+ sudo touch /usr/share/redmine/Gemfile.lock
+ sudo chown www-data:www-data /usr/share/redmine/Gemfile.lock
+
+***** add smlink to your site
+ sudo ln -s /usr/share/redmine/public /var/www/redmine
+
+***** change owner - allow apache the access to your subsite
+   sudo chown -R www-data:www-data /var/www/redmine
+
+
+***** restart apache server
+ sudo service apache2 restart
+
+***** mod passenger config if needed
+ sudo nano /etc/apache2/mods-available/passenger.conf
+
+ ## Add this line
+ PassengerDefaultUser www-data
+
+
+
+
+
+
+
+*** setup noip/ run a script at startup
+
+**** setup noip
+mkdir /home/pi/noip
+cd /home/pi/noip
+wget http://www.no-ip.com/client/linux/noip-duc-linux.tar.gz
+tar vzxf noip-duc-linux.tar.gz
+cd noip-2.1.9-1
+sudo make
+sudo make install
+
+
+
+**** Create a script in the /etc/init.d/<name of your script>
+
+
+**** Enter the contents of the script
+ #! /bin/sh
+ # /etc/init.d/noip 
+
+ ### BEGIN INIT INFO
+ # Provides:          noip
+ # Required-Start:    $remote_fs $syslog
+ # Required-Stop:     $remote_fs $syslog
+ # Default-Start:     2 3 4 5
+ # Default-Stop:      0 1 6
+ # Short-Description: Simple script to start a program at boot
+ # Description:       A simple script from www.stuffaboutcode.com which will start / stop a program a boot / shutdown.
+ ### END INIT INFO
+
+ # If you want a command to always run, put it here
+
+ # Carry out specific functions when asked to by the system
+ case "$1" in
+   start)
+     echo "Starting noip"
+     # run application you want to start
+     /usr/local/bin/noip2
+     ;;
+   stop)
+     echo "Stopping noip"
+     # kill application you want to stop
+     killall noip2
+     ;;
+   *)
+     echo "Usage: /etc/init.d/noip {start|stop}"
+     exit 1
+     ;;
+ esac
+
+ exit 0
+
+
+**** make script executable
+ sudo chmod 755 /etc/init.d/startnoip
+
+***** Test starting the program
+ sudo /etc/init.d/startnoip start
+
+***** Test stopping the program
+ sudo /etc/init.d/startnoip start
+
+**** Register script to be run at start-up
+
+ sudo update-rc.d startnoip defaults
+
+**** If you every want to deregister this script from running at startup
+ sudo update-rc.d -f  startnoip remove
+
+
+
+
+*** linux command line monitoring performance
+ - 1. Top – Linux Process Monitoring
+ - 2. VmStat – Virtual Memory Statistics
+ - 3. Lsof – List Open Files
+ - 4. Tcpdump – Network Packet Analyzer
+ - 5. Netstat – Network Statistics
+ - 6. Htop – Linux Process Monitoring
+ - 7. Iotop – Monitor Linux Disk I/O
+ - 8. Iostat – Input/Output Statistics
+ - 9. IPTraf – Real Time IP LAN Monitoring
+ - 10. Psacct or Acct – Monitor User Activity
+ - 11. Monit – Linux Process and Services Monitoring
+ - 12. NetHogs – Monitor Per Process Network Bandwidth
+ - 13. iftop – Network Bandwidth Monitoring
+ - 14. Monitorix – System and Network Monitoring
+ - 15. Arpwatch – Ethernet Activity Monitor
+ - 16. Suricata – Network Security Monitoring
+ - 17. VnStat PHP – Monitoring Network Bandwidth
+ - 18. Nagios – Network/Server Monitoring
+ - 19. Nmon: Monitor Linux Performance
+ - 20. Collectl: All-in-One Performance Monitoring Tool
+
+
+*** configuring httpd Lamp server from aws docs
+
+**** Add the user
+
+ ls -l /var/www
+
+ sudo groupadd www
+
+ sudo usermod -a -G www ec2-user
+
+**** Logout and check the groups again
+ exit
+ groups (will show ec2-user wheel www)
+
+
+ sudo chown -R root:www /var/www
+
+ find /var/www -type d -exec sudo chmod 2775 {} \;
+
+ find /var/www -type f -exec sudo chmod 0664 {} \;
+
+
+**** Now grab & configure the wordpress
+
+
+ wget https://wordpress.org/latest.tar.gz
+
+ tar -xzf latest.tar.gz
+
+ ls
+
+
+**** Oh yes mysql - must create the database for wordpress installation first
+
+ sudo service mysqld start
+
+ mysql -u root -p
+
+ CREATE USER 'wordpress-user'@'localhost' IDENTIFIED BY 'your_strong_password';
+
+ CREATE DATABASE `wordpress-db`;
+
+ GRANT ALL PRIVILEGES ON `wordpress-db`.* TO "wordpress-user"@"localhost";
+
+ FLUSH PRIVILEGES;
+
+ exit
+
+**** edit the wp-config file inside the wordpress folder
+ cp wp-config-sample.php wp-config.php
+
+ nano wp-config.php
+
+***** Here update the DB_NAME, DB_USER, DB_PASSWORD etc. values. be careful of the quotes.
+
+**** wordpress access settings
+
+ //allow permalinks 
+
+ sudo vim /etc/httpd/conf/httpd.conf
+
+***** User permissions
+ sudo usermod -a -G www apache
+
+ sudo chown -R apache /var/www
+
+ sudo chgrp -R www /var/www
+
+ sudo chmod 2775 /var/www
+
+ find /var/www -type d -exec sudo chmod 2775 {} \;
+
+ find /var/www -type f -exec sudo chmod 0664 {} \;
+
+ sudo service httpd restart
+
+
+ [[http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/hosting-wordpress.html#create_user_and_database]]
+
+*** Installing redmine
+
+ Install ruby and ruby on rails firs
+ https://github.com/bvmake/WhosGotWhat/wiki/Installing-Rails-on-free-Amazon-EC2-Micro
+
+ sudo yum install readline-devel git make zlib-devel sqlite-devel.x86_64 gcc g++ svn
+
+ gem install rails
+
+ http://stackoverflow.com/questions/3939914/how-to-install-redmine-on-fedora-11-linux/7427751#7427751
+
+
+*** Reinstalling ruby
+
+ http://stackoverflow.com/questions/23184819/rails-new-app-or-rails-h-craps-out-with-cannot-load-such-file-io-console
+
+*** Install tightvncserver
+
+You'll be able to control it as though you were working on the Raspberry Pi itself.
+
+On your Pi (using a monitor or via SSH), install the TightVNC package:
+
+sudo apt-get install tightvncserver
+Next, run TightVNC Server which will prompt you to enter a password and an optional view-only password:
+
+tightvncserver
+Start a VNC server from the terminal: This example starts a session on VNC display one (:1) with full HD resolution:
+
+vncserver :1 -geometry 1920x1080 -depth 24
+Note that since by default an X session is started on display zero, you will get an error in case you use :0.
+
+Since there are now two X sessions running, which would normally be a waste of resources, it is suggested to stop the displaymanager running on :0 using
+
+service lightdm stop
+Now, on your computer, install and run the VNC client:
+
+On a Linux machine install the package xtightvncviewer:
+sudo apt-get install xtightvncviewer
+
+**** shortcut script
+to remember it:
+
+Create a file containing the following shell script:
+
+#!/bin/sh
+vncserver :1 -geometry 1920x1080 -depth 24 -dpi 96
+Save this as vnc.sh (for example)
+
+Make the file executable:
+
+chmod +x vnc.sh
+Then you can run it at any time with:
+
+./vnc.sh
+If you prefer your mouse pointer in the VNC client to appear as an arrow as opposed to an "x" which is default, in ./vnc/xstartup add the following parameter to xsetroot:
+
+-cursor_name left_ptr
+
+**** run at boot
+
+To run at boot:
+
+Log into a terminal on the Pi as root:
+
+sudo su
+Navigate to the directory /etc/init.d/:
+
+cd /etc/init.d/
+Create a new file here containing the following script:
+
+#! /bin/sh
+# /etc/init.d/vncboot
+
+### BEGIN INIT INFO
+# Provides: vncboot
+# Required-Start: $remote_fs $syslog
+# Required-Stop: $remote_fs $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: Start VNC Server at boot time
+# Description: Start VNC Server at boot time.
+### END INIT INFO
+
+USER=pi
+HOME=/home/pi
+
+export USER HOME
+
+case "$1" in
+ start)
+  echo "Starting VNC Server"
+  #Insert your favoured settings for a VNC session
+  su - $USER -c "/usr/bin/vncserver :1 -geometry 1280x800 -depth 16 -pixelformat rgb565"
+  ;;
+
+ stop)
+  echo "Stopping VNC Server"
+  /usr/bin/vncserver -kill :1
+  ;;
+
+ *)
+  echo "Usage: /etc/init.d/vncboot {start|stop}"
+  exit 1
+  ;;
+esac
+
+exit 0
+Save this file as vncboot (for example)
+
+Make this file executable:
+
+chmod 755 vncboot
+Enable dependency-based boot sequencing:
+
+# update-rc.d lightdm remove
+update-rc.d vncboot defaults
+
+**** Vnc lincense copy in gmail
+
+*** add repository jessie main to sources.list raspbian 
+# Edit the sources.list
+sudo nano /etc/apt/sources.list
+
+# Add Debian 8 "Jessie" repository
+deb http://http.debian.net/debian/ jessie main contrib non-free
+
+
+*** dlink dwa 123 d1 drivers
+After messing arround for hours wasting time with wrong drivers,
+here's te place where if got the drivers for this usb dongle dwa 123 d1
+http://www.dlinkla.com/dwa-123
+
+*** missing GPG Keys fix
+sudo apt-get install debian-keyring debian-archive-keyring
+sudo apt-get update
+
+*** backup create image of raspbian sd card on mac/linux
+
+http://computers.tutsplus.com/articles/how-to-clone-raspberry-pi-sd-cards-using-the-command-line-in-os-x--mac-59911
+
+# carefully check the device location
+sudo diskutil list
+
+# create image
+sudo dd if=/dev/rdisk1 of=~/Desktop/pi.img bs=1m
+
+# or zip it on while u write
+sudo dd if=/dev/rdisk1 bs=1m | gzip > ~/Desktop/pi.gz
+
+# in above case of zipped image the restore becomes something like below
+# unmount the disk first but do not eject the card
+diskutil unmountDisk /dev/disk1 
+gzip -dc ~/Desktop/pi.gz | sudo dd of=/dev/rdisk1 bs=1m
+
+
+
+
+*** setup proftpd  ftp server
+https://www.howtoforge.com/tutorial/proftpd-installation-on-debian-and-ubuntu/
+
+apt-get install proftpd openssl
+
+proftpd -v
+
+addgroup ftpgroup
+
+adduser newuser  -shell /bin/false -home /ftpshare
+Adding user 'newuser' ...
+Adding new group 'newuser' (1002) ...
+Adding new user 'newuser' (1001) with group `srijan' ...
+Creating home directory `/ftpshare' ...
+Copying files from `/etc/skel' ...
+Enter new UNIX password: <--ftppassword
+Retype new UNIX password: <--ftppassword
+passwd: password updated successfully
+Changing the user information for newuser
+Enter the new value, or press ENTER for the default<--ENTER
+    Full Name []: <--ENTER
+    Room Number []: <--ENTER
+    Work Phone []: <--ENTER
+    Home Phone []: <--ENTER
+    Other []: <--ENTER
+Is the information correct? [Y/n] <--Y
+
+adduser newuser ftpgroup
+
+chmod -R 1777 /ftpshare/
+
+nano /etc/proftpd/proftpd.conf
+
+# Make changes like as shown
+[...]
+UseIPv6 off
+[...]
+<Global>
+    RootLogin	off
+    RequireValidShell off
+</Global>
+
+DefaultRoot  ~
+
+<Limit LOGIN>
+    DenyGroup !ftpgroup
+</Limit>
+
+
+service proftpd restart
+
+
+# if you get mod_tls_memcache/0.1: notice: unable to register
+# 'memcache' SSL session cache: Memcache support not enabled
+
+nano /etc/proftpd/modules.conf
+
+[...]
+#LoadModule mod_tls_memcache.c
+[...]
+
+**** Multiple directories config
+
+chmod -R 1777 /home/amit/ftpshare/
+adduser amit ftppublicgroup
+
+
+***** emacs /etc/proftpd/proftpd.conf
+
+Include /etc/proftpd/conf.d/
+<Global>
+        RootLogin off
+        RequireValidShell off
+</Global>
+
+DefaultRoot ~
+
+<Limit LOGIN>
+        Order Allow,Deny
+        AllowGroup ftpgroup
+        AllowGroup ftppublicgroup
+        DenyAll
+</Limit>
+
+<Directory /ftpshare>
+# Umask 022 is a good standard umask to prevent new files and dirs                                                  
+# (second parm) from being group and world writable.                                                                
+#  Umask                                022  022                                                                    
+         <Limit ALL>
+            Order Allow,Deny
+            AllowGroup ftpgroup
+            DenyAll
+         </Limit>
+ </Directory>
+
+<Directory /home/amit/ftpshare>
+# Umask 022 is a good standard umask to prevent new files and dirs                                                  
+# (second parm) from being group and world writable.                                                                
+#  Umask                                022  022                                                                    
+         <Limit ALL>
+            Order Allow,Deny
+            AllowGroup ftppublicgroup
+            DenyAll
+         </Limit>
+ </Directory>
+ 
+
+***** service proftpd restart
+
+*** Writing orangepi image from mac
+ http://rayhightower.com/blog/2015/11/27/orange-pi-mini-2-setup-for-mac-os-x/
+
+ diskutil list
+ diskutil unmountDisk /dev/disk1
+ sudo dd if=Lubuntu_1404_For_OrangePi2-mini2_v0_8_0_.img of=/dev/disk1 bs=1m
+
+
+
+
+** dotnet issues
+
+ GPG Pub_Key missing
+
+** Here are MONO Keys
+ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys
+ 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EFD
+ echo "deb http://jenkins.mono-project.com/repo/debian sid main" | sudo tee /etc/apt/sources.list.d/mono-jenkins.list
+
+
+** Here are dotnet core keys
+
+ sudo sh -c 'echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet/ trusty main" > /etc/apt/sources.list.d/dotnetdev.list'
+
+ sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
+
+** Mac
+
+*** git gui not working 
+git clone git://repo.or.cz/git-gui.git
+cd git-gui
+sudo make
+sudo make install
+
+** Learn Org mode
+
+*** Emacs on mac
+Mac comes with an outdated emacs 22.x. To update use the following:
+
+brew update 
+brew install emacs --with-cocoa
+#Create the link
+alias emacs="/usr/local/Cellar/emacs/24.x/Emacs.app/Contents/MacOS/Emacs -nw"
+
+**** Setup atksv > emacs, github. use for notes
+*** Use Org-Mode for all captures.  Actionables become TODOs.
+**** Emacs essential commands 
+
+***** text editing
+C-n next line
+C-p
+C-k kill current line
+
+***** text searching
+C-s Search string
+
+M-%  <string to search> RET  <string to replace> RET
+
+continue with 
+SPC => Replace the string
+DEL => Skip replace and move to next search
+RET => exit without any further replacements
+
+***** move between buffers
+  C-x <right or left arrow>
+  C-x 1  => show only current buffer
+  C-x b => move to named buffer
+C-x C-b => list of all buffers
+***** exit emacs minibuffer (execution)
+   C-g
+***** save current buffer
+  C-x s
+***** write file
+  C-x w
+***** open file
+ C-x C-f
+*****  close file
+C-x k
+***** dired mode directory browser mode
+ C-x d
+***** set font size
+C-x C-+
+**** Emacs quick reference
+Emacs Quick Reference
+
+This quick reference assumes that you are using the Emacs provided for the course. Emacs may behave differently for some of these key bindings if you have setup Emacs yourself.  By convention, holding down the CTRL key and x together is represented as C-x.  Likewise, pressing the ESC key and then x is represented as M-x (you can also press the ALT key together with x).
+
+- General
+
+C-x C-c	Quit Emacs
+C-g	Quit Current Command
+M-x	Run an Emacs Command
+
+- File Operations
+
+C-x C-f	Open/Create File
+C-x k	Close File
+C-x C-s	Save File
+
+- Editing
+
+C-x u	Undo
+Shift-Del	Cut
+Ctrl-Ins	Copy
+Shift-Ins	Paste
+C-s	Interactive Search
+TAB	Indent Current Line
+C-M-\	Indent Selection
+
+- Buffers
+
+C-x b	Switch Buffers
+C-x C-b	Get a List of Buffers
+C-x o	Switch to Other Window
+C-x 1	Close Other Window
+C-x 2	Split the Screen Horizontally
+
+- SML Process
+
+M-x sml	Start SML interpreter
+C-c C-s	Switch to SML interpreter
+C-c C-l	Load a file into SML interpreter
+C-c C-r	Send current selection to SML interpreter
+C-c C-b	Send current buffer to SML interpreter
+C-c `	Browse through source file for next error
+C-c C-d	Tell the interactive session to terminate
+**** Emacs commands quick reference full
+
+Emacs Commands List 
+
+C = Control
+M = Meta = Alt|Esc
+
+Basics
+C-x C-f "find" file i.e. open/create a file in buffer
+C-x C-s save the file
+C-x C-w write the text to an alternate name
+C-x C-v find alternate file
+C-x i insert file at cursor position
+C-x b create/switch buffers
+C-x C-b show buffer list
+C-x k kill buffer
+C-z suspend emacs 
+C-X C-c close down emacs
+
+Basic movement
+C-f forward char
+C-b backward char
+C-p previous line
+C-n next line
+M-f forward one word
+M-b backward one word
+C-a beginning of line
+C-e end of line
+C-v one page up
+M-v scroll down one page
+M-< beginning of text
+M-> end of text
+
+Editing
+M-n repeat the following command n times
+C-u repeat the following command 4 times
+C-u n repeat n times
+C-d delete a char
+M-d delete word
+M-Del delete word backwards
+C-k kill line
+
+C-Space Set beginning mark (for region marking for example)
+C-W "kill" (delete) the marked region region
+M-W copy the marked region
+C-y "yank" (paste) the copied/killed region/line
+M-y yank earlier text (cycle through kill buffer)
+C-x C-x exchange cursor and mark
+
+C-t transpose two chars
+M-t transpose two words
+C-x C-t transpose lines
+M-u make letters uppercase in word from cursor position to end
+M-c simply make first letter in word uppercase
+M-l opposite to M-u
+
+Important
+C-g quit the running/entered command
+C-x u undo previous action
+M-x revert-buffer RETURN (insert like this) undo all changes since last save
+M-x recover-file RETURN Recover text from an autosave-file
+M-x recover-session RETURN if you edited several files
+
+Online-Help
+C-h c which command does this keystroke invoke
+C-h k which command does this keystroke invoke and what does it do?
+C-h l what were my last 100 typed keys
+C-h w what key-combo does this command have?
+C-h f what does this function do
+C-h v what's this variable and what is it's value
+C-h b show all keycommands for this buffer
+C-h t start the emacs tutorial
+C-h i start the info reader
+C-h C-k start up info reader and go to a certain key-combo point
+C-h F show the emacs FAQ
+C-h p show infos about the Elisp package on this machine
+
+Search/Replace
+C-s Search forward
+C-r search backward
+C-g return to where search started (if you are still in search mode)
+M-% query replace
+Space or y replace this occurence
+Del or n don't replace
+. only replace this and exit (replace)
+, replace and pause (resume with Space or y)
+! replace all following occurences
+^ back to previous match
+RETURN or q quit replace
+
+
+Search/Replace with regular expressions
+Characters to use in regular expressions:
+^ beginning of line
+$ end of line
+. single char
+.* group or null of chars
+\< beginning of a word
+\> end of a word
+[] every char inside the backets (for example [a-z] means every small letter)
+
+M C-s RETURN search for regular expression forward
+M C-r RETURN search for regular expression backward
+M C-s incremental search
+C-s repeat incremental search
+M C-r incremental search backwards
+C-r repeat backwards
+M-x query-replace-regexp search and replace
+
+Window-Commands
+C-x 2 split window vertically
+C-x o change to other window
+C-x 0 delete window
+C-x 1 close all windows except the one the cursors in
+C-x ^ enlarge window
+M-x shrink-window command says it ;-)
+M C-v scroll other window
+C-x 4 f find file in other window
+C-x 4 o change to other window
+C-x 4 0 kill buffer and window
+C-x 5 2 make new frame
+C-x 5 f find file in other frame
+C-x 5 o change to other frame
+C-x 5 0 close this frame
+
+Bookmark commands
+C-x r m set a bookmark at current cursor pos
+C-x r b jump to bookmark
+M-x bookmark-rename says it
+M-x bookmark-delete "
+M-x bookmark-save "
+C-x r l list bookmarks
+d mark bookmark for deletion
+r rename bookmark
+s save all listed bookmarks
+f show bookmark the cursor is over
+m mark bookmarks to be shown in multiple window
+v show marked bookmarks (or the one the cursor is over)
+t toggle listing of the corresponding paths
+w " path to this file
+x delete marked bookmarks
+Del ?
+q quit bookmark list
+
+
+M-x bookmark-write write all bookmarks in given file
+M-x bookmark-load load bookmark from given file
+
+Shell
+M-x shell starts shell modus
+C-c C-c same as C-c under unix (stop running job)
+C-d delete char forward
+C-c C-d Send EOF
+C-c C-z suspend job (C-z under unix)
+M-p show previous commands
+
+DIRectory EDitor (dired)
+C-x d start up dired
+C (large C) copy 
+d mark for erase
+D delete right away
+e or f open file or directory
+g reread directory structure from file
+G change group permissions (chgrp)
+k delete line from listing on screen (don't actually delete)
+m mark with *
+n move to next line
+o open file in other window and go there
+C-o open file in other window but don't change there
+P print file
+q quit dired
+Q do query-replace in marked files
+R rename file
+u remove mark
+v view file content
+x delete files marked with D
+z compress file
+M-Del remove all marks (whatever kind)
+~ mark backup files (name~ files) for deletion
+# mark auto-save files (#name#) for deletion
+*/ mark directory with * (C-u * removes that mark again)
+= compare this file with marked file
+M-= compare this file with it's backup file
+! apply shell command to this file
+M-} change to the next file marked with * od D
+M-{ " previous "
+% d mark files described through regular expression for deletion
+% m " (with *)
++ create directory
+> changed to next dir
+< change to previous dir
+s toggle between sorting by name or date
+
+Maybe into this category also fits this command:
+M-x speedbar starts up a separate window with a directory view
+
+Telnet
+M-x telnet starts up telnet-modus
+C-d either delete char or send EOF
+C-c C-c stop running job (similar to C-c under unix)
+C-c C-d send EOF
+C-c C-o clear output of last command
+C-c C-z suspend execution of command
+C-c C-u kill line backwards
+M-p recall previous command
+
+Text
+Works only in text mode 
+M-s center line
+M-S center paragraph
+M-x center-region name says 
+
+Macro-commands
+C-x ( start macro definition
+C-x ) end of macro definition
+C-x e execute last definied macro
+M-n C-x e execute last defined macro n times
+M-x name-last-kbd-macro give name to macro (for saving)
+M-x insert-keyboard-macro save named macro into file
+M-x load-file load macro
+M-x macroname execute macroname
+
+Programming
+M C-\ indent region between cursor and mark
+M-m move to first (non-space) char in this line
+M-^ attach this line to previous
+M-; formatize and indent comment
+C, C++ and Java Modes
+M-a beginning of statement
+M-e end of statement
+M C-a beginning of function
+M C-e end of function
+C-c RETURN Set cursor to beginning of function and mark at the end
+C-c C-q indent the whole function according to indention style
+C-c C-a toggle modus in which after electric signs (like {}:';./*) emacs does the indention
+C-c C-d toggle auto hungry mode in which emacs deletes groups of spaces with one del-press
+C-c C-u go to beginning of this preprocessor statement
+C-c C-c comment out marked area
+More general (I guess)
+M-x outline-minor-mode collapses function definitions in a file to a mere {...} 
+M-x show-subtree If you are in one of the collapsed functions, this un-collapses it 
+In order to achive some of the feats coming up now you have to run etags *.c *.h *.cpp (or what ever ending you source files have) in the source directory
+M-. (Thats Meta dot) If you are in a function call, this will take you to it's definition 
+M-x tags-search ENTER Searches through all you etaged 
+M-, (Meta comma) jumps to the next occurence for tags-search 
+M-x tags-query-replace yum. This lets you replace some text in all the tagged files 
+
+
+GDB (Debugger)
+M-x gdb starts up gdm in an extra window
+
+Version Control
+C-x v d show all registered files in this dir
+C-x v = show diff between versions
+C-x v u remove all changes since last checkin
+C-x v ~ show certain version in different window
+C-x v l print log
+C-x v i mark file for version control add
+C-x v h insert version control header into file
+C-x v r check out named snapshot
+C-x v s create named snapshot
+C-x v a create changelog file in gnu-style
+
+**** Braindump everything into org-mode
+**** Org Mode capture (they go straight into quick captures)
+  C-c c (then choose option)
+  To configure capture must put this in the .emacs
+
+
+
+**** Org mode refile (refile current item into some other file) => important for GTD
+  C-c C-w   > move the arrow key up or down. or refile into a target file specified
+
+  For target files, need to put this into the .emacs
+
+  (setq org-agenda-files
+	'("inbox.org" "todos.org" "errands.org" "someday.org" "done.org"))
+
+  (setq org-refile-targets
+	'((nil :maxlevel . 3)
+          (org-agenda-files :maxlevel . 3)))
+
+**** Todo's management
+**** Spell checker
+
+**** Aquamacs for linux, windows, mac
+**** Calendar option
+  https://www.youtube.com/watch?v=gGO4RPzAKQY
+**** [#C] Learn readmine, connect org-mode with redmin e	      :someday/maybe:
+**  docker
+
+*** installed docker
+sudo yum update
+sudo yum install -y docker
+docker -v
+
+*** start docker
+sudo service docker start
+ps
+ps aux|grep docker
+sudo service docker status
+
+sudo docker run hello-world
+
+*** check docker ip
+Firstly list your machines:
+$ docker-machine ls
+
+Then select one of the machines (the normal default one started is default) and:
+$ docker-machine ip default
+
+*** run a container --interactive --tty
+docker run -it ubuntu bash
+
+- If your image has an entrypoint defined, override it
+docker run -it --entrypoint /bin/bash <image>
+
+
+*** create image from dockerfile
+docker build . -t <repo>:<tag>
+
+
+*** docker cleanup
+
+**** delete volumes
+
+ // see: https://github.com/chadoe/docker-cleanup-volumes
+
+ $ docker volume rm $(docker volume ls -qf dangling=true)
+ $ docker volume ls -qf dangling=true | xargs -r docker volume rm
+ delete networks
+
+ $ docker network ls  
+ $ docker network ls | grep "bridge"   
+ $ docker network rm $(docker network ls | grep "bridge" | awk '/ / { print $1 }')
+
+**** remove docker images
+
+ // see: http://stackoverflow.com/questions/32723111/how-to-remove-old-and-unused-docker-images
+
+ $ docker images
+ $ docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+
+ $ docker images | grep "none"
+ $ docker rmi $(docker images | grep "none" | awk '/ / { print $3 }')
+- Delete all
+docker rmi $(docker images -q)
+
+
+**** remove docker containers
+
+ // see: http://stackoverflow.com/questions/32723111/how-to-remove-old-and-unused-docker-images
+
+ $ docker ps
+ $ docker ps -a
+ $ docker rm $(docker ps -qa --no-trunc --filter "status=exited")
+
+- Delete all
+docker rm $(docker ps -a -q)
+
+
+
+**** Resize disk space for docker vm
+
+ $ docker-machine create --driver virtualbox --virtualbox-disk-size "40000" default
+
+**** The cleanup script
+#!/bin/bash
+
+# Delete all stopped containers
+docker ps -q -f status=exited | xargs --no-run-if-empty docker rm
+# Delete all dangling (unused) images
+docker images -q -f dangling=true | xargs --no-run-if-empty docker rmi
+
+
+** expressJS
+   
+*** Install
+   sudo npm install -g express
+   
+*** init
+   npm init
+   
+   -> package.json is created
+   
+**** install expres and viewengine
+    npm install --save express
+    npm install --save ejs
+    
+**** app.js
+    var express = require('express');
+    var app = express();
+    app.set('view engine', 'ejs');
+    
+    app.get('/',function(req,resp){
+    resp.send('<h1>Hello</h1> World!');
+    });
+    
+    
+    var server = app.listen(8983,function(){
+    console.log('listening on port :8983'); 
+    });
+    
+**** set the view engine
+    app.set('view engine', 'ejs');
+    
+**** include partials
+    <% include partials/page/head.ejs %>
+    
+**** routes
+    
+1. app.js
+var routes = app.require('./routes')
+app.get('/',routes.index)
+
+
+2. /routes/index.js
+   
+exports.index= function(req,resp){
+resp.render('default',{title:'My first page'});
+}
+
+exports.about= function(req,resp){
+resp.render('default',{title:'About Us'});
+}
+
+
+**** pm2
+    sudo npm install pm2 -g
+    
+    pm2 start app.js
+    
+    pm2 stop example
+    
+    pm2 restart example
+    
+    pm2 list
+    
+**** nginx reverse proxy
+    
+    sudo apt-get update
+    sudo apt-get install nginx
+    
+    
+***** nano /etc/nginx/conf.d/example.com.conf
+     
+     server {
+     listen 80;
+     
+     server_name your-domain.com;
+     
+     location / {
+     proxy_pass http://localhost:{YOUR_PORT};
+     proxy_http_version 1.1;
+     proxy_set_header Upgrade $http_upgrade;
+     proxy_set_header Connection 'upgrade';
+     proxy_set_header Host $host;
+     proxy_cache_bypass $http_upgrade;
+     }
+     }
+     
+https://www.digitalocean.com/community/tutorials/how-to-host-multiple-node-js-applications-on-a-single-vps-with-nginx-forever-and-crontab
+
+** ui ux
+http://www.usertesting.com/blog/2013/12/10/14-must-read-articles-for-the-ux-newbie/
+
+http://www.usertesting.com/blog/2014/08/26/the-18-blogs-every-ux-pro-should-follow/
+https://medium.com/ux-ui-readings
+https://whitneyhess.com/blog/2009/06/30/so-you-wanna-be-a-user-experience-designer-step-1-resources/
+http://blog.careerfoundry.com/ux-design/user-experience-user-interface-design/
+
+http://uxmastery.com/how-to-get-started-in-ux-design/
+everything you need to know about latest ui ux 
+
+** Python Django
+*** Python.org documentation, dgangogirsl.org
+
+***  settings.py, models.py ...
+
+***  models.py
+ TextField( null, default ... etc)
+ BooleanField ...
+
+***  migrations - Initial, migrations
+
+**** ls inventory/migrations
+
+*** python manage.py  migrate --list
+
+***  python manage.py migrate
+
+***  sqlite browser
+
+*** django shell
+ from django.contrib import admin
+ from models import Item
+
+*** python manage.py runserver
+
+*** python manage.py shell
+
+ >>> from inventory.models import item
+ >>>items = item.objects.all()
+ >>> items[0].description
+ >>> "other queries"
+
+*** urls.py
+
+ from inventory import views
+
+ urlpatttern = [
+
+ url(r'^$',views.index, name='index')
+ url(r'^item/(?P<id>\d)',view.tem_details,name='item_details')
+ url(r'^admin/',include(admin.site.urls)),name='admin')
+ ]
+
+*** views.py
+
+ from django.http import HttpResponse
+
+ def index(request):
+     return HttpResponse('<p> some response </p>')
+
+ def item_detail(request, id)
+     return HttpResponse('....')
+
+**** updated views.py
+
+ from django.shortcuts import render
+ from django.http import Http404
+
+ from inventory.models import item_detail
+
+ def index(request):
+     items = Item.objects.exclude(amount=0)
+     return render(request, 'inventory/index.html',{'items':items})
+
+ def item_detail(request,id):
+     try:
+     item=Item.objects.get(id=id)
+     except  Item.DoesNotExist:
+     raise Http404('This item doesn\'nt exist')
+     return render(request,
+     'inventory/item_detail.html',{'item':item,'id':id})
+
+
+*** settings.py
+
+ TEMPLATES [
+ 'DIRS' : ['myapp/templates'],
+ APP_DIRS : true
+ ]
+
+*** templates/inventory/base.html
+ <!doctype html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <title> Inventory Project </title>
+    <meta name="description" content="" />
+    </head>
+    <body>
+        {% block content %}
+	{% endblock content %}
+    </body>
+</html>
+*** templates/inventory/index.html
+ {% extends "base.html" %}
+ {% block content %}
+
+ <h3> items in... </h3>
+  <ul>
+   {% for item in items %}
+  <li>
+ <a href = "{% url 'item_detail item.id %}" > ...
+
+  {% endfor %}
+
+
+ {% endblock %}
+
+
+***  static assets
+
+**** settings.py
+
+ STATICFILES_DIRS = (
+ os.path.join(BASE_DIR,'myapp','static') )
+
+**** base.html
+ {% load staticfiles %}
+
+ <link href="{% static 'main.css'%}
+
+
+** household
+*** Daily
+**** A.M.
+***** Morning ritual
+      - Wide awake before 7AM:
+      - Total sleep:
+      - Wash face splash Eyes:
+      - Stretching for 5 minutes:
+      - Honey Lime Water:
+      - Relaxing, warm-up for 15 min:
+      - Nature's Call(max 10 min):
+      - Exercise:
+      - Brush:
+      - Bath 10min:
+      - Get Ready 5 min:
+      - Prayer/Meditation 10 min:
+
+**** P.M.
+
+***** Evening ritual
+      - Wash Face
+      - Prayer/Meditation 10 min:
+
+**** During the Day
+
+
+*** Weekly
+
+**** Saturday
+
+**** Sunday
+
+**** Monday
+
+**** Tuesday
+
+**** Wednesday
+
+**** Thursday
+
+**** Friday
+
+
+
+
+*** Monthly
+
+**** 1st to 10th of the month
+
+**** 10th to 20th of the month
+
+**** 20th to 31st of the month
+
+*** Yearly
+**** January
+
+**** February
+
+**** March
+
+**** April
+
+**** May
+
+**** June
+
+**** July
+
+**** August
+
+**** September
+
+**** October
+
+**** November
+
+**** December
+
+** dwmy captures
+*** Visualize your goal.  What is one task that I must do to realize this goal.
+
+*** State your goals in specific number of targets you must hit or achieve to make it happen.
+
+*** 80:20 Priniciple: Universe is predictably unbalanced, very few things really matter.
+
+*** Set very short deadlines for yourself. 
+ Use the power of very short deadlines. 
+ Short deadlines are very powerful. They activate your brain.
+ You would be only focussing on what exactly needs to be done. You'd
+ cut the crap and get it done. 
+ Remember parkinsons law.
+*** Morning stillness for 30 minutes,  2 minutes stillness after each pomodori and 30 minutes stillness in evening. To keep in focus & track.
+
+*** daily ref
+
+  - Stillness. Connect with inner silence. Concentration.
+
+  - Feet flat on ground no fidgeting.
+
+  - Sit with spine erect. Concentrate on the mast of your head.
+
+  - Observe your breath, observe your mind.
+
+  - Face is one big tool - learn to relax it.
+
+  - Forehead relaxed, Eyes wide open fix gaze wherever possible, High creative energy.
+
+  - Forehead relaxed. Perfect restfulness in eyes. Eyes wide open upwards. Fix the gaze.
+
+
++ Traveling checklist
+  - Tickets, travel documents checked?
+  - Dustbin cleaned
+  - Nothing bio degradable (food etc) outside checked?
+  - Lights, equipments all off?
+  - Gas checked closed?
+  - All important Documents safe checked?
+  - Locks engaged, keys checked?
+
++ to do
+
+  - print air tickets
+
+  - Hair cut
+
+  - consolidate all captures to inbox
+
+  - drainage unblocker
+
+  - scrapping paper
+
+  - print card copy
+  - keys duplication - Doors, Post, New Lock, drawer(if needed)
+
++ from little India
+
+  - Sport Shoes
+
+  - Slippers
+
+  - Boat shoes
+
+  - Look for suitcase
+
+  - Mobile phone android, screen capture pricelist
+
+  - Suitcase
+
+  - Diary
+
+  - Small water pot
+
+  - Shaving stuff
+
+  - Nose trimmer/trimmer
+
+*** blogging DWMY
+  - capture thoughts
+  - consolidate material, media
+  - organize
+  - blog
+  - update links
+  - cleanup
+  - publish
+
+- picklist into angularjs app
+
+- convert emims desktop build to mgw
+
+- 
+
+*** Be a person to be described as so desciplined:-
+- descipline = consistent
+- focusing on a result that you really want
+- determine your goal. be very specific about it.
+- list your reasons why
+- identify likely obstacles. do not let your feelings decide against your descipline. if you've gotta read - that's what u should be doing.
+- develop new behaviors
+- stay focussed. Set 10 goals at each DWMY level and observe the progress consistently. designate certain days on week to achieve them.
+- go through each area of focus every day and watch the progress every week.
+- look more successful. dress for success. watch your appearance it makes difference inside and outside. be strong.
+
+*** Success begins the moment you start achieving goals in your life in your day to day living.
+
+Success is something you attract by the person you become.
+
+- meditate & pray
+- listen to faith building message
+- listen to a productivity message
+- read. leaders are readers
+- review your goals on day to day, weekly, monthly basis
+- exercise
+
+5 things successful people do:-
+- morning is the best time for you to begin developing good habits because that's the time when you have maximum control over your energies, schedule & life.
+- each successful people wake up early in morning
+- exercise
+- map out your day. live on purpose.
+- eat a healthy breakfast. 3g of protein.
+- think about future
+- get the most difficult thing first. First 90 minutes of the day for most important and most challenging thing in the morning.
+
+
+*** [#A] morning ritual
+ -------------------------------------------
+ START OF DAY ROUTINE:
+ -------------------------------------------
+ - Time awake:
+ - Stretching/Warm up 15min
+ - Total sleep:
+ - Water:
+ - Nature's Call(10 min):
+ - Ready for Exercise: 5 min
+ - Exercise (walk/run/other): 15 - 20 min
+ - Cool Down: 5 min
+ - Brush:
+ - Bath 10min , (With Shave 5 min ……)
+ - Ready for Kriya 7 to 10min
+ - Kriya 30 min
+ - Ready for office: 10 min   (underwear, shirt , pants, belt, hair gel + blowdry hair, mobile, ID, Key, Purse, Specs, kada, watch, socks, hanky, tissue, vitamins)
+ - Breakfast: 10 min
+ - B. Complex/Vitamin C/Fish oil:
+ - Travel to office: 40min
+
+*** Daily must do quicklist
+- Do everything consciously. Track every moment. If you rest - do it consciously.
+- Develop a psychology of motion. Be spontaneous & relentless.
+- Eyes wide awake. Look upward. Fixed gaze. Forehead relaxed.
+- Reflect calmness from face. Face fully controlled, Vibrant.
+- Stay proactive from energies and body language.
+- Spine erect. Stillness. Stoical mind, expressionless face.
+- Feet flat firm on ground - no fidgeting.
+- Project your energies proactively. Assertive body language, speech and outcome focused.
+
+*** Focus & Concentration ritual
+Spend some time everyday to tame the body, mind, energies otherwise they will be madness.
+1. Trataka
+2. Stillness, silence, stoical mind, expressionless face, turn off the mind at your will.
+3. Zen Focus training routine - look above, see below  sideways of your eyes, try to touch everything in room with invisible hands, involve all senses. Mindfullness.
+**** Focus training pomodoro
+1 Pomodoro Tame the Body, Mind.
+Identify 80:20 priority. 
+Write down "Task of the day!"
+
+*** Plan and write down - How to have a "good day" today:
+Goal of the day:
+Task of the day:
+Errands of the day:
+One thing must do today you'd been putting off:
+One thing to stop doing immediately:
+Reading ritual:
+Focus ritual:
+Memory/Practice ritual:
+Today's Pomodoro(s):
+
+*** Interpersonal Communication Pomodoro
+Must talk to at least 3 people - at least 5 minutes each - firm eye to eye contact?
+
+*** Not To Do List
+
+**** Personal errands
+- Do not let ticks on eyes/forehead/face.
+- Do not fidget/shake your legs.
+- Do not be lazy/drowsy in name of being relaxed.
+- Do not dissync your breath.
+- Do not be absent minded. Feel the surroundings. Be aware of everything around you.
+- Do not let stress/emotion reflect on your face.
+- Do not stress eyes or keep them lazy/closed. Keep eyes open, relaxed look upwards.
+- Do not sit in wrong/lying/lazy posture.
+- Do not let life energies to get depleted.
+- Do not waste time & life on unproductive things - while you don't know what you are doing.
+
+
+**** Interpersonal communication
+Do not buckle up under pressure. Do not be overserious in tense situations - this closes down the communication channels.
+
+Do not push your opinion where not needed.
+
+*** ticks checklist
+- Eyes wide awake. Fixed gaze.
+- Face is one big tool keep it radiant, calm and in control always. Fix gaze, focus - practice it extended. Avoid facial ticks at any cost. Keep it calm.
+- Focus inbound or outbound. Not on body/face - Never on mind. Mind is madness.
+- Mostly it is a combination of actual tics plus bad habit. When actual tics are not there - return to your fundamental nature which is stillness, silence.
+- Eyes, forehead, ears, temples, neck, spine relaxed.
+- Be in total control of your body, mind & energies. Totally engaged in experience of life. Total focus & involvement moment to moment is the key to happiness.
+- Feet flat, grounded. Firm straight seat/posture/asana.
+- Mindfullness. Observe as silent spectator.
+- Stillness. Silence. Synchronized breathing.
+- Stretch the tense muscle - hold the tension for a while - release. Return to calmness. Stillness.
+- Stoical mind.
+- Slow down. Do everything in slow motion. Mindfullness.
+- Keep very busy for extended period of time got rid of it.
+- Eyes wide open and busy for extended period of time got rid of it.
+- It is most necessary to concentrate for extended period of time to get rid of it.
+
+*** daily must-do checklist
+-----------------------------------
+Focus, Memory, Speed Reading drill
+-----------------------------------
+
+
+-------------------------------------------
+TIME TRACKING:
+-------------------------------------------
+CHALLENGES:
+Did I set my attitude right in morning?
+Did I set my face right and totally in control for the day?
+Did I start the day like a winner? (or was I procrastinating and then rushing up like a looser since morning?)
+Did I exercise today?
+Did I read something worthwhile today? 
+Did I talk to 3 people - 5 minutes each with firm eye to eye contact today?
+Did I clear my active to do list before any screwing around?
+Did I avoid getting into arguments with unimportant people?
+Did I follow my social time budget, and be done with it? (not wasted time online?)
+Did I prioritize books/good learning instead of mindless surfing?
+Did I eat healthy food today?
+-------------------------------------------
+
+
+-------------------------------------------
+LIFE(EXISTENCE) TRACKING:
+-------------------------------------------
+Children:
+Mom/Parents:
+Spouse:
+Family:
+Friends:
+Colleagues:
+Important Supervisors/Business Partners:
+Did I do at least one thing each today to make them feel my presence?
+
+*** Routine Checklist:
+Fruit
+Cider vinegar
+Vitamins
+Water
+Exercise
+Breath Rhythm
+Stillness
+F.A.C.E.H.S
+Proactive Attitude
+Demand only the best
+*** dwmy weekly
+
+**** replenish baathroom supplies
+
+
+**** Habit bursting plan
+***** Wake up strictly at 6.30 . Begin your day like a king.
+***** Finish up morning routine in exactly 60 Minutes
+***** Observe your mind. Switch it off at will
+***** Spine erect
+***** Always on track. Know what you're doing. Where I am, where I'm heading, what are the priorities.
+***** Stillness
+***** Calm & in control
+***** Fix your feet. Flat , grounded.
+***** Executed Pomodoro
+****** Habits checklist every half hour
+******* Had proper rest?
+******* Can switch off mind at your will ?
+******* Can still the body, mind, energies absolutely?
+******* Ticks in control or location of control?
+******* Can feel inner self?
+****** Ticks/Low energy checsheet daily
+
+**** specialized references
+
+***** Reading reference
+
+****** 5 Step process of reading~
+
+  Start with a comfortable and straight posture. Reading a new material is an active sport (revision can be passive sport also.).  Sit still, calm, take a deep breath, smile and concentrate.
+
+  5 steps to Reading:-
+  1. Scaffolding: Get a clear High Level Overview/Helicopter View - the complete flow of the material.
+  2. Skimming: Fast fluid eye movements through content. Quick overview/Overall thought process of the material. Switch back & forth between high-level view and content of material. Feel the thought process. Filling in Helicopter view. Understanding of new terms.
+  3. Deep diving: Thorough read each sentence - pause and understand the thought clearly.  Mark action words/keywords. Create mind map of keywords - connect the thoughts. Switch back & forth between high-level view & content.
+  4. Tip-tapping: - tap, tap, tap the keywords - invoke the thoughts and Go!
+  5. Reviewing:
+  - Learning is incomplete without review and recall.
+  - Always review, recall after session - if you cannor recall immediately, would you recal later?
+
+****** Reading stumbling blocks->
+
+******* Eye Fixations: more eye fixations you have - slower the speed & faster you sleep.
+
+******* Eye Span: bigger your eye span better comprehension (you get the thought as a whole)
+
+******* Regression: 
+
+******* Sub vocalization:
+
+  - Brain is attracted to movement
+  - In reading championships they use visual guide.
+
+
+***** Productivity factors  - Nishant Kashibhatla
+******* Expert power
+  Lifelong learning
+  Specialized Knowledge - something that the market needs
+******* 3 Critical Skills
+  - Super memory -> Register, Retain, Recall
+  - Speed Reading 
+  - Laser Sharp Focus -> Focus one and only one thing at a time and really win the game.
+
+  More you learn - more you earn. Faster you learn, faster ou earn.
+
+***** Memory 4 Factors
+******* Belief
+  -- I have a great memory.
+  -- It's OK. I'll rememver it the next time.
+******* Attention
+  -- 100% pure and undivided attention
+  -- For(get) because - they didn't really 'get' it in the first place.
+  -- Single Tasking - multitasking is bad for attention. Reduce your choices.
+******* Association
+******* Action
+  More you remember, more you can remember.
+
+***** Rules for focus
+
+****** Reduce your choices. 
+  More choices we have lesser focus. 'Decision fatigue' if too
+  many choices on unimportant activities. Save your choice power for worthwhile tasks.
+
+****** Remember 80:20 principle/pareto principle.
+  What are those 20% activity that I must do which gives me 80% results.
+
+****** Rules & Rituals
+
+******* Rules : if this then that rules list
+
+******* Rituals: Design your morning ritual. 
+  If your morning is great, your day will be great. If your day is great
+  your week will be great. If your weeks are great your month - year -
+  your life will be great.
+
+  Start your day like a winner.
+
+
+*** [#A] evening ritual
+
+ -------------------------------------------
+ EVENING ROUTINE:
+ -------------------------------------------
+ Cool Down, unwind:
+ Bath:
+ Yoga/Meditation:
+ Food:
+ Family:
+ Read/Learn something new/unique:
+ Unwinding/Bedtime routine (strictly begin bedtime ritual at right time):
+
+
+
+*** Perfect Closing the day reference
+ -------------------------------------------
+ END OF DAY(REFLECTION):
+ -------------------------------------------
+ What did I achieve today?
+ What difference did I make today to take me closer to my most desirable goal?
+
+ Where do I stand in my life?
+ >50,000 + feet: What is my most cherished purpose in life:
+ >40,000 feet: What is my vision of life in next 5-10 years:
+ >30,000 feet: What are my most important goals in this year and next year:
+ >20,000 feet: What are my main areas of focus/responsibility currently:
+ >10,000 feet: What are the current most important projects:
+ >>   Runway: What are the most important current actions I must take shortly:
+
+ Expenses for the day (estimate)?
+ Personal:
+ Essential:
+
+
+ Set alarm: 
+
+
+*** Techniques Checklist
+ - Trataka
+ - Stillness
+ - Control, Power and Authority
+ - Stoical Mind
+ - Mindfullness, Awareness
+ - Synchronize your breath
+ - Communication
+ - Concentration
+ - Concentrate on thought, communicate with energies
+ - Vision, Direction, Leadership
+ - Politial, Cultural, Environmental awareness
+ - Be absolutely comfortable within your body, mind, energies and soul.
+ - Spontaneity
+ - Clarity
+
+
+
+*** Daily Motivation checklist
+
+**** Review 10 Things You Can Do Today To Increase Your Productivity
+
+1. Write down your mind. No offence to your dynamite intelligence. But is it really worth occupying your psychic RAM (memory) with trivial stuff which could easily be organized on a piece of paper? Besides all the secrets inside your head are still ambiguous, amorphous, wishy washy stuff for others - until you clear the ground. Use the power of pen & paper.
+
+2. Remember only 20% of your actions result in 80% of results that matter. Always ask yourself, is this the task (I am working on) really something that produces maximum results which matter? If you find yourself involved in activities that produce none or low value outcome/results - Just Stop - just leave it right there and forget about it. Move on to top priority task of the moment.
+
+3. If something requires less than two minutes to do, do it immediately. Develop the habit of motion. Most of the things can be done right on the spot rather than putting them on your todo list and letting them hang in there for paralysis of analysis.
+
+4. Start with this sequence of questions. 1. "Why" am I doing what I am doing?  > 2. "How" will I go about doing this (plan, commitment and quality of results) ? > 3. "What" I will do (next finite actions)?
+
+5. However huge your plan is - ask yourself and write down on paper -> "What is the NEXT ACTION you must take?" to progress to level of this thought.
+
+6. Cultivate a "Let’s go and take a look!" attitude.  Sometimes a quick visit to the field can teach you more than a week spent analysing numbers, sitting comfortably at your desk. 
+
+7. Abstain from using bad language at workplace. This is an old hat advise which stems from pure common sense - not using bad language will never offend anyone. Using it sometimes might offend someone. Abstain and you will perhaps avoid conflicts or difficult situations. Besides using bad language is an unpredictably lethal habit.
+
+8. Just Begin. Start working on it even if it looks like trivial at start. Soon you will pick up the momentum. But first - you must get it started. Stop thinking & start doing.
+
+9. Close the loop.  Ask yourself -Is everything all right? Update others also and put a proper closure to all your actions. Don't leave others waiting  on - "we will call you later if we run into problems".
+
+10. Recognize when it has all been said.
+
+**** Bring in your game checklist
+- Learn to be still. You must be able to maintain 5 minutes of absolute stillness.
+- Carry aura of highly positive energy. Keep your energies in contended, successful zone.  Radiate your positive aura and reflect your enthusiasm in your eyes. Feel the positive energy. Radiate intelligence.
+- Pull your energy at the mast of your head. Your energies speaks far ahead of you speak.
+- Absolute Self-Descipline, Spontaneity and Consistent results is the key.
+- Relax, ease it up, slow down & be aware of the moment. Tense muscle wastes energy, save energies for important duties. Maintain an erect but comfortable posture. Be absolutely comfortable inside your skin. Feet flat grounded - no fidgeting.
+- For every stuff that disturbs your stillness -  Observe it to utmost depth. Put your absolute concentration to keep returning it to your course with calm stillness And no signs of worry.
+- Perform tasks with intense dedication & spontaneity - with the least show of effort on your face/body.
+- Keep a stoical mind. Expressionless face. Turn your mind on and off on your will.
+- Offense is the best defence. Be offensive/aggressive towards finishing the task. Keep sense of urgency alive - remember the time is relative and it is already very less.
+- Be completely still inside. Find your inner stillness and keep it. Mind is a chaos, but you must hold on to stillness.
+- 60 seconds of absolute life in every minute.
+- Don't wait for inspiration, create it. Stop thinking start doing it. Get started somehow, regardless of how mundane at beginning - then pick it up.
+- Begin the day with reading something technical and inspiring.
+- Observe every thought. Keep a mental record of every passerby.
+- When in doubt - write it down and keep it in your in basket. When in confusion write it down and keep it in your in basket. Always journal.
+- Consistency and spontaneity must sustain. One time achiever or bright sparks achievers seldom make it long.
+- Identify the aura of your energy and keep it open, calm, clean and white. Radiate it around you all the time.
+- Be very very practical with use of your mind. Put the body absolutely still. Erect posture but absolutely relaxed.
+- Absolutely calm and assured in heart, stoic/poised face, light smile of clarity and understanding on face.
+- Keep your conscious far and wide aware of surroundings.
+- Never go in a zone. Once you are in zone, you loose track of time and time is wasted. If you are going into zone - close the eyes take a deep breath and do anulom vilom for few minutes. Every moment must deliver the best in your consciousness.
+- When you have a clear plan, and you are consciously and clearly acting upon it - none of surrounding consciousness (or so called fate) can effect you.
+- Never strengthen negative consciousness around you by giving it undue attention and never bring it onboard. Rather flare it away by brandishing your positive consciousness.
+- flank open your positive energies brandishing, twirl it around and wield it like a shield around you. Hold the ground tight, take the position and be absolutely still. Be totally inside the shield and absolutely observant still calm and patient.
+
+
+**** Daily Reference
+
+- Smile
+- Be fully engaged with the  experience of life. Its all in the mind. You empower energy within your life with your thoughts. Empower life  so intensely that everything else is forgotten
+      
+- Inner silence. Active Relaxation (not a passive one). Firm Stillness. Hold breath sync. Eyes fixed. Consciousness at mast. Energy shield circulating. Be the energy, not the body - its all in the mind.
+
+- Be seriously professional with use of your mind. If you can't control this small piece of body and mind - how are you going to take charge of bigger things in creation of your life.
+
+- Stand still and firm yet relaxed but attentive, observe your breath, listen to heartbeat, switch off the mind at will, still - silent - sentient - systematize the breath,  hold it for 2 minutes - watch the ticking clock(count re-starts if you move).
+
+- Descipline, Stillness, Resolve and Alertness of a Soldier every moment.
+
+- Still forehead, eyes, back, shoulders, neck and breath. View upside, see inside.
+
+- Credibility. Command an absolute credibility to your word. Make and keep promises.
+
+- Integrity. This is the way you are when everyone is watching. This is how you are when you are alone.
+
+- Forehead Relaxed, Absolutely Aware of your environment, Keep in touch with your inner Calmness, Eyes bright open, see inside, High creative conscious energy, Total Stillness. 60 seconds of absolute life in every minute. Fix your eyes. Rhythmic breathing. Observe yourself calmly from 3rd perspective. Return back to calmness. Firm your position,feet. Ground your energies, feel the touch of your feet with ground. Completely aware of all your senses.
+
+- Relaxed forehead, Eyes wide open (calm, vision inside/behind the eyes),  Fixed gaze, Stoical Mind, Stillness, Rhythmic Breath. You drive it or it drives you. Be intensely and actively involved with your task. Its mind over matter.
+
+**** Keep one liner mission statements
+- Watch yourself I'm on with fire.
+- Be sharp as spear. Tear apart schemers plans.
+- Bring it on.
+
+
+** Checklists
+*** Daily
+**** A.M.
+- wake up before 5:30 AM. Start your day like a winner. Be highly self desciplined.
+- Get out of the bathroom in Maximum 20 minutes flat.
+- Complete your 90 minute high performance pomodoro in morning
+***** Morning ritual
+      - Wide awake before 5:30 AM:
+      - Wash face splash Eyes:
+      - Stretching for 5 minutes:
+      - Water:
+      - Nature's Call(max 10 min):
+      - Brush:
+      - Bath 10min:
+      - Face cream get ready in 5 min:
+      - Kriya (30-40 min):
+      - Ready for office: 5 min (underwear, shirt , pants, belt, hair gel + blowdry hair, mobile, ID, Key, Purse, Specs, kada, watch, socks, hanky, tissue, vitamins)
+      - Breakfast: 10 min
+      - B. Complex/Vitamin C/Fish oil:
+      - Travel to office: ~65 min
+
+- read
+- learn new tech
+- practice
+- revise
+- tech update
+**** P.M.
+
+***** Evening ritual
+      - Wash Face
+      - Shave/Trim Hair
+      - Wash Head
+      - Bath
+      - Hair Oil
+      - Wash Face, Hands
+      - Kriya
+      - Dinner
+      - Play with Kuhu
+      - Learn/Read something new 30min.
+      - Write to Journal & Blog
+
+**** During the Day
+     - Sit upright. Walk proactive. Speak assertive. Spine erect.
+     - Reveiw all tech news
+     - Speed reading pomodoro
+     - Focus training pomodoro
+     - Trataka (Stillness. Watch the mind. Watch the breath.)
+     - Learn something new today for 1 hr.
+     - Converse minimum 3 people & min. 5 minutes with fixed eye contact
+     - Radiate confidence, assertiveness, proffessionalism and success
+     - Journal & Blog
+     - Wash cloths. Put cloths to dry
+     - Be action oriented, results producing, outcome focussed. Achieve your goals on day to day basis. Don't waste your life in only getting ready all the time.
+
+*** Weekly
+
+**** Saturday
+ 
+     - Wake up at 5. Complete daily ritual by 6:15
+     - Early morning walk
+
+***** GTD weekly review
+      - empty mobile phone inboxes
+	- pictures -> digital refsys/memories
+	- voicememo/recordings -> inbox
+	- sms -> inbox
+	- voicemail -> inbox
+      - empty other 'capture' in-baskets
+	- loose papers in bag -> inbox
+	- loose papers in pockets -> inbox
+	- loose paers in walet -> inbox
+	- loose papers on desk -> inbox
+      - empty digital in-basket
+	- personal URLs -> digital refsys
+	- work URLs -> digital refsys
+	- notes/reminders -> inbox
+	- 
+      - e-mails
+	- If important & must incubate -> print
+	- move to mail archive folder
+      - check calendars
+	- Gather all loose & digital appointments data
+	- Sync the appointments
+	- Review previous week -> inbox
+	- review upcoming 2 weeks -> inbox
+      - reviw upcoming 2 weeks in tickler -> inbox
+      - mindsweep -> inbox
+      - review Active Projects List
+	- check every project
+	  - Each project must have more than 1 "Next Action"
+	  - "trash" finished/obsolete project
+	  - move to someday/maybe if no longer adds value
+      - review Someday/Maybe list
+	- check each item
+	  - transform 3 to projects
+	  - delete if no longer adds value
+	  - move to specialized folder if applicable
+      - review reference system index
+	- check each item
+	  - create a project if required
+	  - create a someday/maybe if required
+      - review project support material -> inbox
+      - review and update other lists
+	- this weekly review checklist
+      - select from read/review stack -> inbox
+      - empty inbox
+	- Process
+	- Organize
+      - prune "Next Action" list
+	- check each item
+	  - be specific: Very Next, Most value add, Next Physical Action
+	  - granularity: no tiny actions, no projects!
+	  - actionability: "you" Must Do/Should Do/Can Do/Want to Do?
+	  - 20 minute rule: promodoro ready
+	  - form: short. start with action word
+	  - ASAP? or: tickler or: calendar or: refsys?
+	  - archive finished actions to "Done"
+	  - move stale items to someday/maybe
+	  - rephrase unattractive items
+	  - toss items you are not going to do
+	  - move some items to Project or Someday/Maybe
+      - Check & replenish Office & GTD supplies
+      - Organize Desk, Drawers, Refsys etc.
+      - read and re-read inspiration
+	- affirmations
+	- goals
+	- motivation reference lists
+	- success logs
+	- wisdom quotes
+	- misc. notes
+      - reward yourself for successful weekly review!
+
+
+***** GTD Captures
+      - Capture
+	- Get things out of your head write them on to paper.
+	- Collect any other notes lying stray
+	- Process: Actionable? Someday/Maybe? Reference? Support Material? Trash!
+      - Reflect on last week
+	- Did I get everything done?
+	- If not why?
+      - Review next week
+	- What commitments do I have?
+	- What preparation do I need to do?
+	- How much (sensibly) can I do in 10 hours day?
+	- Allocate things from monthly goals/tasks into weekly
+	- Make sure thre is a reasonable balance between Key areas of focus
+      - Review next 4 weeks
+	- What events are in there. Do I need to add anything?
+      - Review Goals/Projects 
+
+
+**** Sunday
+
+- Iron cloths
+- Revise one core technical skill complete
+- Read
+- Learn something new
+- Practice something new. Make notes.
+
+**** Monday
+
+**** Tuesday
+
+**** Wednesday
+
+**** Thursday
+
+**** Friday
+
+
+
+
+*** Monthly
+
+**** 1st to 10th of the month
+     - Pay Rental/House installment
+     - Pay Credit Card Bills
+     - Pay Electricity Bill
+     - Pay Internet Bill
+     - Transfer to Savings
+     - Pay to Monika household expenses
+     - Top Up Travel Card
+     - Organize personal budget
+
+**** 10th to 20th of the month
+
+**** 20th to 31st of the month
+
+*** Yearly
+**** January
+
+**** February
+
+**** March
+
+**** April
+
+**** May
+
+**** June
+
+**** July
+
+**** August
+
+**** September
+
+**** October
+
+**** November
+
+**** December
+
+
+** PR form
+
+*** Page 1
+
+- G6186095P
+- Amit Kumar Thakur
+- Indian
+- Hindu
+- Vill- Kargi, P/o- Banjarawala, Dehradun, Uttarakhand, India
+- 03/06/1982
+- Vill- Kargi, P/o- Banjarawala, Dehradun, Uttarakhand, India
+- Married
+- Senior Software Engineer
+- 5200
+- Bachelor of Technology (Computer Science & Engineering) 2001-2005
+- DIT Dehradun, Under Uttar Pradesh Technical University, Lucknow
+- 00, 00, 01
+- Passport N: G1875270
+- 08/03/2007 Bareilly
+- 07/03/2017
+- #13-260, Block-654, Senja Road, Singapore - 670654
+- 91319851
+
+
+*** Page 2
+
+- ** 2015  to ** 2016
+  - Project Management Professional
+- Nov 2013 - Nov 2013
+  - IT DE-505S-1 Solve Software Design Problems Using Patterns
+  - NICF, ISS, National University of Singapore
+  - Full Time
+- Nov 2013 - Nov 2013
+  - IT DE-403S-1 Develop Technical details design
+  - NICF, ISS, National University of Singapore
+  - Full Time
+- 25/10/2001 to 25/07/2005
+  - Bachelor of Technology (Computer Science & Engineering)
+  - DIT Dehradun Under Uttar Pradesh Technical University, Lucknow
+  - Computer Science & Engineering (Full-Time)
+- 31/05/1999 to 31/05/2000
+  - Intermediate (12th Std) (Physics, Chemistry, Mathematics, English)
+  - SGRR Public School Bombay Bagh Dehradun
+  - Physics Chemistry, Mathematics, English (Full Time)
+- 31/05/1997 to 31/05/1998
+  - Matriculation (10th Std)
+  - SGRR Public School Bombay Bagh Dehradun
+  - Science Stream (Full Time)
+- 15/07/2004 to 16/08/2004
+  - Edge Detection Algorithms Study and Implementation
+  - IRDE (D.Dun. India) Ministry of Defence India
+  - Industrial training
+- 15/05/2004 to 14/06/2004
+  - Summer Training
+  - Bharat Sanchar Nigam Ltd. (D.Dun India)
+  - Industrial Training
+- 07/02/2005 to 19/02/2005
+  - .Net Technology 3 day short term training
+  - Indian Society for Technical Education (D.Dun India)
+  - Full Time
+- 1/Feb/1998 to 30/April/1998
+  - Computer Hardware
+  - Lal Bahadur Shashtri Training Institute (D.Dun India)
+  - Full Time
+
+
+- Achievements
+  - Designing & development of modules and functionalities for eMIMS cloud, eMIMS Desktop Australia, eMIMS Administration Module (Web), MIMS Gateway Admin, MIMS Gateway New Zealand, Malaysia, Singapore, Philippines projects.
+  - Migration of Faculty of Arts & Social Sciences, National University of Singapore Website to new template and NUS branding guidelines. Development of various web applications, software for FASS NUS.
+  - Revamp of Ernst & Young GSS Connect portal to new Ernst & Young Branding Guidelines. Development of Intranet Applications.
+  - Hands on experience on various Government Sector Projects on Portal, web applications like Uttarakhand Fores (Govt. Of India), SIPF Rajasthan, IGRS Madhya Pradesh.
+
+
+- Work Experience
+  - 02/Jul/2012 to Present
+    - MIMS Pte. Ltd. (Former UBM Medical Asia Pte. Ltd.) , 438A Alexandra Road, Alexandra Technopark # 04 - 01/02, Singapore 119967.
+    - Senior Software Engineer (Module Lead)
+    - Development of Modules, Widgets and Functions for MIMS Gateway, MIMS, NewZealand, Malaysia, Singapore, Philippines, eMIMS Australia)
+    - $5200
+  - 22/Sep/2008 to 30/Jun/2012
+    - Cambridge Solutions Pte. Ltd. (XChanging Asia Pte. Ltd.)
+    - 13 International Business Park, #06-01, Jurong East, singapore - 609932
+    - Senior Software Engineer
+    - Development and maintenance of Applications, Websites for National University of Singapore )
+    - $3852
+  - 12/May/2008 to 19/Sep/2008
+    - Ernst & Young Global Shared Services, Bangalore, Karnataka, India
+    - Web Developer (Intranet Web Applications & Websites)
+    - $750
+  - 12/Nov/2007 to 04/May/2008
+    - OneApps Enterprise Tech. Pvt. Ltd.
+    - Web Developer
+    - $580
+  - 22/Sep/2006 to 15/Sep/2007
+    - Geo Data Sys, Dehradun, Uttarakhand, India
+    - Web Developer
+    - $375
+  - 24/Aug/2005 to 15/Feb/2006
+    - IBM Daksh Gurgaon
+    - Specialist Customer Support
+    - $250
+ 
+
+
+  
+
+
+*** Page 3
+
+- Project Management Institute
+  - Certified Project Management Professional
+
+- Addresses
+
+  - *** 2016 to Present
+    - #13-260, Block 654, Senja Road, Singapore - 670654
+
+  - May 2010 to ** 2016
+
+    - #07-51, Block-351, Clementi Ave-2, Singapore 120351
+
+  - Oct 2008 to April 2010
+
+    - #03-421, Block-305, Clementi Ave - 4, Singapore - 120305
+
+- Family
+
+  - Late Sh. Govind Singh Thakur
+
+    - M
+    - 21/06/1960
+    - Dehradun
+    - Indian
+    - -na-
+    - -na-
+  - Mrs. Pushpa Thakur
+    - F
+    - 15/06/1964
+    - Dehradun
+    - Indian
+    - Dehradun
+    - House Wife
+  - Anupama Thakur
+    - Sister
+    - F
+    - 18/08/1985
+    - Dehradun
+    - Indian
+    - Ponta Sahib
+    - Teacher
+  - Sumit Thakur
+    - Brother
+    - M
+    - 25/09/1986
+    - Dehradun
+    - Indian
+    - Dehradun
+    - Senior Software Engineer
+
+
+** productivity techniques
+   Robin sharma's master class. robin sharmas brain rules. john medina
+
+   - Practical techniques
+   - discipline
+   - consistency
+
+   - domains
+     - personal
+     - work
+     - Technology
+   - health is your Priority Number 1
+     - less sugar
+     - find a sport you like. & do it regularly
+     - 1 day Tech free
+     - Fun/Adventure  "Emotions &b decent with regular....
+   - Do not do lot of things
+     - don't do things just for doing. Don't do things that don't add value
+       to your life. Don't do things without a purpose.
+     - Don't do things that take a lot of time
+     - Be extra productive off hours
+     - Dond tdo something everyone is doing.
+   - The Notebook->
+     - Top 5 Quarterly Goals, Top 5 Yearly Goals
+     - Read each goal every day
+     - Top 5 goals Next Day
+     - Distractions List
+   - Learn to Say "NO". If you are constantly saying yes to everyone, you
+     would never become productive.
+     - Keep a Stop, "No, Thanks" list
+   - Automate Everything possible.
+   - Delegate everything possible
+     - If someone can do a task at least 80% the way I can do - then let
+       him do it.
+
+   - Ban & Remove
+     - Say "no" to everything that don't add value to you.
+
+   - Say "NO" to multitasking. No multitasking really exists.
+
+   - Say "No" to interruptions.
+
+   - Do the hardest thing First in "The Morning"
+   - Work in 90 minutes cycles
+   - Keep the same context throughout the day
+   - Separate plan & execution
+   - Learn to prioritize
+   - Schedule everything.
+   - 
+   - Tech & tools
+     - can this tool save me time? If yes - buy it.
+
+
+
+   - Outlook
+   - Inbox
+     - Quick steps
+     - Rules
+     - 
+   - Whatever gets scheduled - gets done.
+   - OneNote
+   - Microsoft project.
+
+   - Clipx
+
+   - Password Safe
+
+   - Time
+
+     - If you are Realing Putting out fires you appear disorganized
+     - What robs you of time
+     - Most important tasks?
+     - scope of your projects . (reduce them to manageable projects)
+     - Mistakes cause rework
+     - define productivity
+   - Manage expectations
+     - CListent - be on the same page with your expectations
+
+     - key
+       - Specs
+       - regular updates
+       - completion estimates
+       - do your dirty laundry - right info
+       - understand audience
+     - killers
+       - su**pe map
+
+       - negotian... map
+
+       - what you want
+
+       - define impact
+
+       - remove emotion
+
+   - Quotes on saying NO

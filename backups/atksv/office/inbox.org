@@ -1,0 +1,9 @@
+* inbox
+** Bluetooth earphone 						   :personal:
+** Specs protection cover
+** Consolidated cache generator action
+Calls cache all cache generation actions
+Reports when each finished uses ajax
+Reports counts (future implementation)
+** Micromede hl7 test url
+http://www.micromedexsolutions.com/infobutton/librarian/access?Institution=%5emsk1%5eloyalty51&applicationContext=MedicationList%5eHL7IBAppContext%5e%5e2.5%5eMedicationList&mainSearchConcept=%5e%5e%5e%5eatorvastatin&contentTarget=P%5eHL70242&ResponseFormat=xml~

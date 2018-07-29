@@ -1,0 +1,21 @@
+* Find related information based on date
+
+
+DECLARE @Date DateTime
+DECLARE @TopicCount Numeric
+DECLARE @CommentCount Numeric
+DECLARE @TopicLikeCount Numeric
+DECLARE @CommentLikeCount Numeric
+
+SET @Date = '2016-04-01 00:00:00.000'
+While (@Date < GETDATE())
+Begin
+
+select @TopicCount = count(*) from Topic where CreatedBy = '86734f21-783a-41b7-aadb-b7dbf66daf2e' and Status = 0 and CreatedOn >= @Date and CreatedOn < DATEADD(mm,1,@Date)
+select @CommentCount = count(*) from TopicComment where CreatedBy = '86734f21-783a-41b7-aadb-b7dbf66daf2e' and Status = 0 and CreatedOn >= @Date and CreatedOn < DATEADD(mm,1,@Date)
+select @TopicLikeCount = count(*) from TopicUserLike where userid = '86734f21-783a-41b7-aadb-b7dbf66daf2e' and LikedOn >= @Date and LikedOn < DATEADD(mm,1,@Date)
+select @CommentLikeCount = count(*) from TopicCommentUserLike where UserId = '86734f21-783a-41b7-aadb-b7dbf66daf2e' and LikedOn >= @Date and LikedOn < DATEADD(mm,1,@Date)
+select DATEname(mm,@Date) [Month], @TopicCount TopicCount, @CommentCount CommentCount, @TopicLikeCount TopicLikeCount, @CommentLikeCount CommentLikeCount
+
+set @Date = DATEADD(MM,1,@Date)
+End

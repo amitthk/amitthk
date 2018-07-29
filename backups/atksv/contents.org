@@ -1,0 +1,24 @@
+AWS
+AdvancedJava
+Backbonejs
+Business-Fundamentals
+Business-Plan
+Coursera - Introduction to Data Science
+Coursera - Web Intelligence and Big Data
+General
+IOSAppDevEssn
+Lynda
+ManagementFundamentals
+NodeJs
+OOD
+OOPatterns
+PersonalFinance
+PythonTkinter
+Reactjs
+RubyEssential
+RubyOnRails
+TDD
+c++
+contents.org
+essential-git
+git Going Fast

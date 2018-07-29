@@ -1,0 +1,33 @@
+* gitflow
+** Intro
+- Centralized
+  - like svn expensive
+- Feature branch
+  - Central repo
+  - feature branch
+  - git checkout -b my-feature master
+  - while merging - On development branch run this
+    - git merge master
+    - (resolve any merge conflicts if there are any)
+    - git checkout master
+    - git merge --no-ff development
+  - while merging - on master branch
+    - git checkout master
+    - git pull origin master
+    - git merge test
+    - git push origin master
+- Gitflow
+  - Master, Develop, Release, Hotfix, Feature branches
+  - git clone --recursive git://github.com/nvie/gitflow.git
+  - install gitflow from repo
+  - initiating gitflow
+    - git init
+    - ls -la
+    - git flow
+    - git flow init
+    - push the branches master and develop
+  - dan wants to add a feature
+    - git clone git@.....
+    - git checkout develop
+    - git flow feature start
+    - 

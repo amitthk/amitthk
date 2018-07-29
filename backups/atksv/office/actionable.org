@@ -1,0 +1,53 @@
+* actionable
+
+
+
+
+** MGW Malaysia
+
+*** Micromedex toxicology
+*** 2016 Q1 Sprint
+
+
+
+** MGW Malaysia Desktop
+fix the destkop build artifacts
+
+
+** MGW Singapore
+
+*** 2016 Q1 Sprint
+- Amgo-641 autocomplete subscript
+Make manufacturer Info Validaterequest false
+
+
+Singapore – Cavit-D<SUB>3</SUB>
+Philippines - Ellgy H<SUB>2</SUB>O ARR Hydro-Replenishing
+New Zealand - Microdacyn<SUB>60</SUB>
+
+
+** MGW Philippines
+
+*** 2016 Q1 Sprint
+
+** unplanned & urgent
+
+*** eMIMS Desktop Win XP testing
+uninstall old
+install december dvd
+install updates
+conduct all tests
+
+
+*** eMIMS Desktop Win 8.1
+uninstall old
+install december dvd
+install updates
+conduct all tests
+
+** Australia eMIMS Cloud
+
+
+** Australia eMIMS Desktop
+get eMIMS desktop package confirmed
+

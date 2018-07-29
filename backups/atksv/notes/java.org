@@ -1,0 +1,31 @@
+* Java Fundamentals
+** Infroduction
+- JRE /Java SE
+- JAVA EE build on top of JRE core classes
+- Java Fx
+ library to create rich client apps
+- Java ME (Micro edition)
+
+** Streams
+
+- byte streams
+  - binary data
+  - int read()
+  - int read(byte[] buff)
+  - int write()
+
+  Binary streams: 
+  InputStream input = //create input stream
+  int intVal;
+  while((intVal = input.read()) >=0){
+  byte byteVal = (byte) intVal;
+  // do something with byteVal
+
+  }
+ 
+  Text stream:
+
+   char CharVal = (char) intVal  
+
+- text streams
+  - unicode

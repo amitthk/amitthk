@@ -1,0 +1,645 @@
+
+
+* linux essentials LFCS
+  
+** command line
+*** Basic Command line
+- ctrl shift +
+- cd Desktop/
+- right ctrl f2 (from gui to console)
+- right ctrl f1 (back to gui)
+- tty - terminals i am logged in to
+- who  (where is root logged on to)
+- ip a s
+*** Working with directories
+-    pwd
+-    ls
+- type ls - aliases of type 
+- ls -a 
+- ls -aF
+- ctrl+l clear
+- /etc  = service configuration directory
+- ls -F /etc
+symbolic link light colors and @ smbol
+- ls -l /etc - long list of files
+- ls -lrt - list reverse sorted by date modified
+- ls -ld /etc , ls -d (directory details)
+  - tty
+  - ls -l /dev/pts/1
+  - ls -l $(tty)
+- block devices
+  - lsb
+  - lsblk :tree type
+  - ls -l /dev/sda
+  - ls -l /dev/sda?
+  - ls -l /dev/sda*
+  - ls -l /dev/sda[12]
+  - ls -l /etc/system-devises : reveal the symbolic link
+  - cat /etc/redhat-release
+  - lsb_release -d
+  - ls -l $(which lsb_release)
+  - ls -lF $(which lsb_release) : append star * to executables
+  - rpm -qf /usr/bin/lsb_release
+  - rpm -qf $(which lsb_release)
+- Working with files
+  - pwd
+  - cd Documents/
+  - cp /etc/hosts .
+  - cat hosts
+  - cp /etc/passwd ./passwd
+  - cp -i /etc/hosts ./passwd (interactive)
+  - mv hosts localhosts
+  - rm -i .
+- directories
+  - cd
+  - ls
+  - mkdir test
+  - ls sales
+  - mkdir -p sales/test (create parent)
+  - !rm
+  - rm -rf sales
+  - mkdir one two
+  - touch one/fiel{1..5}
+  - cp -R one two : copy one and all its contents to two
+  - yum install tree
+  - tree two
+  - rm -rf two
+  - mkdir -m 777 d1 (7 is full permission)
+  - mkdir -m 700 d2 (user only permission)
+  - ls -ld /etc
+  - ls -ldi /etc :index entry of the file
+  - ls -ldi /etc/. (same as above command. because . is a default file representing etc.)
+  - ..  is linked to the parent directory
+  - ls -l t1
+  - ls -la t1 : show hidden files also
+  - echo hello > f1
+  - cat f1
+  - ln f1 f2 : hard link
+  - ln -s f1 f3 : symbolik link
+  - ls switches
+    - ls -l
+    - ls -i
+    - ls -lh (human readable)
+    - ls -a
+    - ls -ltr
+    - ls -F
+  - type of files
+    - Regular files
+    - Directories
+    - symbolic links
+    - block devices (sdb)
+    - character devices
+    - named pipes
+    - sockets (s as the first character)
+  - cp, mv, rm
+    - -i interactive
+    - -r | R  recursion
+    - *
+    - ?
+    - []
+  - mkdir
+    - -p parent
+    - -m mode
+  - 
+*** Files
+echo $SSH_C
+
+echo $SSH_CONNECTION  : list of all ssh connections
+
+cat /ect/services
+wc -l /etc/services (word count)
+less !$  (last argument)
+ - page up page down
+ - ?sometext
+
+head -n 3 /etc/services : topp 3 lines
+tail -n 3 /etc/services : bottom 3
+
+
+yum list installed | grep kernel
+yum list installed | rep ^kernel
+sudo yum install np
+
+wc -l !$
+cp !$ .
+grep server ntp.conf
+type grep
+grp '\bserver\b' ntp.conf
+
+sudo yum install words
+grep -E '^po..ute$' /usr/share/dict/words
+grep -E '[aeiou]{5}
+
+
+- sed
+function clean_file {
+sed -i '/^#/d;/^$/d' $1
+}
+
+then clean_file
+
+**** Cleaning up files
+echo new >> ntp.ne
+diff ntp.conf ntp.new
+
+vi ntp.new <some changes>
+diff ntp.conf ntp.new
+
+diff /etc/ntp.conf ntp.conf
+
+*** vi
+touch newfile
+ls -l newfile
+newfile1
+stat newfile : statistices of change modify etc
+touch -d '10
+
+vimtutor
+
+1G - firlst line
+i insert, a appends, I inserts at start of line, A to end of line
+
+d, 2dd, u
+
+*** Bash shortcuts
+- Working With Processes
+ Use the following shortcuts to manage running processes.
+
+ Ctrl+C: Interrupt (kill) the current foreground process running in in the terminal. This sends the SIGINT signal to the process, which is technically just a request—most processes will honor it, but some may ignore it.
+ Ctrl+Z: Suspend the current foreground process running in bash. This sends the SIGTSTP signal to the process. To return the process to the foreground later, use the fg process_name command.
+ Ctrl+D: Close the bash shell. This sends an EOF (End-of-file) marker to bash, and bash exits when it receives this marker. This is similar to running the exit command.
+
+- Controlling the Screen
+ The following shortcuts allow you to control what appears on the screen.
+
+ Ctrl+L: Clear the screen. This is similar to running the “clear” command.
+ Ctrl+S: Stop all output to the screen. This is particularly useful when running commands with a lot of long, verbose output, but you don’t want to stop the command itself with Ctrl+C.
+ Ctrl+Q: Resume output to the screen after stopping it with Ctrl+S.
+
+- Moving the Cursor
+ Use the following shortcuts to quickly move the cursor around the current line while typing a command.
+
+ Ctrl+A or Home: Go to the beginning of the line.
+ Ctrl+E or End: Go to the end of the line.
+ Alt+B: Go left (back) one word.
+ Ctrl+B: Go left (back) one character.
+ Alt+F: Go right (forward) one word.
+ Ctrl+F: Go right (forward) one character.
+ Ctrl+XX: Move between the beginning of the line and the current position of the cursor. This allows you to press Ctrl+XX to return to the start of the line, change something, and then press Ctrl+XX to go back to your original cursor position. To use this shortcut, hold the Ctrl key and tap the X key twice.
+
+- Deleting Text
+ Use the following shortcuts to quickly delete characters:
+
+ Ctrl+D or Delete: Delete the character under the cursor.
+ Alt+D: Delete all characters after the cursor on the current line.
+ Ctrl+H or Backspace: Delete the character before the cursor.
+
+- Fixing Typos
+ These shortcuts allow you to fix typos and undo your key presses.
+
+ Alt+T: Swap the current word with the previous word.
+ Ctrl+T: Swap the last two characters before the cursor with each other. You can use this to quickly fix typos when you type two characters in the wrong order.
+ Ctrl+_: Undo your last key press. You can repeat this to undo multiple times.
+
+- Cutting and Pasting
+ Bash includes some basic cut-and-paste features.
+
+ Ctrl+W: Cut the word before the cursor, adding it to the clipboard.
+ Ctrl+K: Cut the part of the line after the cursor, adding it to the clipboard.
+ Ctrl+U: Cut the part of the line before the cursor, adding it to the clipboard.
+ Ctrl+Y: Paste the last thing you cut from the clipboard. The y here stands for “yank”.
+
+- Capitalizing Characters
+ The bash shell can quickly convert characters to upper or lower case:
+
+ Alt+U: Capitalize every character from the cursor to the end of the current word, converting the characters to upper case.
+ Alt+L: Uncapitalize every character from the cursor to the end of the current word, converting the characters to lower case.
+ Alt+C: Capitalize the character under the cursor. Your cursor will move to the end of the current word.
+
+- Tab Completion
+ Tab: Automatically complete the file, directory, or command you’re typing.
+
+- Working With Your Command History
+
+ How to Use Your Bash History in the Linux or macOS Terminal
+ You can quickly scroll through your recent commands, which are stored in your user account’s bash history file:
+
+ Ctrl+P or Up Arrow: Go to the previous command in the command history. Press the shortcut multiple times to walk back through the history.
+ Ctrl+N or Down Arrow: Go to the next command in the command history. Press the shortcut multiple times to walk forward through the history.
+ Alt+R: Revert any changes to a command you’ve pulled from your history if you’ve edited it.
+ Bash also has a special “recall” mode you can use to search for commands you’ve previously run:
+
+ Ctrl+R: Recall the last command matching the characters you provide. Press this shortcut and start typing to search your bash history for a command.
+ Ctrl+O: Run a command you found with Ctrl+R.
+ Ctrl+G: Leave history searching mode without running a command.
+
+
+
+* getting list of all hostnames in lan
+ // unknown was orangepi
+nmap -sP 192.168.1.* 
+
+* setup samba 
+ sudo apt-get install samba samba-common-bin
+
+sudo mkdir -m 1777 /data-share
+
+** backup the samba config file
+sudo mv /etc/samba/smb.conf /etc/samba/smb.conf.$(date +%F)
+
+** cleanup and create the fresh smb.conf
+ sudo grep -ve ^# -ve '^;' -ve ^$ smb.conf.2016-03-08 > smb.conf
+
+** Go into bash and add the data share directory to the end of smb.conf
+sudo bash
+sudo nano smb.conf
+
+==> add the following data
+[data]
+        comment = Data share
+        path = /data-share
+        browseable = yes
+        read only = no
+
+==> test the config
+testparm
+
+==> add samba user
+sudo smbpasswd -a pi
+
+* setup hostname
+sudo nano /etc/hosts
+sudo nano /etc/hostname
+
+sudo reboot
+
+* connect to ec2
+
+ssh -i 'Box Sync'/Docs/amitthk_aws_keypair.pem  ec2-user@ec2-52-36-166-157.us-west-2.compute.amazonaws.com
+
+*  docker
+
+** installed docker
+sudo yum update
+sudo yum install -y docker
+docker -v
+
+** start docker
+sudo service docker start
+ps
+ps aux|grep docker
+sudo service docker status
+
+sudo docker run hello-world
+
+** check docker ip
+Firstly list your machines:
+$ docker-machine ls
+
+Then select one of the machines (the normal default one started is default) and:
+$ docker-machine ip default
+
+
+
+** install mysql
+
+*** create busybox repository:-
+sudo docker run -v /var/lib/mysql --name=mysql_datastore -d busybox
+echo 'My Datastore'
+
+*** use the repository and start mysql
+sudo docker run --name d-mysql -e MYSQL_ROOT_PASSWORD=ditstudent --volumes-from mysql_datastore  -d mysql
+
+*** install wordpress and point it to above mysql instance. also set the port accordingly
+sudo docker run --link=d-mysql:mysql -p 8983:80 -d wordpress
+
+*** nginx on docker
+$ docker run --name amitthk-nginx -v /some/content:/usr/share/nginx/html:ro -d nginx
+
+
+
+
+* apt-get de-install broken packages
+
+** Approach 1
+Make a backup of /var/lib/dpkg/status:
+
+sudo cp /var/lib/dpkg/status /var/lib/dpkg/status.bkup
+
+Open /var/lib/dpkg/status:
+
+sudo nano /var/lib/dpkg/status
+
+Search through the file for any reference to that package name (i.e. linux-headers-3.0.0-19) and CAREFULLY delete that entry. Don't delete anything else. Save the file and quite.
+
+Do sudo apt-get update.
+
+** Approach 2
+
+If you get nowhere with any of the other offerings I've used this in the past
+
+dpkg --remove --force-remove-reinstreq
+From the dpkg manual
+
+remove-reinstreq: Remove a package, even if it's broken
+So run:
+
+sudo dpkg --remove --force-remove-reinstreq  linux-headers-3.0.0-19
+
+
+https://askubuntu.com/questions/122699/how-to-remove-package-in-bad-state-software-center-freezes-no-synaptic/122737#122737?newreg=4bfa6d05048c478a814a2a80dd8c109c
+
+
+* kernel modules
+** list the modules:-
+uname -r
+
+** should match the libraries:-
+ls /lib/modules
+
+** Else compile the latest
+sudo aptitude install linux-image-rpi-rpfv linux-headers-rpi-rpfv
+
+
+
+* httpd
+
+httpd -V
+sudo nano /etc/httpd/conf/httpd.conf
+sudo nano /etc/httpd/logs/error_log
+sudo service httpd restart
+
+sudo chown -R www-data:www-data /var/www/wordpress
+sudo chown -R www-data:www-data /var/www/vhosts/blog
+
+
+
+* httpd.conf config for subdomain
+
+<VirtualHost *:80>
+#    ServerAdmin webmaster@amitthk.com
+     DocumentRoot /var/www/vhosts/blog
+     ServerName default:80
+#    ErrorLog /var/logs/amitthk.com-error_log
+#    CustomLog /var/logs/amitthk.com-access_log common
+    <Directory /var/www/vhosts/blog>
+    AllowOverride All
+    </Directory>
+</VirtualHost>
+
+* docker on raspberry pi
+
+wget https://downloads.hypriot.com/docker-hypriot_1.10.2-1_armhf.deb
+dpkg -i docker-hypriot_1.10.2-1_armhf.deb
+
+* redmine on raspberry pi
+
+http://www.tylerforsythe.com/2015/04/install-redmine-onto-raspberry-pi-2-this-is-the-tutorial-you-want/
+
+* mysql and apache2 on raspberrypi/linux
+sudo apt-get install apache2 mysql-server
+
+** connect to mysql
+ mysql -u root mydatabase
+or
+ mysql -u root
+
+mysql> show databases;
+use redmine_default;
+show tables;
+
+
+** apache 2
+*** backup the default config
+sudo cp /etc/apache2/sites-enabled/000-default.conf
+/etc/apache2/sites-enabled/000-default.conf.bak
+
+*** edit the default config to include subsite
+
+sudo nano /etc/apache2/sites-enabled/000-default.conf
+
+## Add this
+<Directory /var/www/html/redmine>
+    RailsBaseURI /redmine
+    PassengerResolveSymlinksInDocumentRoot on
+</Directory>
+
+*** touch the gemfile
+sudo touch /usr/share/redmine/Gemfile.lock
+sudo chown www-data:www-data /usr/share/redmine/Gemfile.lock
+
+*** add smlink to your site
+sudo ln -s /usr/share/redmine/public /var/www/redmine
+
+*** change owner - allow apache the access to your subsite
+ sudo chown -R www-data:www-data /var/www/redmine
+
+
+*** restart apache server
+sudo service apache2 restart
+
+*** mod passenger config if needed
+sudo nano /etc/apache2/mods-available/passenger.conf
+
+## Add this line
+PassengerDefaultUser www-data
+
+
+
+
+
+* linux run a script at startup
+
+** Create a script in the /etc/init.d/<name of your script>
+
+
+** Enter the contents of the script
+#! /bin/sh
+# /etc/init.d/noip 
+
+### BEGIN INIT INFO
+# Provides:          noip
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Simple script to start a program at boot
+# Description:       A simple script from www.stuffaboutcode.com which will start / stop a program a boot / shutdown.
+### END INIT INFO
+
+# If you want a command to always run, put it here
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+  start)
+    echo "Starting noip"
+    # run application you want to start
+    /usr/local/bin/noip2
+    ;;
+  stop)
+    echo "Stopping noip"
+    # kill application you want to stop
+    killall noip2
+    ;;
+  *)
+    echo "Usage: /etc/init.d/noip {start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0
+
+
+** make script executable
+sudo chmod 755 /etc/init.d/startnoip
+
+*** Test starting the program
+sudo /etc/init.d/startnoip start
+
+*** Test stopping the program
+sudo /etc/init.d/startnoip start
+
+** Register script to be run at start-up
+
+sudo update-rc.d startnoip defaults
+
+** If you every want to deregister this script from running at startup
+sudo update-rc.d -f  startnoip remove
+
+
+
+
+* linux command line monitoring performance
+- 1. Top – Linux Process Monitoring
+- 2. VmStat – Virtual Memory Statistics
+- 3. Lsof – List Open Files
+- 4. Tcpdump – Network Packet Analyzer
+- 5. Netstat – Network Statistics
+- 6. Htop – Linux Process Monitoring
+- 7. Iotop – Monitor Linux Disk I/O
+- 8. Iostat – Input/Output Statistics
+- 9. IPTraf – Real Time IP LAN Monitoring
+- 10. Psacct or Acct – Monitor User Activity
+- 11. Monit – Linux Process and Services Monitoring
+- 12. NetHogs – Monitor Per Process Network Bandwidth
+- 13. iftop – Network Bandwidth Monitoring
+- 14. Monitorix – System and Network Monitoring
+- 15. Arpwatch – Ethernet Activity Monitor
+- 16. Suricata – Network Security Monitoring
+- 17. VnStat PHP – Monitoring Network Bandwidth
+- 18. Nagios – Network/Server Monitoring
+- 19. Nmon: Monitor Linux Performance
+- 20. Collectl: All-in-One Performance Monitoring Tool
+
+
+* configuring httpd Lamp server from aws docs
+
+** Add the user
+
+ls -l /var/www
+
+sudo groupadd www
+
+sudo usermod -a -G www ec2-user
+
+** Logout and check the groups again
+exit
+groups (will show ec2-user wheel www)
+
+
+sudo chown -R root:www /var/www
+
+find /var/www -type d -exec sudo chmod 2775 {} \;
+
+find /var/www -type f -exec sudo chmod 0664 {} \;
+
+
+** Now grab & configure the wordpress
+
+
+wget https://wordpress.org/latest.tar.gz
+
+tar -xzf latest.tar.gz
+
+ls
+
+
+** Oh yes mysql - must create the database for wordpress installation first
+
+sudo service mysqld start
+
+mysql -u root -p
+
+CREATE USER 'wordpress-user'@'localhost' IDENTIFIED BY 'your_strong_password';
+
+CREATE DATABASE `wordpress-db`;
+
+GRANT ALL PRIVILEGES ON `wordpress-db`.* TO "wordpress-user"@"localhost";
+
+FLUSH PRIVILEGES;
+
+exit
+
+** edit the wp-config file inside the wordpress folder
+cp wp-config-sample.php wp-config.php
+
+nano wp-config.php
+
+*** Here update the DB_NAME, DB_USER, DB_PASSWORD etc. values. be careful of the quotes.
+
+** wordpress access settings
+
+//allow permalinks 
+
+sudo vim /etc/httpd/conf/httpd.conf
+
+*** User permissions
+sudo usermod -a -G www apache
+
+sudo chown -R apache /var/www
+
+sudo chgrp -R www /var/www
+
+sudo chmod 2775 /var/www
+
+find /var/www -type d -exec sudo chmod 2775 {} \;
+
+find /var/www -type f -exec sudo chmod 0664 {} \;
+
+sudo service httpd restart
+
+
+[[http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/hosting-wordpress.html#create_user_and_database]]
+
+* Installing redmine
+
+Install ruby and ruby on rails firs
+https://github.com/bvmake/WhosGotWhat/wiki/Installing-Rails-on-free-Amazon-EC2-Micro
+
+sudo yum install readline-devel git make zlib-devel sqlite-devel.x86_64 gcc g++ svn
+
+gem install rails
+
+http://stackoverflow.com/questions/3939914/how-to-install-redmine-on-fedora-11-linux/7427751#7427751
+
+
+* Reinstalling ruby
+
+http://stackoverflow.com/questions/23184819/rails-new-app-or-rails-h-craps-out-with-cannot-load-such-file-io-console
+
+
+* dotnet issues
+
+GPG Pub_Key missing
+
+* Here are MONO Keys
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys
+3FA7E0328081BFF6A14DA29AA6A19B38D3D831EFD
+echo "deb http://jenkins.mono-project.com/repo/debian sid main" | sudo tee /etc/apt/sources.list.d/mono-jenkins.list
+
+
+* Here are dotnet core keys
+
+sudo sh -c 'echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet/ trusty main" > /etc/apt/sources.list.d/dotnetdev.list'
+
+sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893

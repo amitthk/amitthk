@@ -1,0 +1,17 @@
+* someday
+
+
+** MGW Malaysia Desktop NANT build fully working
+
+** MGW Admin controller for consolidated cache generation
+
+** MGW full test cases
+
+** MGW vNext
+
+*** Create JSON Api interface for most of modules
+
+*** Create Angularjs front-end
+
+*** Create Bootstrap UI
+** MGW analytics

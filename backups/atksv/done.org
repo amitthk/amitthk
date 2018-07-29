@@ -1,0 +1,366 @@
+* done
+** Send the braindump email
+** email for MGW NZ token,quota issue
+*** Is the quota managerment or limiting  really a subject of concern in context of New Zealand/Asia?
+ This is something we need a direction from Leo. We want to rank how critical is Quota checking in New Zealand context (all other parameter remaining unchanged). From the way it is implemented currently it seems like it is a soft observation layer or monitoring purpose.
+
+*** What is the problem we are trying to solve here right now? Are we able to solve it ? Can we test it now?
+**** 3 users - belonging to same organization- trying to login (using same or different ID's) - one of them logs out - all others are being logged out from mobile devices.
+**** Root cause?
+ Session ID's are same
+**** Everything else simply works the way it is right now. We are not adding/removing anything special here.
+**** Then what did we do?
+ We only solved the group logout issue. Which happens to be the case because of sessionID being shared by multiple users. We no longer logout the user on basis of SessionID.
+**** Any expected after-effects/side-effects?
+ Only difference here is we are not re-using the token anymore. We are suspecting this may cause some difference in Quota values. (Quota management as we discussed earlier is not very strictly implemented in MGW NZ Live. When user logs in using multiple emails - we pick up session ID of first user at some places (need to trace again why & where this is happenning ) )
+
+*** What are the parameters in direction of complicating the issue?
+ User management process in MIMS Gateway many moving parts. Many of these parameters (like Login user count, Organization Subscription limits, User types) are important and directly linked to business/financial side of MIMS Gateway application.  The number of permutations coming out of these parameters makes it difficult to document all the test cases, however the aspects can be ranked in Impact/Probability matrix - an few of them would probably rank higher.
+ - User Type (Organization/IP/Department/Individual user)
+ - Subscription Type ( - same as above -)
+ - Authentication type (Cookie, Persistent Cookie, Session Id, Token authentication)
+ - Quota limits ( at different levels Org/dept/Individual)
+ - User Activity (logging)
+ - Users behind proxy (IP is being detected using X-Forwarded for - but some places this seems to be ineffective)
+ - Login Type (Web Login / Mobile App login / Web Api access) etc.
+
+
+*** What are the parameters in direction or simplifying the issue?
+ In our current changes - only thing we have changed is - we are no longer re-using token on the basis of sessionID. This should solve the "one user logout - logs out multiple users" issue. Everything else should remain in the state that it is right now.
+
+**** What are the test cases most important for the end user  - which currently work and must not be affected?
+
+ - User logins and user logouts must work. After login user must be able to fetch updates,data from API.
+ 1. Organization user logs in , checks updates, logs out.
+ 2. Individual user logs in, checks updates, logs out.
+ 3. IP User logs in, checks updates, logs out.
+
+ - "One user logout - logs out multiple users" issue must be fixed.
+ 1. 3 Users using different emails - Same Organization - one logout - rest should not be affected.
+ 2. 3 Users using same email (on 3 devices) - Same Organization - one logout - rest should not be affected.
+ 3. 3 Users using different emails - behind same PROXY - one logout - rest should not be affected.
+ 4. 3 users using same email (on 3 devices) - behind same PROXY - one logout - rest should not be affected.
+ 5. Individual user - login/logout - should not affect any other user.
+ 6  Individual user - behind same proxy - login/logout - should not affect any other user (Individual or Organizations users).
+
+
+** Domain name renewal
+*** Inquire GoDaddy renewal charges. If okay make payment
+*** Inquire namecheap, other domain registrar charges transfer domain if better
+** Provident email
+ Hello, sorry I've been traveling recently so couldn't reply email. I
+ have initiated remittance and would transfer the installment as early
+ as possible.
+
+ I have following 5 concerns/querries, please answer them (preferably
+ in sequence):-
+
+ 1. I have made the transfer of Rs 1Lack 37 thousand earlier and recieved
+ confirmation (when I inquired later) about the covered car
+ parking. However, i have not yet received the ammendment letter as I
+ have requested earlier also.
+ 2. Above payment is not reflecting in my account statement attahced
+    with latest demand letter. Please clarify.
+ 3. I want to confirm the parking slot please. Please assign the
+    parking slot as nearer to my block as possible and please do not
+    assign it as the last slot of the building. My parents for whom I
+    have primarily purchased the apartment - are old and hope you would
+    understand that they cannot walk to much everyday.
+ 4. When is the expected possession date, please note that I must give
+    advanced notice to book for leaves.
+
+
+** [#A] Reply Leo's email
+** DONE [#A] Provident payment
+*** DONE Remittance 
+*** DONE Check back on ICICI
+*** DONE Transfer to Provident
+*** DONE Notify Provident
+
+** setup orangepi linux
+setup on 32 gig card
+ftp server
+samba optionally
+backup rsync configs
+
+raspberry pi always on machine
+
+
+** Plan tomorrows runway actionlist
+*** Import domain classes Parichayliste
+*** Import controllers, services, test webapi Parichaylite
+*** Setup bootstrap UI Parichaylite
+** Atksv upload tuts, install git, emacs configure. Inform team
+** Raspbian Kodi
+
+
+** Consolidate todo lists, Notes in Text files, Github them
+*** put to linux minipc for work and github for backup.
+** Plan MGW project schedules, communicate milestones and deliverable charts
+** Setup atksv > emacs, github. use for notes
+** separate office org repository
+
+** Move house
+*** clean current house
+Mask, Gloves, Cleaning cloth, 
+Prepare bleach, dettol spray
+Clean Fridge
+Clean floor with bleach solution
+*** Stick fridge shelves
+*** Check & fix window adjustment
+*** Aircon service
+*** Wall Painting
+*** Clean new house before move in
+Can call a maid to clean.
+Mask, Gloves, Cleaning mop, bucket, mug etc.
+Clean floor with bleach
+Clean wardrobes with blea~ch, detol solution
+
+   
+
+** Provident payment and confirmations
+** setup mac pro aspnet core
+** TODO You must be writing your destiny rather than being r*p*d by people who rather hate you
+- Doesn't feel right sitting specifically facing the back.
+- Doesn't feel right when everyone must ride the train to their future and you are specifically sit at floormat.
+- Doesn't feel right when everyone must get upgrades while you drag on the rejected equipment since the very first day.
+- It didn't work for them since the very first day. Do not know why you are even here.
+- The first and foremost goal is to get out of this humiliating position.
+
+   [2016-04-13 Wed]
+   [[file:~/Documents/src/atksv/inbox.org::*Clean%20new%20house%20before%20move%20in][Clean new house before move in]]
+** Read all daily references
+
+** Look for bed
+** India agenda
+  - Buy checklist
+    - Little India
+      - Plastic Suitcase
+      - Shivam's phone
+      - Shyama Didi's phone
+      - sport shoes
+      - boat shoes/flat shoes
+      - hair trimmer, nose trimmer
+      - straightener, blower
+      - toaster (sensonic @ giant $29)
+      - small water heater (ihome@giant $19)
+      - key holder
+      - glass flask
+      - dry fruits
+      - necker?
+    - bt. panjang/clementi
+      - Key cutting
+      - tiny hand fans
+      - baby cars/toys/sovenieurs
+      - casio watch
+      - stickable soap stand
+      - stick one board in bathroom
+      - hair spray, hair jel
+      - stickable pen stand
+      - pocha top/auto mop, floor cleaner
+      - shaving razor
+      - facewash
+      - hanger for hand towel in bathrooms
+    - to buy/carry over checklist
+      - sunscreen for Monika/Nisha
+      - one laptop
+      - android phone
+      - licecare
+      - Backjoy seat support
+      - Get all keys duplicates. put one in ofc.
+      - Accupressure slippers
+      - Preet's phone
+      - samsung phone
+      - rasbpi
+      - hard disk with tutorials
+      - tab
+      - watch
+      - blackberry
+      - new suitcase
+      - scooter
+      - gangwar's kindle option
+  - learn to drive car properly
+  - get driving license
+  - Bring back checklist
+    - diaries, organizers
+    - pens
+    - soveniers
+    - baniyans
+    - langot for kriya etc
+    - pants
+  - follow thoroughly personal rituals
+  - study business books & update & communicate business plans.
+  - watch videos, complete trainings
+  - DWMY, gantt, calendar, Quick task app
+  - be in contract mode
+  - Xamarin, docker, angular 2
+** drtc
+
+- draw the drtc class diagram, work breakdown structure, delegate work
+- get drtc on SERP, display monograph by tomorrow
+- get the drtc fixed
+- implement search module
+- implement drtccontroller -. info, search, browse
+- bicycle baby seat
+
+
+*** track the payment of maziga party
+
+- Hello Abi kindly help me to forward the following details to your cousin? She was asking to pay me on the spot but I did not have details of expenses that time I tol$
+
+Paylah : 91319851
+DBS Savings: 020-20-74187
+
+76.40 - Drinks
+31.80 - Pizza
+75.00 - Maziga Entry
+-----
+183.2/5 = 36.64 Per Head
+
+ 
+
+
+*** note down all the DWMY checklists & references into gtd, save, print them also
+
+
+
+** - racing checklist
+  - Sleep at 9 the previous day. Eat light Clean stomach. Wake Up 3:30 get ready by 4:30.
+  - Prepare your bag from the race checklist a day before
+    - Necker, T-shirt for the race, Innergarment
+    - Bag
+    - Shoes, socks
+    - water/drinks, cashews/walnut
+    - cotton Shirt/T-shirt, Trouser
+    - All the tags and identities. Wallet.
+    - facewash,sunscreen
+    - specs, hanky
+    - vitamis,panadol
+
+- define all drtc works, complete the major ones by tomorrow (like browse, search)
+- bluetooth headphones
+- with one thing certain that it is more of contractural preference and highly toxic state of environment for you here. you must be taking a look at your moments more professionally.
+- with one thing certain that it is more of contractural preference and highly toxic state of environment for you here. you must be taking a look at your moments more professionally.
+
+- errands
+  - vibrate watch
+  - simple phone
+  - android phone
+  - recharge starhub sim
+  - timer switch
+
+** Headphones case
+
+** Raspserv for emacs VM
+
+** Fridge shelves
+
+** some errands
+- done, transfer to monika
+- documents copies
+- done, check citibank, pay
+- Ask Leo for friday evening timings
+- pay rental
+- call mom
+- reply provident
+- done, reply liza
+
+
+** DotnetRc2Angularjs2 blog
+*** First implementation 
+*** Blog
+Hey there, I'm on my mac and we're gonna try today .net core rc2. Rc2 has been released recently. We also have angularjs 2 rc released recently. Lets try them out.
+
+Lets put some order to our steps first:-
+
+1. Installation and setup
+I'd get dot net running. installed Npm, yo, bower, gulp.
+used bower to fetch bootstrap
+nam installed aspeet-generator for yo
+yo generated aspen webapi app
+plugin swagger to it
+lets take a look how our api behaves
+lets add a data layer, our domain objects would be in the data layer for now
+our web api project has reference to the data layer project
+now lets add a simple data layer. right now it is in memory cache later we would add more
+add a controller. Create crud operations. lets test using swagger
+
+now the angularjs part
+
+- Used yo to create a webapi project angdnx
+- Used yo to create another "Class Library" project at same place  angdnx.Data
+- added global.json, configured the projects together
+- referenced Data project from webapi project
+- dotnet restore, go into angdnx dotnet build , dotnet run
+- added repository project
+- added index.html to wwwroot
+
+
+
+
+*** Practice session and full implementation on the fly
+*** Viedo tutorial
+*** Writeup
+
+# npm install -g typescript
+# npm install -g tslint
+# npm install -g typings
+
+# install gulp dependencies
+npm install browserify vinyl-source-stream vinyl-buffer gulp-tslint gulp-typescript gulp-sourcemaps gulp-uglify run-sequence gulp-mocha gulp-debug --save-dev 
+
+
+# *vscode install tslint
+
+# install typings if required
+typings init
+typings search core-js
+typings install dt~core-js --save --global
+
+#setup the tsconfig
+add tsconfig.json
+    "compilerOptions": {
+        "target": "es5",
+        "sourceMap": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "isolatedModules": false,
+        "jsx": "react",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "declaration": false,
+        "noImplicitAny": false,
+        "removeComments": true,
+        "noLib": false,
+        "preserveConstEnums": true,
+        "suppressImplicitAnyIndexErrors": true
+    }
+
+#create gulpfile.js
+
+# gulp build-app
+# gulp bundle
+# if anything missing  npm install ****
+
+** Apply Australia PR
+** Complete House Installments
+
+** Aircon service 
+
+** complete projects, update portfolio
+ 
+
+** DONE Close fitness first 
+** Buy chin up bar 1.02Meter+ 
+
+** Treadmill 
+
+** House Registration by 30 June 2017
+
+
+** Update Word Resume
+
+** Update Linkedin Resume from Word
+
+** Update Accenture resume
+

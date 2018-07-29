@@ -1,0 +1,94 @@
+* All
+
+All Software
+
+7-Zip
+ActivePerl
+Adobe Acrobat
+Adobe Air
+Adobe Bridge CS4
+Adobe Contribute CS4
+Adobe Dreamweaver CS4
+Adobe Fireworks CS4
+Adobe Flash CS4
+Adobe Illustrator CS4
+Adobe InDesign CS4
+Adobe Photoshop CS4
+Adobe Reader
+AIM Pro
+Audacity
+Eclipse
+FileZilla Client
+Firefox
+Flash
+FoodPro
+Foxit Reader
+Gimp
+Google Chrome
+Google Talk
+ImgBurn
+Inscape
+Internet Explorer 11
+IrfanView
+iTunes
+Java
+JMP Pro 11
+Mathematica 10
+MATLAB 2015a
+Microsoft Office Access 2013
+Microsoft Office Excel 2013
+Microsoft Office OneNote 2013
+Microsoft Office InfoPath 2013
+Microsoft Office Publisher 2013
+Microsoft Office PowerPoint 2013
+Skype for Business 2015
+Microsoft Office Word 2013
+Microsoft Visual Basic 2008 Express
+Microsoft Visual C# 2008 Express
+Microsoft Visual C++ 2008 Express
+Microsoft Visual Studio Community Edition
+MikTex
+MobaXterm 7.7
+NDSR
+Notepad++
+NVivo 11
+Origin Lab 2015
+Picasa
+Pidgin
+Praat
+ProQuest For Word (formally Write-N-Cite)
+PuTTY (SSH)
+R
+R Studio
+Read & Write
+ResophNotes
+Salt
+SAS 9.3
+Silverlight
+Skype
+SPSS 15 Viewer
+SPSS 23
+Stata SE 14
+Sylvius
+TexStudio
+VLC
+Windows Messenger
+WinSCP
+X-Win32
+Yahoo! Messenger
+
+
+
+
+* Java
+JDK
+Maven
+Eclipse
+
+
+* Javascript
+Nodejs
+Typescript
+Gulp
+Grunt
+Mongodb

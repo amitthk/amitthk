@@ -1,0 +1,9 @@
+* done
+** Remove downtime notice from MGW PH, SG
+
+** reply Shannen's email regarding subscript issue.
+We're already handling this for Singapore. Few test cases are to be fixed in next deployment.
+Tentative go-live for Singapore and Phillipines is .
+
+For New Zealand, Leo will advise as this requires code change.
+

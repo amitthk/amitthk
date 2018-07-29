@@ -1,0 +1,1865 @@
+* inbox
+
+** Most Urgent to Follow Through
+
+*** Consolidate and revise all notes. Print them.
+
+*** Buy Condo at Singapore
+
+*** Complete trainings
+- Mark the book and notes from Khalid Mughal SCJP
+- The DevOps handbook
+- Advanced Javascript Training + Notes
+- Advanced NodeJs Training + Notes
+- NodeJs MEAN, Ionic
+- Advanced Java
+- Java Enterprise web, Maven
+- Docker deep dive
+- Linux Administration
+- Linux tomcat administration
+- AWS
+- Ansible Docker Continuous Integration
+- Linux Comptia, RHEL Certified
+- PMP PDU Earn
+- Agile PMI-ACP
+- AWS Book
+- Java Core
+- Java JAX RS and JPA
+- PMP Revise full
+- Send email to Gangwar
+- Saltstack - Salt
+https://www.youtube.com/watch?v=99jHvkVM0Dk
+
+*** Update Accenture potal resume
+*** AWS Certification
+
+*** IELTS Certification
+
+*** Apply AU PR
+
+*** Red Hat Certification
+
+*** OCJP
+
+*** UPdate your PMP
+
+*** Agile Certified
+
+*** Update portfolio. First deserve then desire. Be totally ready
+*** Driving License
+**** get driving license @singapore
+***** DONE sign up for btt get test date
+***** DONE buy btt book. study, learn
+***** DONE take test, passtest, get PDL
+***** Get PDL Again
+***** get instructor lessons
+***** register for final theory test
+***** take gest, pass test
+***** take driving practical test, pass test
+***** get license
+**** convert to international license
+
+
+
+** General Follow Through/KIV
+
+*** Finish up 2 topmost priority items in morning. Shift all planning and training to lower energy hours(afternoon/evening)
+*** Clean up Facebook
+
+*** Cleanup LinkedIn
+
+*** Keep an always updated hourly work trail
+
+*** Update your resume
+
+*** Log project details always
+
+*** Blog everyday, journal, work on a personal projects
+*** Angularjs your blog. Host minimum res u me there
+
+*** Clear up incomplete projects
+
+*** Complete important projects
+
+*** Learn up all the DevOPs and good skills
+
+
+
+** Structure of this inbox.
+  - Everything is in Inbox.
+  - Capture everything here. Organize it later below.
+  - Actionables are below.
+  - Someday is below.
+  - At each review some items move to actionable, someday, references.
+  - References are separate. And Done also.
+  
+
+** captures
+
+
+
+**** Submit PR form still
+
+*** todos
+**** Citibank change address 
+
+**** Print dwmy pocket size 
+
+**** Morning capture collect cloths & setup night before 
+
+**** Buy pen tab  
+
+**** Must get started in morning. Drill habit ritual trainer 
+
+**** Habit: erect posture, stillness, forehead calm, concentrate observe thoughts, feet flat grounded, breath 
+
+**** Identify time wasters in morning - NOT todo list 
+
+**** Write down your day, Strictly follow priorities, Follow Pomodoro 
+
+**** Pay Credit Card bills 
+
+**** DBS Check 
+
+**** Pay rental 
+
+**** Ping Hassan 
+
+**** FILL PR Form 
+
+**** Upload video to dropbox 
+
+**** Selenium/casperjs download 
+
+**** Automation templates and project update  angdnx->parichaylite, responsive design 
+
+**** Setup gantt chart 
+
+**** Setup an always on feed 
+
+**** Microsd take to office 
+
+**** Organize full GTD, revise PMP 
+
+**** Print dwmy pocket size 
+
+**** Setup and establish habits 
+
+**** Wake up early, Practice 1 hour something to challenge your mind, Speed Reading, Learn finance & management, Learn technical skills, Exercise, Trataka, Blogging, Talk to 5 people with firm eye contact & thoughts, Write down one plan & update business plan every day, prioritize & fix task of the day, topmost priority and goal of the week 
+
+**** Move app from SD to disk 
+
+**** Internet Plan & IT Fair 
+
+**** IT Fair - Selfie stick, ssd, change plan, bluetooth controller, usb hub 
+
+**** Reply for self collection of training chair 
+
+**** Delete all incomplete project forks 
+
+**** Update portfolio. Proper gantt charts, proper PMP 
+
+**** Update all plans setup wiki, mind map, gantt charts and schedulers 
+
+**** Consolidate all caches to single location , L1, L2, L3, In memory , DB, File, Protobuf cache, all cachenames in mins constants 
+
+**** Chain of responsibility pattern configurable with config 
+
+**** Personal assistant robot 
+
+*****  Cube with wheels & screen 
+
+*****  Raspberry pi 
+
+*****  Can record your in momory 
+
+*****  When you want to process 
+
+*****  Organize your schedule 
+
+*****  Web, mobile and on screen management & connectivity 
+
+*****  Can SMS or whatsapp you if configured 
+
+*****  Remind you of your daily task/routine/habit goal 
+
+*****  Alarms and many more 
+
+**** Morning fix ritual print today 
+
+*****  Cold plunge (firs) 
+
+*****  Kriya 
+
+*****  Face makeup later 
+
+*****  Morning  
+
+*****  *** Challenging skill practice 
+
+*****  *** Learn english now 
+
+*****  *** Learn Chinese 
+
+*****  Plan for personal project 
+
+*****  Plan for office project 
+
+*****  Plan for Urgent activities 
+
+*****  Plan for errands you're gonna run today 
+
+*****  GTD review 
+
+*****  Topmost Priority 10 tasks of the day 
+
+*****  Must -> eye contact, fixed gaze, forehead calm, still 
+
+*****  All Business create action words 
+
+*****  Learn business & investment 
+
+*****  Fix schedules for Plan->Do->Check->Act 
+
+*****  Office work -> Plan, Schedule, Do, Act 
+
+*****  Plan email replies before typing, Draft, send 
+
+*****  Explore Knowledge areas 
+
+*****  Revise Pomodoro Day review 
+
+*****  Once a day revise one good stuff/knowledge  
+
+*****  Once a day work one big project 
+
+*****  Finish 1 Book a week - skim 
+
+**** errands
+***** Print full next action list, start working, keep ticking it
+
+***** [#A] Complete parichaylite project, blog
+***** [#A] Learn linux admin, shell script, apache admin
+***** [#A] Get SCJP Certified
+***** [#E] Complete NANT video
+***** [#A] Complete Python Django project
+***** [#B] Complete nodejs project
+
+***** Morning ritual
+***** Raspserv for emacs VM
+
+***** Fridge shelves
+
+***** Headphones case
+
+***** Ipod mini headphones
+
+***** Laptop
+
+
+***** DBS Cashline charges $80 call to DBS, check previous card charges, close cards
+***** Review complete plan setup and print full
+***** Print Daily reference, Keep in View list
+***** Remember everyday till you are with these people
+
+***** Aircon service 
+
+***** Ipod mini headphones
+
+***** Laptop
+
+** xamarin xplat apps
+
+** parichaylite
+
+** all tutes
+
+** MGW MY WebeApi and Angular interface
+
+- Convert all the major modules to Json API, (add swagger if needed)
+- Angularjs front end app
+  - Use mimsgatewayapp
+  - prefereably typescript
+  - keep the module separate
+  - ng controller hosts the front end only
+  - print methods to call the api and print based on print templates
+  - bootstrap mobile first
+  - Major is lhs revamp and  SERP, MONOgraph, PIL pages.
+  - Widget layouts can be chosen & configure to select modules.
+
+- random capture on inbox. don't try to do all the organization here
+
+- kuhu's water tub
+
+- think thoroughly once and establish it well. saves time in long run
+
+- Next action list for MGW MY Sprint
+
+  - Reduce every task to 20 minutes slots
+
+  - Collect all the templates that contain the method
+
+  - Target the templates one by one
+
+  - Setup Vnext
+
+** http://members.optusnet.com.au/~charles57/GTD/gtd_workflow.html
+** Checklists
+*** Daily
+**** A.M.
+- wake up before 5:30 AM. Start your day like a winner. Be highly self desciplined.
+- mobilize your body
+- Gather
+- Get out of the bathroom in Maximum 20 minutes flat.
+- Complete your 90 minute high performance pomodoro in morning
+
+
+- Wake up before 5:30 AM. Start your day like a winner. Be highly self desciplined.
+- Wash face splash Eyes. Stretching for max 5 minutes.
+- Collect: towel, soap, shampoo, toothbrush, toothpaste, facewash, dettol.
+- Get Out of Bathroom in maximum 20 minutes. Don't waste your time in bathroom and in getting ready.
+- Nature's call, wash face, hair, bath, wash face.OUT
+- Face cream. Get ready.
+- Kriya, Jal
+- Collect: underwear, shirt , pants, belt, hair gel + blowdry hair
+- Collect: mobile, IDs, Keys, Purse/Wallet, Specs
+- Collect: kada, watch, socks, hanky, tissues
+- Do: Breakfast, Vitamins/supplements
+- Read news, mark for long study.  Technical, Business, World News.
+- Reading pomodoro.
+
+- Morning Ritual
+  - Wide awake before 5:30 AM:
+  - Wash face splash Eyes:
+  - Stretching for 5 minutes:
+  - Water:
+  - Nature's Call(max 10 min):
+  - Brush:
+  - Bath 10min:
+  - Face cream get ready in 5 min:
+  - Kriya (30-40 min):
+  - Ready for office: 5 min (underwear, shirt , pants, belt, hair gel + blowdry hair, mobile, ID, Key, Purse, Specs, kada, watch, socks, hanky, tissue, vitamins)
+  - Breakfast: 10 min
+  - B. Complex/Vitamin C/Fish oil:
+  - Travel to office: ~65 min
+
+- Finish up 2 topmost priority items in morning. Shift all planning and training to lower energy hours(afternoon/evening)
+- Practice 1 hour something to challenge your mind, 
+- Speed Reading, 
+- Learn finance & management, 
+- Learn technical skills, 
+- Exercise, 
+- Trataka, 
+- Blogging, 
+- Talk to 5 people with firm eye contact & thoughts, 
+- Write down one plan & update business plan every day, 
+- Plan your day, pen it down
+  - task of the day
+  - topmost priorities
+  - goal of the week 
+
+
+- Reading pomodoro
+  - Steps
+    - Scanning
+    - Skimming
+    - Deep Diving
+    - Tip Tapping
+  - Techniques
+    - Eye Span
+    - Flash cognition
+    - Observe the thought
+    - Watchout action words. Picture & move fast.
+- tech update 20 Min.
+  - Skim through feedly
+  - Skim through News
+- learn new tech
+  - Watch video. Make notes
+  - Implement
+- practice
+- revise
+**** P.M.
+
+***** Evening ritual
+      - Wash Face
+      - Shave/Trim Hair
+      - Wash Head
+      - Bath
+      - Hair Oil
+      - Wash Face, Hands
+      - Kriya
+      - Dinner
+      - Play with Kuhu
+      - Learn/Read something new 30min.
+      - Write to Journal & Blog
+
+**** During the Day
+     - Sit upright. Walk proactive. Speak assertive. Spine erect.
+     - Trataka (Stillness. Watch the mind. Watch the breath.)
+     - Radiate confidence, assertiveness, command and success
+     - Be action oriented, results producing, outcome focussed. Achieve your goals on day to day basis. Don't waste your life in only getting ready all the time.
+     - Reveiw all tech news
+     - Speed reading pomodoro
+     - Focus training pomodoro
+     - Learn something new today for 1 hr.
+     - Converse minimum 3 people & min. 5 minutes with fixed eye contact
+     - Journal & Blog
+     - Wash cloths. Put cloths to dry
+
+*** Weekly
+
+
+**** Sunday
+
+- Iron cloths
+- Revise one core technical skill complete
+- Read
+- Learn something new
+- Practice something new. Make notes.
+
+**** Monday
+
+**** Tuesday
+
+**** Wednesday
+
+**** Thursday
+
+**** Friday
+
+
+
+
+*** Monthly
+
+
+** DWMY Checklist
+*** Daily
+**** AM
+***** Checklist
+ Wake up before 6 AM. Start your day like a winner. Be highly self desciplined.
+ Wash face splash Eyes. Stretching for max 5 minutes.
+ Get Out of Bathroom in maximum 20 minutes.
+ Nature's call, wash face, hair, bath, wash face.OUT
+ Face cream. Get ready.
+ Kriya
+ Jal
+ Dress for success. Look more su. underwear, shirt , pants, belt, hair gel + blowdry hair
+ mobile, IDs, Keys, Purse/Wallet, Specs
+  kada, watch, socks, hanky, tissues
+ Breakfast, Vitamins/supplements
+ Read news, mark for long study.  Technical, Business, World News.
+ Reading pomodoro.
+
+*** If this then that rules list
+** DWMY Compiled
+*** Daily
+**** AM
+- Wake up 5:00 AM. Just get up from bed. Do something stimulating.
+- Start your day like a winner. Be highly self desciplined.
+- Concentrate on the experience of life. Blink only if you have to. Do only this - still & firm.
+- Wash face. Splash eyes. Drink water.
+- Get Out of Bathroom in maximum 20 minutes.
+- Take a cold plunge as early as possible. 
+- Nature's call(defer it if takes more than 10 minutes), wash face, hair, bath, wash face.OUT
+- Was Face. Cream. Get ready.
+- Kriya, Jal
+- underwear, shirt , pants, belt, hair gel + blowdry hair
+- mobile, IDs, Keys, Purse/Wallet, Specs
+- kada, watch, socks, hanky, tissues
+- Breakfast, Vitamins/supplements
+- First half of the day is most important, do not waste any minute. Get into work mindset ASAP.
+- Practice/learn/read 1 hour something to challenge your mind. Mathematics. Or something that stretches your mind.
+  - Mathematics
+  - English or other language
+  - Something very technical or requiring decision.
+- 80% of success at a task is in showing up. Just get started. If not actually performing, think for it, write or type it out.
+- Finish up 2 topmost priority items in morning. Shift all planning and training to lower energy hours(afternoon/evening)
+- Speed Reading at least 10,000 words a day. 100 pages.
+- Learn finance & management, 
+- Learn technical skills, 
+- Exercise, 
+- Trataka, 
+- Blogging, 
+- Talk to 5 people with firm eye contact & thoughts, 
+- Write down one plan & update business plan every day, 
+- Plan your day, pen it down
+  - task of the day
+  - topmost priorities
+  - goal of the week
+- Morning must do(s)
+  - Wake up an Hour Early
+  - Visualize. Enjoy the quiet and take some time to map out your day. 
+  - Eat breakfast.
+  - Finish one most challenging task in morning. Use the first half effectively.
+  - Motivational mantra: dig deep and find out what inspires you. Recite it. Breathe & relax.
+  - Workout
+  - Pack snacks
+  - Toss out some irrelevant stuff to dustbin.
+  - Go to be early.
+  - Silence. Waking up early offers you opportunities that few get to enjoy – 
+watch the sun rise, hear the sound of birds chirping, and just be still. 
+We are always on the move. Sit and enjoy the morning calm.
+
+
+- Habit Plan
+  - Create a routine, stick to it (15 min -xxx, yyy)
+  - Keep the first half of the day for most important/toughest tasks.
+  - Workout & Meditate
+  - Give a head start to tomorrow - today
+  - Schedule time for revenue generating activities
+  - Keep a track of your progress
+  - Refresh yourself with quality family time. Have total vaction time.
+  - Encourage team to provide solutions not problems.
+  - Segregate each day for separate business activity
+  - Continue Learning
+
+- Must do(s)
+  - Read
+  - Exercise
+  - Chart out the day
+  - Take regular feedback
+  - Don't pretend to be busy
+  - Learn to say 'no'. Have a Not To Do list.
+  - Hire people with superior skills.
+  - Be charitable
+  - Sleep well
+
+- Read all business news. Mark action words & names.
+- Technical, World, Local News review.
+- GTD Inboxing
+- GTD Review
+- Plan for the day
+  - Plan personal projects
+  - Plan Office/Work projects
+  - Plan Unplanned/Urgent and Errands you're gonna run today.
+  - Set priorities for the day.
+- Complete your 90 minute high productivity session by 8AM.
+
+***** References
+- Techniques Checklist
+  - Sit upright with spine erect.
+  - Relax your forehead, still. Fixed gaze. Focus your energies at mast of your head. Observe breath.
+  - Actively control the body, mind, speech. Keep your energies focused and at peak of your performance. 100%.
+  - 60 seconds of 100% performance in every minute.
+  - Stillness
+  - Control, Power and Authority
+  - You're always beyond your body. Concentrate on thought. Observe your energies communicating.
+  - Learn to listen. Observe a part of your day in total silence. Speak only on purpose. Recognize when it has all been said.
+  - Stoical Mind
+  - Mindfullness, Awareness
+  - Observe your breath
+  - Communication
+  - Concentration
+  - Vision, Direction, Leadership
+  - Politial, Cultural, Environmental awareness
+  - Be absolutely comfortable within your body, mind, energies and soul.
+  - Spontaneity
+  - Clarity
+
+- Not to Do Checklist
+Do not let ticks on eyes/forehead/face.
+Do not fidget/shake your legs.
+Do not be lazy/drowsy in name of being relaxed.
+Do not dissync your breath.
+Do not be absent minded. Feel the surroundings. Be aware of everything around you.
+Do not let stress/emotion reflect on your face.
+Do not stress eyes or keep them lazy/closed. Keep eyes open, relaxed look upwards.
+Do not sit in wrong/lying/lazy posture.
+Do not let life energies to get depleted.
+Do not waste time of your life on purposeless activities. Always plan and follow through.
+
+- References 1
+Start your day like winner.  Be absolutely self desciplined.
+Do everything consciously. Track every moment. If you rest - do it consciously.
+Develop a psychology of motion. Be spontaneous & relentless.
+Eyes wide awake. Look upward. Fixed gaze. Forehead relaxed.
+Reflect calmness from face. Face fully controlled, Vibrant.
+Stay proactive from energies and body language.
+Spine erect. Stillness. Stoical mind, expressionless face.
+Feet flat firm on ground - no fidgeting.
+Project your energies proactively. Assertive body language, speech and outcome focused.
+
+- References 2
+Focus & Concentration ritual
+Trataka, Stillnes, Silence, Observe your mind, observe your breath.
+Zen Focus
+Always plan your day. Write down your mind.
+Remember only 20% of your actions result in 80% of results that matter
+Develop a habit of motion. Spontaneous, relentlessness.
+Always ask yourself- where I am? Where I wan to go? What are  the priorities? Start with why, then how, then what of a task.
+However huge your plan is - ask yourself and write down on paper -> "What is the NEXT PHYSICAL UNIT OF ACTION I must take?
+Stop thinking & start doing. Just Begin. Start working on what you got to do even if it looks like trivial/mundane at start. You'll pick up. 
+Cultivate a "Let’s go and take a look!" attitude
+Fruit,Cider vinegar,Vitamins,Water,Exercise,Observe breath,Stillness,F.A.C.E.H.S,Proactive Attitude,Demand only the best.
+Close the loop.  Ask yourself -Is everything all right? Update others also and put a proper closure to all your actions
+
+***** Checklist
+ GTD Pomodoro
+ Capture -> Inbox all captures. Mind sweep.
+ Clarify, Organize
+ Map out your day. live on purpose. 10 most important tasks of the day. Top 5 areas of focus for the day.
+ Start the day with 90 minutes on most important & most challenging Task of the Day.
+
+**** Not to Do Checklist 
+ Do not let ticks on eyes/forehead/face.
+ Do not fidget/shake your legs.
+ Do not be lazy/drowsy in name of being relaxed.
+ Do not dissync your breath.
+ Do not be absent minded. Feel the surroundings. Be aware of everything around you.
+ Do not let stress/emotion reflect on your face.
+ Do not stress eyes or keep them lazy/closed. Keep eyes open, relaxed look upwards.
+ Do not sit in wrong/lying/lazy posture.
+ Do not let life energies to get depleted.
+ Do not waste time of your life on purposeless activities. Always plan and follow through.
+
+
+**** Techniques Checklist
+ Trataka. Fixed gaze.
+ Stillness
+ Control, Power and Authority
+ Stoical Mind
+ Mindfullness, Awareness
+ Synchronize your breath
+ Communication
+ Concentration
+ Concentrate on thought, communicate with energies
+ Vision, Direction, Leadership
+ Politial, Cultural, Environmental awareness
+ Be absolutely comfortable within your body, mind, energies and soul.
+ Spontaneity
+ Clarity
+
+**** Morning
+GTD Pomodoro
+Capture -> Inbox all captures. Mind sweep.
+Clarify, Organize
+Map out your day. live on purpose. 10 most important tasks of the day. Top 5 areas of focus for the day.
+Start the day with 90 minutes on most important & most challenging Task of the Day.
+**** PM
+Learn something new. Make notes for tomorrow.
+Focus & Concentration pomodoro
+Memory training pomodoro
+Journal the progress of the day
+Do a mind sweep. Type your mind.
+Review appointments
+
+**** Over the day
+ Every 90 minutes practice a 5 min. nothingness drill.
+ Practice a new knowledge. 60 min.
+ Observe your body, position it still, proactive, erect, relaxed and proactive. 
+ Keep your energy shield charged. Focussed on mast of your head. Follow through your goals each moment.
+***** During the Day
+ - Personal Projects (2-4h)
+   - Plan
+   - Do
+   - Check
+   - Act
+ - Office Projects (4-6h Max)
+   - Plan
+   - Do
+   - Check
+   - Act
+ - Explore information in knowledge areas
+ - Revise One Technical Knowledge area
+ - Skim through 1 book
+
+ - General Guidelines
+   -Limit fcebook/internet/TV time to max 30 min.
+   - Exercise
+   - Stop sugar/caffeine intake
+   - Read daily
+   - Every 90 minutes practice a 5 min. nothingness drill. Restart it until full 5 min. is performed.
+   - Practice a new knowledge. 60 min.
+   - Observe your body, position it still, proactive, erect, relaxed and aware/alert.
+   - Keep your energy shield charged. Focussed on mast of your head. Live every moment on purpose - follow through your goals.
+***** Checklist
+ Learn something new. Make notes for tomorrow.
+ Focus & Concentration pomodoro
+ Memory training pomodoro
+ Recap the day. Capture. Mind sweep.
+
+**** Good Night Checklist
+- Drink water. Eat fruit/cucumber if necessary. Or drink milk. Take some dry fruits. 
+- Recap the day. Capture. Mind sweep. 
+- Journal something learnt over the day. 
+- GTD Inboxing
+
+*** Weekly
+
+**** SUN
+ Inbox all captures. Clarify. Organize. Full GTD Review.
+ Wash clothes. Iron clothes.
+ Shave, Nose Trim, 
+
+ 
+**** MON
+ Wash Cloths
+
+
+ 
+**** TUE
+Vegetarian diet
+
+
+**** WED
+ Shave
+ Wash Cloths
+
+**** THU
+
+ 
+**** FRI
+ Wash Cloths
+
+
+
+**** Saturday
+-  Go for a long walk at 5 AM today 
+- Wake up at 5. Complete daily ritual by 6:15
+- Early morning walk
+
+***** GTD weekly review
+      - empty mobile phone inboxes
+	- pictures -> digital refsys/memories
+	- voicememo/recordings -> inbox
+	- sms -> inbox
+	- voicemail -> inbox
+      - empty other 'capture' in-baskets
+	- loose papers in bag -> inbox
+	- loose papers in pockets -> inbox
+	- loose paers in walet -> inbox
+	- loose papers on desk -> inbox
+      - empty digital in-basket
+	- personal URLs -> digital refsys
+	- work URLs -> digital refsys
+	- notes/reminders -> inbox
+	- 
+      - e-mails
+	- If important & must incubate -> print
+	- move to mail archive folder
+      - check calendars
+	- Gather all loose & digital appointments data
+	- Sync the appointments
+	- Review previous week -> inbox
+	- review upcoming 2 weeks -> inbox
+      - reviw upcoming 2 weeks in tickler -> inbox
+      - mindsweep -> inbox
+      - review Active Projects List
+	- check every project
+	  - Each project must have more than 1 "Next Action"
+	  - "trash" finished/obsolete project
+	  - move to someday/maybe if no longer adds value
+      - review Someday/Maybe list
+	- check each item
+	  - transform 3 to projects
+	  - delete if no longer adds value
+	  - move to specialized folder if applicable
+      - review reference system index
+	- check each item
+	  - create a project if required
+	  - create a someday/maybe if required
+      - review project support material -> inbox
+      - review and update other lists
+	- this weekly review checklist
+      - select from read/review stack -> inbox
+      - empty inbox
+	- Process
+	- Organize
+      - prune "Next Action" list
+	- check each item
+	  - be specific: Very Next, Most value add, Next Physical Action
+	  - granularity: no tiny actions, no projects!
+	  - actionability: "you" Must Do/Should Do/Can Do/Want to Do?
+	  - 20 minute rule: promodoro ready
+	  - form: short. start with action word
+	  - ASAP? or: tickler or: calendar or: refsys?
+	  - archive finished actions to "Done"
+	  - move stale items to someday/maybe
+	  - rephrase unattractive items
+	  - toss items you are not going to do
+	  - move some items to Project or Someday/Maybe
+      - Check & replenish Office & GTD supplies
+      - Organize Desk, Drawers, Refsys etc.
+      - read and re-read inspiration
+	- affirmations
+	- goals
+	- motivation reference lists
+	- success logs
+	- wisdom quotes
+	- misc. notes
+      - reward yourself for successful weekly review!
+
+
+***** GTD Captures
+      - Capture
+	- Get things out of your head write them on to paper.
+	- Collect any other notes lying stray
+	- Process: Actionable? Someday/Maybe? Reference? Support Material? Trash!
+      - Reflect on last week
+	- Did I get everything done?
+	- If not why?
+      - Review next week
+	- What commitments do I have?
+	- What preparation do I need to do?
+	- How much (sensibly) can I do in 10 hours day?
+	- Allocate things from monthly goals/tasks into weekly
+	- Make sure thre is a reasonable balance between Key areas of focus
+      - Review next 4 weeks
+	- What events are in there. Do I need to add anything?
+      - Review Goals/Projects 
+
+
+
+
+
+
+
+
+*** Monthly
+**** 1'st to 10th of the Month
+Put some money into savings account
+Pay household expenses. Save for children.
+Pay Phone Bill
+Pay Electricity Bill
+Pay Credit card Bills
+Pay Rental
+- Pay Rental/House installment
+- Pay Credit Card Bills
+- Pay Electricity Bill
+- Pay Internet Bill
+- Transfer to Savings
+- Pay to Monika household expenses
+- Top Up Travel Card
+- Organize personal budget
+
+
+
+**** 10th to 20th of the Month
+
+**** 20th to 31st of the Month
+Go for Hair Cut
+Facial massage, steaming, mask, Leg hair removal.
+
+
+*** References
+
+**** Must do checklist
+- Spine erect. Sit proactive. Feet flat firmly grounded. Observe your breath. Observe your mind.
+- If you really concentrate, everthing goes perfect. Keep on a royal calm and concentrate.
+- Forhead relaxed. Concentrate on forehead. Stillness. Control your physiology.
+- Switch off your mind at your will. Mindfullness.
+- Sit upright. Walk proactive. Speak assertive. Spine erect.
+- Trataka (Stillness. Watch the mind. Watch the breath.)
+- Radiate confidence, assertiveness, command and success
+- Be action oriented, results producing, outcome focussed. Achieve your goals on day to day basis. Don't waste your life in only getting ready all the time.
+- Start your day like winner.  Be absolutely self desciplined.
+- Do everything consciously. Track every moment. If you rest - do it consciously.
+- Develop a psychology of motion. Be spontaneous & relentless.
+- Eyes wide awake. Look upward. Fixed gaze. Forehead relaxed.
+- Physiology: Control your face totally. Radiate charisma and success from it. Radiate intense calmness from face.
+- Stay proactive from energies and body language.
+- Spine erect. Stillness. Stoical mind, expressionless face.
+- Feet flat firm on ground - no fidgeting.
+- Project your energies proactively. Assertive body language, speech and outcome focused.
+- Tame your body. Tame the mind.
+- Topmost Priority: your health - keep it healthy. Completely comfortable within yourself.
+- Topmost Technique: self-descipline. Command a total control over this human being you own.
+
+**** Not to Do Checklist
+Do not let ticks on eyes/forehead/face.
+Do not fidget/shake your legs.
+Do not be lazy/drowsy in name of being relaxed.
+Do not dissync your breath.
+Do not be absent minded. Feel the surroundings. Be aware of everything around you.
+Do not let stress/emotion reflect on your face.
+Do not stress eyes or keep them lazy/closed. Keep eyes open, relaxed look upwards.
+Do not sit in wrong/lying/lazy posture.
+Do not let life energies to get depleted.
+Do not waste time of your life on purposeless activities. Always plan and follow through.
+
+**** Techniques Checklist
+Learn to listen. Observe a part of your day in total silence. Speak only on purpose. Recognize when it has all been said.
+Trataka. Fixed gaze. Forehead relaxed. Mouth relaxed. Focus is at the mast of your head.
+Spine erect. Sit active.
+Stillness
+Control, Power and Authority
+Stoical Mind
+Mindfullness, Awareness
+Observe your breath
+Communication
+Concentration
+Concentrate on thought, communicate with energies
+Vision, Direction, Leadership
+Politial, Cultural, Environmental awareness
+Be absolutely comfortable within your body, mind, energies and soul.
+Spontaneity
+Clarity
+
+
+**** Techniques checklist 1
+Focus & Concentration ritual
+Trataka, Stillnes, Silence, Observe your mind, observe your breath.
+Zen Focus
+Always plan your day. Write down your mind.
+Remember only 20% of your actions result in 80% of results that matter
+Develop a habit of motion. Spontaneous, relentlessness.
+Always ask yourself- where I am? Where I wan to go? What are  the priorities? Start with why, then how, then what of a task.
+However huge your plan is - ask yourself and write down on paper -> "What is the NEXT PHYSICAL UNIT OF ACTION I must take?
+Stop thinking & start doing. Just Begin. Start working on what you got to do even if it looks like trivial/mundane at start. You'll pick up. 
+Cultivate a "Let’s go and take a look!" attitude
+Fruit,Cider vinegar,Vitamins,Water,Exercise,Observe breath,Stillness,F.A.C.E.H.S,Proactive Attitude,Demand only the best.
+Close the loop.  Ask yourself -Is everything all right? Update others also and put a proper closure to all your actions
+
+
+**** PR form
+
+***** Page 1
+
+  - G6186095P
+  - Amit Kumar Thakur
+  - Indian
+  - Hindu
+  - Vill- Kargi, P/o- Banjarawala, Dehradun, Uttarakhand, India
+  - 03/06/1982
+  - Vill- Kargi, P/o- Banjarawala, Dehradun, Uttarakhand, India
+  - Married
+  - Senior Software Engineer
+  - 5200
+  - Bachelor of Technology (Computer Science & Engineering) 2001-2005
+  - DIT Dehradun, Under Uttar Pradesh Technical University, Lucknow
+  - 00, 00, 01
+  - Passport N: G1875270
+  - 08/03/2007 Bareilly
+  - 07/03/2017
+  - #13-260, Block-654, Senja Road, Singapore - 670654
+  - 91319851
+
+
+***** Page 2
+
+  - ** 2015  to ** 2016
+    - Project Management Professional
+  - Nov 2013 - Nov 2013
+    - IT DE-505S-1 Solve Software Design Problems Using Patterns
+    - NICF, ISS, National University of Singapore
+    - Full Time
+  - Nov 2013 - Nov 2013
+    - IT DE-403S-1 Develop Technical details design
+    - NICF, ISS, National University of Singapore
+    - Full Time
+  - 25/10/2001 to 25/07/2005
+    - Bachelor of Technology (Computer Science & Engineering)
+    - DIT Dehradun Under Uttar Pradesh Technical University, Lucknow
+    - Computer Science & Engineering (Full-Time)
+  - 31/05/1999 to 31/05/2000
+    - Intermediate (12th Std) (Physics, Chemistry, Mathematics, English)
+    - SGRR Public School Bombay Bagh Dehradun
+    - Physics Chemistry, Mathematics, English (Full Time)
+  - 31/05/1997 to 31/05/1998
+    - Matriculation (10th Std)
+    - SGRR Public School Bombay Bagh Dehradun
+    - Science Stream (Full Time)
+  - 15/07/2004 to 16/08/2004
+    - Edge Detection Algorithms Study and Implementation
+    - IRDE (D.Dun. India) Ministry of Defence India
+    - Industrial training
+  - 15/05/2004 to 14/06/2004
+    - Summer Training
+    - Bharat Sanchar Nigam Ltd. (D.Dun India)
+    - Industrial Training
+  - 07/02/2005 to 19/02/2005
+    - .Net Technology 3 day short term training
+    - Indian Society for Technical Education (D.Dun India)
+    - Full Time
+  - 1/Feb/1998 to 30/April/1998
+    - Computer Hardware
+    - Lal Bahadur Shashtri Training Institute (D.Dun India)
+    - Full Time
+
+
+  - Achievements
+    - Designing & development of modules and functionalities for eMIMS cloud, eMIMS Desktop Australia, eMIMS Administration Module (Web), MIMS Gateway Admin, MIMS Gateway New Zealand, Malaysia, Singapore, Philippines projects.
+    - Migration of Faculty of Arts & Social Sciences, National University of Singapore Website to new template and NUS branding guidelines. Development of various web applications, software for FASS NUS.
+    - Revamp of Ernst & Young GSS Connect portal to new Ernst & Young Branding Guidelines. Development of Intranet Applications.
+    - Hands on experience on various Government Sector Projects on Portal, web applications like Uttarakhand Fores (Govt. Of India), SIPF Rajasthan, IGRS Madhya Pradesh.
+
+
+  - Work Experience
+    - 02/Jul/2012 to Present
+      - MIMS Pte. Ltd. (Former UBM Medical Asia Pte. Ltd.) , 438A Alexandra Road, Alexandra Technopark # 04 - 01/02, Singapore 119967.
+      - Senior Software Engineer (Module Lead)
+      - Development of Modules, Widgets and Functions for MIMS Gateway, MIMS, NewZealand, Malaysia, Singapore, Philippines, eMIMS Australia)
+      - $5200
+    - 22/Sep/2008 to 30/Jun/2012
+      - Cambridge Solutions Pte. Ltd. (XChanging Asia Pte. Ltd.)
+      - 13 International Business Park, #06-01, Jurong East, singapore - 609932
+      - Senior Software Engineer
+      - Development and maintenance of Applications, Websites for National University of Singapore )
+      - $3852
+    - 12/May/2008 to 19/Sep/2008
+      - Ernst & Young Global Shared Services, Bangalore, Karnataka, India
+      - Web Developer (Intranet Web Applications & Websites)
+      - $750
+    - 12/Nov/2007 to 04/May/2008
+      - OneApps Enterprise Tech. Pvt. Ltd.
+      - Web Developer
+      - $580
+    - 22/Sep/2006 to 15/Sep/2007
+      - Geo Data Sys, Dehradun, Uttarakhand, India
+      - Web Developer
+      - $375
+    - 24/Aug/2005 to 15/Feb/2006
+      - IBM Daksh Gurgaon
+      - Specialist Customer Support
+      - $250
+ 
+
+
+  
+
+
+***** Page 3
+
+  - Project Management Institute
+    - Certified Project Management Professional
+
+  - Addresses
+
+    - *** 2016 to Present
+      - #13-260, Block 654, Senja Road, Singapore - 670654
+
+    - May 2010 to ** 2016
+
+      - #07-51, Block-351, Clementi Ave-2, Singapore 120351
+
+    - Oct 2008 to April 2010
+
+      - #03-421, Block-305, Clementi Ave - 4, Singapore - 120305
+
+  - Family
+
+    - Late Sh. Govind Singh Thakur
+
+      - M
+      - 21/06/1960
+      - Dehradun
+      - Indian
+      - -na-
+      - -na-
+    - Mrs. Pushpa Thakur
+      - F
+      - 15/06/1964
+      - Dehradun
+      - Indian
+      - Dehradun
+      - House Wife
+    - Anupama Thakur
+      - Sister
+      - F
+      - 18/08/1985
+      - Dehradun
+      - Indian
+      - Ponta Sahib
+      - Teacher
+    - Sumit Thakur
+      - Brother
+      - M
+      - 25/09/1986
+      - Dehradun
+      - Indian
+      - Dehradun
+      - Senior Software Engineer
+ 
+
+**** gtd workflow
+  Captures draft => notebook
+  Project structure & map => org files
+  Higher level gtd => org files
+
+**** Business plan
+
+***** Edu Hub
+
+****** Library
+
+****** Reading rooms
+
+****** Personal Study Desks
+
+****** Children toy library
+
+****** Children educational guidance
+
+****** Subscription based tuition joints: Pay for what you learn 
+
+****** Hourly classroom contracts with instructors.
+
+***** Shopping hub
+
+****** Shopping website
+
+****** Bulk purchase contracts and retailing strategy
+  Sellers can sign up bulk sale contracts with our website to offer bulk order agreement.
+  Shopping hub's margin is decided on bulk order.
+  Sale to all buyers is only finalized if decided number of orders are met.
+  For self collect deals, the deals are finalized through Shopping hub tokens. The deal price is applicable.
+
+****** Door to Door delivery and logistics department
+  Company offers door to door delivery and shipping facility in locations.
+  Various other logistics partners also offer shipping facility. Seller can arrange their personal delivery also.
+  Sellers can sign shipping package for bulk shipping of any sale item. Sellers can thus offer competitive prices to their prospective buyers.
+  Logistics department is responsible for shipping and delivery of the items to buyers.
+
+
+***** Mind body soul fitness club
+
+****** Multi facility Gym with timed sessions
+  HIIT, Tabata, Weight Lifting trainings.
+
+
+******* Free flow of drinks. Shower equipped with Blowers, Shampoo, body wash.
+
+******* Towels are provided on arrival. Drop them into for wash drop box.
+
+******* Locker facility for members while exercising.
+
+******* Swimming pool. Sauna/steam
+
+******* Newspapers, magazines, music & resting area.
+******* Separate rooms for Timed Sessions.
+****** Timed Yoga training sessions.
+  We have a certified yoga trainer.
+  Also have planned advanced meditation training sessions for high performance
+  mind, body training.
+
+****** Buffet facility open for Mind Body Sould hub club members.
+
+  Family 4 course mealsets available.
+  Highly conducive and organized family dining environment.
+  Family get together activities and games.
+  Diet recommendations for each age group.
+
+****** Productivity training courses & sessions 
+
+******* Memory Training
+
+******* Focus Training
+
+******* Speed Reading Training
+
+****** High Intensity daily rituals for top achiving performers
+  Morning Rituals
+  Day Kick Start Rituals
+  Day Performance Checklists
+  Evening Rituals
+  Good Night Rituals
+
+****** Dance and rumba sessions
+
+****** Swimming pool, spa and Jacuzzi
+  Thorough detox and getting you mentally and physically ready for the upcoming month.
+
+** Actionable
+*** calls
+
+*** active projects
+
+**** Learn Xamarin & Create Apps
+
+**** Amazon AWS Certification
+***** Next Action
+ Watch full video again
+ Read through full amazon cloud book, prepare notes
+
+***** Review full Amazon books
+***** Sign up for Krypton
+**** stay focussed. Stay focussed now.
+**** Reduce everything down to next action level. Steady focussed continue work on actionables. You have no moment to waste.
+**** Project blogs import from allmyjournals,
+*****  complete parichaylite
+      - Framework from angdnx
+      - bootstrap
+      - token auth
+      - controllers & data schema from parichaylite
+      - sqlite / mongo/ azure storage providers
+      - mobile optimized
+      - async await
+      - test cases
+      - docker
+      - continuous integration gulp build
+	- package bundle
+	- deploy config
+
+
+**** Daily reference list from todoist, wunderlist
+**** errands, tickers can be in any.do
+**** Python app
+ Google calendar to sync with gant chart
+ plan your one day schedule, copy it to weeks or months for schedule generation. separate calendar.
+ Gantt chart plan sync to Google Calendar.
+ Create new google calendar for each project.
+**** [#A] Get AWS Certified
+**** [#A] Get Good GMAT Score
+**** [#A] Apply PR
+ Download form fill it
+ Collect documents
+ Complete the form filling
+ Fix appointment
+ Collect HR letter
+ Submit form
+
+**** Review GTD Full
+***** [#B] Skim through gtd
+**** [#B] Parichaylite setup system (macpro)
+***** Import domain classes, controllers - parichaylite
+**** [#B] Skim through amazon books
+**** Learn Node.js
+
+**** Review Pomodoro
+**** TODO Pass MBA from to a top 10 business school
+**** TODO Up and running with django, python
+       
+**** TODO Complete bootstrap tutorial
+	   
+**** TODO Complete Python Tk and QT tutorials
+
+**** DWMY App
+
+  - .Net core rc2
+  - Bootstrap mobile first
+  - syncs to google calendar
+  - Xamarin Android & IOS
+      
+*** Consolidate all todo lists, Ref Sheets (wunderslist, remember the milk, simplenote, evernote, notebooks, diaries etc)
+*** What you should remember
+
+ You're in deep load of sh*. Have some self respect. Even the last man standing is called on a dinner you're selectively left out. You're looked down upon.
+
+ Get some self respect, get out of this sh* at any cost.
+ For Am* I we don't really have any other option as of now.  Fairness, honesty ? really?
+*** Amazon AWS Certification
+**** Review full Amazon books
+**** Sign up for Krypton
+
+*** TODO Pass AWS Certification
+
+**** Complete the udemy video course
+**** TODO Complete AWS tutorial
+**** Signup for exam
+**** Read the whitepapers
+**** Create notes, mindmap
+
+*** TODO Pass IELTS Exam
+     
+*** TODO PMI ACP Certification
+**** Fill in the form
+**** Download manual, read it, create mind map and notes
+**** Fill in the form submit it
+**** Watch video course, Read book, make notes & mind maps
+**** Signup for exam and take the exam
+       
+*** TODO You must be writing your destiny rather than being r*p*d by people who rather hate you
+ - Doesn't feel right sitting specifically facing the back.
+ - Doesn't feel right when everyone must ride the train to their future and you are specifically sit at floormat.
+ - Doesn't feel right when everyone must get upgrades while you drag on the rejected equipment since the very first day.
+ - It didn't work for them since the very first day. Do not know why you are even here.
+ - The first and foremost goal is to get out of this humiliating position.
+
+*** TODO You must be writing your destiny rather than being r*p*d by people who rather hate you
+ - Doesn't feel right sitting specifically facing the back.
+ - Doesn't feel right when everyone must ride the train to their future and you are specifically sit at floormat.
+ - Doesn't feel right when everyone must get upgrades while you drag on the rejected equipment since the very first day.
+ - It didn't work for them since the very first day. Do not know why you are even here.
+ - The first and foremost goal is to get out of this humiliating position.
+
+    [2016-04-13 Wed]
+    [[file:~/Documents/src/atksv/inbox.org::*Clean%20new%20house%20before%20move%20in][Clean new house before move in]]
+
+
+ Dear Sir,
+
+ I would request a Medical leave today as I am not feeling well. I caught cold and flu somewhere.  
+
+ Went to doctor yesterday thought it would be fine by morning but I think I won't be able to sit comfortably in office so I would take rest.
+
+ I am reachable on my handphone +65-91319851 and Skype.
+
+ Best Regards,
+ AmitPython, J
+
+**** Page 1
+
+ - G6186095P
+ - Amit Kumar Thakur
+ - Indian
+ - Hindu
+ - Vill- Kargi, P/o- Banjarawala, Dehradun, Uttarakhand, India
+ - 03/06/1982
+ - Vill- Kargi, P/o- Banjarawala, Dehradun, Uttarakhand, India
+ - Married
+ - Senior Software Engineer
+ - 5200
+ - Bachelor of Technology (Computer Science & Engineering) 2001-2005
+ - DIT Dehradun, Under Uttar Pradesh Technical University, Lucknow
+ - 00, 00, 01
+ - Passport N: G1875270
+ - 08/03/2007 Bareilly
+ - 07/03/2017
+ - #13-260, Block-654, Senja Road, Singapore - 670654
+ - 91319851
+
+
+**** Page 2
+
+ - ** 2015  to ** 2016
+   - Project Management Professional
+ - Nov 2013 - Nov 2013
+   - IT DE-505S-1 Solve Software Design Problems Using Patterns
+   - NICF, ISS, National University of Singapore
+   - Full Time
+ - Nov 2013 - Nov 2013
+   - IT DE-403S-1 Develop Technical details design
+   - NICF, ISS, National University of Singapore
+   - Full Time
+ - 25/10/2001 to 25/07/2005
+   - Bachelor of Technology (Computer Science & Engineering)
+   - DIT Dehradun Under Uttar Pradesh Technical University, Lucknow
+   - Computer Science & Engineering (Full-Time)
+ - 31/05/1999 to 31/05/2000
+   - Intermediate (12th Std) (Physics, Chemistry, Mathematics, English)
+   - SGRR Public School Bombay Bagh Dehradun
+   - Physics Chemistry, Mathematics, English (Full Time)
+ - 31/05/1997 to 31/05/1998
+   - Matriculation (10th Std)
+   - SGRR Public School Bombay Bagh Dehradun
+   - Science Stream (Full Time)
+ - 15/07/2004 to 16/08/2004
+   - Edge Detection Algorithms Study and Implementation
+   - IRDE (D.Dun. India) Ministry of Defence India
+   - Industrial training
+ - 15/05/2004 to 14/06/2004
+   - Summer Training
+   - Bharat Sanchar Nigam Ltd. (D.Dun India)
+   - Industrial Training
+ - 07/02/2005 to 19/02/2005
+   - .Net Technology 3 day short term training
+   - Indian Society for Technical Education (D.Dun India)
+   - Full Time
+ - 1/Feb/1998 to 30/April/1998
+   - Computer Hardware
+   - Lal Bahadur Shashtri Training Institute (D.Dun India)
+   - Full Time
+
+
+ - Achievements
+   - Designing & development of modules and functionalities for eMIMS cloud, eMIMS Desktop Australia, eMIMS Administration Module (Web), MIMS Gateway Admin, MIMS Gateway New Zealand, Malaysia, Singapore, Philippines projects.
+   - Migration of Faculty of Arts & Social Sciences, National University of Singapore Website to new template and NUS branding guidelines. Development of various web applications, software for FASS NUS.
+   - Revamp of Ernst & Young GSS Connect portal to new Ernst & Young Branding Guidelines. Development of Intranet Applications.
+   - Hands on experience on various Government Sector Projects on Portal, web applications like Uttarakhand Fores (Govt. Of India), SIPF Rajasthan, IGRS Madhya Pradesh.
+
+
+ - Work Experience
+   - 02/Jul/2012 to Present
+     - MIMS Pte. Ltd. (Former UBM Medical Asia Pte. Ltd.) , 438A Alexandra Road, Alexandra Technopark # 04 - 01/02, Singapore 119967.
+     - Senior Software Engineer (Module Lead)
+     - Development of Modules, Widgets and Functions for MIMS Gateway, MIMS, NewZealand, Malaysia, Singapore, Philippines, eMIMS Australia)
+     - $5200
+   - 22/Sep/2008 to 30/Jun/2012
+     - Cambridge Solutions Pte. Ltd. (XChanging Asia Pte. Ltd.)
+     - 13 International Business Park, #06-01, Jurong East, singapore - 609932
+     - Senior Software Engineer
+     - Development and maintenance of Applications, Websites for National University of Singapore )
+     - $3852
+   - 12/May/2008 to 19/Sep/2008
+     - Ernst & Young Global Shared Services, Bangalore, Karnataka, India
+     - Web Developer (Intranet Web Applications & Websites)
+     - $750
+   - 12/Nov/2007 to 04/May/2008
+     - OneApps Enterprise Tech. Pvt. Ltd.
+     - Web Developer
+     - $580
+   - 22/Sep/2006 to 15/Sep/2007
+     - Geo Data Sys, Dehradun, Uttarakhand, India
+     - Web Developer
+     - $375
+   - 24/Aug/2005 to 15/Feb/2006
+     - IBM Daksh Gurgaon
+     - Specialist Customer Support
+     - $250
+ 
+
+
+  
+
+
+**** Page 3
+
+ - Project Management Institute
+   - Certified Project Management Professional
+
+ - Addresses
+
+   - *** 2016 to Present
+     - #13-260, Block 654, Senja Road, Singapore - 670654
+
+   - May 2010 to ** 2016
+
+     - #07-51, Block-351, Clementi Ave-2, Singapore 120351
+
+   - Oct 2008 to April 2010
+
+     - #03-421, Block-305, Clementi Ave - 4, Singapore - 120305
+
+ - Family
+
+   - Late Sh. Govind Singh Thakur
+
+     - M
+     - 21/06/1960
+     - Dehradun
+     - Indian
+     - -na-
+     - -na-
+   - Mrs. Pushpa Thakur
+     - F
+     - 15/06/1964
+     - Dehradun
+     - Indian
+     - Dehradun
+     - House Wife
+   - Anupama Thakur
+     - Sister
+     - F
+     - 18/08/1985
+     - Dehradun
+     - Indian
+     - Ponta Sahib
+     - Teacher
+   - Sumit Thakur
+     - Brother
+     - M
+     - 25/09/1986
+     - Dehradun
+     - Indian
+     - Dehradun
+     - Senior Software Engineer
+
+
+** someday
+*** Books to Read
+*** Things to Learn
+**** Programming
+
+***** [#A] python
+
+****** aws
+
+****** google cloud
+
+    django
+
+****** cross platform
+
+****** PYside, PYQT desktop
+
+****** build scripting yes
+
+***** [#B] nodejs
+  
+****** single thread
+****** 
+***** Java
+***** .Net
+****** MCSD Certification
+
+ https://www.microsoft.com/en-sg/learning/mcsd-certification.aspx
+
+ MCSD Web
+ https://www.microsoft.com/en-sg/learning/mcsd-web-apps-certification.aspx
+
+ Microsoft Dev Courses
+ https://mva.microsoft.com/training-topics/web-development#!jobf=Developer&lang=1033
+
+****** MCSA Certification
+ https://www.microsoft.com/en-sg/learning/mcsa-certification.aspx
+
+****** MCT Certification
+ https://www.pluralsight.com/blog/it-ops/mct-requirements
+
+***** Linux
+ Linux Foundation Certified System Administrator (LFCS) Certification
+ https://training.linuxfoundation.org/certification/lfcs
+
+***** C# 
+     
+****** cross platform now
+***** ruby
+
+****** CHEF
+    Chef is ruby
+
+***** go
+
+
+***** [#C] scala
+
+***** c++
+
+
+*** New Projects
+**** complete parichaylite
+***** Import models from parichay
+***** Create views
+***** Implement data layer
+***** Impletment authentication authoriziation (webapi)
+***** Impletment token security
+**** Process automation business concept
+ On your request and as discussed:-
+ 3D Printer cost in singapore:-
+ http://forums.vr-zone.com/chit-chatting/2904838-review-portabee-3d-printer-the-most-afforable-singapore.html
+ http://www.hongkiat.com/blog/affordable-3d-printer/
+
+ 3D Printer in India:-
+ https://www.quora.com/Where-can-I-buy-a-3D-printer-in-India-and-how-much-would-it-cost
+ https://3dprint.com/42314/fabx-3d-printer/
+
+ 3D Modeling kickstart course:-
+
+ https://www.lynda.com/AutoCAD-tutorials/AutoCAD-2017-Essential-Training/437290-2.html
+ https://www.lynda.com/AutoCAD-tutorials/AutoCAD-Certified-Professional-Prep-Course/419363-2.html
+ https://www.lynda.com/AutoCAD-Architecture-tutorials/AutoCAD-Architecture-Essential-Training/162570-2.html
+ (Classroom/practical training)
+ http://www.tertiarycourses.com.sg/3d-design-model-printing-courses-in-singapore.html
+
+
+
+ Where to by Raspberry Pi in Singapore:-
+ http://sg.element14.com/
+
+
+ Where to buy Raspberry Pi in India:-
+ http://in.element14.com
+
+ Raspberry Pi Automation/programming courses:-
+ (basics & getting up & running with python raspberry-pi)
+ https://www.udemy.com/introduction-to-raspberry-pi/
+ https://www.lynda.com/Raspberry-Pi-tutorials/Up-Running-Raspberry-Pi/191267-2.html
+
+ https://www.udemy.com/hardware-projects-using-raspberry-pi/
+ https://www.udemy.com/internet-of-things-automation-using-raspberry-pi-2/
+ https://www.raspberrypi.org/blog/tag/home-automation/
+ https://www.hackster.io/AnuragVasanwala/home-automation-0dcefc
+ (advanced, building your own OS in assembly language - University of Cambridge)
+ http://www.cl.cam.ac.uk/projects/raspberrypi/tutorials/os/
+
+
+
+*** Things to Do
+
+*** complete chinese course
+*** complete scala course
+
+*** Own business
+**** Team
+***** Harish Thakur
+ Several years of proven hands on experience in Business Modeling, Management and Supervision. Business enthusiast. 
+***** Mohinder Thakur
+ Several years of Management experience. Practical hands on experience in establishing and managing business from grounds up. Business enthusiast.
+
+***** Amit Thakur
+ Senior software engineer(Module Lead), PMI Certified Project Management Professional. Business enthusiast.
+***** Sumit Thakur
+ Senior software engineer. Practical hand's on experience with property related matters. Vibrant, charismatic personality. Technical perfectionist. Business enthusiast.
+
+***** Amit Gangwar
+ Senior Solution Architect, project manager with Bel Helicopters. Recognized analytical bent of mind. Risk analyst, troubleshooter.  Masters from IIIT, Bachelor's from Pantnagar University.
+
+*** raspi setup ftp/nas
+*** Films to Watch
+
+*** [#B] Lynda courses complete 
+ 
+**** Lynda learn Python, Django, Update Blog
+***** Amitthk.com blog setup
+****** Port to AWS Blog
+****** Wordpress blog to 
+****** Provident fund transfer, inquire email for parking
+*** Complete CV add projects tomorrow
+*** TODO Complete C++ tutorial. Practice open projects 
+    DEADLINE:20-feb-2016
+	     SCHEDULED: 20-Feb-2016
+*** TODO Complete java tutorial
+       
+*** TODO Complete backbonejs tutorial
+	 
+*** TODO Nodejs essential training
+*** TODO Complete eclipse essential training
+*** TODO Complete D3, Backbonejs tutorial
+     
+     
+
+    * TODO Complete full Parichaylite with WebAPI 2, Razor, OAuth tokens, Angularjs client as well
+      ** Complete Parichaylite
+      ** Create tutorial post it
+      ** Complete Angularjs frontend (consumes OAuth tokens & claims)
+     
+
+*** TODO Pass GMAT with good score
+    
+*** TODO Comptia Linux+ certification
+*** TODO Pass MCSD certification
+       
+*** TODO SCJP Certification
+      ** Find out course content
+      ** Complete Java courses
+      ** Make notes, create documents
+      ** Signup for Exam
+      ** Take Exam
+     
+     
+*** setup raspberrypi cloud drive
+*** Get PR
+**** Fill the form
+**** Get HR Letter
+**** Book appointment
+**** Submit form
+*** Update Portfolio
+**** Wordpress /django + AngularJS portfolio
+**** SEO your profile
+**** Grooming
+**** Work on CV
+*** Complet Projects
+*** Complete GMAT, get MBA Admission
+**** Go to seminar. Look for course discount. Look for courses offered, direct entries.
+**** Get into course. Update Leo about timings
+**** Get good GMAT score.
+**** Apply to best B.Schools
+**** Get MBA
+*** Get International Driving License
+**** Look for driving instrcutors
+**** Get the course
+**** Pass final theory test
+**** Take practical test
+**** Get License
+*** Todomanager
+
+**** Keyboard shortcuts
+***** Ctrl+right = indent position
+***** Ctrl+left = decrease indent
+***** Ctrl+up = move up in same level
+***** Ctrl+down = decrement in same level
+**** Timer Logic 
+***** If timer is running "no editing"
+***** Stop if timer confirm
+****** If ok stop timer
+****** Abandon if pomodoro
+****** Add time to current task
+*****  Pomodoro completion
+******  Increment pomodoro 
+****** Add time
+**** Left right bottom up
+*****  Set parent (new parent)
+***** Update childrent positions recursively
+**** update child position
+***** If position is topmost in parent - no change
+***** Set positon of row indent rest all parent path
+
+*** begin GMAT Prep, complete the Course ASAP, Write GMAT
+
+*** Apply MBA to world top 20
+
+*** Apply PR. Improve portfolio. Get PR
+ - Complete form contents typing
+ - Fill the pdf form, print, complete the form
+ - Book slot 
+ - Get the company note signed
+
+
+*** DWMY Checklist creation
+
+ - DMWY Checklist for the day
+
+ - DMWY Checklist for Blogging, Portfolio
+
+ - DMWY Checklist for learning
+
+   - Management
+
+   - Productivity
+
+   - Technical
+
+ - DMWY Checklist for office setup and follow
+
+   - Reply emails
+
+   - GTD daily review
+
+     - All captures noted down
+
+     - What appointments do I have
+
+     - What active projects do I have
+
+     - What are latest deadlines
+
+ - Top 5 goals of the year
+
+   - Get PR
+
+   - Build a very strong technical portfolio
+
+   - Get a good GMAT Score
+
+   - Pass PMI-ACP, AWS, IELTS
+
+ - all captures from whatsapp -> inbox
+
+ - all captures from audionotes -> inbox
+
+
+
+** higher altitudes
+*** goals
+**** Get out of this humiliating position immediately.
+**** Get Permanent Resident Singapore
+**** Apply PR AU
+***** Get IELTS Certification
+***** Choose the best consultant
+***** Apply for PR
+**** Complete .Net projects on cross platform with .Net Web Api and IOS,Android front End(Xamarin)
+**** Master social interactions world class.
+**** Learn Chinese Speaking
+**** Complete MBA from world top 20 university
+**** Establish your own business
+**** Master personal body, mind, energies total control. Do it like a pro. Master it world class.
+**** Learn Linux server administration full
+***** Get Linux Certification.
+**** Get SCJP Certification.
+***** Learn Java programming with Enterprise web services.
+**** Get AWS Certification.
+**** Get CSM Certification.
+**** Learn Python full
+***** Create and showcase python projects.
+
+**** Get Singapore PR
+
+*** vision
+
+*** areas of focus/responsibility
+**** KUHU
+**** MBA from world top 10 Business School
+***** Complete GMAT Study Plan & Take GMAT
+***** Complete GMAT
+***** Apply for Top 10 Business School
+***** Get MBA
+**** DONE Get PMP Certification
+**** Maintain PMP Qualification & Competence
+**** Own Business(es)
+**** Social portfolio enhancement
+**** Professional portfolio enhancement
+**** Technical portfolio
+***** Certifications
+****** MCSD
+****** AWS and Linux
+****** Java
+***** Projects
+******   Implement AngularJS, Cloud-Services(with webApi/WCF), MVVM project.
+******   Game Programming - windows & android.
+******    MVVM
+******   Projects hosted online demo:-
+******  AngularJs, WebAPI, MVVM Client
+******   Cloud services, WCF/Webapi
+*****   Efficiency in Solution Architecture
+      
+*** purpose and principles
+**** I will not work with people who neither trust nor respect you
+**** I will not spend a life being called a liar
+**** I will not spend a life being called as a money hungry~ shameless leech
+   
+** Exam revision schedule
+*** PMP exam revision schedule
+**** Andy Crowe full review					     :mustdo:
+**** PMBOK Skim through						     :mustdo:
+**** PM Pregpcast  - Important processes recap			      :cando:
+**** Content Guideline review					     :mustdo:
+**** Code of ethics review					     :mustdo:
+**** Executing has max probability and less processer learn ITTOs of important executing processes. :mustdo:
+
+*** PMP test checlist (quick revision checklist)
+**** Process Chart
+**** Formulae
+**** Important Outputs of all processes
+**** Important processes ITTOS
+**** ITTOS
+**** PMBOK Data flow pictures
+**** Edward notes
+**** Excel sheets
+**** Important terms
+**** RMC Chart
+** todos
+- Remember everyday till you are with these people
+
+- Plan MGW project schedules, communicate milestones and deliverable charts
+- DBS Cashline charges $80 call to DBS, check previous card charges, close cards
+- Consolidate todo lists, Notes in Text files, Github them
+**** put to linux minipc for work and github for backup.
+- [#B] Lynda courses complete 
+ 
+**** Lynda learn Python, Django, Update Blog
+***** Amitthk.com blog setup
+****** Port to AWS Blog
+****** Wordpress blog to 
+****** Provident fund transfer, inquire email for parking
+- Plan tomorrows runway actionlist
+**** Import domain classes Parichayliste
+**** Import controllers, services, test webapi Parichaylite
+**** Setup bootstrap UI Parichaylite
+- [#B] Skim through gtd
+- [#B] Skim through amazon books
+- Complete CV add projects tomorrow
+- [#B] Parichaylite setup system (macpro)
+**** Import domain classes, controllers - parichaylite
+
+- atksv upload tuts, install git, emacs configure. Inform team
+- backup the 8GB sandisk orangepi lubuntu>img put card to Monika's phone
+- raspi setup ftp/nas
+
+- Learn Node.js
+- Review GTD Full
+- Review Pomodoro
+- Review complete plan setup and print full
+- Print Daily reference, Keep in View list
+- Morning Ritual, Evening Ritual, Day Kick Off Ritual, Good Night ritual plan, print
+- Consolidate all todo lists, Ref Sheets (wunderslist, remember the milk, simplenote, evernote, notebooks, diaries etc)
+
+
+- Raspbian Kodi
+
+
+- If this then that rules list
+
+- Morning ritual
+
+- Visualize your goal.  What is one task that I must do to realize this goal.
+
+- State your goals in specific number of targets you must hit or achieve to make it happen.
+
+- 80:20 Priniciple: Universe is predictably unbalanced, very few things really matter.
+
+- Set very short deadlines for yourself. 
+ - Use the power of very short deadlines. 
+ - Short deadlines are very powerful. They activate your brain.
+ - You would be only focussing on what exactly needs to be done. You'd
+ - cut the crap and get it done. 
+ - Remember parkinsons law.
+** parichaylite
+*** Revise Angular 2, 
+*** Bootstrap, 
+*** setup Parichaylite
+*** .net core auth, storage
+*** docker
+
+** put 8g card to Monika's phone
+** Morning Ritual, Evening Ritual, Day Kick Off Ritual, Good Night ritual plan, print

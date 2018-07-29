@@ -1,0 +1,118 @@
+* docker 
+docker-machine ls
+docker-machine start/stop
+docker-machine env
+docker-machine ip
+
+docker pull 
+docker run
+docker images
+docker ps, docker ps -a
+
+
+docker build -f /path/to/a/Dockerfile .
+
+** With Tag:-
+docker build -t shykes/myapp .
+
+** Multiple tags:-
+docker build -t shykes/myapp:1.0.2 -t shykes/myapp:latest .
+
+Dangling Images:-
+docker images -q -f "dangling=true"
+
+Remove Dangling:-
+docker rm $(docker ps -q -f status=exited)
+docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+
+Running processes:-
+docker ps
+
+Stop container by name:-
+docker ps -a -q --filter="name=redmine"
+docker stop <id of container>
+docker rm <id of container>
+
+Running:-
+docker run -it -p 8080:80 openproject/community:6
+
+Enter the sh:-
+docker run --rm -it --entrypoint=//bin/bash ubuntu:14.04
+docker run -a stdin -a stdout -a stderr -i -t alpine:3.3 /bin/sh
+
+
+DockerCompose:-
+docker-compose up
+docker-compose down
+
+docker stop project_nginx_run_1 project_web_run_1 
+
+docker-compose rm -f
+docker-compose pull
+docker-compose up --build -d
+# Run some tests
+./tests
+docker-compose stop -t 1
+=============
+** Clean docker remove untagged images
+
+Spent some time in finding out this command to cleanup dangling or untagged docker images. Putting it up here if someone finds them useful:-
+
+Windows:-
+//First remove it
+for /f "tokens=*" %i in ('docker ps -q -a') do docker rm %i
+//Delete the images
+for /f "tokens=*" %i in ('docker images -q -f "dangling=true"') do docker rmi %i
+
+
+For Linux it is quite straightforward and information is available at lot of places:-
+
+alias drmae='docker rm $(docker ps -qa --no-trunc --filter "status=exited")'
+
+docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+
+
+References:-
+http://stackoverflow.com/questions/17236796/how-to-remove-old-docker-containers
+http://stackoverflow.com/questions/32723111/how-to-remove-old-and-unused-docker-images
+=============
+
+* Docker Swarm
+
+docker swarm init --advertise-addr 192.168.0.101:2377 --listen-addr 192.168.0.101:2377
+
+> you will get   token(s) which should be run exactly it is to join the swarm
+
+docker swarm join-token manager
+docker swarm join-token worker
+
+ ================
+ 
+ docker swarm join --token xxxxxxx  192.168.0.102:2377 --advertise-addr 192.168.0.102:2377 --listen-addr 192.168.0.102:2377
+ 
+ =========
+** see the swarm
+ docker node ls
+ 
+** promote
+ docker node promote  xxxxxxx
+ 
+ 
+ ======
+ 
+*** run the service on 5 containers
+ 
+ docker service create --name psight1 -p 8080:8080 --replicas 5 someuser/someimage
+ 
+ docker service ps
+ 
+ =========
+ 
+ docker servic inspect psight1
+ 
+ =========
+ 
+ 
+ 
+
+

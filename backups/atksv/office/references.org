@@ -1,0 +1,91 @@
+* references
+** MGW Test cases
+Singapore – Cavit-D<SUB>3</SUB>
+Philippines - Ellgy H<SUB>2</SUB>O ARR Hydro-Replenishing
+New Zealand - Microdacyn<SUB>60</SUB>
+
+
+** MGW eMIMS Quality Checklist & checksheet
+<<<<<<< HEAD
+** MGW NZ
+*** Test cases
+- "Praxbind~", “Valtrex" should not show empty Pharmac restriction.
+- “Rixubis" should show pharmac restriction.
+- “Praxbind" should not show Prices as $0
+
+Microdacyn60 subscript
+- Top Autocomplete menu should show Microdacyn60 in dropdown upon typing the name in top Search panel. Clicking on Microdacyn60 should lead to Microdacyn60 monograph.
+- Typing Microdacyn60 in top Search panel and clicking search button (Magnifying glass icon) should show Microdacyn60 in search results page.
+- Clicking on Microdacyn60 in Left Hand side “Product Monograph" menu must show Microdacyn60 Monograph
+- Clicking "Manufacturer Info" hyperlink in top menu of Microdacyn60 monograph should not lead to Oops! Page.
+- Go to “Interaction" menu, add  “Microdacyn60 Hydrogel" or “Microdacyn60 Wound Care" to medications. Clicking on any of Microdacyn product hyperlinks in  selected medications should not lead to "No monograph found for given search query"
+
+- Avastin Products should not show any pricing information.
+
+*** Querries
+- NZMF topic preparationgroup linking
+
+select t2.*
+  FROM .[dbo].[NZF_topic] t
+  inner join NZF_topic_map tm on tm.parentid = t.id
+  inner join NZF_topic t2 on t2.id=tm.topicid
+  where t.id='nzf_3362'
+
+** MGW NewZealand
+***~ Please note the 4 test cases for  subscript issue
+- Top Autocomplete menu should show Microdacyn60 in dropdown upon typing the name in top Search panel. Clicking on Microdacyn60 should lead to Microdacyn60 monograph.
+- Typing Microdacyn60 in top Search panel and clicking search button (Magnifying glass icon) should show Microdacyn60 in search results page.
+- Clicking on Microdacyn60 in Left Hand side "Product Monograph" menu must show Microdacyn60 Monograph
+- Clicking "Manufacturer Info" hyperlink in top menu of Microdacyn60 monograph should not lead to Oops! Page.
+- Go to "Interaction" menu, add  "Microdacyn60 Hydrogel" or "Microdacyn60 Wound Care" to medications. Clicking on any of Microdacyn product hyperlinks in  selected medications should not lead to "No monograph found for given search query"
+
+
+=======
+** Casper Js Test cases for MGW autocomplete
+var links = [];
+var casper = require('casper').create();
+
+var password='password1';
+var login='demo01-ubmmy@mimsgateway.com.my';
+var count=0;
+var maxRuns=10;
+
+var tests=[
+"Abilify", "A-Bite", "A-Bruzzy", "ACA", "Accupril Discontinued Icon", "Acemet", "Acepril", "Aceprin", "A-Cerumen", "Acetan", "Acetan HCT", "Acetazolamide BAG Pharma", "Acetec", "Acetin", "Acidine Discontinued Icon", "Aclasta", "Acne-Aid", "AcneCare Cleansing Bar", "Acnederm Medicated Lotion", "Acnotin", "Acriflavine Hoe Pharma", "Actal Discontinued Icon", "Actal Plus Discontinued Icon", "Actemra", "Act-HIB Discontinued Icon", "Actifed DM", "Actifed Expectorant", "Actifed Syrup", "Actilyse", "Actimin", "Activelle", "Actonel", "Actos", "Actrapid", "Acugesic", "Acugrain", "Acular", "Acustop Cataplasma", "Acyclovir 200/400/800 Stada", "Acyclovir Stada"
+];
+
+function getLinks() {
+    var links = document.querySelectorAll('h3.r a');
+        return Array.prototype.map.call(links, function(e) {
+	        return e.getAttribute('href');
+		    });
+		    }
+
+		    casper.start('http://itmims-amit.asia.cmpmedica/', function() {
+		        if (this.exists('#memebership-login-header')) {
+			        //this.echo('Needs to login');
+				        this.fill('form#loginForm', { loginName: login, loginPassword: password }, true);
+					    }
+					    });
+
+					    casper.then(function() {
+					        //this.capture('test.png');
+						    casper.withFrame('MainFrame', function() {
+						        if (this.exists('i#btnGlobalSearchFont'))
+							        //this.echo('Search button found');
+								        for (var i=0; i<maxRuns; i++) {
+									            var index=Math.floor(Math.random() * tests.length);
+										                this.echo('sending ' + tests[index]);
+												            this.sendKeys('td.tdSearchPanelInput input', tests[index], {reset:true, keepFocus: true});
+													                //this.wait(3000);
+															            //this.capture('test' + count++ +'.png');
+																            }
+																	        });
+																		});
+
+																		casper.run(function() {
+																		    this.echo('done');
+																		    });
+
+																		    
+>>>>>>> d86ebd6f2b313ab28272a0fbf29609fb15a7769d

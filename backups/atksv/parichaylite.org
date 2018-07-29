@@ -1,0 +1,233 @@
+* parichaylite
+
+** gather knowledge
+   
+*** angular 2
+
+https://github.com/DeborahK/Angular2-GettingStarted
+
+- about js
+
+ecma script
+es3 
+es5
+
+ - we can use es5 , dart or typescript
+ - typescript transpiles to JS, strongly typed (typedefinitions *.d.ts)
+ - Class based object orientation
+ - www.typescriptplayground.org/playground/
+ - pluralsight - Tyscrpt fundamentals, angular with TS, Using es6 with
+   ts
+**** component =
+   - template (view layout, html, binding directives)
+   - Class (properties, code supporting view, typescript, properties:
+     data, methods:logic, )
+   - metadata (defined with @Decorator, for Angularjs)
+   - how to create
+
+#+begin_src
+import { Component } from 'angular2/core';
+
+@Component({
+selector: 'pm-app',
+template: '....'})
+export class Mycomponent{
+pageTitle: string = 'my prduct page';
+}
+#+end_src
+***** bootstrap
+- index.html (System.import('app/main')
+- main.ts  
+(import {bootstrap} from 'angular2/platform/browser';
+  import {appcomponent} from './app.component';, bootstrap(appcomponent)
+- appcomponent.ts
+
+***** component as directive
+ @Component({....
+template: '<pm-products></pm-products>',
+directives : [ProductListComponent]})
+export class AppComponent{}
+
+***** binding
+- 1. interpolation class->template  {{myprop}}
+- structural directives (*ngIf, *ngFor....)
+- component <-> DOM (propeties <-> events>
+- 2. property binding [src]='myprop.xyz', [style.width.px]='imageWidth'
+- 3. event binding (click)='toggleImage()'
+- 4. two-way binding  <input [(ngModel)]='listFilter'
+- PIPES
+
+**** improving our components
+
+***** strong typing, interfaces
+typescript only - development time
+
+export interface IProduct{
+prodId:number;
+prodName:string;
+calculateDisc(percent:number):number;}
+
+import { Iproduct } from '...'
+
+//in class
+products : IProduct[];
+
+
+
+***** encapsulating styles
+
+- styles
+@Component({...
+styles:['thead {color:#337AB7'}']})
+
+@Component({..
+styleUrls: ['app/products/product-list-component.css']})
+
+
+***** lifescycle hooks
+
+- component lifecycle
+create -> render > creat and render children > process changes >
+destroy
+
+OnInit: Perform component initialization, retrieve data
+OnChanges: Perform action after change to input properties
+OnDestroy: Perform cleanup
+
+- e.g.
+
+import { component, OnInit } from 'angular2/core';
+
+export class prodlistcompoent implements OnInit {
+
+....
+
+ngOnInit: void { console.log('in On Init');}
+}
+
+
+
+***** custom pipes
+import ....
+@Pipe({ name:'productFilterPipe'})
+export class PFPipe implements PipeTransform {
+  transform(value:IProduct[], args: string []): IProduct[] {
+  }
+}
+
+@Component({....
+
+pipes:[productFilterPipe] })
+
+**** nested component
+import ...
+@Component...
+export class StarComponent....
+
+
+Component => Nested component (Input)
+Nested Component => Parent component ( events)
+
+- @Input
+//starcomponent
+@Input rating:number;
+//my component
+<ai-start [rating]='product.rating' />
+
+- @Output
+//1. component class
+export class StarComponent{....
+@Output() notify: EventEmitter<string> = new EventEmitter<string>();}
+
+onClick(){
+this.notify.emit('clicked');
+}
+
+//2. parent view/ product-list.component.html
+
+<ai-strar [rating]=....  (notify)='onNotify($event)'>
+
+//3. parent class product-list.component.ts
+@Component...
+export class ProductiListComponent{
+//here's the implementation
+onNotify(message:string):void{}
+}
+
+**** services
+
+import {Injectable} ...
+
+@Injectable()  //optional ut recommended
+export class ProductService{
+getproducts():....
+}
+
+@Component({...
+providers: [....] })
+export class xyz{
+ private _mySvc:myService;
+cunstructor(private _productService:ProductService){
+_mySvc:_productService;
+}
+
+**** http and observables
+
+//product.service.ts
+
+import { Http, Response } from 'angular2/http'
+import { Observable } from 'rxjs/Observable'
+
+getProducts(): Observable<IProduct[]>{
+return this._http.get(this._productUrl)
+.map((response:Response)=> <IProduct[]>response.json())
+.do(data=> console.log('All: ' +JSON.stringify(data)))
+.catch(this.handleError);
+}
+
+private handleError(error:Response){
+  console.error(error);
+ return Observable.throw(error.json().error || 'Server error');
+}
+
+
+//product-list.component.ts
+
+ngOnInit() void{
+this._prodService.getProducts()
+.subscribe(
+products => this.products=products,
+error => this.errorMessage=<any>error);
+}
+
+**** routing
+
+*** bootstrap3
+
+*** .net core auth, oauth2, storage
+
+
+** develop project
+
+*** take setup from angdnx
+
+*** build upon angular 2
+
+*** add in storage
+
+*** migrate controllers
+
+** develop blog
+
+*** Homepage
+
+*** Messages
+**** Likes, disikes, emotions (atomic transactions)
+
+*** notifications
+
+*** friends
+
+*** personal messages
+
+*** groups
