@@ -213,7 +213,7 @@ hadoop fs
   - second replica on second rack
   - third replica on same second rack different node
   - reduce network latency
-- name node failiute
+- name node failiure
   - metadata files replication
     - fsimage
     - edits
@@ -330,3 +330,101 @@ hadoop jar wordcount.jar com.amitthk.wordcount.Main  -D mapreduce.job.queuename=
 
 
 #+END_SRC
+
+
+** Random notes
+
+- hadoop
+  - Google
+  - Cloudera, Hive
+  - Mapr
+  - Talend
+
+- HBase, Hive
+
+- Mapreduce
+  - What Key value to produce in Map
+  - What should be processed in reduce phase
+- Map -> combine -> reduce
+
+
+- Scenario 1 numeric summarization
+  - https://archive.ics.uci.edu/ml/datasets.html
+
+- code
+  - data
+    - input
+      - census.txt
+
+  - Hadoop-2.7/...
+  - src
+    - summaries
+      - map.java
+
+
+*** CDH
+
+ - Import appliance to vmware
+ - quickstart - ip of master nodes
+ - Pseudo cluster - single node
+ - cloudera manager notenabled by default
+   - start cloudera express "free"
+ - Cloudera manager comes up
+ - archive.org download stackexchange dump
+ 
+#+BEGIN_SRC 
+
+yum install epel-release
+yum install p7zip, p7zip-plugins
+7zip extract #the file name
+#+END_SRC
+
+
+#+BEGIN_SRC 
+spark-submit --packages com.databricks.spark-xml  2.10:0.3.3. --master local[*] post-to-hdfs.py file://home/..../posts.xml
+
+#+END_SRC
+
+- Onprem , AWS, AZure, Google Cloud Platform
+- Cloudera directory [part of enterprise] - for cloud install deploy manage
+- Jdk same major version accross culster 7/8
+- Databases
+  - Postress - express
+  - Prduction - Mariadb, mysql
+- Browser
+  - Cloudera manager
+  - Hue
+- Workload matters
+| IO Bound              | CPU Bound           |
+| Soting                | Classification      |
+| Indexing              | Clusering           |
+| Grouping              | Complx  Text mining |
+| Data Import & Exporet | NP                  |
+| Data Management       | Feature extract...  |
+|                       |                     |
+
+
+- PYSPARK
+  - Spark
+    - Python
+    - Scala
+    - Java
+    - R
+  - LIbs
+    - MLib
+    - Spark SQL
+    - Streaming
+    - Graphx
+    - Pac....gs
+  - RDD (Resilient distributed datasets
+- Airfow
+  
+| Metadata DBs             |
+| WEbserver    | Scheduler |
+|              |           |
+
+
+| Celery          |
+| Worker | Worker |
+| Worker | worker |
+|        |        |
