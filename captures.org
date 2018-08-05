@@ -338,3 +338,10 @@ The user¡¦s password is requested on a web page form.
 *** Client-cert authentication
 The user is verified by a client-side digital certificate.
 
+* Self-healing systems can be divided into three levels
+Application level
+System level
+Hardware level
+Application level healing...fault tolerant applications capable of recuperation from potentially disastrous circumstances.
+System level...most commonly monitored. If a process fails, we need to redeploy the service, or restart the process...if the response time is not adequate, we need to scale, or descale, depending whether we reached upper or lower response time limits.
+Hardware level... healing on this level truly means is redeployment of services from an unhealthy to one of the healthy nodes.
