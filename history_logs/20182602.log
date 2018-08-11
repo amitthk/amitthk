@@ -1,0 +1,558 @@
+    1  sudo yum update
+    2  sudo yum install openjdk-8-jdk -y
+    3  sudo yum install java
+    4  sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+    5  sudo yum install wget
+    6  sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+    7  sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
+    8  sudo yum install jenkins
+    9  sudo yum install httpd
+   10  ssh-keygen
+   11  ls
+   12  yum install -y gcc-c++ make
+   13  sudo yum install -y gcc-c++ make
+   14  curl -sL https://rpm.nodesource.com/setup_6.x | sudo -E bash -
+   15  yum install nodejs
+   16  sudo yum install nodejs
+   17  curl http://www-us.apache.org/dist/maven/maven-3/3.5.2/binaries/apache-maven-3.5.2-bin.tar.gz
+   18  ls
+   19  curl http://www-us.apache.org/dist/maven/maven-3/3.5.2/binaries/apache-maven-3.5.2-bin.tar.gz  --output apache-maven-3.5.2-bin.tar.gz
+   20  ls
+   21  sudo tar xzf apache-maven-3.5.2-bin.tar.gz 
+   22  ls
+   23  mv -r apache-maven-3.5.2 /opt/
+   24  mv apache-maven-3.5.2 /opt/
+   25  sudo ~~
+   26  sudo sudo ~~
+   27  mv apache-maven-3.5.2 /opt/
+   28  sudo mv apache-maven-3.5.2 /opt/
+   29  ls /opt/
+   30  tar xvf jdk-8u151-linux-x64.tar.gz 
+   31  ls
+   32  tar svv jre-8u151-linux-x64.tar.gz 
+   33  tar xvf jre-8u151-linux-x64.tar.gz 
+   34  ls
+   35  clear
+   36  ls
+   37  mv jdk1.8.0_151 /opt/
+   38  sudo mv jdk1.8.0_151 /opt/
+   39  sudo mv jre1.8.0_151 /opt/
+   40  sudo alternatives --install /usr/bin/java java /opt/jdk1.8.0_151/bin/java 2
+   41  alternatives --config java
+   42  sudo alternatives --config java
+   43  java --version
+   44  java -version
+   45  export JAVA_HOME=/opt/jdk1.8.0_151
+   46  export JRE_HOME=/opt/jdk1.8.0_151/jre
+   47  export PATH=$PATH:/opt/jdk1.8.0_151/bin:/opt/jdk1.8.0_151/jre/bin
+   48  sudo vi /etc/environment
+   49  echo "export PATH=$PATH:/opt/jdk1.8.0_151/bin:/opt/jdk1.8.0_151/jre/bin"
+   50  echo "export PATH="$PATH:/opt/jdk1.8.0_151/bin:/opt/jdk1.8.0_151/jre/bin"
+   51  q
+   52  echo "export PATH="$PATH":/opt/jdk1.8.0_151/bin:/opt/jdk1.8.0_151/jre/bin"
+   53  echo 'export PATH="$PATH:/opt/jdk1.8.0_151/bin:/opt/jdk1.8.0_151/jre/bin"'
+   54  echo 'export PATH="$PATH:/opt/jdk1.8.0_151/bin:/opt/jdk1.8.0_151/jre/bin"' >> /etc/environment
+   55  sudo echo 'export PATH="$PATH:/opt/jdk1.8.0_151/bin:/opt/jdk1.8.0_151/jre/bin"' >> /etc/environment
+   56  sudo su\
+   57  sudo su
+   58  cp /etc/httpd/conf.d/rev.httpd.conf /etc/httpd/conf.d/rev.httpd.conf.bak
+   59  sudo sud
+   60  ls /etc
+   61  cd httpd
+   62  ls
+   63  cd /etc/httpd/
+   64  ls
+   65  cd conf.d
+   66  ls
+   67  cd ..
+   68  ls
+   69  firewall-cmd --zone=public --add-port=80/tcp --permanent
+   70  vi /etc/sysconfig/iptables
+   71  iptables -L
+   72  exit
+   73  mvn -v
+   74  ls /opt
+   75  export M2_HOME=/usr/local/apache-maven/apache-maven-3.5.2
+   76  export M2=$M2_HOME/bin
+   77  export PATH=$M2:$PATH
+   78  mvn --version
+   79  sudo export M2_HOME=/usr/local/apache-maven/apache-maven-3.5.2export M2_HOME=/usr/local/apache-maven/apache-maven-3.5.2
+   80  /opt/apache-maven-3.5.2/bin/mvn --version
+   81  echo $PATH
+   82  echo $JAVA_HOME
+   83  sudo su
+   84  history
+   85  cat /etc/environment
+   86  echo "export JAVA_HOME=/opt/jdk1.8.0_151" >> /etc/environment
+   87  sudo echo "export JAVA_HOME=/opt/jdk1.8.0_151" >> /etc/environment
+   88  sudo vi /etc/environment
+   89  exit
+   90  echo $M2_HOME
+   91  mvn -v
+   92  java -v
+   93  java --version
+   94  java -version
+   95  sudo su jenkins
+   96  echo $M2_HOME
+   97  mvn -v
+   98  export PATH=$M2_HOME/bin:$PATH
+   99  mvn -v
+  100  echo $PATH
+  101  exit
+  102  sudo vi /etc/environment 
+  103  exit
+  104  mvn -v
+  105  export PATH=$M2_HOME/bin:$PATH
+  106  mvn -v
+  107  sudo su jenkins
+  108  ls ~/home
+  109  exit
+  110  ls
+  111  sudo su
+  112  sudo yum install firewalld
+  113  sudo firewall-cmd --zone=public --add-port=80/tcp --permanent
+  114  sudo service firewalld enable
+  115  sudo service firewalld start
+  116  sudo service firewalld status
+  117  sudo firewall-cmd --zone=public --add-port=80/tcp --permanent
+  118  sudo firewall-cmd --reload
+  119  iptables-save | grep 80
+  120  sudo iptables-save | grep 80
+  121  sudo firewall-cmd --permanent --add-service=http
+  122  sudo firewall-cmd --reload
+  123  sudo vim /etc/hosts
+  124  sudo vi /etc/hosts
+  125  netstat -lntp | grep 80
+  126  sudo netstat -lntp | grep 80
+  127  sudo service httpd start
+  128  sudo su
+  129  sudo vi /etc/httpd/conf.d/welcome.conf
+  130  sudo vi /etc/httpd/conf/http.conf
+  131  sudo vi /etc/httpd/conf/httpd.conf
+  132  sudo cp/etc/httpd/conf/httpd.conf /etc/httpd/conf/httpd.conf.bak
+  133  sudo cp /etc/httpd/conf/httpd.conf /etc/httpd/conf/httpd.conf.bak
+  134  sudo vi /etc/httpd/conf/httpd.conf
+  135  sudo yum install openssl
+  136  yum install mod_proxy_html
+  137  sudo yum install mod_proxy_html
+  138  sudo yum install mod_proxy
+  139  sudo yum install proxy_html
+  140  http -M
+  141  httpd -M
+  142  sudo nano /etc/httpd/conf.d/default-site.conf
+  143  sudo vi /etc/httpd/conf.d/default-site.conf
+  144  sudo vi /etc/httpd/conf.d/welcome.conf
+  145  sudo service httpd restart
+  146  sudo service jenkins start
+  147  sudo service httpd restart
+  148  sudo vi /etc/httpd/conf.d/welcome.conf
+  149  sudo firewall-cmd --zone=internal --add-port=8080/tcp --permanent
+  150  history | grep firewalld
+  151  history | grep firewal
+  152  sudo firewall-cmd --reload
+  153  sudo service httpd restart
+  154  sudo firewall-cmd --zone=internal --delete-port=8080/tcp --permanent
+  155  sudo firewall-cmd --zone=internal --remove-port=8080/tcp --permanent
+  156  sudo firewall-cmd --zone=public --add-port=8080/tcp --permanent
+  157  sudo firewall-cmd --reload
+  158   sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+  159  clear
+  160  exit
+  161  sudo vi /etc/httpd/conf/httpd.conf
+  162  sudo a2enmod mod_prosy
+  163  sudo a2enmod mod_proxy
+  164  httpd -M
+  165  sudo vi /etc/httpd/conf/httpd.conf
+  166  sudo systemctl restart httpd
+  167  sudo vi /etc/httpd/conf/httpd.conf
+  168  grep  -v ^# /etc/httpd/conf/httpd.conf
+  169  grep  -v ^# /etc/httpd/conf/httpd.conf | grep -v ^$
+  170  grep  -v ^# /etc/httpd/conf/httpd.conf | grep -v ^$ >> /etc/httpd/conf/httpd.conf.new
+  171  sudo grep  -v ^# /etc/httpd/conf/httpd.conf | grep -v ^$ >> /etc/httpd/conf/httpd.conf.new
+  172  sudo grep  -v ^# /etc/httpd/conf/httpd.conf | grep -v ^$ >> ./httpd.conf.new
+  173  sudo cp /etc/httpd/conf/httpd.conf/etc/httpd/conf/httpd.conf
+  174  sudo cp /etc/httpd/conf/httpd.conf /etc/httpd/conf/httpd.conf.bak
+  175  sudo vi /etc/httpd/conf/httpd.conf
+  176  sudo mv ./httpd.conf.new /etc/httpd/conf/httpd.conf
+  177  sudo vi /etc/httpd/conf/httpd.conf
+  178  sudo su
+  179  sudo su jenkins
+  180  cat /etc/passwd
+  181  ls exit
+  182  vi ls
+  183  ls
+  184  sudo su
+  185  history
+  186  history >> jenkins_rhel_hist.bak
+  187  ls
+  188  exit
+  189  ls
+  190  ps -ef 
+  191  ps -auxwwwww
+  192  ls /
+  193  ls /var/
+  194  ls /etc/
+  195  ls /lib
+  196  sudo vi /etc/httpd/conf/httpd.conf
+  197  sed '/^[[:blank:]]*#/d;s/#.*//' /etc/httpd/conf/httpd.conf
+  198  sudo sed '/^[[:blank:]]*#/d;s/#.*//' /etc/httpd/conf/httpd.confsudo sed '/^[[:blank:]]*#/d;s/#.*//' /etc/httpd/conf/httpd.conf
+  199  service httpd restart
+  200  sudo service httpd restart
+  201  sudo systemctl status httpd.service
+  202  sudo cat  /etc/httpd/conf/httpd.conf
+  203  ls
+  204  sed '/^[[:blank:]]*#/d;s/#.*//' /etc/httpd/conf/httpd.conf
+  205  sed 's/^[[:blank:]]*#/d;s/#.*//g' /etc/httpd/conf/httpd.conf
+  206  sed '/^[[:blank:]]*#/d;s/#.*//g' /etc/httpd/conf/httpd.conf
+  207  sudo cat  /etc/httpd/conf/httpd.conf
+  208  sed i./etc/httpd/conf/httpd.conf.bak '/^[[:blank:]]*#/d;s/#.*//g' /etc/httpd/conf/httpd.conf
+  209  sed -i./etc/httpd/conf/httpd.conf.bak '/^[[:blank:]]*#/d;s/#.*//g' /etc/httpd/conf/httpd.conf
+  210  sudo sed -i./etc/httpd/conf/httpd.conf.bak '/^[[:blank:]]*#/d;s/#.*//g' /etc/httpd/conf/httpd.conf
+  211  sudo cat  /etc/httpd/conf/httpd.conf
+  212  sed '/^[[:blank:]]*#/d;s/#.*//g' /etc/httpd/conf/httpd.conf
+  213  sudo sed '/^[[:blank:]]*#/d;s/#.*//g' /etc/httpd/conf/httpd.conf > /etc/httpd.conf/httpd.conf.new
+  214  sudo sed '/^[[:blank:]]*#/d;s/#.*//g' /etc/httpd/conf/httpd.conf >> /etc/httpd.conf/httpd.conf.new
+  215  sudo vi /etc/httpd/conf/httpd.conf
+  216  sudo sed '/^[[:blank:]]*#/d;s/#.*//g' /etc/httpd/conf/httpd.conf
+  217  sudo sed '/^[[:blank:]]*#/d;s/#.*//' /etc/httpd/conf/httpd.conf
+  218  sudo sed '/^[[:blank:]]*#/d;s/#.*/g/' /etc/httpd/conf/httpd.conf
+  219  sudo sed '/^[[:blank:]]*#/d;s/#.*/g' /etc/httpd/conf/httpd.conf
+  220  sudo sed '/^[[:blank:]]*#/d;s/#.*//g' /etc/httpd/conf/httpd.conf
+  221  sudo sed -i.bak '/^[[:blank:]]*#/d;s/#.*//g' /etc/httpd/conf/http
+  222  sudo vi /etc/httpd/conf/httpd.conf
+  223  sudo systemctl service httpd restart
+  224  sudo systemctl service restart httpd
+  225  sudo systemctl restart httpd
+  226  sudo systemctl status httpd
+  227  sudo su
+  228  history
+  229  sudo vi /etc/httpd/conf/httpd.conf
+  230  sudo vi /etc/httpd/conf.d/default-site.conf 
+  231  cat /var/lib/jenkins/config.xml
+  232  ls /var/lib/jenkins/users/
+  233  sudo vi /var/lib/jenkins/users/amitthk/config.xml 
+  234  service jenkins restart
+  235  sudo service jenkins restart
+  236  ps ef
+  237  ps -aux
+  238  sudo su jenkins
+  239  ls
+  240  ls ~/
+  241  ls ~/.ssh
+  242  ls ~/
+  243  ls /var/lib/
+  244  ls /var/lib/jenkins/
+  245  ls
+  246  cd /var/lib/jenkins
+  247  ls
+  248  mkdir .ssh
+  249  sudo su jenkins
+  250  ls
+  251  ls .ssh
+  252  mkdir .ssh
+  253  exit
+  254  cat /etc/passwd
+  255  sudo su jenkins
+  256  ls ~/
+  257  vi /etc/default/jenkins
+  258  sudo su
+  259  sudo su -s /bin/bash jenkins
+  260  exit
+  261  ls
+  262  ls ~/.ssh
+  263  cat id_rsa_amitthk_bitbucket
+  264  ls
+  265  ll
+  266  cp id_rsa_amitthk_bitbucket ~/.ssh
+  267  ls
+  268  yum install -y git
+  269  sudo yum install -y git
+  270  exit
+  271  curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -
+  272  yum install -y gcc-c++ make
+  273  sudo yum install -y gcc-c++ make
+  274  sudo yum -y install nodejs
+  275  npm -v
+  276  node -v
+  277  ls
+  278  ps -auxww
+  279  service jenkins restart
+  280  sudo service jenkins restart
+  281  sud cd /var/lib/jenkins/workspace/jvcdp-ui_develop-NAJTILLK2JYBIF3WNPTTQVOFCAEQGM3BX3YMFRAWPHITCIZYSX2Q
+  282  cd /var/lib/jenkins/workspace/jvcdp-ui_develop-NAJTILLK2JYBIF3WNPTTQVOFCAEQGM3BX3YMFRAWPHITCIZYSX2Q
+  283  ls
+  284  npm install
+  285  npm config get prefix
+  286  sudo su -s /bin/bash jenkins
+  287  exit
+  288  service jenkins restart
+  289  sudo service jenkins restart
+  290  ps -auxww
+  291  ps -auxww | grep npm
+  292  pkill -USR1 npm
+  293  ps -auxww | grep npm
+  294  exit
+  295  ls /var/log/httpd
+  296  sudo su
+  297  exit
+  298  sudo su
+  299  exit
+  300  apachectl -k graceful
+  301  sudo apachectl -k graceful
+  302  sudo /etc/init.d/apache2 reload
+  303  sudo /etc/init.d/apache reload
+  304  sudo /etc/init.d/httpd reload
+  305  sudo httpd -k restart
+  306  exit
+  307  netstat -tlnp
+  308  man ascii
+  309  ps aux | sort -nk +4 | tail
+  310  telnet towel.blinkenlights.nl
+  311  lsof -i
+  312  yum install lsof
+  313  sudo yum install lsof
+  314  leave +20
+  315  whereis tomcat
+  316  q
+  317  netstat -tlnp
+  318  sudo su
+  319  exit
+  320  service jenkins status
+  321  sudo service jenkins status
+  322  service jenkins restart
+  323  sudo service jenkins restart
+  324  whereis java
+  325  which java
+  326  java -version
+  327  ps ps -auxwwww
+  328  ps -auxww
+  329  sudo service jenkins restart
+  330  ps -aux | grep maven
+  331  vi /etc/default/jenkins
+  332  cd /var/lib/jenkins/workspace/p-job-dispatcher-api_master-MGC26QJP56CETHJUT245HEEGGZFHCS3BM6XGYWKZFLXVKD5O2B6A
+  333  ls
+  334  cd target
+  335  ls
+  336  cd ..
+  337  exit
+  338  pkill -USR1 mvn
+  339  pkill -USR1 maven
+  340  ps -auxx maven
+  341  ps -auxww maven
+  342  ps -auxww 
+  343  ps -auxww | grep maven
+  344  ps -auxww | grep jenkins
+  345  pkill -USR1 jenkins
+  346  service tomcat stop
+  347  sudo service tomcat stop
+  348  service restart jenkins
+  349  sudo service restart jenkins
+  350  sudo systemctl restart jenkins
+  351  exit
+  352  sudo su
+  353  cd /var/lib/jenkins/workspace/p-job-dispatcher-api_master-MGC26QJP56CETHJUT245HEEGGZFHCS3BM6XGYWKZFLXVKD5O2B6A
+  354  ls
+  355  cp target/jobdispatcher.war ~/
+  356  cd ~/
+  357  cp jobdispatcher.war /opt/tomcat/webapps/.
+  358  sudo cp jobdispatcher.war /opt/tomcat/webapps/.
+  359  service tomcat restart
+  360  sudo servicet tomcat restart
+  361  sudo systemctl restart tomcat
+  362  sudo tail /opt/tomcat/logs/catalina.out
+  363  sudo cd /opt/tomcat/webapps/
+  364  ls
+  365  cd /opt/tomcat/webapps
+  366  sudo su
+  367  exit
+  368  ls
+  369  clear
+  370  view /etc/httpd/conf.d/default-site.conf 
+  371  vi /etc/httpd/conf.d/default-site.conf
+  372  sudo vi /etc/httpd/conf.d/default-site.conf
+  373  apachectl configtest
+  374  sudo vi /etc/httpd/conf.d/default-site.conf
+  375  apachectl configtest
+  376  sudo vi /etc/httpd/conf.d/default-site.conf
+  377  apachectl configtest
+  378  sudo vi /etc/httpd/conf.d/default-site.conf
+  379  apachectl configtest
+  380  sudo vi /etc/httpd/conf.d/default-site.conf
+  381  apachectl configtest
+  382  sudo service httpd restart
+  383  apachectl configtest
+  384  sudo vi /etc/httpd/conf.d/default-site.conf
+  385  apachectl configtest
+  386  sudo service httpd restart
+  387  sudo vi /etc/httpd/conf.d/default-site.conf
+  388  apachectl configtest
+  389  sudo service httpd restart
+  390  sudo tail /opt/tomcat/logs/catalina.out
+  391  sudo tail /opt/tomcat/logs/access.log
+  392  sudo ls /opt/tomcat/logs/
+  393  rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+  394  sudo rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+  395  ansible --version
+  396  yum -y install ansible
+  397  sudo yum -y install ansible
+  398  sudo yum install gcc openssl-devel bzip2-devel
+  399  which python
+  400  python --version
+  401  sudo yum install python-pip
+  402  sudo pip install awscli --upgrade --user
+  403  aws --version
+  404  pip install --upgrade pip
+  405  sudo pip install --upgrade pip
+  406  pip install awscli --upgrade --user
+  407  aws --version
+  408  history
+  409  service tomcat stop
+  410  exit
+  411  service jenkins start
+  412  sudo service jenkins start
+  413  sudo service jenkins restart
+  414  exit
+  415  sudo systemctl stop tomcat
+  416  sudo service stop tomcat
+  417  sudo systemctl start tomcat
+  418  sudo systemctl stop tomcat
+  419  sudo systemctl start tomcat
+  420  exit
+  421  systemctl stop tomcat
+  422  sudo systemctl stop tomcat
+  423  sudo systemctl status tomcat
+  424  service jenkins start
+  425  sudo service jenkins start
+  426  service jenkins restart
+  427  sudo service jenkins restart
+  428  cat /etc/*release
+  429  sudo useradd amitthk
+  430  passwd amitthk
+  431  su -
+  432  sudo su
+  433  sudo su amitthk
+  434  sudo systemctl start tomcat
+  435  exit
+  436  sudo service jenkins restart
+  437  sudo service httpd restart
+  438  exit
+  439  ls
+  440  exit
+  441  sudo su
+  442  exit
+  443  ls
+  444  ls /
+  445  cd /tmp
+  446  ls
+  447  cat replay_pid12852.log 
+  448  sudo cat replay_pid12852.log 
+  449  mkdir pys3viewer
+  450  cd pys3viewer/
+  451  ls
+  452  git clone https://github.com/amitthk/pys3viewer.git
+  453  yum install gcc openssl-devel bzip2-devel
+  454  sudo yum install gcc openssl-devel bzip2-devel
+  455  cd /usr/src
+  456  wget https://www.python.org/ftp/python/3.6.4/Python-3.6.4.tgz
+  457  sudo wget https://www.python.org/ftp/python/3.6.4/Python-3.6.4.tgz
+  458  ls
+  459  tar xzf Python-3.6.4.tgz 
+  460  sudo tar xzf Python-3.6.4.tgz 
+  461  history
+  462  cd Python-3.6.4
+  463  ./configure --enable-optimizations
+  464  sudo ./configure --enable-optimizations
+  465  make altinstall
+  466  sudo make altinstall
+  467  rm /usr/src/Python-3.6.4.tgz
+  468  sudo rm /usr/src/Python-3.6.4.tgz
+  469  python3.6 -V
+  470  cd ..
+  471  python3.6 -V
+  472  cd /tmp
+  473  ls
+  474  history > 20182602.log
+  475  pwd
+  476  ls
+  477  cd pys3viewer/
+  478  ls
+  479  cd pys3viewer/
+  480  cls
+  481  clear
+  482  python3.6 pip install virtualenv
+  483  where python3.6
+  484  which python3.6
+  485  ls /usr/local/bin/
+  486  which pip3.6
+  487  pip 3.6 install virtualenv
+  488  pip3.6 install virtualenv
+  489  sudo pip3.6 install virtualenv
+  490  which pip
+  491  pip version
+  492  pip --version
+  493  python3.6 V
+  494  python3.6 -V
+  495  python3.6 -m pip install virtualenv
+  496  sudo python3.6 -m pip install virtualenv
+  497  sudo su
+  498  whoiam
+  499  sho
+  500  who
+  501  ls -lrt /usr/local/lib/python3.6
+  502  which python3.6
+  503  sudo chmod -r 776 /usr/local/lib/python3.6
+  504  sudo chmod 776 -R /usr/local/lib/python3.6
+  505  ls -lrt /usr/local/lib/python3.6
+  506  sudo chmod 775 -R /usr/local/lib/python3.6
+  507  ls -lrt /usr/local/lib/python3.6
+  508  sudo python3.6 -m pip install virtualenv
+  509   python3.6 -m pip install virtualenv
+  510  which python
+  511  which python3
+  512  which python3.6
+  513  ls
+  514  cd /tmp/
+  515  ls
+  516  cd pys3viewer/
+  517  ls
+  518  cd pys3viewer/
+  519  ls
+  520  cd /usr/src/
+  521  ls
+  522  wget https://pypi.python.org/packages/d4/0c/9840c08189e030873387a73b90ada981885010dd9aea134d6de30cd24cb8/virtualenv-15.1.0.tar.gz#md5=44e19f4134906fe2d75124427dc9b716
+  523  sudo wget https://pypi.python.org/packages/d4/0c/9840c08189e030873387a73b90ada981885010dd9aea134d6de30cd24cb8/virtualenv-15.1.0.tar.gz#md5=44e19f4134906fe2d75124427dc9b716
+  524  ls
+  525  which pip3.6
+  526  sudo /usr/local/bin/pip3.6 install virtualenv-15.1.0.tar.gz 
+  527  cd ..
+  528  cd /tmp/pys3viewer/
+  529  cd pys3viewer/
+  530  ls
+  531  pip 3.6 install -r requirements.txt 
+  532  pip3.6 install -r requirements.txt 
+  533  python3.6 setup.py install
+  534  sudo /usr/local/bin/python3.6 install virtualenv-15.1.0.tar.gz 
+  535  sudo /usr/local/bin/python3.6.4 install virtualenv-15.1.0.tar.gz 
+  536  which python
+  537  which python3.6
+  538  /usr/local/bin/python3.6 setup.py install
+  539  sudo /usr/local/bin/python3.6 setup.py install
+  540  python3.6 -m virtualenv test p $HOME/usr/local/bin/python3.6
+  541  /usr/local/bin/python3.6 -m virtualenv test p $HOME/usr/local/bin/python3.6
+  542  /usr/local/bin/python3.6 -m virtualenv test -p $HOME/usr/local/bin/python3.6
+  543  /usr/local/bin/python3.6 -m virtualenv test -p /usr/local/bin/python3.6
+  544  source test/bin/activate
+  545  python -m pys3viewer.main
+  546  python -m pys3viewer
+  547  python -m pys3viewerapi.main
+  548  pip install flask
+  549  ls
+  550  pip install -r requirements.txt
+  551  python -m pys3viewerapi.main
+  552  exit
+  553  cd /tmp/
+  554  ls
+  555  ls -l
+  556  history
+  557  rm 20182602.log 
+  558  history > 20182602.log

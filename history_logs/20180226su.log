@@ -1,0 +1,257 @@
+    1  echo 'export PATH="$PATH:/opt/jdk1.8.0_151/bin:/opt/jdk1.8.0_151/jre/bin"'
+    2  exit
+    3  exit
+    4  ls /etc/httpd/conf.d
+    5  ls /etc/httpd/
+    6  ls /etc/httpd/conf
+    7  cat /etc/httpd/conf/httpd.conf
+    8  firewall-cmd --zone=public --add-port=80/tcp --permanent
+    9  sudo yum install -y firewall-cmd
+   10  exit
+   11  history
+   12  exit
+   13  cd /etc/httpd/conf.d/
+   14  ls
+   15  cat autoindex.conf 
+   16  ls
+   17  cat userdir.conf
+   18  vi 54.169.64.195.conf
+   19  service httpd restart
+   20  systemcts status httpd.service
+   21  systemctl status httpd.service
+   22  mv /etc/httpd/conf/httpd.conf.bak /etc/httpd/conf/httpd.conf
+   23  systemctl status httpd.service
+   24  service httpd restart
+   25  systemctl status httpd.service
+   26  vi 54.169.64.195.conf
+   27  cd ..
+   28  vi conf/httpd.conf
+   29  service httpd restart
+   30  vi conf/httpd.conf
+   31  service httpd restart
+   32  vi 54.169.64.195.conf
+   33  vi conf/httpd.conf
+   34  service httpd restart
+   35  vi conf.d/reverse_proxy.conf
+   36  sudo service httpd restart
+   37  exit
+   38  vi /etc/httpd/conf/httpd.conf
+   39  service httpd restart
+   40  vi /etc/httpd/conf.d/welcome.conf
+   41  ls
+   42  ls /etc/httpd/conf.d/
+   43  rm -rf /etc/httpd/conf.d/54.169.64.195.conf 
+   44  service httpd restart
+   45  mv /etc/httpd/conf/httpd.conf /etc/httpd/conf/httpd.conf.back1
+   46  vi /etc/httpd/conf/httpd.conf
+   47  vi /etc/httpd/conf/http.conf
+   48  vi /etc/httpd/conf/httpd.conf
+   49  ls /etc/httpd/conf/
+   50  vi /etc/httpd/conf/httpd.conf
+   51  service httpd restart
+   52  journalctl -xe
+   53  vi /etc/httpd/conf/httpd.conf
+   54  service httpd restart
+   55  vi /etc/httpd/conf/httpd.conf
+   56  rm -rf /etc/httpd/conf/httpd.conf
+   57  mv /etc/httpd/conf/httpd.conf.back1 /etc/httpd/conf/httpd.conf
+   58  vi /etc/httpd/conf/httpd.conf 
+   59  service httpd restart
+   60  vi /etc/httpd/conf/httpd.conf 
+   61  service httpd restart
+   62  vi /etc/httpd/conf.d/reverse_proxy.conf 
+   63  service httpd restart
+   64  xit
+   65  exit
+   66  ls /etc/httpd/conf.d/
+   67  vi /etc/httpd/conf.d/proxy.httpd.conf
+   68  service httpd restart
+   69  a2ensite proxy
+   70  vi /etc/httpd/conf/httpd.conf
+   71  vi /var/www/html/index.html
+   72  service httpd enabled
+   73  service httpd enable
+   74  service enable httpd
+   75  systemctl enable httpd
+   76  systemctl restart httpd
+   77  vi /var/www/html/index.html
+   78  vi /etc/httpd/conf/httpd.conf
+   79  systemctl restart httpd
+   80  service status httpd
+   81  systemctl status httpd
+   82  journalctl
+   83  journalctl -e
+   84  journalctl -e
+   85  /etc/os
+   86  uname -a
+   87  lsb_release -a
+   88  cat /etc/lsb_release
+   89  cat /etc/lsb-release
+   90  cat /etc/redhat-release 
+   91  httpd -M
+   92   nano /etc/httpd/conf.modules.d/00-proxy.conf
+   93  vi /etc/httpd/conf.modules.d/00-proxy.conf
+   94  vi /etc/httpd/conf/httpd.conf.bak
+   95  vi /etc/httpd/conf/httpd.conf
+   96  mv /etc/httpd/conf.d/proxy.httpd.conf  /etc/httpd/conf.d/default-site.conf
+   97  vi  /etc/httpd/conf.d/default-site.conf
+   98  vi  /etc/httpd/conf.d/default-site.conf
+   99  systemctl restart httpd
+  100  journalctl
+  101  journalctl -e
+  102   /usr/sbin/setsebool -P httpd_can_network_connect 1
+  103  history
+  104  exit
+  105  su -jenkins
+  106  su - jenkins
+  107  ls ~/
+  108  pwd
+  109  exit
+  110  ls /var/log/httpd
+  111  tail /var/log/httpd/access_log
+  112  tail /var/log/httpd/error_log
+  113  ls /var/lib/jenkins/
+  114  java --version
+  115  java -version
+  116  sudo groupadd tomcat
+  117  sudo useradd -M -s /bin/nologin -g tomcat /opt/tomcat tomcat
+  118  sudo useradd -M -s /bin/nologin -g tomcat /opt/tomcat tomcat
+  119  sudo useradd -M -s /bin/false -g tomcat /opt/tomcat tomcat
+  120  sudo useradd -M -s /bin/false -g tomcat -d /opt/tomcat tomcat
+  121  sudo userdel -r tomcat
+  122  sudo userdel tomcat
+  123  sudo useradd -M -s /bin/nologin -g tomcat -d /opt/tomcat tomcat
+  124  sudo groupadd tomcat
+  125  sudo useradd -M -s /bin/nologin -g tomcat -d /opt/tomcat tomcat
+  126  cd ~
+  127  wget http://www-eu.apache.org/dist/tomcat/tomcat-8/v8.5.27/bin/apache-tomcat-8.5.27.tar.gz
+  128  sudo mkdir /opt/tomcat
+  129  ls
+  130  sudo tar xvf apache-tomcat-8.5.27.tar.gz -C /opt/tomcat --strip-components-1
+  131  sudo tar xvf apache-tomcat-8.5.27.tar.gz -C /opt/tomcat --strip-components=1
+  132  cd /opt/tomcat
+  133  ll
+  134  sudo chgrp -R tomcat /opt/tomcat
+  135  sudo chmod -R g+r conf
+  136  such chmod g+x conf
+  137  sudo chmod g+x conf
+  138  sudo chown -R tomcat webapps/ work/ temp/ logs/
+  139  sudo vi /etc/systemd/system/tomcat.service
+  140  sudo systemctl daemon-reload
+  141  ls
+  142  vi conf/web.xml 
+  143  vi conf/server.xml 
+  144  cd ~
+  145  service tomcat start
+  146  service tomcat status
+  147  journalctl -e
+  148  sudo vi /etc/systemd/system/tomcat.service
+  149  echo $JAVA_HOME
+  150  sudo vi /etc/systemd/system/tomcat.service
+  151  sudo vi /etc/systemd/system/tomcat.service
+  152  sudo systemctl daemon-reload
+  153  sudo systemctl enable tomcat
+  154  sudo systemctl start tomcat
+  155  sudo systemctl status tomcat
+  156  vi  /etc/httpd/conf.d/default-site.conf
+  157  apachectl configtest
+  158  mkdir /var/www/jvcdp-ui/
+  159  sudo chown httpd:httpd -R /var/www/jvcdp-ui/
+  160  sudo chown apache:apache -R /var/www/jvcdp-ui/
+  161  "<htm.><body>TEST</body></thml>" > /var/www/jvcdp-ui/index.html
+  162  "<htm.><body>TEST</body></thml>" >> /var/www/jvcdp-ui/index.html
+  163  "<htm.><body>TEST</body></html>" >> /var/www/jvcdp-ui/index.html
+  164  touch /var/www/jvcdp-ui/index.html
+  165  "<htm.><body>TEST</body></html>" >> /var/www/jvcdp-ui/index.html
+  166  echo "<html><body>TEST</body></html>" >> /var/www/jvcdp-ui/index.html
+  167  apachectl configtest
+  168  systemctl daemon-reload
+  169  systemctl restart httpd
+  170  sudo chown apache:apache -R /var/www/jvcdp-ui/
+  171  ls /var/www/jvcdp-ui/
+  172  tail /var/log/httpd/access_log
+  173  netstat -an
+  174  netstat -an | grep tomcat
+  175  netstat -an | grep 8091
+  176  netstat -an | grep 8081
+  177  vi  /etc/httpd/conf.d/default-site.conf
+  178  systemctl restart httpd
+  179  systemctl restart httpd
+  180  vi  /etc/httpd/conf.d/default-site.conf
+  181  apachectl configtest
+  182  systemctl restart httpd
+  183  journalctl
+  184  /usr/sbin/getsebool -a | grep httpd
+  185  /usr/sbin/getsebool -a | grep tomcat
+  186  -A RH-Firewall-1-INPUT -m tcp -p tcp --dport 8090 -j ACCEPT
+  187  vi /etc/sysconfig/iptables
+  188  vi /etc/sysconfig/iptables
+  189  clear
+  190  history | grep port
+  191  firewall-cmd --zone=public --add-port=8090/tcp --permanent
+  192  history | grep firewall
+  193  s
+  194  curl localhost
+  195  cls
+  196  clear
+  197  sudo firewall-cmd --zone=public --list-ports
+  198  sudo firewall-cmd reload
+  199  sudo firewall-cmd --reload
+  200  vi  /etc/httpd/conf.d/default-site.conf
+  201  cat /etc/httpd/conf.d/default-site.conf
+  202  vi  /etc/httpd/conf.d/default-site.conf
+  203  apachectl checkconfig
+  204  apachectl chkconfig
+  205  apachectl configtest\
+  206  systemctl restart httpd
+  207  cat /opt/tomcat/conf/logging.properties 
+  208  cat /opt/tomcat/conf/web.xml
+  209  more /opt/tomcat/conf/web.xml
+  210  more /opt/tomcat/conf/server.xml 
+  211  more /opt/tomcat/conf/context.xml 
+  212  exit
+  213  more /opt/tomcat/conf/server.xml 
+  214  vi /opt/tomcat/conf/server.xml 
+  215  systemctl restart tomcat
+  216  systemctl status tomcat
+  217  exit
+  218  ls /etc/httpd/conf.d/default-site.conf 
+  219  vi /etc/httpd/conf.d/default-site.conf:q
+  220  vi /etc/httpd/conf.d/default-site.conf
+  221  vi /etc/httpd/conf.d/default-site.conf
+  222  apachectl checkconfig
+  223  apachectl checkconfig
+  224  apachectl configtest
+  225  vi /etc/httpd/conf.d/default-site.conf
+  226  apachectl configtest
+  227  vi /etc/httpd/conf.d/default-site.conf
+  228  apachectl configtest
+  229  systemctl restart httpd
+  230  ls /opt/tomcat/
+  231  exit
+  232  service tomcat stop
+  233  service tomcat start
+  234  exit
+  235  cd /opt/tomcat/webapps
+  236  l;s
+  237  ls
+  238  cd jobdispatcher
+  239  l
+  240  sls
+  241  ls
+  242  cd WEB-INF/
+  243  ls
+  244  cd ..
+  245  cd ..
+  246  rm -rf jobdispatcher.war 
+  247  ls
+  248  cd ..
+  249  cd ..
+  250  cd ..
+  251  systemctl restart tomcat
+  252  tail /opt/tomcat/logs/catalina.out
+  253  tail -f /opt/tomcat/logs/catalina.out
+  254  tail -f500 /opt/tomcat/logs/catalina.out
+  255  exit
+  256  exit
+  257  history > /tmp/20180226su.log
