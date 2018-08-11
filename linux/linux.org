@@ -9,7 +9,7 @@
 - tty - terminals i am logged in to
 - who  (where is root logged on to)
 - ip a s
-*** Working with directories
+*** Files and directories
 -    pwd
 -    ls
 - type ls - aliases of type 
@@ -98,7 +98,68 @@ symbolic link light colors and @ smbol
   - mkdir
     - -p parent
     - -m mode
-  - 
+**** disk usage
+
+#+BEGIN_SRC 
+df
+
+df -H
+
+df /dev/sda
+df -h /dev/sdc1
+df /data/
+df  --output=source,used,avail /data/ #selected fields only
+df --o #everything
+df -h ### Human format
+df -m ### Show output size in one-megabyte
+df -k ### Show output size in one-kilobyte blocks (default)
+
+#using inode usage instead of block usage
+df -i
+df -i -h
+
+#type of each file
+df -T
+df -T -h
+df -T -h /data/
+df -t ext3 #Only see ext3 file system
+df -x ext2 #exclude ext2
+df -a #all filesystems
+
+#+END_SRC
+
+#+BEGIN_SRC 
+
+du
+du -h #human readable
+du /etc/
+du -h /etc/
+
+#summarize
+du -s /etc/
+du -sh /etc/
+
+#show all files & directories
+du -a -h /etc/
+
+#show top 10 directories eating up space
+du -a /etc/ | sort -n -r | head -n 10
+
+
+
+#+END_SRC
+
+
+**** Permissions
+#+BEGIN_SRC 
+sudo usermod -a -G www apache
+ sudo chown -R apache /var/www
+ sudo chgrp -R www /var/www
+ sudo chmod 2775 /var/www
+ find /var/www -type d -exec sudo chmod 2775 {} \;
+ find /var/www -type f -exec sudo chmod 0664 {} \;
+ sudo service httpd restart
+#+END_SRC
 *** Files
 echo $SSH_C
 
@@ -169,22 +230,88 @@ d, 2dd, u
 
 - Using egrep recursively - multiple patterns at a time
 ~egrep -ril 'aja|alvin' .
-*** Management/common Commands
-- Logs
-#+BEGIN_SRC 
-dmesg | less
-tail -f -n 5 /var/log/syslog
-less /var/log/messages
-more -f /var/log/messages
-cat /var/log/messages
-tail -f /var/log/messages
-grep -i error /var/log/messages
-awk '{print $1}' /var/log/httpd/access_log* | sort | uniq -c | sort
+*** Processes and Ports
+**** ps
 
+#+BEGIN_SRC 
+ps
+man ps
+ps -e #all processes
+ps aux #all processes not assigned to terminals
+ps -e --forest #process tree
+pstree #tree
+ps -f #full listing
+ps -F #extra full
+ps -l #long listng
+ps -ly #resident set size memory used
+ps -elf | grep sshd
+#+END_SRC
+
+The proc directory
+
+#+BEGIN_SRC 
+cd /proc && ls
+
+ps -p1 -f
+ps #prcess id ofmy current shell
+echo $$ #my current process id
+ps -p $$ -F
+cd $$ && pwd && ls -l cwd
+
+cat loadavg #load over the cpu in last times, last process id
+#+END_SRC
+**** managing processes
+#+BEGIN_SRC 
+stty -a #shortcuts for this shell
+kill -l #all kill signals
+kill 8789 #kill process id 8789
+kill -term 8789 #signal 15 default
+kill -sigterm 8789
+kill -sigkill 8789 #kill theprocess signal 9
 
 #+END_SRC
 
-- Processes and Ports
+pgrep and pkill
+
+#+BEGIN_SRC 
+pgrep sshd
+ps -F -p $(pgrep sshd)
+sleep 100& ; sleep 100&
+pgrep sleep
+pkill sleep
+#+END_SRC
+
+**** top
+
+~top
+
+select > f > s > escape  for sorting by something
+
+q to quit
+
+
+
+**** backgrounding
+
+#+BEGIN_SRC 
+sleep 1000&  #background it
+sleep 1000 #stuck for 1000 seconds
+^Z  #suspends
+jobs #jobs in backgrund
+stty -a #common shortcuts
+jobs
+fg #last bacgrund job to fg
+fg 2 #the second job to fg
+
+pgrep sleep
+ps -F -p $(pgrep sleep)  #give me a long listing of all the sleep processes
+
+pkill sleep
+
+#+END_SRC
+
+**** Important common commands
+
 #+BEGIN_SRC 
 lsof -i :port -S
 netstat -a | grep port
@@ -204,17 +331,143 @@ ps -eM
 
 
 #+END_SRC
-- Permissions
+*** Logs
 #+BEGIN_SRC 
-sudo usermod -a -G www apache
- sudo chown -R apache /var/www
- sudo chgrp -R www /var/www
- sudo chmod 2775 /var/www
- find /var/www -type d -exec sudo chmod 2775 {} \;
- find /var/www -type f -exec sudo chmod 0664 {} \;
- sudo service httpd restart
+dmesg | less
+tail -f -n 5 /var/log/syslog
+less /var/log/messages
+more -f /var/log/messages
+cat /var/log/messages
+tail -f /var/log/messages
+grep -i error /var/log/messages
+awk '{print $1}' /var/log/httpd/access_log* | sort | uniq -c | sort
+
+
 #+END_SRC
 
+*** Shell scripts
+- Debug 
+~bash x <scriptname>
+
+- Shebang
+#+BEGIN_SRC 
+#!/bin/bash
+
+echo "Hello there!"
+
+exit 0
+#+END_SRC
+
+**** REad input
+
+#+BEGIN_SRC 
+read INPUT_NAME
+echo "Hello $INPUT_NAME"
+#+END_SRC 
+
+***** Script params
+hello.sh Amit Sumit Aneka
+
+$0 $1 $2
+
+$* All params without scipt name
+$# count the params without script name
+
+***** if
+#+BEGIN_SRC 
+#!/bin/bash
+
+if (($# <1))
+  then
+    echo "Usage : $0 <name>"
+    exit 1
+fi
+
+#+END_SRC
+
+***** case
+
+#+BEGIN_SRC 
+
+case $1 in
+  "directory")
+    find /etc/ -maxdepth 1 -type d
+    ;;
+  "link")
+    find /etc/ -maxdepth 1 -type d
+    ;;
+  *)
+    echo "usage: $0 directory | link"
+    ;;
+esac
+
+
+#+END_SRC
+
+***** string condition If
+
+#+BEGIN_SRC 
+#!/bin/bash
+
+if [[ ! -d $1 ]] #Square bracket for string condition, (NOT = exclaimation) first param is a directory
+  then
+    echo "Usage : $0 <directory>"
+    exit 1
+fi
+case $1 in
+  "directory")
+    find /etc/ -maxdepth 1 -type d
+    ;;
+  "link")
+    find /etc/ -maxdepth 1 -type d
+    ;;
+  *)
+    echo "usage: $0 directory | link"
+    ;;
+esac
+
+#+END_SRC
+
+***** for loop
+
+#+BEGIN_SRC 
+
+for u in $*
+
+do 
+  useradd u
+  echo Password1 | passwd --stdin $u
+  passwd -e $u
+done
+
+#+END_SRC
+
+#+BEGIN_SRC 
+for file in ($ls)
+
+do 
+ [! -f file] && continue
+ LA = $(stat -c %x $file | cut -d " " -f1)
+ echo "$file is $(du -b $file) bytes and was last accessed on $LA"
+done
+
+#+END_SRC
+
+#+BEGIN_SRC 
+#!/bin/bash -x
+
+COUNT=10
+
+while ((count > 0))
+
+do 
+ echo -e "$COUNT \c"
+ sleep 1
+ (( count-- ))
+ 
+done
+
+#+END_SRC
 
 ** Apache / httpd
 
