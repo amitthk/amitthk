@@ -98,7 +98,7 @@ symbolic link light colors and @ smbol
   - mkdir
     - -p parent
     - -m mode
-**** disk usage
+*** disk usage
 
 #+BEGIN_SRC 
 df
@@ -145,6 +145,7 @@ du -a -h /etc/
 #show top 10 directories eating up space
 du -a /etc/ | sort -n -r | head -n 10
 
+du -b filename #file bytes
 
 
 #+END_SRC
@@ -230,6 +231,36 @@ d, 2dd, u
 
 - Using egrep recursively - multiple patterns at a time
 ~egrep -ril 'aja|alvin' .
+
+*** cut
+
+#+BEGIN_SRC 
+
+cut -c2 test.txt #select column of characters from test.txt
+cut -c1-3 test.txt
+cut -c3- test.txt  #from the 3rd character onwards from lines
+cut -c-8 test.txt  #up till 8th character
+
+cut -d':' -f1 /etc/passwd  #select specific field - like from passwd below
+
+#range of fileds and selected fields
+grep "/bin/bash" /etc/passwd | cut -d':' -f1-4,6,7
+
+#only when line contains the delimiter
+grep "/bin/bash" /etc/passwd | cut -d'|'  -f1
+
+#display all fields except selected
+grep "/bin/bash" /etc/passwd | cut -d':' --complement -s -f7
+
+#change output delimeter for display
+grep "/bin/bash" /etc/passwd | cut -d':'  -s -f1,6,7 --output-delimiter='#'
+grep bala /etc/passwd | cut -d':' -f1,6,7 --output-delimiter=$'\n'
+
+#filter out specific information from ps
+ps axu | grep python | sed 's/\s\+/ /g' | cut -d' ' -f2,11-
+
+#+END_SRC
+
 *** Processes and Ports
 **** ps
 
@@ -245,6 +276,10 @@ ps -F #extra full
 ps -l #long listng
 ps -ly #resident set size memory used
 ps -elf | grep sshd
+
+#filter out specific information from ps
+ps axu | grep python | sed 's/\s\+/ /g' | cut -d' ' -f2,11-
+
 #+END_SRC
 
 The proc directory
@@ -474,6 +509,357 @@ do
 done
 
 #+END_SRC
+
+*** yum
+#+BEGIN_SRC 
+yum -y install firefox
+yum -y remove firefox
+
+yum list openssh
+yum list openssh-4.3p2
+yum search vsftpd
+yum info firefox
+yum list | less
+yum list installed | less
+yum provides /etc/httpd/conf/httpd.conf #which package this file belongs to
+yum check-update
+yum update
+yum grouplist
+yum groupinstall 'MySQL Database'
+yum groupupdate 'DNS Name Server'
+yum groupremove 'DNS Name Server'
+
+yum repolist
+yum repolist all
+yum --enablerepo=epel install phpmyadmin
+yum shell
+yum clean all
+yum history
+#+END_SRC
+
+**** managing yum repos
+
+#+BEGIN_SRC 
+su -l
+yum <tab> <tab>  #all yum commands from root shell
+
+cd /etc/yum.repos.d/
+yum info epel-release
+rpm -ql epel-release
+
+less CentosBase-repo
+yum repolist all
+
+#+END_SRC
+
+***** make our own yum repo
+
+~vi local.repo
+
+
+#+BEGIN_SRC 
+#/etc/yum.repos.d/local.repo
+[CentOS7]
+name=CentOS 7.2 Local Network
+baseurl=http://192.168.0.27/centos7/
+enabled=1
+gpgcheck=0
+
+#+END_SRC
+
+**** yum cache
+
+#+BEGIN_SRC 
+yum makecache
+yum clean <tab> <tab>
+yum clean all
+#+END_SRC
+
+**** manage source RPM
+
+#+BEGIN_SRC 
+cd /etc/yum.repos.d/
+grep ^enabled CentOS-Sources.repo
+
+sed -i 's/enabled=0/enabled=1/' CentOS-Sources.repo
+yum repolist
+
+#some packages
+yum install -y yum-utils
+yumdownloader --source zsh
+yum install ncurses-devel
+rpm -i zsh-5<tab>.rpm
+#+END_SRC
+
+Install zsh from the tarball rpm
+
+#+BEGIN_SRC
+cd rpmbuild/SOURCES
+tar -xjf zsh-<tab>.bz2
+cd zsh-<tab>
+./configure
+make
+make install
+#+END_SRC
+
+*** puppet
+
+#+BEGIN_SRC 
+yum install puppet
+puppet --version
+facter
+facter | grep hostname
+#+END_SRC
+
+**** puppet manifests
+
+#+BEGIN_SRC 
+cd /etc/puppet/
+mkdir manifests
+cd /etc/puppet/manifests/
+#+END_SRC
+
+creating a manifest /etc/puppet/manifests/mysite.pp
+
+#+BEGIN_SRC 
+node "master1.pys3viewer.mywire.org" {
+    file { '/etc/yum.repos.d/local.repo':
+            ensure => "file",
+            owner  => "root",
+            group => "wheel",
+            mode => "644",
+            content => "[Mylocal]
+name=CentOS mY local repo
+baseurl=http://192.168.0.220/centos
+enabled=1
+gpgcheck=0"
+    }
+}
+
+#+END_SRC
+
+#+BEGIN_SRC 
+puppet apply /etc/puppet/manifests/mysite.pp
+#+END_SRC
+
+** elasticsearch logstash
+
+*** elasticsearch
+
+**** using yum
+
+#+BEGIN_SRC 
+sudo yum install java-1.8.0-openjdk.x86_64
+wget https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.3.noarch.rpm
+sudo rpm -ivh elasticsearch-1.7.3.noarch.rpm
+sudo systemctl enable elasticsearch.service
+#+END_SRC
+
+~vi /etc/elasticsearch/elasticsearch.yml
+
+~curl -X GET 'http://localhost:9200'
+
+**** using rpm
+
+#+BEGIN_SRC 
+rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+#+END_SRC
+
+~vi /etc/yum.repos.d/elasticsearch.repo
+
+#+BEGIN_SRC 
+
+[elasticsearch-6.x]
+name=Elasticsearch repository for 6.x packages
+baseurl=https://artifacts.elastic.co/packages/6.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+#+END_SRC
+
+**** running with SysV init
+
+#+BEGIN_SRC 
+sudo chkconfig --add elasticsearch
+sudo -i service elasticsearch start
+sudo -i service elasticsearch stop
+#+END_SRC
+
+**** running with systemd
+
+#+BEGIN_SRC 
+sudo /bin/systemctl daemon-reload
+sudo /bin/systemctl enable elasticsearch.service
+sudo systemctl start elasticsearch.service
+sudo systemctl stop elasticsearch.service
+sudo journalctl --unit elasticsearch
+#+END_SRC
+
+*** logstash
+~rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+vi /etc/yum.repos.d/logstash.repo
+
+#+BEGIN_SRC 
+[logstash-6.x]
+name=Elastic repository for 6.x packages
+baseurl=https://artifacts.elastic.co/packages/6.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+#+END_SRC
+
+#+BEGIN_SRC 
+sudo yum install logstash
+#+END_SRC
+
+**** running logstash
+
+#+BEGIN_SRC 
+#via SysV init
+sudo /etc/init.d/logstash start
+
+#or via systemd
+sudo systemctl start logstash.service
+
+#or via upstart
+sudo initctl start logstash
+#+END_SRC
+
+**** testing
+
+#+BEGIN_SRC 
+
+/usr/share/logstash/bin/logstash -e 'input { stdin {} } output { elasticsearch { hosts => ["192.168.0.2:9200"]}}'
+#check at elasticsearch
+curl http://192.168.0.2:9200/logstash-*/_search
+#+END_SRC
+
+*** Install filebeat packetbeat
+#+BEGIN_SRC 
+curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-6.3.2-x86_64.rpm
+sudo rpm -vi filebeat-6.3.2-x86_64.rpm
+#+END_SRC
+
+#+BEGIN_SRC 
+
+#+END_SRC
+
+~vi /etc/filebeat/filebeat.yml
+~vi /etc/packetbeat/packetbeat.yml
+
+#+BEGIN_SRC 
+...
+  paths:
+    - /var/log/syslog
+  document_type: syslog
+...
+tags: ["us-west-01"]
+...
+fields:
+  globo_environment: staging
+...
+#send it to logstash instead of elasticsearch
+output.logstash
+  hosts: ["192.168.0.3:5043"]
+#+END_SRC
+
+run the filebeat or packetbeat to generate the json template
+
+
+
+**** config on logstash server
+~vi /etc/logstash/conf.d/beats.conf
+
+#+BEGIN_SRC 
+...
+
+filter {
+  if[type] == "syslog"{
+   grok {
+      match => [ ..... ]
+    }
+   date {
+      match => ["syslog_timestamp", "MMM d HH:mm:ss", "MMM dd HH:mm:ss"]
+    }
+  }
+}
+
+...
+
+#+END_SRC
+
+**** install template and start filebeat service 
+
+#+BEGIN_SRC 
+#install the template
+curl -XPUT 'http://192.168.0.2:9200/_template/filebeat' -d@/etc/filebeat/filebeat.template.json
+
+#start the filebeat service
+systemctl filebeat enable
+service filebeat start
+#+END_SRC
+
+*** install kibana
+**** using repo
+#+BEGIN_SRC 
+rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
+#+END_SRC
+
+~vi /etc/yum.repos.d/kibana.repo
+#+BEGIN_SRC 
+[kibana-4.6]
+name=Kibana repository for 4.6.x packages
+baseurl=https://packages.elastic.co/kibana/4.6/centos
+gpgcheck=1
+gpgkey=https://packages.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+#+END_SRC
+
+~yum install kibana
+
+**** or using rpm
+#+BEGIN_SRC 
+wget https://artifacts.elastic.co/downloads/kibana/kibana-6.3.2-x86_64.rpm
+shasum -a 512 kibana-6.3.2-x86_64.rpm 
+sudo rpm --install kibana-6.3.2-x86_64.rpm
+#+END_SRC
+
+**** enable service
+
+#+BEGIN_SRC 
+
+chkconfig --add kibana
+sudo /bin/systemctl daemon-reload
+sudo /bin/systemctl enable kibana.service
+#+END_SRC
+
+**** see filebeat data in kibana dashboard
+Management > Index Patterns > Add New > filebeat-*
+
+TimeField name @timestamp
+
+**** create dashboard
+
+***** Add visualization
+
+Visualize > filebeat-* > 
+X-axis > Date Histogram  
+Split-Lines > Terms
+Field > beat.hostname
+
+Save as "our syslog visual"
+
+***** Add dashboard
+Dashboard > add "our syslog visual"
+
+*** install xpack watcher
+install xpack
+update the elasticsearch.yml with email infor
 
 ** Apache / httpd
 
