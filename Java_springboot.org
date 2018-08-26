@@ -318,3 +318,38 @@ Use following goals to package springboot app
 build install
 bootRepackage
 #+END_SRC
+
+** zuul proxy config examples
+
+#+BEGIN_SRC 
+
+server.port=8383
+management.security.enabled=false
+spring.application.name=zuulproxy
+
+#scenario1
+#zuul.routes.userapi.url=http://localhost:8089
+#zuul.routes.userapi.path=/userapi/**
+
+#scenario2
+ribbon.eureka.enabled=false
+zuul.routes.userapi.path=/userapi/**
+zuul.routes.userapi.serviceId=proxy
+proxy.ribbon.listOfServers=http://localhost:8089
+
+
+#scenario3
+#no configuration needed for eureka. go to /servicename/
+
+
+#scenairo4
+#zuul.ignoredServices=*
+zuul.routes.userapi.path=/userapi/**
+zuul.routes.userapi.serviceId=proxy-userapi-service
+zuul.ignoredPatterns=/userapi/adduser/1
+
+
+#scenario5 prepend everything with /api
+zuul.prefix=/api
+
+#+END_SRC

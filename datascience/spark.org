@@ -1,0 +1,363 @@
+* spark
+** install
+Unzip the binaries and set the 
+
+** start zookeeper, kafka, spark
+
+*** start zookeeper first
+
+#+BEGIN_SRC 
+set ZOOKEEPER_HOME=C:\Apps\Tools\zookeeper
+zookeeper/bin/zkServer.cmd
+#+END_SRC
+
+*** start kafka
+
+#+BEGIN_SRC 
+#start server
+kafka/bin/windows/kafka-server-start.bat kafka/config/server.properties
+
+#start topic
+.\kafka\bin\windows\kafka-console-producer.bat --broker-list localhost:9092 --topic twittertopic
+
+#console consumer
+.\kafka\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic twittertopic
+
+#submit the spark producer
+
+
+#+END_SRC
+
+*** submit a spark job
+
+If there is hadoop binaries not found make sure to add HADOOP_HOME environment parameters.
+If there is a permission issue make sure to download winutils and place in hadoop/bin and then change the ownership of executables using winutil
+
+#+BEGIN_SRC 
+set HADOOP_HOME=C:\Apps\Tools\hadoop-2.7.7
+#+END_SRC
+
+#+BEGIN_SRC 
+C:\Apps\Tools\hadoop-2.7.7\bin\winutils.exe chmod -R +x C:\Apps\Tools\hadoop-2.7.7\bin
+#+END_SRC
+
+
+#+BEGIN_SRC 
+.\spark\bin\spark-submit D:\Amit\projects\amitthk\bitbucket\pysparktest\kafka_tweet_consumer.py localhost 9092 twittertopic
+#+END_SRC
+
+#+BEGIN_SRC 
+.\spark\bin\spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.1.0 --class com.innda
+ta.StructuredStreaming.Kafka --master local[*] D:\Amit\projects\amitthk\bitbucket\pysparktest\kafka_tweet_consumer.py lo
+calhost 9092 twittertopic
+#+END_SRC
+
+** pyspark codes
+
+*** simple netcat reader
+
+Lets say we write the following program to read from netcat and show word count
+
+We open up the netcat terminal and start sending some text on port 8099
+#+BEGIN_SRC 
+nc -l 8099
+<enter some text to send>
+#+END_SRC
+
+
+#+BEGIN_SRC 
+import sys
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import explode
+from pyspark.sql.functions import split
+
+if __name__ == '__main__':
+    if len(sys.argv) !=3:
+        print('insufficient params')
+        #exit(-1)
+    if(len(sys.argv) > 1 and sys.argv[1] is not None):
+        host = sys.argv[1]
+    else:
+        host = 'localhost'
+
+    if(len(sys.argv) > 1 and sys.argv[2] is not None):
+        port = int(sys.argv[2])
+    else:
+        port = 8099
+
+    spark = SparkSession.builder.appName("Spark Stream 1").getOrCreate()
+    spark.sparkContext.setLogLevel('ERROR')
+
+    lines = spark.readStream.format('socket').option('host',host).option('port', port).load()
+
+    words = lines.select(explode(split(lines.value, ' ')).alias('word'))
+    wordCounts = words.groupBy('word').count()
+
+    query = wordCounts.writeStream.outputMode('complete').format('console').start()
+
+    query.awaitTermination()
+
+#+END_SRC
+
+*** simple directory wather
+
+Lets run a container with logs routed to a location
+
+#+BEGIN_SRC 
+
+#+END_SRC
+
+We route the ps logs to a log in /var/log
+#+BEGIN_SRC 
+while true; do ps -elf --no-headers >> /var/log/ps.log ;sleep 5; done
+#+END_SRC
+
+#+BEGIN_SRC 
+from pyspark.sql.types import *
+from pyspark.sql import SparkSession
+
+
+if __name__ == "__main__":
+    sparkSession = SparkSession.builder.master('local').appName('SparkLogAppendMode').getOrCreate()
+
+    sparkSession.sparkContext.setLogLevel('ERROR')
+
+    schema = StructType([StructField("P", StringType(), True),
+                         StructField("S", StringType(), True),
+                         StructField("UID", StringType(), True),
+                         StructField("PID", StringType(), True),
+                         StructField("PPID", StringType(), True),
+                         StructField("C", StringType(), True),
+                         StructField("PRI", StringType(), True),
+                         StructField("NI", StringType(), True),
+                         StructField("ADDR", StringType(), True),
+                         StructField("SZ", StringType(), True),
+                         StructField("WCHAN", StringType(), True),
+                         StructField("STIME", StringType(), True),
+                         StructField("TTY", StringType(), True),
+                         StructField("TIME", StringType(), True),
+                         StructField("CMD", StringType(), True)])
+
+    fileStreamDf = sparkSession.readStream.option("header","true")\
+        .option("delimiter","\t").schema(schema).csv("D:\\Amit\\projects\\amitthk\\bitbucket\\testsrc\\docker\\all_logs")
+
+    print(" ")
+    print("Stream ready?")
+    print(fileStreamDf.isStreaming)
+
+    print(" ")
+    print("Schema: ")
+    print(fileStreamDf.printSchema)
+
+    trimmedDF = fileStreamDf.select(fileStreamDf.TIME, fileStreamDf.CMD)
+
+    query = trimmedDF.writeStream.outputMode("append").format("console").option("truncate", "false").option("numRows", 30).start().awaitTermination()
+
+#+END_SRC
+
+#+BEGIN_SRC 
+.\spark-submit D:\Amit\projects\amitthk\bitbucket\pysparktest\dir_log_reader.py
+#+END_SRC
+
+*** add timestamp
+
+#+BEGIN_SRC 
+from pyspark.sql.types import *
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import udf
+import time, datetime
+
+
+if __name__ == "__main__":
+    sparkSession = SparkSession.builder.master('local').appName('SparkLogAppendMode').getOrCreate()
+
+    sparkSession.sparkContext.setLogLevel('ERROR')
+
+    schema = StructType([StructField("P", StringType(), True),
+                         StructField("S", StringType(), True),
+                         StructField("UID", StringType(), True),
+                         StructField("PID", StringType(), True),
+                         StructField("PPID", StringType(), True),
+                         StructField("C", StringType(), True),
+                         StructField("PRI", StringType(), True),
+                         StructField("NI", StringType(), True),
+                         StructField("ADDR", StringType(), True),
+                         StructField("SZ", StringType(), True),
+                         StructField("WCHAN", StringType(), True),
+                         StructField("STIME", StringType(), True),
+                         StructField("TTY", StringType(), True),
+                         StructField("TIME", StringType(), True),
+                         StructField("CMD", StringType(), True)])
+
+    fileStreamDf = sparkSession.readStream.option("header","true")\
+        .option("delimiter"," ").schema(schema).csv("D:\\Amit\\projects\\amitthk\\bitbucket\\pysparktest\\docker\\all_logs")
+
+    def add_timestamp():
+        ts = time.time()
+        timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+        return timestamp
+
+    print(" ")
+    print("Stream ready?")
+    print(fileStreamDf.isStreaming)
+
+    print(" ")
+    print("Schema: ")
+    print(fileStreamDf.printSchema)
+
+    add_timestamp_udf = udf(add_timestamp, StringType())
+
+    tsFileStream = fileStreamDf.withColumn("timestamp", add_timestamp_udf())
+
+    trimmedDF = fileStreamDf.select(fileStreamDf.TIME, fileStreamDf.CMD, "timestamp")
+
+    query = trimmedDF.writeStream.outputMode("append").format("console").option("truncate", "false").option("numRows", 30).start().awaitTermination()
+
+#+END_SRC
+
+*** sql aggregation os spark streams
+
+#+BEGIN_SRC 
+from pyspark.sql.types import *
+from pyspark.sql import SparkSession
+
+
+if __name__ == "__main__":
+    sparkSession = SparkSession.builder.master('local').appName('SparkLogAppendMode').getOrCreate()
+
+    sparkSession.sparkContext.setLogLevel('ERROR')
+
+    schema = StructType([StructField("P", StringType(), True),
+                         StructField("S", StringType(), True),
+                         StructField("UID", StringType(), True),
+                         StructField("PID", StringType(), True),
+                         StructField("PPID", StringType(), True),
+                         StructField("C", StringType(), True),
+                         StructField("PRI", StringType(), True),
+                         StructField("NI", StringType(), True),
+                         StructField("ADDR", StringType(), True),
+                         StructField("SZ", StringType(), True),
+                         StructField("WCHAN", StringType(), True),
+                         StructField("STIME", StringType(), True),
+                         StructField("TTY", StringType(), True),
+                         StructField("TIME", StringType(), True),
+                         StructField("CMD", StringType(), True)])
+
+    fileStreamDf = sparkSession.readStream.option("header","true")\
+        .option("delimiter"," ").schema(schema).csv("D:\\Amit\\projects\\amitthk\\bitbucket\\pysparktest\\docker\\all_logs")
+
+    print(" ")
+    print("Stream ready?")
+    print(fileStreamDf.isStreaming)
+
+    print(" ")
+    print("Schema: ")
+    print(fileStreamDf.printSchema)
+
+    fileStreamDf.createOrReplaceTempView("TempTable")
+
+    trimmedDF = fileStreamDf.select(fileStreamDf.TIME, fileStreamDf.CMD)
+
+    categoryDF = sparkSession.sql("SELECT HOSTNAME, PPID, TIME, CMD from TempTable where CMD = 'spark'")
+
+    psPerServer = categoryDF.groupBy("hostname").agg({"value":"sum"}).withColumnRenamed("sum(value)", "processes").orderBy("HOSTNAME",ascending=false)
+
+    query = trimmedDF.writeStream.outputMode("append").format("console").option("truncate", "false").option("numRows", 30).start().awaitTermination()
+#+END_SRC
+
+
+*** kafka tweets producer
+
+#+BEGIN_SRC 
+import sys
+import tweepy
+from tweepy import OAuthHandler
+from tweepy import Stream
+from tweepy import StreamListener
+import json
+import pykafka
+
+class TweetsConsumer(StreamListener):
+
+    def __init__(self, kafkaProducer):
+        print("Procuce tweets")
+        self.producer = kafkaProducer
+
+    def on_data(self, raw_data):
+        try:
+            data_json = json.loads(raw_data)
+            words = data_json["text"].split()
+            lstHashTags = list(filter(lambda x: x.lower().startsWith("#"),words))
+        except KeyError as e:
+            print("Error in data %s"%str(e))
+        return True
+
+    def login_to_twitter(kafkaProducer, tracks):
+        api_key = ""
+        api_secret = ""
+
+        access_token = ""
+        access_token_secret = ""
+
+        auth = OAuthHandler(api_key, api_secret)
+        auth.set_access_token(access_token, access_token_secret)
+
+        twitter_stream = Stream(auth, TweetsConsumer(kafkaProducer))
+        twitter_stream.filter(tracks=tracks, languages=['en'])
+
+    if __name__ == "__main__":
+        if(len(sys.argv)<5):
+            print("insufficient args", sys.stderr)
+            exit(-1)
+
+        host = sys.argv[1]
+        port = sys.argv[2]
+        topic = sys.argv[3]
+        tracks = sys.argv[4]
+
+        kafkaClient = pykafka.KafkaClient(host+":"+port)
+        kafkaProducer = kafkaClient.topics[bytes(topic, "utf-8")].get_producer()
+        login_to_twitter(kafkaProducer, tracks)
+
+#+END_SRC
+
+*** kafka tweets consumer
+
+#+BEGIN_SRC 
+import sys
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+
+if __name__ == "__main__":
+    if (len(sys.argv) < 5):
+        print("insufficient args", sys.stderr)
+
+    if(len(sys.argv)>1 and sys.argv[1] is not None):
+        host = sys.argv[1]
+    else:
+        host = 'localhost'
+
+    if (len(sys.argv)>1 and sys.argv[2] is not None):
+        port = sys.argv[2]
+    else:
+        port = '9092'
+
+    if (len(sys.argv)>2 and sys.argv[3] is not None):
+        topic = sys.argv[3]
+    else:
+        topic = 'twittertopic'
+
+    if (len(sys.argv)>3 and sys.argv[4] is not None):
+        tracks = sys.argv[4]
+
+    spark = SparkSession.builder.appName("Tweek consumer").getOrCreate()
+
+    spark.sparkContext.setLogLevel("ERROR")
+
+    tweetsDFRaw = spark.readStream.format("kafka").option("kafka.bootstrap.servers", host+":"+port).option("subscribe", topic).load()
+
+    tweetsDF = tweetsDFRaw.selectExpr("CAST(value AS STRING) as tweet").withColumn("tweet")
+
+    query = tweetsDF.writeStream.outputMode("append").format("console").option("truncate", "false").trigger(processingTime="5 seconds").start().awaitTermination()
+#+END_SRC

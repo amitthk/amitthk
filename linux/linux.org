@@ -295,6 +295,21 @@ cd $$ && pwd && ls -l cwd
 
 cat loadavg #load over the cpu in last times, last process id
 #+END_SRC
+
+#+BEGIN_SRC 
+ps -p pidlist
+
+ps -eo uname,pid,ppid,nlwp,pcpu,pmem,psr,start_time,tty,time,args
+
+#sort by spec
+ps -eo uname,pid,ppid,nlwp,pcpu,pmem,psr,start_time,tty,time,args --sort -pcpu,-pmem  
+
+
+#skip headers
+ps -ef --no-headers --sort -pcpu | sed '5q' | awk ' { print $1, $2, $7, $8 }'
+
+#+END_SRC
+
 **** managing processes
 #+BEGIN_SRC 
 stty -a #shortcuts for this shell
@@ -351,6 +366,10 @@ pkill sleep
 
 #+END_SRC
 
+Running a process in background and routing logs to a file
+
+~<somecommand> > <somefile> 2>&1 &
+
 **** Important common commands
 
 #+BEGIN_SRC 
@@ -369,6 +388,81 @@ ps axms
 ps -eo euser,ruser,suser,fuser,f,comm,label
 ps axZ
 ps -eM
+
+
+#+END_SRC
+
+ports
+
+#+BEGIN_SRC 
+lsof -i :8200
+netstat -a
+netstat -lptu
+
+
+#+END_SRC
+
+Open ports
+
+#+BEGIN_SRC 
+sudo yum -y install iptables-services
+sudo yum -y install firewalld
+
+#if iptables
+sudo iptables -I INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+
+sudo firewall-cmd --zone=public --add-port=8080/tcp --permanent
+sudo firewall-cmd --reload
+firewall-cmd --list-all
+
+#enable a service
+sudo firewall-cmd --zone=public --add-service=httpd --permanent
+
+#+END_SRC
+
+#+BEGIN_SRC 
+#unzip the vault binary to /usr/local/bin
+
+#create a config file 
+
+#add the user
+sudo useradd -r -d /var/lib/vault -s /bin/nologin vault
+
+#give the ownership to this directory to vault
+sudo install -o vault -g vault -m 750 -d /var/lib/vault
+
+sudo chown -R vault:vault /usr/share/vault
+
+#create the config file in below location and update permissions
+sudo chmod 640 /usr/share/vault/server.hcl
+
+sudo nano /etc/systemd/system/vault.service
+
+#+END_SRC
+
+Create the service file for vault
+
+sudo nano /etc/systemd/system/vault.service
+#+BEGIN_SRC 
+[Unit]
+Description=a tool for managing secrets
+Documentation=https://vaultproject.io/docs/
+After=network.target
+ConditionFileNotEmpty=/usr/share/vault/server.hcl
+
+[Service]
+User=vault
+Group=vault
+ExecStart=/usr/local/bin/vault server -config=/usr/share/vault/server.hcl
+ExecReload=/usr/local/bin/kill --signal HUP $MAINPID
+CapabilityBoundingSet=CAP_SYSLOG CAP_IPC_LOCK
+Capabilities=CAP_IPC_LOCK+ep
+SecureBits=keep-caps
+NoNewPrivileges=yes
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target
 
 
 #+END_SRC
@@ -641,6 +735,21 @@ gpgcheck=0"
 #+BEGIN_SRC 
 puppet apply /etc/puppet/manifests/mysite.pp
 #+END_SRC
+
+** utilities
+
+*** netcat
+
+Netcat can be used to write to a port so that applications can listen to the context:
+
+#+BEGIN_SRC
+#linux 
+nc -l 8990
+
+#windows
+nc -L -p 8990
+#+END_SRC
+
 
 ** elasticsearch logstash
 
