@@ -1,5 +1,13 @@
 * docker
 
+
+** install
+#+BEGIN_SRC 
+
+#+END_SRC
+
+** basick commands
+
 docker-machine ls
 docker-machine start/stop
 docker-machine env
@@ -226,4 +234,146 @@ RUN rm -rf ${WEBAPP_HOME}
 
 WORKDIR $(WEBAPP_HOME)/ROOT 
 COPY --from=builder /usr/src/jvcdp/target/jvcdp/ .
+#+END_SRC
+* kubernetes
+** Install install minkube
+Install qemu
+
+#+BEGIN_SRC 
+#install virualization option
+yum install qemu-kvm libvirt libvirt-python libguestfs-tools virt-install
+
+systemctl enable libvirtd
+systemctl start libvirtd
+
+#verify kvm
+lsmod | grep -i kvm
+
+brctl show
+virsh net-list
+
+#verify the private network 192.168.122.0/24
+
+virsh net-dumpxml default
+
+
+#+END_SRC
+
+*** Edit your ifcfg-enp*** config and add the BRIDGE=br0
+
+~vi /etc/sysconfig/network-scripts/enp3s0
+
+Add the line
+#+BEGIN_SRC 
+BRIDGE=br0
+
+#+END_SRC
+
+*** Create the br0 config
+~vi /etc/sysconfig/network-scripts/ifcfg-br0
+#+BEGIN_SRC 
+DEVICE="br0"
+# I am getting ip from DHCP server #
+BOOTPROTO="dhcp"
+IPV6INIT="yes"
+IPV6_AUTOCONF="yes"
+ONBOOT="yes"
+TYPE="Bridge"
+DELAY="0"
+
+#+END_SRC
+
+~systemctl restart NetworkManager
+
+*** Install kubectl
+#+BEGIN_SRC 
+vi /etc/yum.repos.d/kubernetes.repo
+
+#following contents of this repo
+
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+
+#+END_SRC
+
+~sudo yum install -y kubectl
+
+*** install the respective minikube according to instructions
+
+https://github.com/kubernetes/minikube/releases
+#+BEGIN_SRC 
+sudo curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.28.1/minikube-linux-amd64 && sudo chmod +x minikube && sudo mv minikube /usr/local/bin/
+#+END_SRC
+
+** Install Kubernetes:
+
+Make sure SELinux and swap is disabled and br_netfilter is enabled:
+#+BEGIN_SRC 
+setenforce 0
+sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+
+swapoff -a
+
+#edit the /etc/fstab and comment this out
+# /dev/mapper/centos-swap swap swap defaults 0 0
+
+modprobe br_netfilter
+echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
+
+#+END_SRC
+
+#+BEGIN_SRC 
+
+sudo vi /etc/yum.repos.d/kubernetes.repo
+
+#following contents of above file
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
+        https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+
+#install kubernetes
+yum install -y kubelet kubeadm kubectl
+#+END_SRC
+
+Make sure both kubectl and docker-ce are in same control group
+#+BEGIN_SRC 
+sed -i 's/cgroup-driver=systemd/cgroup-driver=cgroupfs/g' /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+systemctl daemon-reload
+systemctl restart kubelet
+#+END_SRC
+
+*** Enable the cluster only on the master
+#+BEGIN_SRC 
+kubeadm init --apiserver-advertise-address=192.168.1.99 --pod-network-cidr=192.168.1.0/16
+
+#+END_SRC
+
+*** Join the cluster on nodes
+#+BEGIN_SRC 
+kubeadm join 192.168.1.99:6443 --token TOKEN --discovery-token-ca-cert-hash DISCOVERY_TOKEN
+
+#+END_SRC
+
+*** Setup kubernetes configuration
+#+BEGIN_SRC 
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+#+END_SRC
+
+*** Deploy the flannel network
+#+BEGIN_SRC 
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 #+END_SRC
