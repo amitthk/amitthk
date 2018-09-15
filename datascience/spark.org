@@ -1,4 +1,57 @@
 * spark
+** About
+*** architecture
+**** Driver (spark context)
+
+- Spark Context
+  - Driver Program
+    - Context
+  - Cluster Manager
+
+**** Worker Node (executor)
+
+- Worker Node
+  - Executor
+    - Tasks
+
+*** Spark components
+
+| DataFrames                             |
+| SQL        | Streaming | MLib | Graphx |
+| Spark Core                             |
+|            |           |      |        |
+
+**** spark core
+**** spark sql
+**** Spark Streaming
+**** MLib
+**** Graphx
+**** Dataframes
+*** Spark abstractions
+**** RDDs (Resilient Distributed Datasets)
+- Transoformations generated as DAG (Directed Acyclic Graphs)
+- DAGs can be recomputed during failiure
+- Transformations
+  - Map
+  - Filter
+  - flatMap
+  - textFile
+  - ...
+- Immutable
+- 
+**** DataFrames
+**** DataSets
+**** DStreams
+*** Lifecycle in spark
+Data Sources => Transformation => Actions => UI Dashboard (Real time)/Processed Data
+- Load data to cluster
+- Create RDD
+- Do Transformation
+- Perform Action
+- Create DataFrame
+- Perform Queries on Data Frame
+- Run SQL on DATA Frames
+
 ** install
 Unzip the binaries and set the 
 
@@ -51,6 +104,40 @@ C:\Apps\Tools\hadoop-2.7.7\bin\winutils.exe chmod -R +x C:\Apps\Tools\hadoop-2.7
 ta.StructuredStreaming.Kafka --master local[*] D:\Amit\projects\amitthk\bitbucket\pysparktest\kafka_tweet_consumer.py lo
 calhost 9092 twittertopic
 #+END_SRC
+
+** spark shell
+#+BEGIN_SRC 
+sc
+help(sc)
+sc.serializer
+sc.sparkUser()
+sc.stop()
+
+test_rdd = sc.emptyRDD() //wont work as sc stopped above
+sc = SparkContext.getOrCreate() //brand new SC
+
+
+
+#+END_SRC
+
+- RDD
+  - Resilient - if it fails make it work
+  - Distributed /partitioned
+  - Dataset
+- Five properties of RDD:
+  - Partitions
+  - Dependencies
+  - Functions to compute partitions
+  - Partitiner (key/value RDDs - optional)
+  - Preferred locations fo compute - optional)
+- PairRDD
+  - Tupeles
+  - Good for grouping /aggregating
+  - 
+- Creating RDDs
+  - parallelize
+  - sc.parallelize(....)
+  - list.getNumPartitions()
 
 ** pyspark codes
 

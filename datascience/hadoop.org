@@ -428,3 +428,36 @@ spark-submit --packages com.databricks.spark-xml  2.10:0.3.3. --master local[*] 
 | Worker | Worker |
 | Worker | worker |
 |        |        |
+
+* Install notes
+
+** Environment variables
+
+#+BEGIN_SRC 
+export JAVA_HOME=/..
+export ZOOKEEPER_HOME=...
+export KAFKA_HOME=...
+export SPARK_HOME=
+
+#+END_SRC
+
+** Zookeeper
+
+- Go to install folder  /conf
+- rename the zoo_sample.cfg to zoo.cfg
+- open the zoo.cfg
+  - set dataDir to some data directory (/tmp/data) / is important
+  - create the data folder
+  - open the command prompt and run zKserver start
+
+** Kafka
+- Go to kafka install directory  /config
+- open server.properties
+- update  logs.dir  <kafka install dir>/logs
+- open shell and run kafka using following
+  - .\bin\kafka-server-start .\config\server.properties
+  - For windows  :  .\bin\windows\kafka-server-start.bat .\config\server.properties
+
+** Spark
+- run following command
+  - spark-shell
