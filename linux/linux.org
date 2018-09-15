@@ -150,6 +150,22 @@ du -b filename #file bytes
 
 #+END_SRC
 
+#+BEGIN_SRC 
+lsblk
+lsblk -io KNAME,TYPE,SIZE,MODEL
+
+lshw -class disk
+
+hwinfo --disk
+
+fdisk -l
+
+smartctl -i /dev/sda
+
+
+ ls /sys/block/* | grep block | grep sd | wc -l
+
+#+END_SRC
 
 **** Permissions
 #+BEGIN_SRC 
@@ -969,6 +985,20 @@ Dashboard > add "our syslog visual"
 *** install xpack watcher
 install xpack
 update the elasticsearch.yml with email infor
+
+** maven
+Write maven wrapper to package build
+
+#+BEGIN_SRC 
+export MAVEN_HOME=/opt/apache-maven-3.5.4
+export JAVA_HOME=/usr/java/jdk1.8.0_181-amd64/
+/opt/apache-maven-3.5.4/bin/mvn "$@"
+#+END_SRC
+
+#+BEGIN_SRC 
+#if above file is ~/mvn
+~/mvn clean package
+#+END_SRC
 
 ** Apache / httpd
 
