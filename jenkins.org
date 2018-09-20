@@ -187,6 +187,15 @@ with
 
 ** Jenkinsfile
 *** Jenkinsfile add input
+Before the pipeline 
+#+BEGIN_SRC 
+properties([
+  parameters([choice(name: 'MYOPTION', choices "FIRST\nSECOND\nTHIRD")])
+])
+
+echo "${params.MYOPTION}"
+#+END_SRC
+
 #+BEGIN_SRC 
 stage 'promotion'
 def userInput = input(
