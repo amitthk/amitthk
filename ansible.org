@@ -666,6 +666,10 @@ permission denied for relation pg_authid
 
 #+END_SRC
 
+** concatenate variables get dirname from path
+#+BEGIN_SRC 
+path: "{{(download_location+'/'+ item) | dirname}}"
+#+END_SRC
 * Quick ref
  - Inventory and Config
    - features

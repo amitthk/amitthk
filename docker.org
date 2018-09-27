@@ -377,3 +377,17 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 #+BEGIN_SRC 
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 #+END_SRC
+
+* Open shift login
+#+BEGIN_SRC 
+oc login -u test_user
+oc whoami --token
+
+docker login -u test_user -p <token> <repourl>...
+
+
+
+oc create serviceaccount robot
+oc policy add-role-to-user admin system:serviceaccounts:test:robot
+oc serviceaccounts get-token robot
+#+END_SRC
