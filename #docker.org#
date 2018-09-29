@@ -235,7 +235,7 @@ RUN rm -rf ${WEBAPP_HOME}
 WORKDIR $(WEBAPP_HOME)/ROOT 
 COPY --from=builder /usr/src/jvcdp/target/jvcdp/ .
 #+END_SRC
-* kubernetes
+* Kubernetes
 ** Install install minkube
 Install qemu
 

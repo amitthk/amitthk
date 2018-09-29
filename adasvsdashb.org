@@ -1,3 +1,4 @@
+#+OPTIONS: toc:10
 * TOC
 ** Vision & Goals
 DevOps Automation Scope

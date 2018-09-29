@@ -822,7 +822,7 @@ e.g valid SSN numbers
 -v reverses the search, -E enhanced regex 
 grep -vE '\b[0-9]{3}-[0-9]{2}-[0-9]{4}\b' employees
 
-***** sed
+**** sed
 | PRINT command                                                        | e.g                                                              |
 | Print the pattern space                                              | sed ' p ' /etc/passwd                                            |
 | Suppress standrd output only matched lines display                   | sed -n ' p ' /etc/passwd                                         |
@@ -849,7 +849,7 @@ sed ‘ {
 
 .....
 
-***** awk
+**** awk
 
 vi users.awk
 
@@ -887,7 +887,7 @@ print "Total Number of Users Processed: ", count}
 #+END_SRC
 
 
-****** xml file refining
+***** xml file refining
 xml.awk
 
 #+BEGIN_SRC 
@@ -898,7 +898,7 @@ $0 ~ search { print }
 Usage:
 awk -f xml.awk search=example vh.conf
 
-****** Log files refining using awk
+***** Log files refining using awk
 
 #+BEGIN_SRC 
 # print first field
@@ -906,7 +906,7 @@ awk ‘ { print $1 } ‘ access.log
 
 #+END_SRC
 
-****** count unique access by client
+***** count unique access by client
 #+BEGIN_SRC 
 BEGIN { FS=" ";print "Log access" }
 { ip[$1]++ }
@@ -915,7 +915,7 @@ print i, " has accessed ", ip[i], " times."
 }
 #+END_SRC
 
-****** maximum browser count
+***** maximum browser count
 
 #+BEGIN_SRC 
 BEGIN { FS=" "; print "Most Popular Browser" }
@@ -927,6 +927,81 @@ maxbrowser = b; }
 print "Most access was from ", maxbrowser, " and ", max, "
 times." }
 #+END_SRC
+
+**** notes sed awk grep
+ 
+Grep awk sed
+
+note:
+!$ (last argument)
+!cat  (last cat command)
+
+grep user /etc/passwd
+
+declare -f
+
+declare -f | grep '^[a-z_]'
+
+declare -f quote
+
+grep --version
+
+sed -n 'p' /etc/passwd   (prints whole)
+
+sed -n '1,5 p' /etc/passwd  (match pattern, first five lines)
+
+sed -n ' /^user/  p' /etc/passwd (match pattern starting with user)
+
+# deleteing with sed (d)
+
+sed ' /^#/ d' /etc/ntp.conf
+
+sed ' /^#/ d ; /^$/ d' /etc/ntp.conf
+
+# Now actually execute it:
+
+(.bak also creates a backup)
+sed  -i.bak ' /^#/ d ; /^$/ d' /etc/ntp.conf
+
+
+# awk
+
+print contents
+
+awk  ' { print } ' /etc/ntp.conf
+
+extra stuff at beginning and end
+awk '  BEGIN { print "filename.conf" } { print } END { print NR } /etc/fliename.conf
+
+
+awk  ' { print NR, $0 } ' /etc/ntp.conf
+
+ifconfig eth0 | awk -F ":"  '/HWaddr/{ print $3 $4 $5 $6 $7 }'
+
+
+====
+Grep
+
+ifconfig eth0 | grep RX
+grep pam_nologin /etc/pam.d/*
+grep -c name /proc/cpuinfo
+
+netstat -tnpa | grep 'ESTABLISHED.*sshd'
+
+------
+
+case insensitive
+ifconfig eth0 | grep -i rx
+
+where the configurations for pam_login module stored in
+grep pam_login /etc/pam.d/*
+
+grep -c name /proc/cpuinfo
+cat !$  (Last argument)
+
+./parsecsv.sh tools | grep -A2 hammer
+alias
+
 
 ** utilities
 

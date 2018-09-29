@@ -1,0 +1,160 @@
+* kubernetes
+** minikube start
+minikube start --vm-driver="hyperv" --hyperv-virtual-switch="Default Switch"  
+kubectl get nodes
+
+minikube dashboard
+** pods
+kubectl get nodes
+
+=====
+#pod.yaml
+
+apiVersion: v1
+kind: pod
+metadata:
+  name: hello-pod
+spec:
+  containers:
+    - name: hello-ctr
+      image: amitthk/angdnx
+      ports:
+        - containerPort: 5000
+
+=====
+
+
+kubectl create -f pod.yaml
+
+kubectl get pods
+
+kubectl describe pods
+
+kubectl get pods/hello-pod
+
+kubectl get pods --all-namespaces
+** replication controllers
+
+#replc.yaml
+
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: hello-rc
+spec:
+  reeplicas: 5
+  selector:
+    app: hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+      - name: hello-world
+        image: amitthk/angdnx
+        ports:
+          - containerPort: 5000
+===
+
+kubectl create -f replc.yaml
+
+===
+vi replc.yaml
+
+replicas: 10
+===
+
+kubectl apply -f replc.yaml
+
+kubectl get rc
+
+kubectl get rc -o wide
+
+kubectl get pods
+** services
+
+kubectl expose rc hello-rc --name=hello-svc --targetPort=8080 --type=NodePort
+kubectl describe svc hello-svc
+
+# IP is virtual ip, NodePort is expose port
+
+
+====
+#vi hello-svc.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-svc
+  labels:
+    app: hello-world
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    protocol: TCP
+  selector:
+    app: hello-world
+============
+
+ServiceTypes: 
+
+Clusterip :  "stable" internal cluster ip
+NodePort:   Expose app outside cluster. Adds cluster-wide port on top of ClusterIP
+LoadBalancer: Integrates NodePort with cloud based load balancers
+** endpoints
+
+kubectl get ep #endpoints
+** deployments
+
+deployments => replica-sets => pods => containers
+
+kubectl rolling-update -f updated-rc.yml
+
+=======
+#vi depl.yml
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: hello-deployment
+spec:
+  replicas: 10
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+      - name: hello-pod
+        image: amtithk/angdnx
+        ports:
+        - containerPort: 5000
+==========
+
+kubectl create -f depl.yml
+kubectl describe deploy hello-deployment
+
+====update===
+#vi depl.yml
+spec:
+  replicas: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+..... 
+      image: amitthk/angdnx:0.0.2
+========
+*** rollout updated deployment
+
+kubectl apply -f depl.yml --record
+kubectl rollout status deployment hello-deployment
+kubectl rollout history deployment hello-deployment
+*** rollback to previous replca set
+kubectl rollout undo deployment hello-deploy --to-revision=1
+
+=========
+
