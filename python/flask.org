@@ -1,0 +1,150 @@
+flask
+
+
+
+mkproject  my-project
+
+pip install flask
+
+initializr.com
+
+==============
+from flask import flask
+
+app = Flask(__name__)
+
+@app.route('/')
+@app.route('/index')
+def index():
+    return render_template('index.html')
+
+@app.errorHandler(404)
+def page_not_found(e)
+    return render_template('404.html'), 404
+
+@app.errorHandler(500)
+def page_not_found(e)
+    return render_template('500.html'), 500
+
+if __name__ == '__main__'
+    app.run(debug=True)
+================
+base.html
+
+<title>{% block title %} {% endblock %}</title>
+
+href="{{ url_for('index') }}"
+
+
+href="{{ url_for('static', filename='css/main.css') }}"
+================
+index.html
+{% extends "base.html" %}
+{% block title %}
+myapp welcome
+{% endblock %}
+
+{% block content %}
+<h1> hi there</h1}
+{% endblock %}
+=============
+
+python console
+app.url_map
+
+
+return redirect(url_for('index'))
+=========
+===========
+from flask import flask
+from logger import DEBUG
+
+app = Flask(__name__)
+app.logger.setlevel(DEBUG) 
+
+@app.route('/')
+@app.route('/index')
+def index():
+    return render_template('index.html')
+
+def store_bookmark(url):
+    bookmarks.append(dict(url=url, user = 'amitthk', date = datetime.utcnow()))
+
+
+@app.route('/add', methods = ['GET', 'POST'])
+def add():
+    if request.method == 'POST':
+        url = request.form['url']
+        store_bookmark(url)
+        app.logger.debug('saved bookmark : + url)
+    return render_template('add.html')
+
+@app.errorHandler(404)
+def page_not_found(e)
+    return render_template('404.html'), 404
+
+@app.errorHandler(500)
+def page_not_found(e)
+    return render_template('500.html'), 500
+
+if __name__ == '__main__'
+    app.run(debug=True)
+===================
+import flask.WTF
+
+class MyForm:
+   url = URLField('url', validators=[DataRequired(), url()])
+   description = StringField('description')
+
+
+@app.route('/add', methods = ['GET', 'POST'])
+def add():
+    form = MyForm()
+    if form.validate_on_submit():
+        url = form.url.data
+        description = form.description.data
+        store_bookmark(url, description)
+        flash("Stored {}".format(description))
+        return redirect(url_for('index'))
+    return render_template('add.html', form=form)
+
+
+template :  {% if form.url.error } class="danger" {% endif %}
+
+*write macro for generating forms.
+===============
+SQLAlchemy model classes;
+
+#pip install flask-sqlalchemy
+
+
+class Bookmark(db.Model):
+    id = db.Column(db.Integer, primary_key=true)
+    url = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.DateTime, datetime.utcnow)
+    description = db.Column(db.String(300))
+    owner = db.relationship('User', backref='user', lazy='dynamic') //A one to many relationship to other table name user
+    def __repr__(self):
+        return "<bookmark  '{}' : '{}' >".format(self.description, self.url)
+
+
+--
+modification in app.py
+
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = "~tdjfd;safdsafjdsafj;fdsa"
+app.config(['SQLALCHEMY_DATABASE_URL'] = 'sqlite:///'+os.path.join(basedir, 'myform.db')
+db = SQLAlchemy(app)
+
+============
+from thermos.thermos import db
+from thermos.models import User, Bookmark
+db.create_all()
+u= MyForm(url="http://google.com",description= 'awsome bookmark')
+db.session.add(u)
+db.session.commit()
+Bookmark.query.get(2)
+
+==============
