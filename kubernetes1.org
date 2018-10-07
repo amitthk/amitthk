@@ -1,0 +1,705 @@
+* k8s
+
+kubectl get node
+
+Samples:
+https://github.com/miguellgt/play-k8s
+
+
+====
+apiVersion: v1
+kind: ReplicationController
+metadata:
+    name: helloworld-controller
+spec:
+ 
+
+=====
+* pods
+
+kubectl get pods 
+kubectl describe pod  "<full pod name>
+kubectl delete pod helloworld-contoller-omw85
+
+* replication controllers
+
+kubectl scale --replicas=4 -f ./helloworld-repl-ctrl.yaml
+
+kubectl scale --replicas=1 rc/helloworld-contoller
+kubectl delete rc/helloworld-contoller
+
+-> can only scale like this stateless apps horizontally not vertically
+=========
+
+* Replica Sets
+are the next generation of replication controllers
+Includes new set of selecters and filters
+Used by deployments
+
+* Deployments - desired state
+create
+update
+rolling update
+roll back 
+pause resume
+===
+
+| command                                                       | description                  |
+| kubectl get deployments                                       |                              |
+| kubectl get rs                                                |                              |
+| kubectl get pods --show-labels                                |                              |
+| kubectl rollout status deployment/mydeployment                |                              |
+| kubectl set image deployment/mydeployment k8s-demo=k8s-demo:2 |                              |
+| kubectl edit deployment/mydeployment                          |                              |
+| kubectl rollout status deployment/mydeployment                |                              |
+| kubectl rollour history deployment/mydeployment               |                              |
+| kubectl rollout undo deployment/mydeployment                  | rollback to previous version |
+| kubectl rollout undo deployment/mydeployment  --to-version=2  |                              |
+
+
+* services
+
+pods are dynamic
+replication controller pods are terminated, creted during scaling
+using deployments also same
+should be accessed via service
+
+
+** services
+
+kubectl expose
+
+*** types
+
+
+- ClusterIP: a virtual IP address only reachable from within the cluster(default)
+- NodePort: a prot that is the same on each node that is also reachable externally
+- LoadBalancer: a LoadBalancer created by cloud provider that will route external traffic to every node on the NodePort(ELB on AWS)
+
+other options
+ - ExternalName  can provide a dns name for the service
+   - e.g. for service discovery using dns
+   - only works when DNS add-on is enabled
+
+#+BEGIN_SRC 
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-service
+spec:
+  ports:
+  - port: 31001
+    nodePort: 31001
+    targetPort: nodejs-port
+    protocol: TCP
+  selector:
+    app: helloworld
+  type: NodePort
+#+END_SRC
+
+*** Note: by default services can only run on 30000-32767 . this can be modified :
+--service-node-port-range=  argument to the kub-apiserver in the init sctipts
+
+** commands
+
+create the deployment first with the selector and a port named nodejs-port
+
+~kubectl create -f service/hello-service.yml
+
+** Get the url/ips of hello-service
+
+External
+~minikube hello-service --url
+
+Internal
+~kubectl describe svc hello-service
+IP is the clusterwide ip
+Endpoint is also created - it can be used to access the service
+
+~kubectl get svc
+
+
+* labels
+
+are key value pairs like tags
+are not unique, multiple labels can be added to one object
+once labled filters can be used - called Label Selectors
+Label Selectors - can use matchin expressions
+
+** nodes can be labled
+u can use lable selectors to let pods only run on specific nodes
+there are 2 steps
+  tag your node
+  add nodeSelector to your pod configuration
+
+~kubectl label nodes node1 hardware=high-spect
+
+#+BEGIN_SRC 
+apiVersion: v1
+kind: Pod
+....
+spec:
+  containers:
+..
+  nodeSelector:
+    hardware: high-spec
+
+#+END_SRC
+
+#+BEGIN_SRC 
+kubectl get nodes
+kubectl get nodes --show labels
+
+
+#+END_SRC
+
+
+* Health checks 
+** liveness probe
+
+#+BEGIN_SRC 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nodehello
+  labels:
+    app: hellonode
+spec:
+  containers:
+  - name: k8s-nodejs
+    image: repo/k8s-nodejs
+    ports:
+    - containerPort: 3000
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 3000
+      initialDelaySeconds: 15
+      timeoutSeconds: 30
+
+#+END_SRC
+
+#+BEGIN_SRC 
+kubectl create -f deployment/...
+
+kubectl get pods
+kubectl describe pod hellonode-a8xuyz
+
+#edit the full deployment
+kubectl edit deployment/hellonode
+#+END_SRC
+
+** readiness probe
+
+#+BEGIN_SRC 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nodehello
+  labels:
+    app: hellonode
+spec:
+  containers:
+  - name: k8s-nodejs
+    image: repo/k8s-nodejs
+    ports:
+    - containerPort: 3000
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 3000
+      initialDelaySeconds: 15
+      timeoutSeconds: 30
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 3000
+      initialDelaySeconds: 15
+      timeoutSeconds: 30
+#+END_SRC
+
+Checking the health of deployment recursive
+
+#+BEGIN_SRC 
+kubectl create -f helloworld-healthcheck.yml && watch -n1 kubectl get pods
+
+
+#+END_SRC
+
+* pod states
+
+#+BEGIN_SRC 
+kubectl get pod kube-apiserver-ip-172-20.....  -n kube-system -o yaml
+#+END_SRC
+
+** pod lifecycle
+
+|                |                 | readiness probe      |               |
+|                | post start hook | liveness probe       | pre stop hook |
+| init container | <----           | -- main container -- | ---->         |
+|                |                 |                      |               |
+
+- Init container
+  - Initialized
+  - Ready
+  - PodScheduled
+
+#+BEGIN_SRC 
+watch n1 kubectl get pods
+#+END_SRC
+
+run interactive command inside the container
+
+#+BEGIN_SRC 
+kubectl exec -it lifecycle-132hjedruewq-rm911  -- cat /timings 
+kubectl exec -it lifecycle-132hjedruewq-rm911  -- tail /timings -f
+#+END_SRC
+
+* secrets
+
+credentials, keys, passwords etc
+
+- can be used as
+  - secrets as env variables
+  - as a file in                        a pod
+    - uses volumes to be mounted in a container
+    - in this volume u have files
+    - can be used for instance for dotenv files or your app can read this file
+  - Use External image to pull secrets ( a private image registry)
+
+** generating secrets
+
+#+BEGIN_SRC 
+echo -n "root" > ./username.txt
+echo -n "password" > ./password.txt
+
+kubectl create secret generic db-user-pass --from-file=./username.txt --from-file=./password.txt
+
+# a secret ssh key
+kubectl create secret generic ssl-certificate --from-file=ssh-privatekey=~/.ssh/id_rsa --ssl-cert-=ssl-cert=mysslcert.crt
+
+#+END_SRC
+
+*** generate secrets using yaml 
+
+#+BEGIN_SRC 
+apiVersion: v1
+kind: Secret
+metadata: 
+  name: db-secret
+type: Opaque
+data:
+  password: zsdafads==
+  username: fasdfasd=
+#+END_SRC
+
+#+BEGIN_SRC 
+echo -n "root" | base64
+echo -n "password" | base64
+#+END_SRC
+
+*** using secrets
+
+from yaml
+
+#+BEGIN_SRC 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nodehello
+  labels:
+    app: hellonode
+spec:
+  containers:
+  - name: k8s-nodejs
+    image: repo/k8s-nodejs
+    ports:
+    - containerPort: 3000
+    env:
+     - name: SECRET_USERNAME
+       valueFrom: 
+         secretKeyKeyRef:
+           name: db-secret
+           key: username
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 3000
+      initialDelaySeconds: 15
+      timeoutSeconds: 30
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 3000
+      initialDelaySeconds: 15
+      timeoutSeconds: 30
+
+
+#+END_SRC
+
+from file in a volume
+
+#+BEGIN_SRC 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nodehello
+  labels:
+    app: hellonode
+spec:
+  containers:
+  - name: k8s-nodejs
+    image: repo/k8s-nodejs
+    ports:
+    - containerPort: 3000
+    volumeMounts:
+    - name: credvolume
+      mountPath: /etc/creds
+      readOnly: true
+    volumes:
+    - name: credvolume
+      secret:
+        secretName: db-secrets
+
+#+END_SRC
+
+#+BEGIN_SRC 
+
+#+END_SRC
+
+
+#+BEGIN_SRC 
+env:
+  - name: WORDPRESS_DB_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: wordpress-secrets
+        key: db-password
+#+END_SRC
+
+
+#+BEGIN_SRC 
+kubectl exec helloworld-deployment-2143243-6cfdasf  -i -t -- /bin/bash
+cat /etc/creds/username
+
+#to see the mount points
+mount
+#+END_SRC
+
+
+* webui in kops
+
+#+BEGIN_SRC 
+kubectl apply -f https://raw.githubusercontent......../kubernetes-dashboard.yaml
+
+kubectl create -f sample-user.yaml
+
+kubectl -n kube-system get secret | grep admin-user
+kubectl -n kube-system describe secret admin-user-token-<id displayed by previous cmd>
+
+
+#Go to http://api.yourdomain.com:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/login
+
+kubectl config view
+
+#+END_SRC
+
+* dns
+
+run with busybox
+
+#+BEGIN_SRC 
+
+#+END_SRC
+
+* configmap
+
+configuration files that are not secret
+command line:
+#+BEGIN_SRC 
+cat <<EOF> app.properties
+driver=jbc
+database=postgres
+lookandfeel=1
+otherparams=xyz
+param.with.hierarchy=xyz
+EOF
+
+
+kubectl create configmap app-config --from-file=app.properties
+#+END_SRC
+
+Using config maps
+#+BEGIN_SRC 
+
+  volumeMounts:
+    - name: config-volume
+      mountPath: /etc/config
+volumes:
+  - name: config-volume
+    configMap:
+      name: app-config
+#+END_SRC
+
+Or create a pod that exposes configmap into env variables
+
+#+BEGIN_SRC 
+env:
+  - name: DRIVER
+    valueFrom:
+      configMapKeyRef:
+        name: app-config
+        key: driver
+
+#+END_SRC
+
+e.g.  Reverse proxy config map
+
+#+BEGIN_SRC 
+
+server{
+  listen 80;
+  server_name localhost:
+  location / {
+     proxy_bind  127.0.0.1;
+     proxy_pass  http://127.0.0.1:3000;
+  }
+  error_page  500 502 503 504 /50x.html;
+  location = /50x.html {
+    root /usr/share/nginx/html;
+  }
+}
+
+#+END_SRC
+
+kubectl create configmap nginx-config --from-file=configmap/nginx-config.yml
+
+kubectl get configmap
+kubectl get configmap nginx-config -o yaml
+
+#+BEGIN_SRC 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginxp
+  labels:
+    app: nginxp
+spec:
+  containers:
+  - name: nginx
+    image: repo/nginx
+    ports:
+    - containerPort: 3000
+    volumeMounts:
+    - name: config-volume
+      mountPath: /etc/nginx/conf.d
+      readOnly: true
+    volumes:
+    - name: config-volume
+      configMap:
+        name: nginx-config
+        items:
+        - key: reverseproxy.conf
+          path: reverseproxy.conf
+
+#+END_SRC
+
+* ingress
+
+allow inbound connections to your cluster
+alternative to external loadbalancer and nodeports
+ingress controller within kubernetes cluster
+write your own
+
+| internet --> | ingress controller --> | Ingress controller pod hosted with nginx and ingress ctrl --> | routes the request to appropreate services -->-->--> | Service:app1 10.0.0.1:80 | Service: app2 10.0.0.2:80 |
+
+ingress rules
+
+host-x.example.com => pod 1
+host-y.example.com => pod 2
+host-x.example.com/api/v2 => pod n
+#+BEGIN_SRC
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: helloworld-rules
+spec:
+  rules:
+  - host: helloworld-v1.example.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: helloworld-v1
+          servicePort: 80
+  - host: hellowrold-v2.example.com
+     http:
+      paths:
+      - path: /
+        backend:
+          serviceName: helloworld-v2
+          servicePort: 80
+
+#+END_SRC
+
+#+BEGIN_SRC 
+curl 192.168.0.100  -H 'Host: helloworld-v1.example.com'
+#+END_SRC
+
+** ngress with LB and External DNS
+
+| internet --> | AWS route53 -->      | ingress controller --> | Ingress controller pod hosted with nginx and ingress ctrl --> | routes the request to appropreate services -->-->--> | Service:app1 10.0.0.1:80 | Service: app2 10.0.0.2:80 |
+|              | ^                    |                        |                                                               |                                                      |                          |                           |
+|              | --External DNS --    |                        |                                                               |                                                      |                          |                           |
+|              | AWS Loadbalancer --> |                        |                                                               |                                                      |                          |                           |
+|              |                      |                        |                                                               |                                                      |                          |                           |
+
+* Volumes
+
+can be attached using different vlume plugins:
+
+- local volume
+- AWS CLOUD
+  - ebs storage
+- N/W storage
+  - NFS
+  - Cephfs
+- Google
+  - Google Disk
+- MS
+  - Azure Disc
+
+It is new in kubernetes around 2016. May not be production ready for database with persistent volumes.
+
+** eg Amazon AWS EBS volume
+
+#+BEGIN_SRC 
+aws ce2 create-volume --size 10 --region us-east-1 --availability-zone us-east-1a --volume-type gp2
+#note down the volumeid
+#+END_SRC
+
+#+BEGIN_SRC 
+  volumeMounts:
+  - mountPath: /myvol
+    name: myvolume
+
+volumes:
+- name: myvolume
+  awsElasticBlockStore:
+    volumeID: vol-055681138509999ee
+#+END_SRC
+
+* satefulsets
+
+when u want to recreate a set it should get the same dns like cassandra-0, cassandra-1
+
+
+* daemonsets
+
+When it should always be on
+
+E.g. Resources usage monitoring  - Heapster
+on kubernetes github  heapster yaml is present
+
+ | Pod 1 --> |                                                      |
+ |           | heapsterdb pod, influxdbpod (or kafka) , grafana pod |
+ | Pod 2 --> |                                                      |
+
+#+BEGIN_SRC 
+kubectl top pod
+kubectl top node
+#+END_SRC
+
+* autoscaling
+horizontal autoscaling is out of the box in k8s
+uses heapster
+#+BEGIN_SRC 
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+    name: hpa-example
+spec:
+    replicas: 3
+    template:
+        metadata:
+            name: hpa-example
+            labels:
+                app: hpa-example
+        spec:
+            containers:
+            - name: hpa-example
+              image: gcr.io/google_containers/hpa-example
+              ports:
+              - name: http-port
+                containerPort: 80
+              resources:
+                  requests:
+                      cpu: 200m
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: hpa-example-svc
+spec:
+    type: LoadBalancer
+    selector:
+        app: hpa-example
+    ports:
+    - port: 31001
+      nodePort: 31001
+      targetPort: http-port
+      protocol: TCP
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+    name: hpa-example-autoscaler
+spec:
+    scaleTargetRef:
+        apiVersion: extensions/v1beta1
+        kind: Deployment
+        name: hpa-example
+    minReplicas: 1
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 50
+#+END_SRC
+
+* helm charts
+
+package manager for kubernetes apps
+
+| helm create mychart |   |
+| helm search mysql   |   |
+| helm delete mysql   |   |
+
+helm search ingress
+
+#+BEGIN_SRC 
+helm create mychart
+#+END_SRC
+
+- mychard/
+  - Chart.yaml
+  - values.yaml
+    - key: value
+  - templates/
+    - deployment.yaml
+    - service.yaml
+    - ...
+
+#+BEGIN_SRC 
+helm install mychart/
+
+export POD_NAME=$(kubectl get pods --namespace default -l "app=mychart,release=ringed-wolverine"))
+
+echo $POD_NAME
+kubectl portforward $POD_NAME 8080:80
+^Z
+bg
+curl http://127.0.0.1:8080
+fg
+helm list
+
+
+#+END_SRC
+
