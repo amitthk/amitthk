@@ -1,0 +1,171 @@
+* inbox
+** Topologies and infra layers
+|                | On Prem | IAAS | PAAS | SAAS |
+| Applications   |         |      |      | -    |
+| Data           |         |      |      | -    |
+| Runtime        |         |      | -    | -    |
+| Middleware     |         |      | -    | -    |
+| OS             |         |      | -    | -    |
+| Virtualization |         | -    | -    | -    |
+| Servers        |         | -    | -    | -    |
+| Storage        |         | -    | -    | -    |
+| Networking     |         | -    | -    | -    |
+
+- Managed by provider
+'' Managed by you
+
+
+** hadoop on k8s
+
+| Domain                      | Component                 | K8s implementation |
+| Configuration Management    | Source                    | configmap          |
+|                             | Proprocessing             | helm               |
+|                             | OnChange                  | n/a                |
+| Provisioning, Orchestration | Multihost support         | CNI                |
+|                             | Scheduling                | k8s                |
+|                             | Cluster Definition        | helm,yaml          |
+|                             | Scaling                   | yes                |
+|                             | Multi tenancy             | namespaces         |
+|                             | Failover                  | yes                |
+| Network                     | Intraservice network      | CNI                |
+|                             | DNS                       | statefulset        |
+|                             | Service Discovery         | DNS                |
+|                             | Data locality             | no                 |
+|                             | Availability of the ports | service/ingress    |
+
+Now you are definitely wondering why I will be compiling the code at every branch. So in the normal circumstances will basically be the code after the release ranch and release branches back to the US and the master as bags which are basically leads to the UT after that the deployment goes by the perimeter be simply provide this package garden and it is subsequently promoted into the different environment. Basically what I mean to say’s
+This first see a portion of the pipeline is basically turned off. So in order to mustard that’s not you let me turn on this feature and we would see that this will ask us if we really want to go to the department now based on this barometer it goes into the city by playing Siri five and has been in the past which is the package Version after that the CD portion or the CD job of the pipeline promotes this package to subsequent environments one off of the other
+
+[2:20 PM, 11/4/2017] +65 9131 9851: The point I’m trying to make is the If we connect the dots the direction in which the industry is moving right now is Nm two and agile. Dodges to keep the scope of change as short as possible , and the feedback loop continues in place.
+[2:21 PM, 11/4/2017] +65 9131 9851: Dis connect back to the third principle of DevOps Continuous improvement
+[2:21 PM, 11/4/2017] +65 9131 9851: We keep creating the branches feature bunches
+[2:22 PM, 11/4/2017] +65 9131 9851: Continue the experimentation and it continuously integrate back into the branch and gives us the continuous feedback
+[6:38 PM, 11/4/2017] +65 9131 9851: Just to clarify that you’re not violating get any of the information security policy here, this project has been developed counts of it is one of my demo project which I don’t want to take to the client and they liked it and we have modified it over the Period of time original one it was broken so I have to go straight in this and this is not on a public repository
+[6:40 PM, 11/4/2017] +65 9131 9851: This project has been developed grounds up and it is on the private repository. I did my demo to the client and the client liked it. We modified it over the period of time
+[6:40 PM, 11/4/2017] +65 9131 9851: After migrating to the client about the tree the project information of been modified and the project is ongoing
+[6:40 PM, 11/4/2017] +65 9131 9851: So this one has no project information
+
+[12:23 AM, 11/8/2017] Starhub Internet: The branching strategy proposed by Vincent Drissen at Nvie is considered one of the best practices. Even Atlassian documentation gives it a special section.  The idea here is pretty simple, the code merges go via a channellized approval workflow.  Still the branching should be capable of augmenting collaboration in big teams comprising of several sub teams in Enterprise environment. It should still allow continuous experimentation without having severe repurcussions on the mainstream or production code
+[12:25 AM, 11/8/2017] Starhub Internet: The feature branches allow culture of experiementation. For example in the ongoing project, management decides to work on 5 new features. 5 new branches for the features are created. Still each of the branch should be able to pull the code from one integration branch (called the develop branch) and each of the team should be able to collaborate among themselves on the feature branches. Git even allows offline development so you keep working and committing the changes until you finally want to connect to the remote feature branch and push your latest changes after pulling the latest from other guys who have already pushed by now
+[12:31 AM, 11/8/2017] Starhub Internet: DevOps supports /augments Agile. So our continous delivery automation must ensure:
+
+continuous experimentation/improvement and still give us 
+end to end visibility and traceability 
+ability to change and test continuously
+support collaboration at (large) scale
+maximize automation to quickly deliver value from developer desk  => to customer experience
+
+[9:48 PM, 11/8/2017] +65 9131 9851: Feature branch : Code analytics , unit test, send reports
+[9:48 PM, 11/8/2017] +65 9131 9851: Release tags
+[9:48 PM, 11/8/2017] +65 9131 9851: Maven Release plugin integration
+[9:51 PM, 11/8/2017] +65 9131 9851: Same strategy is for the naren difference is the feature branches release the snapshots and the snapshots contain the hash code of the commit attached
+[9:51 PM, 11/8/2017] +65 9131 9851: Develop has version as well
+[9:51 PM, 11/8/2017] +65 9131 9851: Further branches follow release
+[10:17 PM, 11/8/2017] +65 9131 9851: If the question comes from now about why AWS why not azure why not open stack or open shift
+[10:18 PM, 11/8/2017] +65 9131 9851: There are two answers to it is compliance other is cost
+[10:19 PM, 11/8/2017] +65 9131 9851: If I want to set up one data center of my own I will have to go through all the compliance approval from the comment AWS is already giving me they are already covering that going for us you’re giving us a shared responsibility model
+[10:19 PM, 11/8/2017] +65 9131 9851: They are already good at it let them do it use their service
+[10:21 PM, 11/8/2017] +65 9131 9851: The other question is vendor lock up. The answer to this is that your application architecture should be able to accommodate that. That’s one of the reasons why Laura companies are going towards the containerization so that they infrastructure is no longer a Limitation
+[10:22 PM, 11/8/2017] +65 9131 9851: So in such away if my dependence your name first at 12 tissue paper thin I can take my time infrastructure take my all the containers and run them on another cloud
+[10:23 PM, 11/8/2017] +65 9131 9851: Containers in themselves all self-contained abstraction of infrastructure aren’t they
+[12:26 AM, 11/9/2017] +65 9131 9851: Why are brakes applied to the sports car ?brakes are there in the sports car to allow you to speed up. Breaks in the DevOps sports car - ISACA  guidelines. Controls
+[8:18 AM, 11/9/2017] +65 9131 9851: Source into the environment variable to the build. Use this parameter to set the properties file for deployment
+[8:18 AM, 11/9/2017] +65 9131 9851: Same for npm
+
+* DevOps history and context
+
+** Agile
+
+*** Toyota Kata Movement
+
+*** Xtreme Programming
+
+*** Agile in Development
+
+*** DevOps the three principles
+
+The Phoenix Project. DevOps Handbook.
+
+**** Principle of Flow
+
+**** Principle of Feedback
+
+**** Principle of Continuous Experimentation or Continuous Improvement
+
+** Dev <-> Test <-> Ops/Infra over the time
+
+*** Dev adopted Agile
+
+**** The Hybrid Approach
+
+***** Perspective <-> Control
+***** PMP at top, Agile on the ground.
+*** Ops/Infrastructure
+**** On Premises -> Cloud -> Containerized
+*** Continuous Testing and Continuous Audit/Monitoring
+
+** Scaling up with full-control: Brakes for DevOps sports-car
+
+*** Dev-Sec-Ops
+
+*** ISACA Controls
+
+*** Why AWS... in Banks!
+
+IAM <-> Automated Deployments <-> Automated Compliance
+
+
+** DevOps processes
+
+Collaboration
+Build
+Package
+Test
+Provision
+Deploy
+Run & Monitor
+
+*** Collaboration / ALM
+
+- JIRA
+- Confluence, Skype, Slack
+
+*** Version Control and Code Promotion
+- Git , Bitbucket
+- CI: Jenkins
+
+
+*** Dependency Management & Build Automation
+- Maven, Gradle, Docker, Ant
+- NPM, Gulp, Grunt
+
+
+*** Code Quality and Continuous Testing/Test Automation
+- Sonarqube
+- Selenium
+- Junit
+- Cucumber
+- Genie
+
+*** Artifacts Repository, Security/Vulnerability Scanning
+- Artifactory
+- Nexus
+*** Automated Provisioning and Virtualization
+- Terraform
+- Packer
+- Openshift
+
+*** Deploy Automation
+- Ansible
+
+*** Continuous Improvement (Logging/Monitoring/Continuous Audit)
+- Logstash, Elasticsearch, Kibana
+- Splunk
+- Appdynamics
+
+*** IaaS, PaaS, CaaS, Cloud and Containers
+- AWS
+- Openshift
+
+** The Egg theory
+*** Time for Change!
