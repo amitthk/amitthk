@@ -1,0 +1,48 @@
+properties([parameters(string(name:'OCUSER', defaultValue: '',description: 'OC User'))],
+[parameters(string(name:'OCUSER', defaultValue: '',description: 'OC User'))])
+node('DOCKER_HOST'){
+    stage('Init){
+        checkout scm;
+        sh "docker rmi `docker images -f 'dangling=true' -q` || true";
+        env.APP_ID= getEnvVar('appId')
+        env.PROJECT_ID=getEnvVar('projectId')
+        env.DOCKER_HOST=getEnvVar('DOCKER_HOST')
+        env.RELEASE_VERSION = getEnvVar('RELEASE_VERSION')
+        env.DOCKER_IMAGE_TAG= "${env.DOCKER_HOST}/${env.PROJECT_ID}/${env.APP_ID}:'${env.RELEASE_VERSION}"
+        env.OC_IMAGE_TAG=getEnvVar('OC_HOST')/${env.PROJECT_ID}/${env.APP_ID}:'${env.RELEASE_VERSION}"
+    }
+    stage('Build'){
+        sh "[-d ./models] && rm -rf ./models && mkdir ./models"
+        dir('./models){
+            checkout([$class: 'GitSCM', branches: [[name: '*/model-branch]]
+            doGenerateSubmoduleConfigurations: false,
+            extensions: [],
+            gitTool: 'SYSTEM',
+            submoduleCfg: [],
+            userRemoteConfigs: [[credentialsId: 'bitbucketcredid'],
+            url: 'https:/fdsafasdf/.git]])
+            sh "touch __init__.py"
+            )
+            withEnv(["APP_ID=${env.APP_ID}", "PROJECT_ID=${eng.PROJECT_ID}"]){
+                sh "docker rmi ${env.DOCKER_IMAGE_TAG} || true"
+                sh "docker build -t ${env.DOCKER_IMAGE_TAG} --no-cache --build-arg APP_ID=${APP_ID} ."
+            }
+        }
+    }
+
+    stage('Publist'){
+        withCredentials([usernamePassword(credentialsId: 'atksvdeployuser', userameVariable: 'OC_USERNAME', passwordVariable: 'OC_PASSWORD')]){
+            sh "oc login ${env.OC_HOST} -u $OC_USERNAME -p $OC_PASSWORD"
+            sh "docker login -u ${OC_USERNAME} -p `oc whoami -t` ${env.DOCKER_HOST} && docker push ${env.DOCKER_IMAGE_TAG}"
+        }
+    }
+    stage('Deploy'){
+        sh "sed -i.bak 's#__IMAGE__#"'$env.OC_IMAGE_TAG'#' k8s/deployment/fe-deployment.yml && cd k8s/deployment && oc apply -f f3-deployment.yml"
+        sh "oc logout"
+    }
+}
+
+
+def getEnvVar(String paramName){
+    return sh (script: "grep '${paramName} env_vars/project.properties|cut -d'=' -f2", returnStdout: true).trim();
+}
