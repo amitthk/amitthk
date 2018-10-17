@@ -158,3 +158,60 @@ kubectl rollout undo deployment hello-deploy --to-revision=1
 
 =========
 
+** healthchecks
+
+*** livenessprobe
+
+#+BEGIN_SRC 
+containers:
+- name: xyz
+  ...
+  livenessProbe:
+    httpGet:
+      path: /
+      port: 3000
+    initialDelaySeconds: 15
+    timeoutSeconds: 30
+
+#+END_SRC
+
+*** readinessprobe
+
+#+BEGIN_SRC 
+containers:
+- name: xyz
+  ...
+  livenessProbe:
+    httpGet:
+      path: /
+      port: 3000
+    initialDelaySeconds: 15
+    timeoutSeconds: 30
+  readinessProbe:
+    httpGet:
+      path: /
+      port: 3000
+    initialDelaySeconds: 15
+    timeoutSeconds: 30
+#+END_SRC
+
+*** pod status, pod condition, container state
+
+**** pod state
+Pending - downloading image, resource constr
+Succeeded - all containers terminated and wont be restarted
+Failed - terminated containers. failiure code is exit code of process when ctr stops
+Unknown - cannot be determined e.g. network error
+
+**** pod conditions
+pod scheduled
+ready - ready to serve req. and will be added to svc 
+initialized - initiz cntnrs started successfully
+unschedulable - pod can't be scheduled
+containersready
+
+| Init container => | post start hook ==> | readiness probe, liveness probe ==> | pre stop hook |
+
+** monitoring
+heapster, influxdb, grafana
+
