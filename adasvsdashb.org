@@ -1,0 +1,115 @@
+#+OPTIONS: toc:10
+* TOC
+** Vision & Goals
+DevOps Automation Scope
+
+|                                        | On Premise VMs in VPC | Openshift/Containerization | Public Cloud DevOps | Private Cloud DevOps |
+| Provisioning                           |                       |                            |                     |                      |
+| Core OS Config. Management             |                       |                            |                     |                      |
+| System Level Install Automation        |                       |                            |                     |                      |
+| Setup Automation                       |                       |                            |                     |                      |
+| Applications Build Automation          |                       |                            |                     |                      |
+| Automated Testing                      |                       |                            |                     |                      |
+| Release Management                     |                       |                            |                     |                      |
+| Automated Deployments                  |                       |                            |                     |                      |
+| Monitoring (Infra, System, App. Level) |                       |                            |                     |                      |
+| Self Healing Systems                   |                       |                            |                     |                      |
+
+*** Application Onboarding Dashboard
+**** What
+- First point dashboard for interaction with ADA Platform toolchain
+- One point dashboard for ADA DevOps activities
+- User Onboardking, Credentials Module , Infra Operations and DevOps dashboard
+
+**** Why
+- Scalability : put the control back into process - to make it scalable and agile
+- Reduced Human intervention to avoid Human errors, Traceability
+- Audit Trail and Traceability
+
+**** How
+- DevOps Admin Dashboard
+- Onboarding Users Dashboard
+- Onboarding Applications Workflow
+
+| Authentication through Reg1 LDAP | Authorization through vault | Functional IDs, Keytabs | Authentication Through SVC LDAP | Access to ADA Cluster Resources |
+|                                  |                             |                         |                                 |                                 |
+
+**** Challenges
+- Security , Various User Interactions and Credentials management in encrypted security solution
+- Segregation of Accountability and Control
+- Change control mechanism - TS, ITSS, DevOps toolchain interactions
+  - CR/Full control with DevOps
+  - Process to be discussed, finalized and integrated with CQ
+
+**** MVP
+- Current
+  - Dashboard for DevOps Admins
+  - Add Remove Users safely
+  - Add Remove Groups safely
+  - Generate and secure save Keytabs
+- Future
+  - Security implementation for Admin, User modules
+  - Microservice security
+  - Change Control
+  - Onboarding Users
+  - User's Keytab download section and email functionality
+  - Configuring Services
+
+*** CI CD for Applications
+*** CI CD for Infrastructure Configuration Management
+*** Openshift Migration of Compute
+*** DevOps Observabilit and Metrices
+**** What
+- Consolidated numerical metrices of Real time services status
+- Uptime, Downtime Metrices Hourly, Daily, Monthly, Yearly
+- Mean time to restore, Mean time to detect
+**** Why
+- Lead time between detection and remedial actions
+- Identification of vulnerable services, bottlenecks
+- Automated reports of KPI(s) and Controls of ADA Platform as a whole
+- Event streams and Incident reporting
+
+**** How
+
+*** Team Onboarding Workflow
+** Current -> Future
+*** What:
+
+|    | Process           | Infra DevOps                               | Applicatons DevOps                                                  |
+| CI |                   |                                            |                                                                     |
+|    | Config            | Tools Specific (Puppet, Ansible)           | Apps Specific (Ansible)                                             |
+|    | Build             | -                                          | Git Enterprise Branching & Merging Strategy                         |
+|    | Automated Testing | Integration testing                        | Unit Test, Integration Test, User Acceptance, Performance Test etc. |
+|    | Package           |                                            |                                                                     |
+| CD |                   |                                            |                                                                     |
+|    | Deploy Automation | Core Configuration, Installations, Setup   | DevOps Delivery Model - Code Promotion                              |
+|    | Code Promotion    | Deployment Tools, Release Automation       | Automated Deployments through Jenkins, Ansible, Release Automation  |
+|    | Observability     | Monitoring, metrices, Automated Resilience | Application Log Analysis, Automated Resilience                      |
+|    |                   |                                            |                                                                     |
+*** Why
+*** How
+
+- Applying Lean and Agile best practices to Operations workflow
+- Applying application development best practices to Production process
+
+ 
+
+|                                      |                                                                                                   |
+| Continuous Delivery Pipeline as Code | Jenkins DSL Groovy                                                                                |
+| Configuration as Code                | Ansible Playbooks, Puppet Manifests                                                               |
+| Release Management as Code           | Enterprize Branching & Merging Strategy                                                           |
+| Application Build Automation         | Python, Maven, Gradle, Make, NPM Build automations                                                |
+| Automated Testing                    |                                                                                                   |
+| Security As Code                     | Code Analysis, Vulnerability Scanning, Automated Compliance Audit and Reporting, License Scanning |
+|                                      |                                                                                                   |
+
+** Challenges
+** Delivery Milestones
+** Proposed Sprint Deliverables
+
+** User Journies
+** MVP
+** Staffing, Capacity planning, Resources
+** POC Details
+** Demo - POC
+ 

@@ -752,6 +752,257 @@ gpgcheck=0"
 puppet apply /etc/puppet/manifests/mysite.pp
 #+END_SRC
 
+*** sed, awk, grep
+#+BEGIN_SRC 
+declare -f | grep ‘^[a-z_]’
+
+# create a backup while commenting original file
+d -i.commented ‘/^#/d;/^$/d’ /etc/ntp.conf
+
+#get mac address from network interface
+ifconfig eth0|awk -F":"'/HWaddr/{ print $3 $4 $5 $6 $7 }'
+
+
+#+END_SRC
+
+**** grep - global regular expressions and print
+
+- transmission data from ifconfig
+  - ifconfig eth0 | grep RX
+- pam cofig that include a specific module
+  - grep pam_nologin /etc/pam.d/*
+- count the number of cpu cores in host
+  - grep -c name /proc/
+
+***** parse csv
+
+~vi parsecsv.sh
+
+#+BEGIN_SRC 
+#!/bin/bash
+OLDIFS=$IFS; IFS=","
+while read product price quantity
+do
+echo -e "\e[1;33m$product =========\e[0m\n\
+Price : \t $price \n\
+Quantity : \t $quantity \n"
+done < $1
+IFS=$OLDIFS
+#+END_SRC
+
+~./parsecsv.sh tools | grep -A2 hammer
+
+- -A specified how many lines after match to include
+
+***** regular expressions
+| ANCHORS                                      | symbol     |
+| Start of string                              | ^          |
+| End of string                                | $          |
+| String starts with abc                       | ^abc       |
+| String ends with 4                           | 4$         |
+| RANGES                                       |            |
+| Any letter                                   | '[A-Za-z]' |
+| Lowercase or underscore                      | '[a-z_]'   |
+| Any digit                                    | '[0-9]'    |
+| Matches 3,4 or 9                             | '[349]'    |
+| BOUNDARIES                                   |            |
+| Whitespace                                   | \s         |
+| Matches "file system"                        | \ssystem   |
+| Word boundary                                | \b         |
+| Matches "file system" and file-system        | \bsystem   |
+| QUANTIFIERS                                  | -          |
+| Zero or more times (eg u zero or more times) | u*         |
+| One or more times (eg u one or more times)   | u+         |
+| Zero or once                                 | u?         |
+| Exactly 3 times                              | u{3}       |
+|                                              |            |
+
+
+e.g valid SSN numbers
+-v reverses the search, -E enhanced regex 
+grep -vE '\b[0-9]{3}-[0-9]{2}-[0-9]{4}\b' employees
+
+**** sed
+| PRINT command                                                        | e.g                                                              |
+| Print the pattern space                                              | sed ' p ' /etc/passwd                                            |
+| Suppress standrd output only matched lines display                   | sed -n ' p ' /etc/passwd                                         |
+| range - display only those matched lines                             | sed -n '1,3 p ' /etc/passwd                                      |
+| Substitute command - first char after s represents delimeter         | sed ‘ [range] s/<string>/<replacement>/ ’ /etc/passwd            |
+| Looking for lines start with gretchen replace /bin/bash with /bin/sh | sed ‘ /^gretchen/ s@/bin/bash@/bin/sh@ ‘ /etc/passwd             |
+| Append                                                               | sed ‘ /^server 3/ a server ntp.example.com’ /etc/ntp.conf        |
+| Insert                                                               | sed ‘ /^server 0/ i server ntp.example.com’ /etc/ntp.conf        |
+| Delete                                                               | sed ‘ /^server\s[0-9]\.ubuntu/ d’ /etc/ntp.conf                  |
+| Using a file ntp.sed with below multiple sed expr. on file ntp.conf  | sed -f ntp.sed /etc/ntp.conf                                     |
+| Remote edit using SSH. Backup the file with .bak as well             | ssh -t user@server sudo sed -i.bak -f /tmp/ntp.sed /etc/ntp.conf |
+| Substitution groups and uppercase first field                        | sed ‘s@\([^,]*\)@\U\1@’ employees                                |
+| subs group and uppercase first lowercase second field                | sed ‘s@\([^,]*\),\([^,]*\)@\U\1\L\2@’ employees                  |
+|                                                                      |                                                                  |
+
+Multiple sed expressions
+
+#+BEGIN_SRC 
+sed ‘ {
+/^server 0/ i ntp.example.com
+/^server\s[0-9]\.ubuntu/ d
+} ‘ /etc/ntp.conf
+#+END_SRC
+
+.....
+
+**** awk
+
+vi users.awk
+
+#+BEGIN_SRC 
+BEGIN { FS=“:” ; print “Username” }
+{ print $1 }
+END { print “Total users = “ NR }
+#+END_SRC
+
+awk -f users.awk /etc/passwd
+
+where uid greater than 499
+#+BEGIN_SRC 
+BEGIN { FS=“:” ; print “Username” }
+$3 > 499 { print $1 }
+END { print “Total users = “ NR }
+#+END_SRC
+
+Simplify the employees file uppercase the first lowercase the second field using awk
+
+~awk -F”,” { print toupper($1), tolower($2), $3 } employees
+
+Last Log Simplification
+/usr/bin/lastlog
+
+#+BEGIN_SRC 
+!(/Never logged in/ || /^Username/ || /^root/) {
+count++
+if ( NF == 8 )
+printf "%8s %2s %3s %4s\n", $1,$5,$4,$8
+else
+printf "%8s %2s %3s %4s\n", $1,$6,$5,$9}
+END {print "====================“
+print "Total Number of Users Processed: ", count}
+#+END_SRC
+
+
+***** xml file refining
+xml.awk
+
+#+BEGIN_SRC 
+BEGIN { RS="\n\n"}
+$0 ~ search { print }
+#+END_SRC
+
+Usage:
+awk -f xml.awk search=example vh.conf
+
+***** Log files refining using awk
+
+#+BEGIN_SRC 
+# print first field
+awk ‘ { print $1 } ‘ access.log
+
+#+END_SRC
+
+***** count unique access by client
+#+BEGIN_SRC 
+BEGIN { FS=" ";print "Log access" }
+{ ip[$1]++ }
+END { for (i in ip)
+print i, " has accessed ", ip[i], " times."
+}
+#+END_SRC
+
+***** maximum browser count
+
+#+BEGIN_SRC 
+BEGIN { FS=" "; print "Most Popular Browser" }
+{ browser[$12]++ }
+END { for ( b in browser)
+if ( max < browser[b] ) {
+max = browser[b];
+maxbrowser = b; }
+print "Most access was from ", maxbrowser, " and ", max, "
+times." }
+#+END_SRC
+
+**** notes sed awk grep
+ 
+Grep awk sed
+
+note:
+!$ (last argument)
+!cat  (last cat command)
+
+grep user /etc/passwd
+
+declare -f
+
+declare -f | grep '^[a-z_]'
+
+declare -f quote
+
+grep --version
+
+sed -n 'p' /etc/passwd   (prints whole)
+
+sed -n '1,5 p' /etc/passwd  (match pattern, first five lines)
+
+sed -n ' /^user/  p' /etc/passwd (match pattern starting with user)
+
+# deleteing with sed (d)
+
+sed ' /^#/ d' /etc/ntp.conf
+
+sed ' /^#/ d ; /^$/ d' /etc/ntp.conf
+
+# Now actually execute it:
+
+(.bak also creates a backup)
+sed  -i.bak ' /^#/ d ; /^$/ d' /etc/ntp.conf
+
+
+# awk
+
+print contents
+
+awk  ' { print } ' /etc/ntp.conf
+
+extra stuff at beginning and end
+awk '  BEGIN { print "filename.conf" } { print } END { print NR } /etc/fliename.conf
+
+
+awk  ' { print NR, $0 } ' /etc/ntp.conf
+
+ifconfig eth0 | awk -F ":"  '/HWaddr/{ print $3 $4 $5 $6 $7 }'
+
+
+====
+Grep
+
+ifconfig eth0 | grep RX
+grep pam_nologin /etc/pam.d/*
+grep -c name /proc/cpuinfo
+
+netstat -tnpa | grep 'ESTABLISHED.*sshd'
+
+------
+
+case insensitive
+ifconfig eth0 | grep -i rx
+
+where the configurations for pam_login module stored in
+grep pam_login /etc/pam.d/*
+
+grep -c name /proc/cpuinfo
+cat !$  (Last argument)
+
+./parsecsv.sh tools | grep -A2 hammer
+alias
+
+
 ** utilities
 
 *** netcat

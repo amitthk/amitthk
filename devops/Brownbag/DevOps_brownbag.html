@@ -1,0 +1,735 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>DevOps Brownbag</title>
+<!-- 2017-11-16 Thu 13:27 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+  table, table tr td{
+      border: solid 1px #1d1b1b;
+  }
+  p>img{
+      border:solid 1px #1c1c1c;
+  }
+</style>
+</head>
+<body>
+<div id="content">
+<h1 class="title">AT&amp;A Brownbag  - DevOps Introductory Talk</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. DevOps history and context</a>
+<ul>
+<li><a href="#sec-1-1">1.1. Agile</a>
+<ul>
+<li><a href="#sec-1-1-1">1.1.1. Toyota Kata Movement</a></li>
+<li><a href="#sec-1-1-2">1.1.2. Agile in Software Development</a></li>
+<li><a href="#sec-1-1-3">1.1.3. Extreme Programming (XP)</a></li>
+<li><a href="#sec-1-1-4">1.1.4. Value Stream: Customer Experience vs Management Experience</a></li>
+<li><a href="#sec-1-1-5">1.1.5. Value Stream: Identify wastes, inefficiencies, bottlenecks</a></li>
+<li><a href="#sec-1-1-6">1.1.6. Value Stream: Identify countermeasures</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-2">1.2. Dev &lt;-&gt; Ops</a>
+<ul>
+<li><a href="#sec-1-2-1">1.2.1. DevOps the three principles</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">1.3. Dev &lt;-&gt; Test &lt;-&gt; Ops</a>
+<ul>
+<li><a href="#sec-1-3-1">1.3.1. Software Development: Agile gear and DevOps</a></li>
+<li><a href="#sec-1-3-2">1.3.2. Ops/Infrastructure</a></li>
+<li><a href="#sec-1-3-3">1.3.3. Concentration/movement of business logic</a></li>
+<li><a href="#sec-1-3-4">1.3.4. Continuous Testing and Continuous Audit/Monitoring</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-4">1.4. Scaling up with full-control: Brakes for DevOps sports-car</a>
+<ul>
+<li><a href="#sec-1-4-1">1.4.1. Brakes</a></li>
+<li><a href="#sec-1-4-2">1.4.2. ISACA Guidelines: Basic DevOps Controls</a></li>
+<li><a href="#sec-1-4-3">1.4.3. Some DevOps KPIs</a></li>
+<li><a href="#sec-1-4-4">1.4.4. Why AWS&#x2026; in Banks!</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-5">1.5. DevOps processes</a>
+<ul>
+<li><a href="#sec-1-5-1">1.5.1. Collaboration / ALM</a></li>
+<li><a href="#sec-1-5-2">1.5.2. Version Control and Code Promotion</a></li>
+<li><a href="#sec-1-5-3">1.5.3. Dependency Management &amp; Build Automation</a></li>
+<li><a href="#sec-1-5-4">1.5.4. Code Quality and Continuous Testing/Test Automation</a></li>
+<li><a href="#sec-1-5-5">1.5.5. Artifacts Repository, Security/Vulnerability Scanning</a></li>
+<li><a href="#sec-1-5-6">1.5.6. Automated Provisioning and Virtualization</a></li>
+<li><a href="#sec-1-5-7">1.5.7. Deploy Automation</a></li>
+<li><a href="#sec-1-5-8">1.5.8. Continuous Improvement (Logging/Monitoring/Continuous Audit)</a></li>
+<li><a href="#sec-1-5-9">1.5.9. IaaS, PaaS, CaaS, Cloud and Containers</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-6">1.6. The Egg theory</a>
+<ul>
+<li><a href="#sec-1-6-1">1.6.1. Change in Mindset</a></li>
+<li><a href="#sec-1-6-2">1.6.2. See it in Action!</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> DevOps history and context</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Agile</h3>
+<div class="outline-text-3" id="text-1-1">
+</div><div id="outline-container-sec-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> Toyota Kata Movement</h4>
+</div>
+
+<div id="outline-container-sec-1-1-2" class="outline-4">
+<h4 id="sec-1-1-2"><span class="section-number-4">1.1.2</span> Agile in Software Development</h4>
+</div>
+
+<div id="outline-container-sec-1-1-3" class="outline-4">
+<h4 id="sec-1-1-3"><span class="section-number-4">1.1.3</span> Extreme Programming (XP)</h4>
+</div>
+
+<div id="outline-container-sec-1-1-4" class="outline-4">
+<h4 id="sec-1-1-4"><span class="section-number-4">1.1.4</span> Value Stream: Customer Experience vs Management Experience</h4>
+<div class="outline-text-4" id="text-1-1-4">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">Customer Experience of Lead Time</td>
+<td class="left">Management Experience</td>
+</tr>
+
+<tr>
+<td class="left"><img src="./img/lead-time.png" alt="lead-time.png" /></td>
+<td class="left"><img src="./img/value-stream-1.png" alt="value-stream-1.png" /></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-sec-1-1-5" class="outline-4">
+<h4 id="sec-1-1-5"><span class="section-number-4">1.1.5</span> Value Stream: Identify wastes, inefficiencies, bottlenecks</h4>
+<div class="outline-text-4" id="text-1-1-5">
+
+<div class="figure">
+<p style="text-align: left"><img src="./img/value-stream-identify-inefficiencies.png" alt="value-stream-identify-inefficiencies.png" width="500" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-1-6" class="outline-4">
+<h4 id="sec-1-1-6"><span class="section-number-4">1.1.6</span> Value Stream: Identify countermeasures</h4>
+<div class="outline-text-4" id="text-1-1-6">
+
+<div class="figure">
+<p style="text-align: left"><img src="./img/value-stream-identify-countermeasures.png" alt="value-stream-identify-countermeasures.png" width="500" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Dev &lt;-&gt; Ops</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Different priorities of Development team, QA Team and IT Operations teams.
+</p>
+
+
+<div class="figure">
+<p style="text-align: left"><img src="./img/dev-ops-goals.jpg" alt="dev-ops-goals.jpg" width="500" />
+</p>
+
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">Dev</td>
+<td class="left">Ops</td>
+</tr>
+
+<tr>
+<td class="left">Increased rate of application releases</td>
+<td class="left">Shorter lead time to deliver releases to customer</td>
+</tr>
+
+<tr>
+<td class="left">Business unit requires faster delivery of value stream</td>
+<td class="left">BU requires short duration to deliver value to customer</td>
+</tr>
+
+<tr>
+<td class="left">Dev and QA require stable and operable software</td>
+<td class="left">Low risk, high throughput of change</td>
+</tr>
+
+<tr>
+<td class="left">Need effective process of app monitoring and management</td>
+<td class="left">Need standardized approach to manage different environments</td>
+</tr>
+
+<tr>
+<td class="left">Consistent and optimized release process</td>
+<td class="left">Integration confidence and architectural integrity</td>
+</tr>
+
+<tr>
+<td class="left">Adherence to architectural and platform standards</td>
+<td class="left">Highly available and dependable environments</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+
+<ul class="org-ul">
+<li>Transformation
+<ul class="org-ul">
+<li>Agile DevOps and people transformation
+</li>
+<li>Existing process transformation
+</li>
+<li>Technology patterns
+</li>
+<li>Reusable components
+</li>
+<li>Maximize automation
+</li>
+<li>Effective communication
+</li>
+<li>Collaboration
+</li>
+<li>Standardized release flow
+</li>
+<li>Standardized practices
+</li>
+</ul>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> DevOps the three principles</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+    <img src="./img/devops-three-principles.png" alt="devops three principles" width="320" />
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="sec-1-2-1-1" name="sec-1-2-1-1"></a>Principle of Flow<br  /><div class="outline-text-5" id="text-1-2-1-1">
+<ul class="org-ul">
+<li>fast and smooth flow of work from Development to Operations
+</li>
+</ul>
+</div>
+</li>
+
+<li><a id="sec-1-2-1-2" name="sec-1-2-1-2"></a>Principle of Feedback<br  /><div class="outline-text-5" id="text-1-2-1-2">
+<ul class="org-ul">
+<li>feedback and feed-forward loops. Detect and remediate problems while they are smaller, cheaper, and easier to fix; avert problems before they cause catastrophe
+</li>
+</ul>
+</div>
+</li>
+
+<li><a id="sec-1-2-1-3" name="sec-1-2-1-3"></a>Principle of Continuous Experimentation or Continuous Improvement<br  /><div class="outline-text-5" id="text-1-2-1-3">
+<ul class="org-ul">
+<li>Instead of punishing mistakes, promote a culture of continuous experimentation and learning. Applying a scientific approach to both process improvement and product development, learn from our successes and failures, identifying which ideas don’t work and reinforcing those that do.
+</li>
+</ul>
+</div>
+</li></ol>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Dev &lt;-&gt; Test &lt;-&gt; Ops</h3>
+<div class="outline-text-3" id="text-1-3">
+
+<div class="figure">
+<p style="text-align: left"><img src="./img/dev-test-ops.png" alt="dev-test-ops.png" width="200" />
+</p>
+</div>
+</div>
+
+
+
+<div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> Software Development: Agile gear and DevOps</h4>
+<div class="outline-text-4" id="text-1-3-1">
+</div><ol class="org-ol"><li><a id="sec-1-3-1-1" name="sec-1-3-1-1"></a>PMP+Agile(DevOps) Hybrid Approach<br  /><ol class="org-ol"><li><a id="sec-1-3-1-1-1" name="sec-1-3-1-1-1"></a>Perspective &lt;-&gt; Control<br  /></li>
+<li><a id="sec-1-3-1-1-2" name="sec-1-3-1-1-2"></a>PMP at 50,000 feet, Agile when rubber hits the road.<br  /></li></ol>
+</li></ol>
+</div>
+<div id="outline-container-sec-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2"><span class="section-number-4">1.3.2</span> Ops/Infrastructure</h4>
+<div class="outline-text-4" id="text-1-3-2">
+</div><ol class="org-ol"><li><a id="sec-1-3-2-1" name="sec-1-3-2-1"></a>Mainframes, Servers and Virtual Machines<br  /></li>
+<li><a id="sec-1-3-2-2" name="sec-1-3-2-2"></a>Virtualization<br  /></li>
+<li><a id="sec-1-3-2-3" name="sec-1-3-2-3"></a>Cloud<br  /></li>
+<li><a id="sec-1-3-2-4" name="sec-1-3-2-4"></a>Containerization<br  /></li>
+<li><a id="sec-1-3-2-5" name="sec-1-3-2-5"></a>Blockchain<br  /></li></ol>
+</div>
+<div id="outline-container-sec-1-3-3" class="outline-4">
+<h4 id="sec-1-3-3"><span class="section-number-4">1.3.3</span> Concentration/movement of business logic</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">Single Server/Mainframe</td>
+<td class="left">N-Tier</td>
+<td class="left">Microservices</td>
+<td class="left">Mobile revolution</td>
+<td class="left">Cloud Infrastructure/Containerization</td>
+<td class="left">Blockchain &amp; future</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<ol class="org-ol"><li><a id="sec-1-3-3-1" name="sec-1-3-3-1"></a>Monolithic Batch Processing, Single-tier<br  /></li>
+<li><a id="sec-1-3-3-2" name="sec-1-3-3-2"></a>Traditional N-Tier<br  /></li>
+<li><a id="sec-1-3-3-3" name="sec-1-3-3-3"></a>Microservices<br  /></li>
+<li><a id="sec-1-3-3-4" name="sec-1-3-3-4"></a>Mobile Computing<br  /></li>
+<li><a id="sec-1-3-3-3" name="sec-1-3-3-3"></a>Auto. Virtualization/Containerization<br  /></li>
+<li><a id="sec-1-3-3-5" name="sec-1-3-3-5"></a>Blockchain<br  /></li></ol>
+</div>
+
+<div id="outline-container-sec-1-3-4" class="outline-4">
+<h4 id="sec-1-3-4"><span class="section-number-4">1.3.4</span> Continuous Testing and Continuous Audit/Monitoring</h4>
+<div class="outline-text-4" id="text-1-3-4">
+<p>
+Manual testing -&gt; Mocking and Test Frameworks -&gt; Test Driven Development -&gt; BDD -&gt; Continuous (/Agile) Testing
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="sec-1-3-4-1" name="sec-1-3-4-1"></a>Code Quality/Static Code analysis<br  /><div class="outline-text-5" id="text-1-3-4-1">
+<ul class="org-ul">
+<li>Coverage, Linting and other code quality matrices
+</li>
+</ul>
+</div>
+</li>
+<li><a id="sec-1-3-4-2" name="sec-1-3-4-2"></a>Automated testing and Agile QA<br  /></li></ol>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Scaling up with full-control: Brakes for DevOps sports-car</h3>
+<div class="outline-text-3" id="text-1-4">
+</div><div id="outline-container-sec-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1"><span class="section-number-4">1.4.1</span> Brakes</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<p>
+Why are brakes applied to the sports car ?
+Brakes are there in the sports car to allow you to speed up. 
+ISACA  guidelines, DevOps Controls
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2"><span class="section-number-4">1.4.2</span> ISACA Guidelines: Basic DevOps Controls</h4>
+<div class="outline-text-4" id="text-1-4-2">
+</div><ol class="org-ol"><li><a id="sec-1-4-2-1" name="sec-1-4-2-1"></a>Automated Software Scanning<br  /><div class="outline-text-5" id="text-1-4-2-1">
+<ul class="org-ul">
+<li>Security or coding issues
+</li>
+</ul>
+</div>
+</li>
+
+<li><a id="sec-1-4-2-2" name="sec-1-4-2-2"></a>Automated Vulnerability Scanning<br  /><div class="outline-text-5" id="text-1-4-2-2">
+<ul class="org-ul">
+<li>Identify potential security issues in automated configuration management
+</li>
+</ul>
+</div>
+</li>
+
+<li><a id="sec-1-4-2-3" name="sec-1-4-2-3"></a>Web Application Firewall or other 7 Layer firewalls<br  /><div class="outline-text-5" id="text-1-4-2-3">
+<ul class="org-ul">
+<li>Stopgap to mitigate the consequences while underlying issue is remediated
+</li>
+<li>Use reverse proxy or web server filter in communication path
+</li>
+</ul>
+</div>
+</li>
+
+<li><a id="sec-1-4-2-4" name="sec-1-4-2-4"></a>Developer application security training<br  /><div class="outline-text-5" id="text-1-4-2-4">
+<ul class="org-ul">
+<li>Avoid inadvertent introduction of vulnerabilities
+</li>
+</ul>
+</div>
+</li>
+<li><a id="sec-1-4-2-5" name="sec-1-4-2-5"></a>Software dependency management<br  /><div class="outline-text-5" id="text-1-4-2-5">
+<ul class="org-ul">
+<li>Track dependency libraries, supporting components, middleware, other dependencies for security/licensing issues
+</li>
+</ul>
+</div>
+</li>
+<li><a id="sec-1-4-2-6" name="sec-1-4-2-6"></a>Access and activity logging<br  /><div class="outline-text-5" id="text-1-4-2-6">
+<ul class="org-ul">
+<li>DevOps separation of duties requires logging and visibility in place
+</li>
+<li>Log the access, activities, change tracking.
+</li>
+</ul>
+</div>
+</li>
+<li><a id="sec-1-4-2-7" name="sec-1-4-2-7"></a>Documented policies and procedures<br  /><div class="outline-text-5" id="text-1-4-2-7">
+<ul class="org-ul">
+<li>Document policies and procedures,  describe the release flow
+</li>
+<li>employ rigor and discipline to ensure that security and risk management goals are met
+</li>
+</ul>
+</div>
+</li>
+<li><a id="sec-1-4-2-8" name="sec-1-4-2-8"></a>Application performance management<br  /><div class="outline-text-5" id="text-1-4-2-8">
+<ul class="org-ul">
+<li>Continuous metrics about application performance and flag potential problem areas when/if they occur
+</li>
+</ul>
+</div>
+</li>
+<li><a id="sec-1-4-2-9" name="sec-1-4-2-9"></a>Asset management and inventorying<br  /><div class="outline-text-5" id="text-1-4-2-9">
+<ul class="org-ul">
+<li>Retain a record of applications and important information
+<ul class="org-ul">
+<li>Business owner and purpose
+</li>
+<li>Domain and subject matter experts
+</li>
+<li>Physical or virtual location
+</li>
+<li>Supporting controls and countermeasures
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</li>
+
+<li><a id="sec-1-4-2-10" name="sec-1-4-2-10"></a>Continuous auditing and/or continuous monitoring<br  /><div class="outline-text-5" id="text-1-4-2-10">
+<ul class="org-ul">
+<li>process and supporting tools to continuously validate proper operation of controls
+</li>
+</ul>
+</div>
+</li></ol>
+</div>
+
+<div id="outline-container-sec-1-4-3" class="outline-4">
+<h4 id="sec-1-4-3"><span class="section-number-4">1.4.3</span> Some DevOps KPIs</h4>
+<div class="outline-text-4" id="text-1-4-3">
+<ul class="org-ul">
+<li>Frequency + Speed of deployment 
+</li>
+<li>Frequency + Speed of Build
+</li>
+<li>Cyclometric complexity
+</li>
+<li>Lines of change
+</li>
+<li>Code Coverage
+</li>
+<li>Speed + Frequency of build verification (QA)
+</li>
+<li>Deployment success rate
+</li>
+<li>Incident/defect ratio
+</li>
+<li>Requirements coverage ratio
+</li>
+<li>Feature usage analytics
+</li>
+<li>Mean time to restore service (MTTRS)
+</li>
+<li>Security test pass rate
+</li>
+<li>Code scanning detection rate 
+</li>
+</ul>
+
+
+
+<div class="figure">
+<p style="text-align: left"><img src="./img/aws-shared-responsibility-model.jpg" alt="aws-shared-responsibility-model.jpg" width="600" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4-4" class="outline-4">
+<h4 id="sec-1-4-4"><span class="section-number-4">1.4.4</span> Why AWS&#x2026; in Banks!</h4>
+<div class="outline-text-4" id="text-1-4-4">
+<ul class="org-ul">
+<li>IAM &lt;-&gt; Automated Deployments &lt;-&gt; Automated Compliance
+</li>
+</ul>
+
+
+<p>
+Hashicorp Terraform, Packer
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> DevOps processes</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+Collaboration -&gt; Build -&gt; Package -&gt; Test -&gt; Provision -&gt; Deploy -&gt; Run &amp; Monitor
+</p>
+</div>
+
+<div id="outline-container-sec-1-5-1" class="outline-4">
+<h4 id="sec-1-5-1"><span class="section-number-4">1.5.1</span> Collaboration / ALM</h4>
+<div class="outline-text-4" id="text-1-5-1">
+<ul class="org-ul">
+<li>JIRA
+</li>
+<li>Confluence, Skype, Slack
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5-2" class="outline-4">
+<h4 id="sec-1-5-2"><span class="section-number-4">1.5.2</span> Version Control and Code Promotion</h4>
+<div class="outline-text-4" id="text-1-5-2">
+<ul class="org-ul">
+<li>Git , Bitbucket
+</li>
+<li>CI: Jenkins
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1-5-3" class="outline-4">
+<h4 id="sec-1-5-3"><span class="section-number-4">1.5.3</span> Dependency Management &amp; Build Automation</h4>
+<div class="outline-text-4" id="text-1-5-3">
+<ul class="org-ul">
+<li>Maven, Gradle, Docker, Ant
+</li>
+<li>NPM, Gulp, Grunt
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1-5-4" class="outline-4">
+<h4 id="sec-1-5-4"><span class="section-number-4">1.5.4</span> Code Quality and Continuous Testing/Test Automation</h4>
+<div class="outline-text-4" id="text-1-5-4">
+<ul class="org-ul">
+<li>Sonarqube, Selenium, Junit, Mockito, Jasmine, Karma, Cucumber
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5-5" class="outline-4">
+<h4 id="sec-1-5-5"><span class="section-number-4">1.5.5</span> Artifacts Repository, Security/Vulnerability Scanning</h4>
+<div class="outline-text-4" id="text-1-5-5">
+<ul class="org-ul">
+<li>Artifactory, Nexus
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5-6" class="outline-4">
+<h4 id="sec-1-5-6"><span class="section-number-4">1.5.6</span> Automated Provisioning and Virtualization</h4>
+<div class="outline-text-4" id="text-1-5-6">
+<ul class="org-ul">
+<li>Terraform
+</li>
+<li>Packer
+</li>
+<li>Openshift
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5-7" class="outline-4">
+<h4 id="sec-1-5-7"><span class="section-number-4">1.5.7</span> Deploy Automation</h4>
+<div class="outline-text-4" id="text-1-5-7">
+<ul class="org-ul">
+<li>Ansible</li>
+<li>Chef</li>
+<li>Puppet</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5-8" class="outline-4">
+<h4 id="sec-1-5-8"><span class="section-number-4">1.5.8</span> Continuous Improvement (Logging/Monitoring/Continuous Audit)</h4>
+<div class="outline-text-4" id="text-1-5-8">
+<ul class="org-ul">
+<li>Logstash, Elasticsearch, Kibana
+</li>
+<li>Splunk
+</li>
+<li>Appdynamics
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5-9" class="outline-4">
+<h4 id="sec-1-5-9"><span class="section-number-4">1.5.9</span> IaaS, PaaS, CaaS, Cloud and Containers</h4>
+<div class="outline-text-4" id="text-1-5-9">
+<ul class="org-ul">
+<li>AWS
+</li>
+<li>Openshift
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> The Egg theory</h3>
+<div class="outline-text-3" id="text-1-6">
+</div><div id="outline-container-sec-1-6-1" class="outline-4">
+<h4 id="sec-1-6-1"><span class="section-number-4">1.6.1</span> Change in Mindset</h4>
+<div class="outline-text-4" id="text-1-6-1">
+</div><ol class="org-ol"><li><a id="sec-1-6-1-1" name="sec-1-6-1-1"></a>Agile on Steroids<br  /></li>
+<li><a id="sec-1-6-1-2" name="sec-1-6-1-2"></a>Atlassian, AWS and Hashicorp<br  /></li>
+<li><a id="sec-1-6-1-3" name="sec-1-6-1-3"></a>The Phoenix Project<br  /></li></ol>
+</div>
+<div id="outline-container-sec-1-6-2" class="outline-4">
+<h4 id="sec-1-6-2"><span class="section-number-4">1.6.2</span> See it in Action!</h4>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

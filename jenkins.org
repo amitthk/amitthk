@@ -187,6 +187,15 @@ with
 
 ** Jenkinsfile
 *** Jenkinsfile add input
+Before the pipeline 
+#+BEGIN_SRC 
+properties([
+  parameters([choice(name: 'MYOPTION', choices "FIRST\nSECOND\nTHIRD")])
+])
+
+echo "${params.MYOPTION}"
+#+END_SRC
+
 #+BEGIN_SRC 
 stage 'promotion'
 def userInput = input(
@@ -275,4 +284,40 @@ def getCurrentBranch () {
         returnStdout: true
     ).trim()
 }
+#+END_SRC
+
+** credentials
+
+#+BEGIN_SRC 
+
+cd /var/lib/jenkins/.ssh
+
+#while taking the path of credentials remember to provide full path
+/var/lib/jenkins/.ssh/deployadmin.pem
+
+#+END_SRC
+
+** s3 bucket get latest and unpack it jenkinsfile
+#+BEGIN_SRC 
+def getLatests3Release(String s3_bucket_name, String aws_s3_bucket_region, String project_id, String timestamp){
+    node{
+        stage('Download Latest Tag release'){
+            withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-deployuser', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']])  
+            {
+                //sh(returnStdout: true, script: "git tag --points-at")
+			   def script_l = "aws s3 ls --recursive s3://$s3_bucket_name/$project_id/releases | grep '.*\\.tar\\.gz\$' | sort | tail -n 1 | awk -F \" \" '{print \$4}'";
+			   echo script_l;
+               def latest = sh(returnStdout:true, script: script_l).trim();
+			   echo latest;
+			   withAWS(region: aws_s3_bucket_region) {
+               s3Download(file: "${latest}", bucket: s3_bucket_name, path: "${latest}")
+			   }
+               sh "mkdir -p release && rm -rf release/* && mv ${latest} release && cd release && ls *.tar.gz | sort | tail -n 1 | xargs tar -xzvf && ls *.tar.gz | sort | tail -n 1 | xargs rm"
+               stash includes: 'release/**/*', name: "${project_id}-${timestamp}"
+               return latest;
+            }
+        }
+    }
+}
+
 #+END_SRC
