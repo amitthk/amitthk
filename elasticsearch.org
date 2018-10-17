@@ -87,7 +87,7 @@ http://localhost:9200/_cat/nodes?v&pretty
 
 
 
-** elasticsearch logstash
+** Install notes - elasticsearch logstash
 
 *** elasticsearch
 

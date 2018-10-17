@@ -259,6 +259,18 @@ virsh net-dumpxml default
 
 #+END_SRC
 
+Enter the virsh shell and make sure the minikube-net is started and activated
+
+#+BEGIN_SRC 
+sudo virsh
+
+#in virsh shell
+net-list --all
+net-start minikube-net
+net-autostart --network default
+
+#+END_SRC
+
 *** Edit your ifcfg-enp*** config and add the BRIDGE=br0
 
 ~vi /etc/sysconfig/network-scripts/enp3s0
