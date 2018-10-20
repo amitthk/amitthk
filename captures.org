@@ -1,4 +1,28 @@
 
+* kubernetes demo - must do list
+
+** kubernetes blue green deployment demo with frontend
+
+** kubernetes autoscaling demo - jmeter for burst load testing
+
+** System level resilience - kubernetes
+
+** Application level resilience - spring cloud
+
+** pyfln k8s/spring boot demo
+
+*** spring boot config - distributed config store
+We are using spring boot config for our distributed config store
+High availability is ensured as this is a cluster.
+
+*** vault for encrypted, distributed storage of config/credentials
+
+*** etcd - distributed key value store with enterprise level high availability
+Reliability of the storage was questionable. So we have our own high availability
+key value store cluster
+
+
+
 * Linux clear history and exit
 
 cat /dev/null > ~/.bash_history && history -c && exit
