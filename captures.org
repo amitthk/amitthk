@@ -1,62 +1,93 @@
 
-* kubernetes demo - must do list
+* inbox
+** kubernetes demo - must do list
 
-** kubernetes blue green deployment demo with frontend
+*** kubernetes blue green deployment demo with frontend
 
-** kubernetes autoscaling demo - jmeter for burst load testing
+*** kubernetes autoscaling demo - jmeter for burst load testing
 
-** System level resilience - kubernetes
+*** System level resilience - kubernetes
 
-** Application level resilience - spring cloud
+*** Application level resilience - spring cloud
 
-** pyfln k8s/spring boot demo
+*** pyfln k8s/spring boot demo
 
-*** spring boot config - distributed config store
+**** spring boot config - distributed config store
 We are using spring boot config for our distributed config store
 High availability is ensured as this is a cluster.
 
-*** vault for encrypted, distributed storage of config/credentials
+**** vault for encrypted, distributed storage of config/credentials
 
-*** etcd - distributed key value store with enterprise level high availability
+**** etcd - distributed key value store with enterprise level high availability
 Reliability of the storage was questionable. So we have our own high availability
 key value store cluster
+** get PMI ACP Certification
+** get AWS Certification
+** Get OCA Certification
+** import all captures
+*** rememberthemilk
+*** diaries
+*** google drive
+*** google keep
+*** simplenote
+** Type down all the playbooks
+** Type down all the Pipelines
+** Read the Technical Arch. Books
+** Read through and practice Linux LFCS
 
+** next action
+*** complete the PMI ACP training and file the pdus
+*** complete the PMI PDUs and renew PMI validation and membership
+*** apply leave for November
+*** complete the kubernetes all practice
+*** onboard the kafka, spark, presto etc to k8s
+*** setup the k8s cluster on google cloud services
+*** setup the spring boot k8s Continuous delivery pipelines and blog it
+*** pipelines for Ansible vms, provision using terraform and run playbooks
+*** demo pipelines for maven, npm, flask, dotnet core
+*** complete the DBS essential trainings
+*** deep dive bigdata hadoop , hdfs, kafka, mapreduce, yarn etc.
+*** deep dive RHEL LPIC fundamentals
+**** process management and monitoring
+**** log processing grep, awk and shell scripting
+*** deep dive ldap, kerberos , linux security
 
-
-* Linux clear history and exit
+    
+* linux notes
+** Linux clear history and exit
 
 cat /dev/null > ~/.bash_history && history -c && exit
 
 
-* list all processes use maximum columns
+** list all processes use maximum columns
 
 ps auxwww | grep some
 
-* Kill a process(s) by names
+** Kill a process(s) by names
 
 pkill -USR1 git
 
-* list the ports if occupied
+** list the ports if occupied
 
 netstat -an | grep 8080
 
-* Open a port permanent firewall
+** Open a port permanent firewall
 
 firewall-cmd --zone=public --add-port=80/tcp --permanent
 firewall-cmd --reload
 
-* java vm processes
+** java vm processes
 
 jps | grep Bootstrap
 
 ps auwwx | grep catalina.startup.Bootstrap 
 
-* terminate or kill a process
+** terminate or kill a process
 
 kill -TERM <process id>
 kill -KILL <process id>
 
-* Sed clear the config file
+** Sed clear the config file
 
 #+BEGIN_SRC 
 sudo sed '/^[[:blank:]]*#/d;s/#.*//' /etc/httpd/conf/httpd.conf
@@ -65,12 +96,20 @@ sudo sed '/^[[:blank:]]*#/d;s/#.*//' /etc/httpd/conf/httpd.conf
 sudo -i.bak sed '/^[[:blank:]]*#/d;s/#.*//' /etc/httpd/conf/httpd.conf
 #+END_SRC
 
-* start tomcat with runlevel at startup
+** what ports are actually in use.
+
+~netstat -a -finet~
+
+the -a option means active, and the -f inet limits it to Internet [IPV4] connections
+
+
+* tomcat notes
+** start tomcat with runlevel at startup
 
 chkconfig --level 2345 tomcat on
 chkconfig --list tomcat
 
-** solaris
+*** solaris
 chmod 755 /etc/init.d/tomcat
 chown root /etc/init.d/tomcat
 ghrgp sys /etc/init.d/tomcat
@@ -80,17 +119,17 @@ ghrgp sys /etc/init.d/tomcat
 # ln -s /etc/init.d/tomcat /etc/rc3.d/K37tomcat
 
 
-* route 80 to 8080
+** route 80 to 8080
 
 # iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8080
 # iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
 
-** relay connections for only one ip
+*** relay connections for only one ip
 
 # iptables -t nat -I PREROUTING -p tcp --dst 192.168.1.100 --dport 80 -j REDIRECT --to-ports 8080
 # iptables -t nat -I OUTPUT -p tcp --dst 192.168.1.100 --dport 80 -j REDIRECT --to-ports 8080
 
-* standard tomcat startup script
+** standard tomcat startup script
 
 #+BEGIN_SRC 
 #!/bin/sh
@@ -100,7 +139,7 @@ export CATALINA_BASE CATALINA_HOME
 service tomcat start # Standard way to start on Linux
 #+END_SRC
 
-* get jsvc working to host from port 80
+** get jsvc working to host from port 80
 
 #+BEGIN_SRC 
 
@@ -153,14 +192,7 @@ temp org.apache.catalina.startup.Bootstrap start
 
 #+END_SRC
 
-* what ports are actually in use.
-
-~netstat -a -finet~
-
-the -a option means active, and the -f inet limits it to Internet [IPV4] connections
-
-
-* Jvm options
+** Jvm options
 
 | Use                  | JVM option                | Meaning                                                  |   |   |
 | Memory setting       | -Xms384M                  | Sets the heap memory size at JVM startup time.           |   |   |
@@ -185,7 +217,7 @@ eg.
 JAVA_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"
 #+END_SRC
 
-* Locale
+** Locale
 #+BEGIN_SRC 
 $ LANG=en_US
 $ catalina.sh start
@@ -195,9 +227,9 @@ or
 -Duser.language=en
 #+END_SRC
 
-* Realms
+** Realms
 
-** UserDatabaseRealms
+*** UserDatabaseRealms
 
 tomcat-users.xml
 
@@ -206,7 +238,7 @@ manager role.
 not production ready
 
 
-** JDBC Realm
+*** JDBC Realm
 <!-- Set up a JDBC Real for JabaDot user database -->
 <Realm className="org.apache.catalina.realm.JDBCRealm"
 driverName="org.postgresql.Driver"
@@ -218,7 +250,7 @@ userRoleTable="controls" roleNameCol="roles"
 userNameCol="nick"/>
 
 
-** JNDI Realm (Active directory/LDAP)
+*** JNDI Realm (Active directory/LDAP)
 <!-- Set up a JDBC Real for JabaDot user database -->
 <Realm className="org.apache.catalina.realm.JDBCRealm"
 driverName="org.postgresql.Driver"
@@ -230,7 +262,7 @@ userRoleTable="controls" roleNameCol="roles"
 userNameCol="nick"/>
 
 
-** JAASRealm
+*** JAASRealm
 JAASRealm is a realm implementation that authenticates users via the Java Authentication andAuthorization Service (JAAS).
 
 export JAVA_OPTS=\
@@ -271,9 +303,9 @@ com.sun.security.auth.module.UnixLoginModule required debug=true;
 };
 
 
-** Container-Managed Security
+*** Container-Managed Security
 
-*** Basic authentication
+**** Basic authentication
 The user¡¦s passwordis requiredvia HTTP authentication as base64-encoded
 text. Security flaw.
 
@@ -303,7 +335,7 @@ Entire Application
 </login-config>
 #+END_SRC
 
-*** Digest authentication
+**** Digest authentication
 The user¡¦s password is requested via HTTP authentication as a digest-encoded
 string.
 
@@ -354,12 +386,12 @@ roles="member"/>
 #+END_SRC
 
 
-*** Form authentication
+**** Form authentication
 The user¡¦s password is requested on a web page form.
 
 
 
-*** Client-cert authentication
+**** Client-cert authentication
 The user is verified by a client-side digital certificate.
 
 * Self-healing systems can be divided into three levels
@@ -369,3 +401,35 @@ Hardware level
 Application level healing...fault tolerant applications capable of recuperation from potentially disastrous circumstances.
 System level...most commonly monitored. If a process fails, we need to redeploy the service, or restart the process...if the response time is not adequate, we need to scale, or descale, depending whether we reached upper or lower response time limits.
 Hardware level... healing on this level truly means is redeployment of services from an unhealthy to one of the healthy nodes.
+* actionables
+** PMI PDUs
+** Apply Australia PR
+** Apply Canada PR
+** Get the IELTS certification
+* someday/maybe
+** Apply Singapore PR
+** PMI-ACP Certification
+** Get OCP Certification
+** Get GMAT Score
+* references
+** wunderlist
+** google drive
+** google keep
+** simplenote
+** rememberthemilk
+* not to do
+* done
+** Finish up all the resignation formalities
+*** Submit the old EP,DPs and get the new ones
+*** Print the email for roll off formalities
+*** De-register from mylearning.acc
+*** Send the email for the designation clarification
+*** Get the handover checklist signed
+*** Note down all the contacts necessary
+*** Clean up pc2
+*** Clean up pc1
+*** Tcib, odata, playbooks
+*** Create the endpoint for loading latest from db serverstatus
+*** Demonstrate the serverinfo api data
+*** tap-odata retail 1.2 branch
+
