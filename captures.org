@@ -2,6 +2,9 @@
 * inbox
 ** kubernetes demo - must do list
 
+*** Bring the auth and fe, add the metrics, add a prometheus
+
+
 *** kubernetes blue green deployment demo with frontend
 
 *** kubernetes autoscaling demo - jmeter for burst load testing
