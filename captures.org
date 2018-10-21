@@ -4,7 +4,13 @@
 
 *** Bring the auth and fe, add the metrics, add a prometheus
 
-
+*** copy videos to iphone
+*** make the blue green deploy work, make the autoscaling work
+*** make k8s project work
+**** onboard zuul and eureka, take in the UI proj
+**** reverse proxy take env variable for api endpoint
+**** get the template for full stack deploy (wordpress)
+**** continuous deploy jvcdp maven spring boot to k8s
 *** kubernetes blue green deployment demo with frontend
 
 *** kubernetes autoscaling demo - jmeter for burst load testing
@@ -155,7 +161,7 @@ service tomcat start # Standard way to start on Linux
 
 # cd jsvc-src
 
-# ./configure ¡Vwith-java=$JAVA_HOME
+# ./configure ï¿½Vwith-java=$JAVA_HOME
 
 # make
 
@@ -309,7 +315,7 @@ com.sun.security.auth.module.UnixLoginModule required debug=true;
 *** Container-Managed Security
 
 **** Basic authentication
-The user¡¦s passwordis requiredvia HTTP authentication as base64-encoded
+The userï¿½ï¿½s passwordis requiredvia HTTP authentication as base64-encoded
 text. Security flaw.
 
 Club site with members-only subdirectory
@@ -339,7 +345,7 @@ Entire Application
 #+END_SRC
 
 **** Digest authentication
-The user¡¦s password is requested via HTTP authentication as a digest-encoded
+The userï¿½ï¿½s password is requested via HTTP authentication as a digest-encoded
 string.
 
 #+BEGIN_SRC 
@@ -390,7 +396,7 @@ roles="member"/>
 
 
 **** Form authentication
-The user¡¦s password is requested on a web page form.
+The userï¿½ï¿½s password is requested on a web page form.
 
 
 
