@@ -1,0 +1,922 @@
+    1  ls
+    2  ll
+    3  du
+    4  df
+    5  sudo shutdown -r now
+    6  systemctl isolate graphical.target
+    7  systemctl set-default graphical.target
+    8  shutdown -r now
+    9  ifconfig
+   10  echo $path
+   11  exit
+   12  ping www.google.com
+   13  startx
+   14  yum update
+   15  cat /etc/wpa_supplicant/wpa_supplicant.conf 
+   16  cat /var/run/wpa_supplicant
+   17  ifconfig
+   18  ls /usr/bin
+   19  /bin/bash
+   20  su -
+   21  ls
+   22  id
+   23  ifconfig
+   24  ip
+   25  net-tools
+   26  chkconfig NetworkManager on
+   27  service NetworkManager start
+   28  nmtui
+   29  ifconfig
+   30  ipconfig
+   31  service NetworkManager restart
+   32  ip
+   33  restart -r now
+   34  shutdown -r now
+   35  ipconfig
+   36  ping www.google.com
+   37  yum install gnome
+   38  shutdown -r now
+   39  yum install gnome
+   40  nmtui
+   41  sudo shutdown -r now
+   42  yum install gnome
+   43   yum group list
+   44  yum groupinstall "GNOME Desktop" "Graphical Administration Tools"
+   45  ln -sf /lib/systemd/system/runlevel5.target /etc/systemd/system/default.target
+   46  reboot
+   47  yum install gcc
+   48  ls
+   49  cd Downloads/
+   50  ls
+   51  tar -xzf Python-2.7.10.tgz 
+   52  ls
+   53  cd Python-2.7.10/
+   54  ./configure
+   55  make altinstall
+   56  rm /myswap
+   57  sudo dd if=/dev/zero of=/myswap count=8000 bs=1MiB
+   58  rm /myswap
+   59  sudo dd if=/dev/zero of=/swapfile count=8000 bs=1MiB
+   60  ls
+   61  clear
+   62  sudo chmod 600 /swapfile
+   63  mkswap /swapfile
+   64  sudo cp /etc/fstab /etc/fstab.bak
+   65  tee
+   66  echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+   67  sudo sysctl vm.swappiness=10
+   68  echo 'vm.swappiness=10' | sudo tee -a /etc/sysctl.conf
+   69  sudo sysctl vm.vfs_cache_pressure=50
+   70  echo 'vm.vfs_cache_pressure=50' | sudo tee -a /etc/sysctl.conf
+   71  cat /etc/sysctl.conf
+   72  cat /etc/fstab
+   73  clear
+   74  cd ..
+   75  ls
+   76  rpm -i jdk-8u181-linux-x64.rpm 
+   77  sudo yum localinstall jdk-8u181-linux-x64.rpm 
+   78  which java
+   79  java --version
+   80  java -version
+   81  clear
+   82  ls
+   83  which java
+   84  java -version
+   85  cd zookeeper-3.4.12/
+   86  ls
+   87  cd conf
+   88  ls
+   89  vi zoo_sample.cfg 
+   90  cd ..
+   91  ls
+   92  cd ..
+   93  ls
+   94  mv -r zookeeper-3.4.12/ /opt/.
+   95  mv -r zookeeper-3.4.12 /opt/.
+   96  mv zookeeper-3.4.12 /opt/.
+   97  mv hadoop-2.8.3.tar.gz /opt/.
+   98  mv kafka_2.11-2.0.0 /opt/.
+   99  mv spark-2.3.0-bin-hadoop2.7 /opt/.
+  100  cd /opt
+  101  tar -xvf hadoop-2.8.3.tar.gz 
+  102  cd 
+  103  mv /opt/hadoop-2.8.3.tar.gz /home/atksv/Downloads/software/.
+  104  ls
+  105  clear
+  106  ls
+  107  exit
+  108  chmod 766 -R /opt/
+  109  chmod 766 -R /opt/*
+  110  ls
+  111  exit
+  112  cd /opt/
+  113  ls
+  114  cd zookeeper-3.4.12/
+  115  ls
+  116  cd conf
+  117  ls
+  118  cp zoo_sample.cfg zoo.cfg
+  119  vi zoo.cfg
+  120  exit
+  121  ll /opt
+  122  ll /
+  123  /opt/zookeeper-3.4.12/bin/zkServer.sh
+  124  /opt/zookeeper-3.4.12/bin/zkServer.sh shart
+  125  /opt/zookeeper-3.4.12/bin/zkServer.sh start
+  126  exit
+  127  yum install git
+  128  exit
+  129  adduser serverping
+  130  passwd serverping
+  131  usermod -aG wheel serverping
+  132  su - serverping
+  133  exit
+  134  ls
+  135  exit
+  136  ls
+  137  rm -r /home/atksv/Downloads/Python-2.7.10;
+  138  rm -r /home/atksv/Downloads/Python-2.7.10
+  139  rm -r /home/atksv/Downloads/Python-2.7.10/
+  140  ls
+  141  cd /home/atksv/
+  142  ls
+  143  cd Do
+  144  cd Downloads/
+  145  ls
+  146  rm -rf Python-2.7.10
+  147  ls
+  148  mv software/* /tmp/downloads/.
+  149  chmod -R 777 /tmp
+  150  ll /tmp/downloads/
+  151  python
+  152  man python2.7
+  153  python2.7
+  154  ls
+  155  cd /tmp/
+  156  l
+  157  sll
+  158  ll
+  159  cd downloads/
+  160  ls
+  161  rpm -i elasticsearch-6.4.0.rpm 
+  162  yum remove elasticsearch
+  163  rpm -i google-chrome-stable_current_x86_64.rpm 
+  164  yum update google-chrome-stable
+  165  vi /etc/yum.repos.d/google-chrome.repo
+  166  yum update google-chrome-stable
+  167  yum update
+  168  yum -y install gstreamer-plugin-crystalhd.x86_64
+  169  yum -y install http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
+  170  yum install libdvdcss gstreamer{,1}-plugins-ugly gstreamer-plugins-bad-nonfree gstreamer1-plugins-bad-freeworld libde265 x265
+  171  yum install vlc smplayer
+  172  firefox
+  173  tar xf ideaIC-2018.2.3.tar.gz  -C /opt/
+  174  ls
+  175  cd /opt/idea-IC-182.4323.46/
+  176  l
+  177  ll
+  178  cd ..
+  179  cd bin
+  180  ls
+  181  cd idea-IC-182.4323.46/
+  182  ls
+  183  cd bin
+  184  ls
+  185  exit
+  186  ls
+  187  /opt/idea-IC-182.4323.46/bin/idea.sh
+  188  exit
+  189  ls
+  190  cd /root/
+  191  ls
+  192  cd ..
+  193  ls
+  194  cd /home/root
+  195  vi /usr/local/bin/idea
+  196  vi /usr/local/bin/idea
+  197  /opt/idea-IC-182.4323.46/bin/idea.sh
+  198  chmod 755 /opt/idea-IC-182.4323.46
+  199  chmod -R 755 /opt/idea-IC-182.4323.46
+  200  chmod -R 755 /usr/local/bin/idea
+  201  exit
+  202  ls /usr/share
+  203  vi /usr/local/bin/idea
+  204  exit
+  205  cd /opt/idea-IC-182.4323.46/
+  206  ls
+  207  chmod 755 ./* 
+  208  ll
+  209  chmod 766 ./* 
+  210  ll
+  211  cd bin
+  212  ls
+  213  vi idea.sh
+  214  ls /usr/local/bin
+  215  vi /usr/local/bin/idea
+  216  vi /usr/local/bin/idea
+  217  /usr/local/bin/idea
+  218  rm /usr/local/bin/idea
+  219  rm -rf /opt/idea-IC-182.4323.46/
+  220  exit
+  221  cd ../atksv/
+  222  ls
+  223  cd Downloads/
+  224  ls
+  225  tar -xzf apache-maven-3.5.4-bin.tar.gz -C /opt/.
+  226  cd /opt/
+  227  ls
+  228  cd apache-maven-3.5.4/
+  229  ls
+  230  cd ..
+  231  ls
+  232  ll
+  233  chmod -R 755 apache-maven-3.5.4
+  234  ls
+  235  ll
+  236  exit
+  237  ls
+  238  cd Downloads/
+  239  ls
+  240  unzip HDP_2.6.5_deploy-scripts_180624d542a25.zip 
+  241  ls
+  242  cd assets/
+  243  ls
+  244  cd ..
+  245  rm -rf assets/
+  246  rm docker-deploy-hdp265.sh 
+  247  rm enable-native-cda.sh 
+  248  ls
+  249  mv HDP_2.6.5_deploy-scripts_180624d542a25.zip /tmp/
+  250  ls
+  251  cd /tmp
+  252  ls
+  253  mkdir hdp
+  254  mv HDP_2.6.5_deploy-scripts_180624d542a25.zip hdp/
+  255  cd hdp
+  256  ls
+  257  unzip HDP_2.6.5_deploy-scripts_180624d542a25.zip 
+  258  ls
+  259  cd ..
+  260  ls
+  261  chmod 766 -R tmp
+  262  chmod 766 -R hdp
+  263  exit
+  264  cd hadoop-2.8.3/
+  265  ls
+  266  cd etc
+  267  ls
+  268  cd hadoop
+  269  ls
+  270  vi hadoop-env.sh
+  271  exit
+  272  hdfs dfs ls
+  273  source /home/serverping/.bashrc
+  274  hdfs dfs ls
+  275  start-dfs.sh
+  276  ls
+  277  ln -s /opt/hadoop-2.8.3/bin/hadoop /usr/local/bin/hadoop
+  278  ln -s /opt/hadoop-2.8.3/bin/hdfs /usr/local/bin/hdfs
+  279  ln -s /opt/hadoop-2.8.3/bin/yarn /usr/local/bin/yarn
+  280  ln -s /opt/hadoop-2.8.3/bin/mapred /usr/local/bin/mapred
+  281  exit
+  282  ll /opt
+  283  ll /opt/hadoop-2.8.3/
+  284  ll /opt/hadoop-2.8.3/bin/
+  285  sudo chmod 755 /usr/local/bin/hdfs 
+  286  exit
+  287  useradd hadoop
+  288  passwd hadoop
+  289  su - hadoop
+  290  chown -R hadoop:hadoop /opt/*
+  291  ls /opt/
+  292  chown -R root:root /opt/rh
+  293  su - hadoop
+  294  ll /opt/hadoop-2.8.3/
+  295  ll /opt
+  296  mv /opt/hadoop-2.8.3/ /opt/hadoop
+  297  ll /opt
+  298  mv /opt/hadoop/ /opt/hadoop-2.8.3
+  299  ll /opt
+  300  ls /opt
+  301  ll /
+  302  chown root:root /opt
+  303  chmod 0755 /opt
+  304  su - hadoop
+  305  unlink /usr/local/bin/hdfs
+  306  unlink /usr/local/bin/yarn
+  307  ls /usr/local/bin
+  308  unlink /usr/local/bin/mapred
+  309  unlink /usr/local/bin/hadoop
+  310  su - hadoop
+  311  firewall-cmd --zone=public --add-port=8080/tcp --permanent
+  312  firewall-cmd --zone=public --add-port=50070/tcp --permanent
+  313  hdfs dfs ls
+  314  su - hadoop
+  315  mkdir /hadoop
+  316  chown hadoop:hadoop /hadoop
+  317  su - hadoop
+  318  ls /tmp
+  319  tar -xzvf /tmp/apache-hive-2.3.3-bin.tar.gz -C /opt/.
+  320  chown hadoop:hadoop /opt/apache-hive-2.3.3-bin
+  321  ls
+  322  pwd
+  323  wget http://archive.apache.org/dist/db/derby/db-derby-10.8.3.0/db-derby-10.8.3.0-bin.tar.gz
+  324  cd /tmp
+  325  wget http://archive.apache.org/dist/db/derby/db-derby-10.8.3.0/db-derby-10.8.3.0-bin.tar.gz
+  326  ls
+  327  tar zxvf db-derby-10.8.3.0-bin.tar.gz 
+  328   mv db-derby-10.4.2.0-bin /opt/.
+  329   mv -r db-derby-10.4.2.0-bin /opt/.
+  330  mv -r db-derby-10.4.2.0-bin /opt/.
+  331  ls db-derby-10.8.3.0-bin
+  332  mv db-derby-10.8.3.0-bin /opt/.
+  333  chown hadoop:hadoop /opt/db-derby-10.8.3.0-bin/
+  334  chown hadoop:hadoop -R /opt/db-derby-10.8.3.0-bin/
+  335  chown hadoop:hadoop -R /opt/db-derby-10.8.3.0-bin
+  336  chown hadoop:hadoop -R /opt/apache-hive-2.3.3-bin
+  337  cd /opt/apache-hive-2.3.3-bin/conf
+  338  ls
+  339  cp hive-default.xml.template hive-site.xml
+  340  nano hive-site.xml 
+  341  vi hive-site.xml 
+  342  vi hive-site.xml 
+  343  vi jpox.properties
+  344  ll
+  345  chown hadoop:hadoop jpox.properties
+  346  chown hadoop:hadoop hive-site.xml 
+  347  hadoop fs -mkdir /tmp
+  348  su - hadoop
+  349  echo $HADOOP_HOMER
+  350  vi /opt/apache-hive-2.3.3-bin/conf/hive-env.sh.template
+  351  cd /opt/apache-hive-2.3.3-bin/conf
+  352  ls
+  353  ll
+  354  cp hive-env.sh.template hive-env.sh
+  355  vi hive-env.sh
+  356  ls /opt
+  357  vi hive-env.sh
+  358  chown hadoop:hadoop hive-env.sh
+  359  su - hadoop
+  360  sudo su - hadoop
+  361  su - hadoop
+  362  cd /usr/java/default/jre/lib/security
+  363  cp java.policy java.policy.backup
+  364  vi java.policy
+  365  su - hadoop
+  366  docker ps
+  367  exit
+  368  ls
+  369  cd Downloads/
+  370  ls
+  371  mv synergy/ /opt/.
+  372  exit
+  373  ls
+  374  cd /home/atksv/
+  375  ls
+  376  cd Down
+  377  cd Downloads/
+  378  ls
+  379  yum install ./synergy-v1.8.8-stable-Linux-i686.rpm 
+  380  sudo yum install -y jenkins
+  381  ym install epel-release
+  382  yum install epel-release
+  383  yum update
+  384  ls
+  385  sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+  386  sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+  387  yum install jenkins
+  388  echo $JAVA_HOME
+  389  exit
+  390  ll
+  391  rm -rf jobs
+  392  ls
+  393  mv -vn /tmp/jenkins/var/lib/jenkins/jobs ./.
+  394  ls
+  395  ls jobs
+  396  ls
+  397  cd jobs
+  398  ls
+  399  mv jvcdp-* ../
+  400  mv pys3viewer ../
+  401  ls
+  402  cd ..
+  403  ls
+  404  cd ..
+  405  cd workspace/
+  406  ls
+  407  mv -vn /tmp/jenkins/var/lib/jenkins/workspace ./.
+  408  ls
+  409  cd workspace/
+  410  ls
+  411  mv jvcdp-* ../
+  412  mv pys3viewer* ../
+  413  mv jvcdp* ../
+  414  ls
+  415  mv p-job-dispatcher-api_master-MGC26QJP56CETHJUT245HEEGGZFHCS3BM6XGYWKZFLXVKD5O2B6A@2mv p-* ../
+  416  ls
+  417  mv -vn ./* ../
+  418  ls
+  419  cd ..
+  420  ls
+  421  rm workspace
+  422  rm -rf workspace
+  423  ls
+  424  ll
+  425  cd ..
+  426  ls
+  427  ls jobs
+  428  ll
+  429  ll jobs/
+  430  chown jenkins:jenkins -r jobs
+  431  chown jenkins:jenkins -R jobs
+  432  chown jenkins:jenkins -R workspace
+  433  service jenkins restart
+  434  cd /tmp/jenkins
+  435  ls
+  436  cd /var/lib/jenkins
+  437  ls
+  438  cd .ssh
+  439  ls
+  440  ll
+  441  cat deployadmin.pem 
+  442  cd /home/atksv/
+  443  ls
+  444  cd keys
+  445  ls
+  446  cd all_keys/
+  447  ls
+  448  ls
+  449  cd all_keys/
+  450  ls
+  451  cp id_rsa_amitthk_bitbucket /var/lib/jenkins/.ssh/.
+  452  ls
+  453  cd ..
+  454  ls
+  455  cd devopsdev/
+  456  ls
+  457  cd ..
+  458  cd ..
+  459  ls
+  460  cd atksv/
+  461  ls
+  462  cd ..
+  463  cd /var/lib/jenkins/.ssh
+  464  ls
+  465  cat id_rsa_amitthk_bitbucket 
+  466  rm\ id_rsa_amitthk_bitbucket 
+  467  rm id_rsa_amitthk_bitbucket 
+  468  ls
+  469  vi id_rsa_amitthk_bitbucket
+  470  chown jenkins:jenkins id_rsa_amitthk_bitbucket 
+  471  chmod 600 id_rsa_amitthk_bitbucket 
+  472  ssh-keygen
+  473  ls
+  474  ll
+  475  chown jenkins:jenkins ./*
+  476  ls
+  477  ll
+  478  cat id_rsa_amitthk_bitbucket_pys3viewer
+  479  clear
+  480  ls
+  481  cat id_rsa_amitthk_bitbucket_pys3viewer.pub 
+  482  ls
+  483  cd ..
+  484  ls
+  485  ll .ssh
+  486  ll
+  487  cd .ssh
+  488  ls
+  489  clear
+  490  cat id_rsa_amitthk_bitbucket_pys3viewer
+  491  cd ..
+  492  ls
+  493  ls .npm
+  494  exit
+  495  cd /home/atksv/
+  496  ls
+  497  cd keys
+  498  ls
+  499  fgrep deployadmin
+  500  find ./ --name *deploy*
+  501  find ./ -name **
+  502  find ./ -name *.pem
+  503  cd /var/lib/jenkins/
+  504  ls
+  505  ls 
+  506  cd /var/lib/jenkins/
+  507  ls
+  508  cd ..
+  509  ls
+  510  tar -cvpf /tmp/jenkins.bakup.tar.gz  /var/lib/jenkins 
+  511  ls
+  512  cd /tmp/
+  513  ls
+  514  ls jen*
+  515  mv jenkins.bakup.tar.gz jenkins
+  516  ls
+  517  cd jenkins
+  518  ls
+  519  scp -i /home/atksv/keys/devakthk/amitthk_jenkinsmaster.pem ./jenkins.bakup.tar.gz centos@pys3viewer.mywire.org:~/.
+  520  su jenkins
+  521  id
+  522  exit
+  523  ls
+  524  aws config
+  525  aws configure
+  526  properties([
+  527    parameters([choice(name: 'MYOPTION', choices "FIRST\nSECOND\nTHIRD")])
+  528  ])
+  529  aws s3 ls s3:///jvcdp-repo
+  530  printEnv
+  531  env
+  532  aws s3 ls s3:///jvcdp-repo/releases
+  533  unset AWS_SECRET_ACCESS_KEY
+  534  unset AWS_ACCESS_KEY_ID
+  535  aws s3 ls s3:///jvcdp-repo/releases
+  536  aws s3 ls s3:///jvcdp-repo/jvcdpui/releases
+  537  aws s3 ls s3://jvcdp-repo/jvcdpui/releases
+  538  aws configure
+  539  aws s3 ls s3://jvcdp-repo/jvcdpui/releases
+  540  aws s3 ls s3://jvcdp-repo
+  541  aws s3 ls
+  542  cd /var/lib/jenkins/workspace/jvcdp-ui_sit-Z6IT6D6FWBSQFAXKUXJDK4PC4AYGFADAP3IEEAQVGKAWVHSR5TQQ@2
+  543  ls
+  544  cd release
+  545  ls
+  546  ls *.tar.gz | sort
+  547  ls *.tar.gz | sort | tail -n 1
+  548  tar -xzvf ${ls *.tar.gz | sort | tail -n 1}
+  549  ls *.tar.gz | sort | tail -n 1 | xargs tar -xzvf 
+  550  ls
+  551  cd ..
+  552  rm -rf release/*
+  553  ls
+  554  ls release
+  555  exit
+  556  cd /var/lib/
+  557  ls
+  558  cd jenkins
+  559  ls
+  560  clear
+  561  vi .ssh/known_hosts 
+  562  cat /home/atksv/keys/devakthk/amitthk_jenkinsmaster.pm
+  563  cat /home/atksv/keys/devakthk/amitthk_jenkinsmaster.pem
+  564  clear
+  565  ls
+  566  cd
+  567  ls
+  568  ls
+  569  cd /var/lib/jenkins/
+  570  ls
+  571  cd .ssh
+  572  ls
+  573  cd ..
+  574  cd
+  575  ls
+  576  vi ans.sh
+  577  chmod +x ans.sh
+  578  ./ans.sh
+  579  vi ans.sh
+  580  ./ans.sh
+  581  ssh -i /var/lib/jenkins/.ssh/deployadmin.pem centos@pys3veiwer.mywire.org
+  582  ssh -i /var/lib/jenkins/.ssh/deployadmin.pem centos@pys3viewer.mywire.org
+  583  vi ./ans.sh
+  584  ./ans.sh
+  585  vi ans.sh 
+  586  vi ans.sh 
+  587  cd /var/lib/jenkins/workspace/pys3viewer_develop-RCZATI5E42ZFMLITQANC4HHCGIOT6K5YGPVXQY3MQUNEKWUPTLBQ
+  588  ls
+  589  cd ans
+  590  cd ansible/
+  591  ls
+  592  cat ans.sh
+  593  ls
+  594  cd 
+  595  cat ans
+  596  cat ans.sh
+  597  vi ans.sh 
+  598  ./ans.sh 
+  599  vi ans.sh
+  600  ./ans.sh 
+  601  ./ans.sh 
+  602  vi ans.sh
+  603  ./ans.sh 
+  604  cd /var/wwww
+  605  cd /var/www
+  606  ls
+  607  mkdir -p /var/www/
+  608  service httpd status
+  609  sudo yum install httpd
+  610  ssh -i /var/lib/jenkins/.ssh/deployadmin.pem centos@pys3viewer.mywire.org
+  611  vi ans.sh
+  612  ./ans.sh
+  613  awscli config
+  614  aws s3 config
+  615  aws configure
+  616  sudo yum install aws-cli
+  617  sudo yum install awscli
+  618  aws s3 config
+  619  aws configure
+  620  ./ans.sh
+  621  ls
+  622  exit
+  623  cp /home/atksv/keys/devakthk/amitthk_jenkinsmaster.pem /var/lib/jenkins/.ssh/.
+  624  chmod 600 /var/lib/jenkins/.ssh/amitthk_jenkinsmaster.pem 
+  625  chown jenkins:jenkins /var/lib/jenkins/.ssh/amitthk_jenkinsmaster.pem 
+  626  scp /var/lib/jenkins/.ssh/amitthk_jenkinsmaster.pem centos@pys3viewer.mywire.org:/var/lib/jenkins/.ssh/. 
+  627  scp / -i /var/lib/jenkins/.ssh/amitthk_jenkinsmaster.pem /var/lib/jenkins/.ssh/amitthk_jenkinsmaster.pem centos@pys3viewer.mywire.org:/var/lib/jenkins/.ssh/. 
+  628  scp / -i /var/lib/jenkins/.ssh/amitthk_jenkinsmaster.pem /var/lib/jenkins/.ssh/amitthk_jenkinsmaster.pem centos@pys3viewer.mywire.org:~/.
+  629  scp / i /var/lib/jenkins/.ssh/amitthk_jenkinsmaster.pem /var/lib/jenkins/.ssh/amitthk_jenkinsmaster.pem centos@pys3viewer.mywire.org:~/.
+  630  scp / i /var/lib/jenkins/.ssh/amitthk_jenkinsmaster.pem /var/lib/jenkins/.ssh/amitthk_jenkinsmaster.pem centos@pys3viewer.mywire.org:~/.
+  631  pwd
+  632  ls
+  633  ssh -i amitthk_jenkinsmaster.pem centos@pys3viewer.mywire.org
+  634  ping pys3viewer.mywire.org
+  635  mkdir /var/www/pys3viewerapi
+  636  mkdir /var/www/pys3viewerui
+  637  sudo chown apache:apache /var/www/pys3viewerui
+  638  sudo chown apache:apache /var/www/pys3viewerapi
+  639  exit
+  640  ls
+  641  code .
+  642  cp -r /var/lib/jenkins/workspace/jvcdp-ui_develop-NAJTILLK2JYBIF3WNPTTQVOFCAEQGM3BX3YMFRAWPHITCIZYSX2Q/node_modules/ ./.
+  643  ls
+  644  ll
+  645  chown -R atksv:atksv node_modules/
+  646  ll
+  647  npm install
+  648  npm run ng serve
+  649  yum install -y kernel-devel kernel-headers gcc make perl
+  650  wget https://www.virtualbox.org/download/oracle_vbox.asc
+  651  rpm --import oracle_vbox.asc
+  652   wget http://download.virtualbox.org/virtualbox/rpm/el/virtualbox.repo -O /etc/yum.repos.d/virtualbox.repo
+  653  yum install -y VirtualBox-5.2
+  654  minikube start
+  655  yum groupinstall "Development tools"
+  656  yum install https://centos7.iuscommunity.org/ius-release.rpm
+  657  yum install dkms
+  658  yum install kernel-devel
+  659  reboot
+  660  vboxconfig
+  661  /sbin/vboxconfig
+  662  rpm -qa kernel\*
+  663  yum install kernel*
+  664  /sbin/vboxconfig
+  665  yum install kernel-headers
+  666  yum -y update
+  667  yum -y update
+  668  yum install -y yum-utils
+  669  package-cleanup dupes
+  670  package-cleanup --dupes
+  671  package-cleanup --cleandupes
+  672  vi /etc/yum.conf
+  673  yum clean all
+  674  rm -rf /var/cache/yum
+  675  yum -y update
+  676  cp /usr/share/applications/synergy.desktop /home/atksv/.
+  677  rm /usr/share/applications/synergy.desktop
+  678  yum -y update
+  679  yum remove synergy
+  680  yum -y update
+  681  /sbin/vboxconfig
+  682  ls -l /usr/src/kernels/$(uname -r)
+  683  yum install kernel-headers
+  684  uname -r
+  685  reboot
+  686  /sbin/vboxconfig
+  687  minikube start
+  688  which minikube
+  689  exit
+  690  netstat -alnp | grep 30000
+  691  netstat -alnp | grep kubectl
+  692  netstat -alnp | grep kube
+  693  netstat -alnp 
+  694  minikube dashboard
+  695  exit
+  696  ls /home/atksv/
+  697  ls
+  698  cd /home/atksv
+  699  ls
+  700  cd Downloads/
+  701  ls
+  702  yum install ./synergy-v1.8.8-stable-Linux-i686.rpm 
+  703  exit
+  704  python2 -m 
+  705  python2 -m pip install virtualenv
+  706  exit
+  707  cp /etc/samba/smb.conf /etc/samba/smb.conf.orig
+  708  /usr/share/www/media
+  709  chown -R nobody:nobody /usr/share/www/media
+  710  vi /etc/samba/smb.conf
+  711  mkdir -p /srv/samba/anonymous
+  712  chmod -R 0775 /srv/samba/anonymous
+  713  chown -R nobody:nobody /srv/samba/anonymous
+  714  chcon -t samba_share_t /srv/samba/anonymous
+  715  mv /usr/share/www/media /srv/samba/anonymous/.
+  716  testparm
+  717  systemctl enable smb.service
+  718  systemctl enable nmb.service
+  719  systemctl start smb.service
+  720  systemctl start nmb.service
+  721  mkdir -p /srv/samba/secure
+  722  chmod -R 0770 /srv/samba/secure
+  723  groupadd smbgrp
+  724  usermod atksv -aG smbgrp
+  725  smbpasswd -a atksv
+  726  chown -R root:smbgrp /srv/samba/secure
+  727  chcon -t samba_share_t /srv/samba/secure
+  728  vi /etc/samba/smb.conf
+  729  testparm
+  730  systemctl restart smb.service
+  731  systemctl restart nmb.service
+  732  smbpasswd atksv
+  733  vi /etc/samba/smb.conf
+  734  firewall-cmd --zone=public --add-port=137/udp --permanent
+  735  firewall-cmd --zone=public --add-port=138/udp --permanent
+  736  firewall-cmd --zone=public --add-port=139/tcp --permanent
+  737  service iptables restart
+  738  firewall-cmd restart
+  739  firewall-cmd reload
+  740  sudo firewall-cmd reload
+  741  sudo firewall-cmd --reload
+  742  systemctl restart network
+  743  systemctl restart firewalld
+  744     ps -e | grep nmb ; ps -e | grep smb
+  745     systemctl enable smb
+  746     systemctl enable nmb
+  747     systemctl restart smb
+  748     systemctl restart nmb
+  749  smbpasswd -a atksv
+  750  smbpasswd -e atksv
+  751  vi /etc/samba/smb.conf
+  752  vi /etc/samba/smb.conf
+  753  service smb reload
+  754  getsebool -a | grep samba
+  755  ll /srv/samba/
+  756  ll /srv/samba/secure
+  757  chmod -R 0777 /srv/samba/
+  758  yum -y install openldap compat-openldap openldap-clients openldap-servers openldap-servers-sql openldap-devel
+  759  exit
+  760  systemctl restart nmb.service
+  761  systemctl start nmb.service
+  762  systemctl start smb.service
+  763  smbpassed atksv
+  764  smbpasswd atksv
+  765  smbpasswd atksv
+  766  service smb.service restart
+  767  exit
+  768  systemctl start slapd
+  769  systemctl enable slapd
+  770  netstat -antup | grep -i 389
+  771  slappasswd -h {SSHA} -s ditstudent
+  772  vi /etc/openldap/slapd.d/cn=config/olcDatabase={2}hdb.ldif
+  773  vi db.ldif
+  774  ldapmodify -Y EXTERNAL  -H ldapi:/// -f db.ldif
+  775  vi db.ldif
+  776  ldapmodify -Y EXTERNAL  -H ldapi:/// -f db.ldif
+  777  vi db.ldif
+  778  ldapmodify -Y EXTERNAL  -H ldapi:/// -f db.ldif
+  779  vi db.ldif
+  780  vi db.ldif
+  781  vi /etc/openldap/slapd.d/cn=config/olcDatabase={1}monitor.ldif
+  782  vi monitor.ldif
+  783  ldapmodify -Y EXTERNAL  -H ldapi:/// -f monitor.ldif
+  784  cp /usr/share/openldap-servers/DB_CONFIG.example /var/lib/ldap/DB_CONFIG
+  785  chown ldap:ldap /var/lib/ldap/*
+  786  ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif
+  787  ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/nis.ldif 
+  788  ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif
+  789  vi base.ldif
+  790  ldapadd -x -W -D "cn=ldapadm,dc=itzgeek,dc=local" -f base.ldif
+  791  ldapadd -x -W -D "cn=ldapadm,dc=amitthk,dc=com" -f base.ldif
+  792  vi base.ldif
+  793  ldapadd -x -W -D "cn=ldapadm,dc=amitthk,dc=com" -f base.ldif
+  794  firewall-cmd --permanent --add-service=ldap
+  795  vi amitthk.ldif
+  796  ldapadd -x -W -D "cn=ldapadm,dc=itzgeek,dc=local" -f raj.ldif
+  797  ldapadd -x -W -D "cn=ldapadm,dc=itzgeek,dc=local" -f amitthk.ldif
+  798  ldapadd -x -W -D "cn=ldapadm,dc=itzgeek,dc=local" -f amitthk.ldif
+  799  ldapadd -x -W -D "cn=ldapadm,dc=amitthk,dc=com" -f amitthk.ldif
+  800  ldappasswd -s password123 -W -D "cn=ldapadm,dc=itzgeek,dc=local" -x "uid=raj,ou=People,dc=itzgeek,dc=local"
+  801  ldappasswd -s p@ssw0rd -W -D "cn=ldapadm,dc=amitthk,dc=com" -x "uid=atksv,ou=People,dc=amitthk,dc=com"
+  802  ldapsearch -x cn=atksv -b dc=amitthk,cd=com
+  803  ldapsearch -x cn=atksv -b dc=amitthk,cd=com
+  804  ldapsearch -x -b "uid=atksv,ou=People,dc=amitthk,cd=com"
+  805  ldapsearch -x -b "uid=atksv,ou=People,dc=amitthk,cd=com"
+  806  ldapsearch -x -b "uid=atksv,ou=People,dc=amitthk,cd=com"
+  807  $ ldapsearch -x -LLL -h host.example.com -D user -w password -b"dc=ad,dc=example,dc=com" -s sub "(objectClass=user)" givenName
+  808  $ ldapsearch -x -LLL -h localhost -D user -w password -b "dc=ad,dc=example,dc=com" -s sub "(objectClass=user)"
+  809  ldapsearch -x -b -h localhost "uid=atksv,ou=People,dc=amitthk,cd=com"
+  810  ldapsearch -x -b -h localhost "uid=atksv,ou=People,dc=amitthk,dc=com"
+  811  ldapsearch -x -b  "uid=atksv,ou=People,dc=amitthk,dc=com"
+  812  ldapsearch -x -b  "dc=amitthk,dc=com"
+  813  clear
+  814  ldapsearch -x -b  "dc=amitthk,dc=com"
+  815  clear
+  816  history >> /tmp/ldap.log
+  817  chown atksv /tmp/ldap.log 
+  818  chmod 777 /tmp/ldap.log 
+  819  exit
+  820  firewall-cmd --zone=public --remove-port=139/tcp --permanent
+  821  firewall-cmd --zone=public --remove-port=138/tcp --permanent
+  822  firewall-cmd --zone=public --remove-port=138/udp --permanent
+  823  firewall-cmd --zone=public --remove-port=137/udp --permanent
+  824  firewall-cmd --list-ports
+  825  systemctl restart firewalld
+  826  firewall-cmd --list-ports
+  827  firewall-cmd --runtime-to-permanent
+  828  firewall-cmd --reload
+  829  sudo ufw allow Samba
+  830   ufw allow Samba
+  831  firewall-cmd --permanent --zone=public --add-service=samba
+  832  chcon -t samba_share_t /srv/samba/anonymous
+  833  chcon -t samba_share_t /srv/samba/secure
+  834  testparm
+  835  rpm -qa | grep samba
+  836  yum remove samba*
+  837  ls
+  838  yum install -y samba*
+  839  exit
+  840  yum groupinstall -y "GNOME Desktop" "Graphical Administration Tools"
+  841  yum history list
+  842  yum history undo 41
+  843  reboot
+  844  mkdir -p /alt/home
+  845  adduser devakthk --home /var/users/devakthk
+  846  mkdir -p /var/users/devakthk
+  847  adduser devakthk --home /var/users/devakthk
+  848  adduser jvcdp --home /var/users/jvcdp
+  849  passwd jvcdp
+  850  exit
+  851  ls /home/serverping/
+  852  rm -rf /home/serverping/.minikube
+  853  du
+  854  df
+  855  rm -rf /var/users/devakthk
+  856  adduser devakthk --home /var/users/devakthk
+  857  cat /etc/passwd
+  858  cat /etc/passwd | grep devakthk
+  859  exit
+  860  passwd devakthk
+  861  exit
+  862  chown devakthk:. /var/users/devakthk
+  863  chown -R devakthk /var/users/devakthk
+  864  mkdir /var/users/devakthk
+  865  chown -R devakthk /var/users/devakthk
+  866  addgroup devakthk
+  867  groupadd devakthk
+  868  usermod -aG devakthk devakthk
+  869  cat /etc/passwd | grep devakthk
+  870  exit
+  871  deluser devakthk
+  872  userdel devakthk
+  873  groupdel devakthk
+  874  group
+  875  groups
+  876  rm -rf /var/users/devakthk
+  877  useradd devakthk --home /var/users/devakthk
+  878  exit
+  879  passwd devakthk
+  880  exit;
+  881  passwd devakthk
+  882  exit
+  883  pwd
+  884  mv ApacheDirectoryStudio /opt/.
+  885  chmod -R 0775 /opt/ApacheDirectoryStudio
+  886  exit
+  887  vi /usr/share/applications/ApacheDirectoryStudio.desktop
+  888  chmod 0755 /usr/share/applications/ApacheDirectoryStudio.desktop
+  889  exit
+  890  yum install -y gcc
+  891  yum groupinstall "Development tools"
+  892  yum install python-devel
+  893  exit
+  894  passwd serverping
+  895  exit
+  896  passwd serverping
+  897  $ ldapsearch -x -LLL -h localhost -D user -w password -b "dc=ad,dc=example,dc=com" -s sub "(objectClass=user)"
+  898  service smbd start
+  899  service smb start
+  900  service nmb start
+  901  ls /srv/samba/secure/
+  902  ll /srv/samba/secure/
+  903  chown -R atksv:atksv /srv/samba/secure/
+  904  chmod -R 0755 /srv/samba/secure
+  905  vi /etc/samba/smb.conf
+  906  service smb restart
+  907  service nmb restart
+  908  exit
+  909  ssh devakthk@192.168.0.149
+  910  ssh devakthk@x240.centos
+  911  ssh devakthk@192.168.0.149
+  912  rsync -avz /opt/ devakthk@192.168.0.149:/opt/
+  913  rsync -avz /opt/ root@192.168.0.149:/opt/
+  914  exit
+  915  ls
+  916  cd
+  917  ls
+  918  cat ans.sh
+  919  ls
+  920  exit
+  921  history
+  922  history > ./config_server_centos_history.log
