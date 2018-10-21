@@ -1,7 +1,13 @@
 
 * inbox
 ** kubernetes demo - must do list
-
+*** copy videos to iphone
+*** make the blue green deploy work, make the autoscaling work
+*** make k8s project work
+**** onboard zuul and eureka, take in the UI proj
+**** reverse proxy take env variable for api endpoint
+**** get the template for full stack deploy (wordpress)
+**** continuous deploy jvcdp maven spring boot to k8s
 *** kubernetes blue green deployment demo with frontend
 
 *** kubernetes autoscaling demo - jmeter for burst load testing
