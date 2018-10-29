@@ -11,12 +11,30 @@ sudo chmod +x kubectl
 sudo mv kubectl /usr/local/bin/.
 #+END_SRC
 
+#+BEGIN_SRC 
+cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+#+END_SRC
+
+~sudo yum -y install kubectl
+** examples
+https://github.com/kubernetes/kubernetes/tree/release-1.10/examples
+
+https://github.com/wardviaene/kubernetes-course
+
 ** pods
 kubectl get nodes
 
 =====
 #pod.yaml
-
+#+BEGIN_SRC 
 apiVersion: v1
 kind: pod
 metadata:
@@ -27,7 +45,7 @@ spec:
       image: amitthk/angdnx
       ports:
         - containerPort: 5000
-
+#+END_SRC 
 =====
 
 
@@ -43,7 +61,7 @@ kubectl get pods --all-namespaces
 ** replication controllers
 
 #replc.yaml
-
+#+BEGIN_SRC 
 apiVersion: v1
 kind: ReplicationControler
 metadata:
@@ -62,6 +80,7 @@ spec:
         image: amitthk/angdnx
         ports:
           - containerPort: 5000
+#+END_SRC 
 ===
 
 kubectl create -f replc.yaml
@@ -89,7 +108,7 @@ kubectl describe svc hello-svc
 
 ====
 #vi hello-svc.yaml
-
+#+BEGIN_SRC 
 apiVersion: v1
 kind: Service
 metadata:
@@ -103,6 +122,7 @@ spec:
     protocol: TCP
   selector:
     app: hello-world
+#+END_SRC 
 ============
 
 ServiceTypes: 
@@ -121,7 +141,7 @@ kubectl rolling-update -f updated-rc.yml
 
 =======
 #vi depl.yml
-
+#+BEGIN_SRC 
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -138,6 +158,7 @@ spec:
         image: amtithk/angdnx
         ports:
         - containerPort: 5000
+#+END_SRC 
 ==========
 
 kubectl create -f depl.yml
@@ -145,6 +166,7 @@ kubectl describe deploy hello-deployment
 
 ====update===
 #vi depl.yml
+#+BEGIN_SRC 
 spec:
   replicas: 10
   strategy:
@@ -154,14 +176,16 @@ spec:
       maxSurge: 1
 ..... 
       image: amitthk/angdnx:0.0.2
+#+END_SRC
 ========
 *** rollout updated deployment
-
+#+BEGIN_SRC 
 kubectl apply -f depl.yml --record
 kubectl rollout status deployment hello-deployment
 kubectl rollout history deployment hello-deployment
 *** rollback to previous replca set
 kubectl rollout undo deployment hello-deploy --to-revision=1
+#+END_SRC
 
 =========
 
@@ -262,12 +286,12 @@ docker images
 docker build -t approdorix/appname .
 
 *** Stop, remove containers/images
-
+#+BEGIN_SRC 
 docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
 docker rmi $(docker images -q) 
 
- 
+#+END_SRC 
 
 *** Troubleshooting docker
 You want to run screen but no tty in docker:
@@ -291,3 +315,15 @@ EOM
    
 ~sudo yum install google-cloud-sdk
 
+** gcloud commands
+
+#+BEGIN_SRC 
+gcloud config set project lateral-ceiling-220011
+gcloud config set compute/zone asia-southeast1-a
+gcloud config set compute/region asia-southeast1
+gcloud container clusters get-credentials  pyfln-k8s-cluster-dev
+
+gcloud container clusters get-credentials pyfln-k8s-cluster-dev --zone asia-southeast1-a --project lateral-ceiling-220011 \
+ && kubectl port-forward $(kubectl get pod --selector="app=jvcdp-ui-k8s" --output jsonpath='{.items[0].metadata.name}') 8080:8080
+
+#+END_SRC
