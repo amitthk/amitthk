@@ -326,4 +326,15 @@ gcloud container clusters get-credentials  pyfln-k8s-cluster-dev
 gcloud container clusters get-credentials pyfln-k8s-cluster-dev --zone asia-southeast1-a --project lateral-ceiling-220011 \
  && kubectl port-forward $(kubectl get pod --selector="app=jvcdp-ui-k8s" --output jsonpath='{.items[0].metadata.name}') 8080:8080
 
+
+kubectl create -f my-deployment.yml
+
+kubectl cluster-info
+
+kubectl expose deployment jvcdp-ui-k8s-dc --type LoadBalancer --port 80 --target-port 80
+
+#get the "External-IP" of the service here:
+kubectl get svc jvcdp-ui-k8s-dc
+
 #+END_SRC
+   
