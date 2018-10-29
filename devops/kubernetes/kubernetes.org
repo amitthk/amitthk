@@ -4,6 +4,13 @@ minikube start --vm-driver="hyperv" --hyperv-virtual-switch="Default Switch"
 kubectl get nodes
 
 minikube dashboard
+** kubectl
+#+BEGIN_SRC 
+sudo wget https://storage.googleapis.com/kubernetes-release/release/v1.0.1/bin/linux/amd64/kubectl
+sudo chmod +x kubectl
+sudo mv kubectl /usr/local/bin/.
+#+END_SRC
+
 ** pods
 kubectl get nodes
 
@@ -38,7 +45,7 @@ kubectl get pods --all-namespaces
 #replc.yaml
 
 apiVersion: v1
-kind: ReplicationController
+kind: ReplicationControler
 metadata:
   name: hello-rc
 spec:
@@ -215,7 +222,7 @@ containersready
 ** monitoring
 heapster, influxdb, grafana
 
-** run docker locally using docker
+** run k8s locally using docker
 
 #+BEGIN_SRC 
 
@@ -265,3 +272,22 @@ docker rmi $(docker images -q)
 *** Troubleshooting docker
 You want to run screen but no tty in docker:
 exec >/dev/tty 2>/dev/tty </dev/tty
+
+** install gcloud sdk
+
+#+BEGIN_SRC 
+sudo tee -a /etc/yum.repos.d/google-cloud-sdk.repo << EOM
+[google-cloud-sdk]
+name=Google Cloud SDK
+baseurl=https://packages.cloud.google.com/yum/repos/cloud-sdk-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
+       https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOM
+
+#+END_SRC
+   
+~sudo yum install google-cloud-sdk
+

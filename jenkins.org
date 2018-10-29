@@ -286,6 +286,32 @@ def getCurrentBranch () {
 }
 #+END_SRC
 
+*** jenkinsfile clone another repo into directory 
+#+BEGIN_SRC 
+dir('./models){
+            checkout([$class: 'GitSCM', branches: [[name: '*/model-branch]]
+            doGenerateSubmoduleConfigurations: false,
+            extensions: [],
+            gitTool: 'SYSTEM',
+            submoduleCfg: [],
+            userRemoteConfigs: [[credentialsId: 'bitbucketcredid'],
+            url: 'https:/fdsafasdf/.git]])
+            sh "touch __init__.py"
+            )
+}
+
+#+END_SRC
+
+*** jenkinsfile use username password from jenkins credentials
+#+BEGIN_SRC 
+
+withCredentials([usernamePassword(credentialsId: "${JENKINS_OK_CREDENTIALS_ID}", usernameVariable: 'OC_USERNAME', passwordVariable: 'OC_PASSWD')]){
+sh '''
+oc login $OC_URL -u $OC_USERNAME -p $OC_PASSWD
+'''
+}
+
+#+END_SRC
 ** credentials
 
 #+BEGIN_SRC 
