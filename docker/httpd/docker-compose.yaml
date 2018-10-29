@@ -1,0 +1,13 @@
+version: '2'
+services:
+  alpine_httpd:
+    build: .
+    container_name: alpine_httpd
+    environment:
+      LDAP_ORGANISATION: "Example Inc."
+    tty: true
+    stdin_open: true
+    volumes:
+      - D:/Amit/projects/amitthk/bitbucket/pysparktest/docker/all_logs:/var/log/apache2
+    ports:
+      - "8085:80"
