@@ -1,8 +1,53 @@
 
 * inbox
-** kubernetes demo - must do list
 
-*** Bring the auth and fe, add the metrics, add a prometheus
+** This weekend must do list
+
+*** complete the PMI ACP training and file the pdus
+- WAtch the videos and understand
+- complete the course
+- submit ccrs PDUs
+
+*** Read though and notes Kubernetes and Openshift
+
+*** Read through and practice code Spark hadoop machine learning
+
+*** Complete the Cloudera Hadoop training, practice - ready for CDH certification
+
+*** Read through and practice linux security
+
+*** Complete one project to end - ID MGMT
+- Get latest tag, tag increment logic
+  - read the latest tag
+  - If the current commit is equal to the commit of the Tag - its redeploy
+  - If tag required
+    - if sem ver increment the bugfix version
+    - if non sem ver - append short hash and check if tag duplicated
+- Pull and deploy from the latest tag on the master branch
+- Clean up the operations for User add, group add and user/group operations add them to flask
+- Seggregate the vaultoperations.py from code, add them to flask
+- Add the operations for - vault operations - read policy, add policy, upload keytab
+- Add operations for - generate keytab
+- Grab the serverstatus API and upload it
+
+*** Complete the blue green deployment
+
+*** Add the completed pipeline to UEB project working
+
+*** Complet the Ansible deploy project
+
+*** Complete the Maven project
+
+*** Complete the blog for CI CD delivery framework
+
+*** MOnitoring with ELK Stack
+
+*** Pay all the bills - Internet, Electricity, Pay the Rental, Credit Card Bills
+
+*** Reference materials update
+
+*** Revise all reference materials, re - listen the art of deliberate creation
+
 
 *** copy videos to iphone
 *** make the blue green deploy work, make the autoscaling work
@@ -30,38 +75,28 @@ High availability is ensured as this is a cluster.
 **** etcd - distributed key value store with enterprise level high availability
 Reliability of the storage was questionable. So we have our own high availability
 key value store cluster
-** get PMI ACP Certification
-** get AWS Certification
-** Get OCA Certification
-** import all captures
-*** rememberthemilk
-*** diaries
-*** google drive
-*** google keep
-*** simplenote
-** Type down all the playbooks
-** Type down all the Pipelines
-** Read the Technical Arch. Books
-** Read through and practice Linux LFCS
-
-** next action
-*** complete the PMI ACP training and file the pdus
 *** complete the PMI PDUs and renew PMI validation and membership
-*** apply leave for November
-*** complete the kubernetes all practice
-*** onboard the kafka, spark, presto etc to k8s
-*** setup the k8s cluster on google cloud services
-*** setup the spring boot k8s Continuous delivery pipelines and blog it
-*** pipelines for Ansible vms, provision using terraform and run playbooks
-*** demo pipelines for maven, npm, flask, dotnet core
-*** complete the DBS essential trainings
-*** deep dive bigdata hadoop , hdfs, kafka, mapreduce, yarn etc.
-*** deep dive RHEL LPIC fundamentals
-**** process management and monitoring
-**** log processing grep, awk and shell scripting
-*** deep dive ldap, kerberos , linux security
 
-    
+*** apply leave for November
+*** technical 
+
+**** complete the kubernetes all practice
+**** onboard the kafka, spark, presto etc to k8s
+**** setup the k8s cluster on google cloud services
+**** setup the spring boot k8s Continuous delivery pipelines and blog it
+**** pipelines for Ansible vms, provision using terraform and run playbooks
+**** demo pipelines for maven, npm, flask, dotnet core
+**** complete the DBS essential trainings
+**** deep dive bigdata hadoop , hdfs, kafka, mapreduce, yarn etc.
+**** deep dive RHEL LPIC fundamentals
+***** process management and monitoring
+***** log processing grep, awk and shell scripting
+**** deep dive ldap, kerberos , linux security
+**** kubernetes demo - must do list
+
+***** Bring the auth and fe, add the metrics, add a prometheus
+
+      
 * linux notes
 ** Linux clear history and exit
 
@@ -420,6 +455,19 @@ Hardware level... healing on this level truly means is redeployment of services 
 ** PMI-ACP Certification
 ** Get OCP Certification
 ** Get GMAT Score
+** get AWS Certification
+** Get OCA Certification
+** import all captures
+*** rememberthemilk
+*** diaries
+*** google drive
+*** google keep
+*** simplenote
+** Type down all the playbooks
+** Type down all the Pipelines
+** Read the Technical Arch. Books
+** Read through and practice Linux LFCS
+
 * references
 ** wunderlist
 ** google drive
