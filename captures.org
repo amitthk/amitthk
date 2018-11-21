@@ -1,6 +1,43 @@
 
 * inbox
 
+** openshift demo
+
+*** history of applications (brownbag)
+
+https://blog.takipi.com/pivotal-cloud-foundry-vs-kubernetes-choosing-the-right-cloud-native-application-deployment-platform/
+
+*** deployment topologies
+
+- Terraform for cloud vms/vpcs
+- Ansible/chef/puppet on vms (ci cd diagram with deployment)
+- Completely AWS stack or Azure stack
+- PCF/Overops
+- Container on Docker Swarm
+- K8s/Openshift container orchestrator
+
+https://blog.takipi.com/deployment-management-tools-chef-vs-puppet-vs-ansible-vs-saltstack-vs-fabric/
+
+
+*** lets get down to agenda
+
+**** pods ...
+show frontend pod
+
+**** services ...
+show services
+
+**** k8s goodies
+show tags and blue green deployment
+
+** ansible poc
+
+hi Nikl,
+
+Below is the POC we discussed earlier.  I have implemented the POC with interactive ID. I understood that thereis already as SSH key exchange. Which makes the process much easier. We only need to get a Jenkins slave in environment.
+
+The next POC is deployment of container on SIT Virtal machine. I do not require previledged access for deployment - as long as user is added to docker group and has access to docker sock.
+
 ** This weekend must do list
 
 *** complete the PMI ACP training and file the pdus

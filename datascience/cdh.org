@@ -1,0 +1,91 @@
+* cloudera CDH
+** download the virtualbox imate
+#+BEGIN_SRC 
+wget https://downloads.cloudera.com/demo_vm/virtualbox/cloudera-quickstart-vm-5.13.0-0-virtualbox.zip
+
+#+END_SRC
+** download and start docker image
+
+#+BEGIN_SRC 
+docker pull cloudera/quickstart:latest
+docker run --hostname=quickstart.cloudera --privileged=true -t -i -d -p 8888:8888 -p 8099:80 -p 7180:7180 cloudera/quickstart:latest /usr/bin/docker-quickstart
+docker exec -i -t -d  <containerid> /home/cloudera/cloudera-manager --express --force
+
+#to start cloudera manager
+/home/cloudera/cloudera-manager --express --force
+#+END_SRC
+** upgrading cdh
+
+Install the parcels
+
+Remote parcels repo url: https://archive.cloudera.com/cdh5/latest
+
+Here are the packages if u want to download latest cdh:
+https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/
+
+For rhel6
+https://archive.cloudera.com/cm5/redhat/6/x86_64/cm/
+
+#+BEGIN_SRC 
+service cloudera-scm-server stop
+service cloudera-scm-agent stop
+
+ls /etc/yum.repos.d/
+cat /etc/yum.repos.d/cloudera-manager.repo
+
+#update the cloudera manager version and location of archive from web
+vi /etc/yum.repos.d/cloudera-manager.repo
+
+yum -y upgrade cloudera-manager-server cloudera-manager-servers cloudera-manager-agent
+
+service cloudera-scm-server start
+service cloudera-scm-agent start
+#+END_SRC
+
+- Go to cloudera manager ui, upgrade CDH, parcels will be downloaded 
+- Go to CDM about - see the latest
+
+** Spark 2 runs on JDK 8 , must upgrade jdk8, CDH 5.3 onw supports jdk 8
+
+Remember this goes to director:
+
+Get the link from https://archive.cloudera.com/director/redhat/7/x86_64/director/
+
+For centos 6
+https://archive.cloudera.com/director/redhat/6/x86_64/director/
+
+#+BEGIN_SRC 
+service cloudera-scm-server stop
+service cloudera-scm-agent stop
+
+rpm -ivh https://archive.cloudera.com/director/redhat/6/x86_64/director/2.8.0/RPMS/x86_64/oracle-j2sdk1.8-1.8.0+update121-1.x86_64.rpm
+
+vi /etc/default/cloudera-scm-server
+# add at the end of file:   export JAVA_HOME=/usr/java/latest
+
+# find the latest java in /usr/java
+ls /usr/java
+
+#add the symbolic link to the latest java
+ln -s /usr/java/latest  jdk1.8.0_121-cloudera
+
+# find and remove old jdk
+yum list oracle*
+
+yum remove -y oracle-j2sdk1.7.x86_64
+
+#set the java in bash shell
+vi /etc/profile.d/java.sh
+# add at the end of file:   export JAVA_HOME=/usr/java/latest
+
+service cloudera-scm-server stop
+service cloudera-scm-agent stop
+
+
+/home/cloudera/cloudera-manager --express --force
+#+END_SRC
+
+You need to jdk in all the nodes so go from the web console fo cdm
+
+Go to web UI 
+hosts > configuration > look for java home
