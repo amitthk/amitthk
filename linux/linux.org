@@ -1795,6 +1795,38 @@ sudo vi /etc/httpd/conf/httpd.conf
 #+END_SRC
  ====
 
+*** Listen on another port
+
+vi /etc/conf/httpd.conf
+
+add
+
+Listen 80
+Listen 8085
+Listen 8086
+
+create a default virtualhost
+
+vi /etc/conf.d/default-site.conf
+
+<VirtualHost *:8085>
+</VirtualHost>
+
+
+**** Permission issue due to SeLinux on centos
+
+I happened to run into this problem because of missing SELinux permissions. By default, SELinux only allowed apache/httpd to bind to the following ports:
+
+80, 81, 443, 488, 8008, 8009, 8443, 9000
+So binding to my httpd.conf-configured Listen 88 HTTP port and config.d/ssl.conf-configured  Listen 8445 TLS/SSL port would fail with that default SELinux configuration.
+
+To fix my problem, I had to add ports 88 and 8445 to my system's SELinux configuration:
+
+Install semanage tools: sudo yum -y install policycoreutils-python
+Allow port 8085 for httpd: sudo semanage port -a -t http_port_t -p tcp 8085
+Allow port 8086 for httpd: sudo semanage port -a -t http_port_t -p tcp 8086
+
+
 *** Virtualhosts
  #+BEGIN_SRC 
 
@@ -1878,6 +1910,28 @@ Multiple dir
   #+END_SRC
 
 *** HTTPS or SSL over TLS
+yum install mod_ssl
+systemctl restart httpd
+
+**** simple
+
+#+BEGIN_SRC 
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout pys3viewer.key -out pys3viewer.crt
+
+#add this to your virtualhost
+
+DocumentRoot /var/www/website
+ServerName www.yourdomain.com
+SSLEngine on
+SSLCertificateFile /etc/ssl/crt/mysitename.crt
+SSLCertificateKeyFile /etc/ssl/crt/mysitename.key
+
+
+
+#+END_SRC
+
+**** advanced
+
  
 #+BEGIN_SRC 
  <VirtualHost *:443>
