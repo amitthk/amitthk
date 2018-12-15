@@ -89,3 +89,46 @@ You need to jdk in all the nodes so go from the web console fo cdm
 
 Go to web UI 
 hosts > configuration > look for java home
+
+
+* Cloudera
+
+** Analytics
+1. Descriptive
+   1. What happened ? - PAST
+   2. Descriptive Statistics
+   3. Data Clustering
+2. Diagnostic
+   1. Why did it happen? / Why is it happening?
+   2. Sensitivity Analysis
+3. Predictive
+   1. What will happen?
+   2. Linear and Logistic Regression
+4. Prescriptive
+   1. What should I do? What should happen?
+   2. Simulation
+   3. Non Linear Programming
+** cloudera manager arch
+*** Cloudera manager
+**** Mgmt Service
+**** Agent
+**** JDK
+**** Cloudera Manager Database
+**** Repository - Packages & Parcels
+*** Cluster Host(s)
+**** Agent
+**** JDK
+**** CDH
+** Cloudera installation phases and paths
+1. Install JDK
+2. Setup Database
+3. Install Cloudera Manager Server
+4. Install Cloudera Manager Agents
+5. Install CDH nd Managed Service softwares
+6. Create, Configure and Start CDH and Managed Services
+** create the tf template spin up cluster
+** create the ansible playbook for base
+*** disable selinux
+*** turn off iptables
+*** resize volume
+*** change swappiness
