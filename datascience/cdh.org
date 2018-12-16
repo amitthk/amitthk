@@ -89,3 +89,166 @@ You need to jdk in all the nodes so go from the web console fo cdm
 
 Go to web UI 
 hosts > configuration > look for java home
+
+
+* Cloudera
+  
+** Analytics
+1. Descriptive
+   1. What happened ? - PAST
+   2. Descriptive Statistics
+   3. Data Clustering
+2. Diagnostic
+   1. Why did it happen? / Why is it happening?
+   2. Sensitivity Analysis
+3. Predictive
+   1. What will happen?
+   2. Linear and Logistic Regression
+4. Prescriptive
+   1. What should I do? What should happen?
+   2. Simulation
+   3. Non Linear Programming
+** cloudera manager arch
+*** Cloudera manager
+**** Mgmt Service
+**** Agent
+**** JDK
+**** Cloudera Manager Database
+**** Repository - Packages & Parcels
+*** Cluster Host(s)
+**** Agent
+**** JDK
+**** CDH
+** Cloudera installation phases and paths
+*** Pre requisites
+1. disable SELinux
+
+#+BEGIN_SRC
+cat /etc/selinux/config
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
+
+cat /etc/sysconfig/selinux
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/sysconfig/selinux
+
+#+END_SRC
+
+
+2. TurnOff iptables
+
+#+BEGIN_SRC 
+service iptables stop
+chkconfig iptables off
+#+END_SRC
+
+3. Change swappiness
+
+#+BEGIN_SRC 
+
+cat /sys/kernel/mm/transparent_hugepage/enabled
+
+
+vi /etc/systemd/system/disable-thp.service
+
+#+END_SRC
+
+#+BEGIN_SRC 
+#/etc/systemd/system/disable-thp.service
+[Unit]
+Description=Disable Transparent Huge Pages (THP)
+
+[Service]
+Type=simple
+ExecStart=/bin/sh -c "echo 'never' > /sys/kernel/mm/transparent_hugepage/enabled && echo 'never' > /sys/kernel/mm/transparent_hugepage/defrag"
+
+[Install]
+WantedBy=multi-user.target
+
+#+END_SRC
+
+#+BEGIN_SRC 
+sudo systemctl daemon-reload
+sudo systemctl start disable-thp
+sudo systemctl enable disable-thp
+
+#+END_SRC
+
+
+#+BEGIN_SRC 
+cat /proc/sys/vm/swappiness
+
+echo "vm.swappiness = 1" >> /etc/sysctl.conf
+cat /etc/sysctl.conf
+
+#+END_SRC
+
+4. Resize volume
+
+#+BEGIN_SRC 
+df -u
+#list the block devices
+lsblk
+
+#find out which partition need to grow on which disk
+
+#then grow the partition number to resized value
+sudo growpart /dev/xvdf 1
+
+#extend the filesystem to new volume capacity
+
+sudo resize2fs /dev/xvda1
+
+#if it is xfs
+sudo yum install xfsprogs
+sudo xfs_growfs -d /mnt
+
+sudo file -s /dev/xvd*
+
+#+END_SRC
+
+5. Install ntp
+
+#+BEGIN_SRC 
+sudo yum -y update
+sudo yum -y instal ntp
+chkconfig ntpd on
+
+#+END_SRC
+
+#+BEGIN_SRC 
+yum install -y httpd
+
+chkconfig httpd on
+
+# archive ===>http://archive.cloudera.com/cm5/repo-as-tarball/5.14.1/
+
+wget  http://archive.cloudera.com/cm5/repo-as-tarball/5.15.2/cm5.15.2-centos7.tar.gz
+
+sudo tar zxvf cm5.15.2-centos7.tar.gz  -C /var/www/html
+
+# get the parcels
+mkdir -p /var/www/html/cdh5.14.0
+cd /var/www/html/cdh5.14.0
+wget http://archive.cloudera.com/cdh5/parcels/5.15.1/CDH-5.15.1-1.cdh5.15.1.p0.4-el7.parcel
+wget http://archive.cloudera.com/cdh5/parcels/5.15.1/manifest.json
+
+#+END_SRC
+
+*** steps/phases
+1. Install JDK
+
+2. Setup Database
+
+3. Install Cloudera Manager Server
+
+4. Install Cloudera Manager Agents
+
+5. Install CDH nd Managed Service softwares
+
+6. Create, Configure and Start CDH and Managed Services
+
+** create the tf template spin up cluster
+** create the ansible playbook for base
+*** disable selinux
+*** turn off iptables
+*** resize volume
+*** change swappiness

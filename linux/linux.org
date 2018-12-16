@@ -1017,6 +1017,28 @@ nc -l 8990
 nc -L -p 8990
 #+END_SRC
 
+** resize volume grow partition
+#+BEGIN_SRC 
+df -u
+#list the block devices
+lsblk
+
+#find out which partition need to grow on which disk
+
+#then grow the partition number to resized value
+sudo growpart /dev/xvdf 1
+
+#extend the filesystem to new volume capacity
+
+sudo resize2fs /dev/xvda1
+
+#if it is xfs
+sudo yum install xfsprogs
+sudo xfs_growfs -d /mnt
+
+sudo file -s /dev/xvd*
+
+#+END_SRC
 
 ** elasticsearch logstash
 
