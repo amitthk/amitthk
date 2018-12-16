@@ -147,6 +147,7 @@ Worth it? Not sure. Better use specialized plugins. Polling is expensive.
 #+BEGIN_SRC 
 sudo sudo usermod -aG docker $USER
 sudo usermod -aG docker jenkins
+sudo service jenkins restart
 
 #+END_SRC
 **** Update the docker.service **
@@ -288,18 +289,34 @@ def getCurrentBranch () {
 
 *** jenkinsfile clone another repo into directory 
 #+BEGIN_SRC 
-dir('./models){
-            checkout([$class: 'GitSCM', branches: [[name: '*/model-branch]]
+dir('./app'){
+            checkout([$class: 'GitSCM', branches: [[name: '*/inventory]]
             doGenerateSubmoduleConfigurations: false,
             extensions: [],
             gitTool: 'SYSTEM',
             submoduleCfg: [],
             userRemoteConfigs: [[credentialsId: 'bitbucketcredid'],
             url: 'https:/fdsafasdf/.git]])
-            sh "touch __init__.py"
-            )
+            sh "echo Done"
 }
 
+#+END_SRC
+
+*** command gcloud not found
+
+#+BEGIN_SRC
+sudo tee -a /etc/yum.repos.d/google-cloud-sdk.repo << EOM
+[google-cloud-sdk]
+name=Google Cloud SDK
+baseurl=https://packages.cloud.google.com/yum/repos/cloud-sdk-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
+       https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOM
+
+yum install google-cloud-sdk
 #+END_SRC
 
 *** jenkinsfile use username password from jenkins credentials
