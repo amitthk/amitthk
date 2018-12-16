@@ -1,0 +1,785 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>kubegencdp</title>
+<!-- 2018-12-17 Mon 05:17 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">kubegencdp</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. kubegencdp</a>
+<ul>
+<li><a href="#sec-1-1">1.1. Introduction</a></li>
+<li><a href="#sec-1-2">1.2. Pre requisites</a></li>
+<li><a href="#sec-1-3">1.3. Structure of the code</a></li>
+<li><a href="#sec-1-4">1.4. Setting up the project</a>
+<ul>
+<li><a href="#sec-1-4-1">1.4.1. Updating your project specific variables</a></li>
+<li><a href="#sec-1-4-2">1.4.2. Adding credentials to Jenkins</a></li>
+<li><a href="#sec-1-4-3">1.4.3. Creating the pipeline</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-5">1.5. Understanding the code</a>
+<ul>
+<li><a href="#sec-1-5-1">1.5.1. Dockerfile</a></li>
+<li><a href="#sec-1-5-2">1.5.2. Kubernetes - Deployment, Service, Ingress</a></li>
+<li><a href="#sec-1-5-3">1.5.3. Jenkinsfile</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-6">1.6. Conclusion</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> kubegencdp</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Introduction</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+This article is a first in the series of 3 articles. We will set up continuous delivery pipelines for (Docker) containerized project to Kubernetes (hosted in Google Cloud Platform in our case here).
+</p>
+
+<p>
+In the first (current) article we will go through containerizing a simple html project using Docker. Buiding it and deploying it to kubernetes.
+</p>
+
+<p>
+In the subsequent articles we will continue the discussion to:
+</p>
+
+<ul class="org-ul">
+<li>Setup Continuous Deployment Pipelines of Java Maven Docker application to Kubernetes
+</li>
+<li>Setup Continuous Deployment Pipelines of Python (flask) Docker application to Kubernetes
+</li>
+<li>Setup Continuous Deployment Pipelines of Nodejs (Angular5) Docker application to Kubernetes
+</li>
+</ul>
+
+
+<p>
+We target to create a CI CD pipeline with everything as code:
+</p>
+
+<ol class="org-ol">
+<li>Pipeline as code : We use Jenkinsfile to create declarative pipelines
+</li>
+<li>Infrastructure as code: We containerize the application using Docker
+</li>
+<li>Deployment as code: We use kubernetes as our container orchestrator. Our deployments are controlled via code.
+</li>
+</ol>
+
+<p>
+Here is how our pipeline would look like once we are done:
+</p>
+
+
+<p>
+Here is how our cluster would look like once we're done deploying the apps:
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Pre requisites</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>As a pre requisite you should be familiar with fundamentals of:
+<ul class="org-ul">
+<li>Jenkins (we are going to run this app on Jenkins)
+</li>
+<li>Docker must be installed on the jenkins server
+</li>
+<li>Kubernetes cluster (we will deploy the apps on kubernetes so basic familiarity with kubernetes is essential. Moreover, we would talk through some of the basics of kubernetes so you can walk along)
+</li>
+<li>Google Cloud Platform Account (This is optional but good to have. Google Cloud Platform offers 12-month free trial with $300 credit to use with any GCP services. In this article we are using Google Kubernetes engine)
+</li>
+<li>google-cloud-sdk is required to operate on Google Cloud Platform Kubernetes Engine.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Structure of the code</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Let us take a look how the code has been structured in our sample.
+</p>
+
+<ul class="org-ul">
+<li>src : this directory contain the source code of the application we are going to build and deploy
+<ul class="org-ul">
+<li>Dockerfile: this file contains the containerization code for our app
+</li>
+<li>files: this directory contains the files which might be required by our Dockerfile to build the image. This may contain local yum repo configuration, pip files, npm configurations etc.
+</li>
+</ul>
+</li>
+<li>env<sub>vars</sub>: this directory contains the property files which can be change to suit your project and your docker/google cloud/kubernetes/openshift account
+</li>
+<li>Jenkinsfile: this file contains the CI CD pipeline code which will be executed by Jenkins
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Setting up the project</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+To set up the project to your jenkins, just fork the project and follow the steps below:
+</p>
+</div>
+
+<div id="outline-container-sec-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1"><span class="section-number-4">1.4.1</span> Updating your project specific variables</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<p>
+The project is parameterized with parameters defined in env<sub>vars</sub>/project.properties file. 
+Let us take a look at some of the parameters here:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">Parameter</td>
+<td class="left">Function</td>
+<td class="left">Example</td>
+</tr>
+
+<tr>
+<td class="left">APP<sub>NAME</sub></td>
+<td class="left">The application name - this will be used to create image name in jenkins file</td>
+<td class="left">kubejencdp</td>
+</tr>
+
+<tr>
+<td class="left">PROJECT<sub>NAME</sub></td>
+<td class="left">name of project</td>
+<td class="left">amitthk</td>
+</tr>
+
+<tr>
+<td class="left">DOCKER<sub>REGISTRY</sub><sub>URL</sub></td>
+<td class="left">URL of the docker registry. e.g. we are using docker hub here</td>
+<td class="left">registry.hub.docker.com</td>
+</tr>
+
+<tr>
+<td class="left">RELEASE<sub>TAG</sub></td>
+<td class="left">Release tag for docker image. This can be taken from release branch name also</td>
+<td class="left">1.0.0</td>
+</tr>
+
+<tr>
+<td class="left">DOCKER<sub>PROJECT</sub><sub>NAMESPACE</sub></td>
+<td class="left">Docker project namespace.</td>
+<td class="left">e.g. my accound on docker hub is amitthk which is also my default namespace</td>
+</tr>
+
+<tr>
+<td class="left">JENKINS<sub>DOCKER</sub><sub>CREDENTIALS</sub><sub>ID</sub></td>
+<td class="left">This is the username password credential which will be added to Jenkins for login to docker registry.(If you are using openshift, you may want to login with $(oc whoami -t) for token</td>
+<td class="left">JENKINS<sub>DOCKER</sub><sub>CREDENTIALS</sub><sub>ID</sub></td>
+</tr>
+
+<tr>
+<td class="left">JENKINS<sub>GCLOUD</sub><sub>CRED</sub><sub>ID</sub></td>
+<td class="left">This is the google cloud platform service account key which is added to Jenkins as a file credential. For more information please refer here <a href="https://cloud.google.com/iam/docs/creating-managing-service-account-keys">https://cloud.google.com/iam/docs/creating-managing-service-account-keys</a></td>
+<td class="left">JENKINS<sub>GCLOUD</sub><sub>CRED</sub><sub>ID</sub></td>
+</tr>
+
+<tr>
+<td class="left">JENKINS<sub>GCLOUD</sub><sub>CRED</sub><sub>LOCATION</sub></td>
+<td class="left">unused.  (If you prefer to not add file credential to jenkins and to store the service account key at jenkins and directly access from slave then use this)</td>
+<td class="left">/var/lib/jenkins/lateral-ceiling-220011-5c9f0bd7782f.json</td>
+</tr>
+
+<tr>
+<td class="left">GCLOUD<sub>PROJECT</sub><sub>ID</sub></td>
+<td class="left">This is the google cloud project id</td>
+<td class="left">lateral-ceiling-220011</td>
+</tr>
+
+<tr>
+<td class="left">GCLOUD<sub>K8S</sub><sub>CLUSTER</sub><sub>NAME</sub></td>
+<td class="left">This is our cluster name on google cloud</td>
+<td class="left">pyfln-k8s-cluster-dev</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2"><span class="section-number-4">1.4.2</span> Adding credentials to Jenkins</h4>
+<div class="outline-text-4" id="text-1-4-2">
+<p>
+We need to add two credentials to Jenkins for the pipeline to use. The usage may vary based on your setup.
+</p>
+
+<p>
+JENKINS<sub>DOCKER</sub><sub>CREDENTIALS</sub><sub>ID</sub> is a username password credential which look like this (Please notice the ID of the credential, I am using the same Id JENKINS<sub>DOCKER</sub><sub>CREDENTIALS</sub><sub>ID</sub> for simplicity):
+</p>
+
+<p>
+JENKINS<sub>GCLOUD</sub><sub>CRED</sub><sub>ID</sub> is a secret file credential which contains the GCP Key it looks like below:
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1-4-3" class="outline-4">
+<h4 id="sec-1-4-3"><span class="section-number-4">1.4.3</span> Creating the pipeline</h4>
+<div class="outline-text-4" id="text-1-4-3">
+<p>
+Now we create a multibranch pipeline (You may decide to go with freestyle/pipeline as per your convenience):
+</p>
+
+
+<p>
+We add the repo url according to your project:
+</p>
+
+
+<p>
+Once we save, the build should start and we should have the base CICD running as shown in the screen above. Now let us look at the code.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> Understanding the code</h3>
+<div class="outline-text-3" id="text-1-5">
+</div><div id="outline-container-sec-1-5-1" class="outline-4">
+<h4 id="sec-1-5-1"><span class="section-number-4">1.5.1</span> Dockerfile</h4>
+<div class="outline-text-4" id="text-1-5-1">
+<p>
+This is the first project in series, and we wanted to keep a simple Dockerfile. This dockerfile deploys a basic bootstrap html page into a container. The container uses Apache httpd server to host the static html content.
+</p>
+
+<p>
+Below is the code it is pretty straightforward:
+</p>
+<ul class="org-ul">
+<li>We set up some environment variables customizable through some of the arguments passed during build.
+</li>
+<li>Then we copy some of the reqired files for our installation/setup from /app/files directory.
+</li>
+<li>We install httpd.
+</li>
+<li>Then we copy the configuration files for httpd to correct location and set permissions
+</li>
+<li>Then we copy our app (the simple html web page from /app/dist directory to our $APP<sub>BASE</sub><sub>DIR</sub>)
+</li>
+<li>We setup the entrypoint and start command
+</li>
+</ul>
+
+<pre class="example">
+FROM centos/nodejs-8-centos7
+
+ARG APP_NAME=kubejencdp-ui
+ARG APP_BASE_DIR=/var/www/html
+ARG APP_BUILD_DIR=/opt/app-root/src/
+ARG API_ENDPOINT=http://127.0.0.1:8000
+ENV APP_BASE_DIR $APP_BASE_DIR
+ENV APP_NAME ${APP_NAME}
+ENV API_ENDPOINT ${API_ENDPOINT}
+ENV LD_LIBRARY_PATH /opt/rh/rh-nodejs8/root/usr/lib64
+ENV PATH /opt/rh/rh-nodejs8/root/usr/bin:/opt/app-root/src/node_modules/.bin/:/opt/app-root/src/.npm-global/bin/:/opt/app-root/src/bin:/opt/app-root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ENV NPM_CONFIG_PREFIX /opt/app-root/src/.npm-global
+
+EXPOSE 8080
+
+USER root
+
+COPY files ${APP_BASE_DIR}/files
+
+
+#RUN cp ${APP_BASE_DIR}/files/pyfln.rep /etc/yum.repos.d/ \
+#    &amp;&amp; update-ca-trust force-enable
+
+RUN yum install -y httpd httpd-tools
+
+RUN cp ${APP_BASE_DIR}/files/npm/npmrc ~/.npmrc \
+    &amp;&amp; cp ${APP_BASE_DIR}/files/httpd/httpd.conf /etc/httpd/conf/ \
+    &amp;&amp; cp ${APP_BASE_DIR}/files/httpd/default-site.conf /etc/httpd/conf.d/default-site.conf \
+    &amp;&amp; chown apache:apache /etc/httpd/conf/httpd.conf \
+    &amp;&amp; chmod 755 /etc/httpd/conf/httpd.conf \
+    &amp;&amp; chown -R apache:apache /etc/httpd/conf.d \
+    &amp;&amp; chmod -R 755 /etc/httpd/conf.d \
+    &amp;&amp; touch /etc/httpd/logs/error_log /etc/httpd/logs/access_log \
+    &amp;&amp; chmod -R 766 /etc/httpd/logs \
+    &amp;&amp; chown -R apache:apache /etc/httpd/logs \
+    &amp;&amp; chown -R apache:apache /var/log/httpd \
+    &amp;&amp; chmod -R g+rwX /var/log/httpd \
+    &amp;&amp; chown -R apache:apache /var/run/httpd \
+    &amp;&amp; chmod -R g+rwX /var/log/httpd
+
+
+COPY dist/. ${APP_BASE_DIR}
+
+RUN cd $APP_BASE_DIR/ \
+    &amp;&amp; cp ${APP_BASE_DIR}/files/entrypoint.sh ${APP_BASE_DIR}/ \
+    &amp;&amp; chmod -R 0775 $APP_BASE_DIR/ \
+    &amp;&amp; chown -R apache:apache $APP_BASE_DIR/
+
+WORKDIR $APP_BASE_DIR
+USER apache
+ENTRYPOINT ["./entrypoint.sh"]
+CMD ["/usr/sbin/httpd","-f","/etc/httpd/conf/httpd.conf","-D","FOREGROUND"]
+</pre>
+</div>
+</div>
+
+
+
+<div id="outline-container-sec-1-5-2" class="outline-4">
+<h4 id="sec-1-5-2"><span class="section-number-4">1.5.2</span> Kubernetes - Deployment, Service, Ingress</h4>
+<div class="outline-text-4" id="text-1-5-2">
+<p>
+In kubernetes the containers are deployed inside Pods. A pod run multiple containers but ideally one pod runs one container.
+The smallest unit of scaling in Kubernetes is Pod. When we scale our cluster up or down, we increase or decrease the number of pods.
+The pods can be directly routed by services but ideally we deploy them as part of a deployment.
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="sec-1-5-2-1" name="sec-1-5-2-1"></a>Deployment<br  /><div class="outline-text-5" id="text-1-5-2-1">
+<p>
+The deployment contains  definition for which container image to deploy, how many replicas of the pod we want, which ports we would expose, any environment parameters we need to pass to container etc. 
+In addition deployment contains a lot of runtime, storage &amp; networking information for the pod. 
+Below is the simple deployment for our application. The variable names prefixed &amp; suffixed with double underscores (e.g. <span class="underline"><span class="underline">APP<sub>NAME</sub></span></span>) will be replaced by process<sub>files</sub>.sh script mentioned later:
+</p>
+
+<pre class="example">
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: __APP_NAME__-dc
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: __APP_NAME__
+    spec:
+      containers:
+      - name: __APP_NAME__-ctr
+        image: &gt;-
+          __IMAGE__
+        imagePullPolicy: Always
+        ports:
+        - name: httpport
+          containerPort: 8080
+        env:
+          - name: API_ENDPOINT
+            value: "http://127.0.0.1:8082/"
+</pre>
+</div>
+</li>
+
+<li><a id="sec-1-5-2-2" name="sec-1-5-2-2"></a>Service<br  /><div class="outline-text-5" id="text-1-5-2-2">
+<p>
+We can scale up or down our cluster and the pods get added and removed. However, rest of the components (pods/services) interact to our cluster of pods via a reliable endpoint called Service. Service in a way acts as a load balancer and rest of the services can continue interacting with service while underlying pods are created and destroyed.
+</p>
+
+<p>
+Below is a simple service. This service points to all the pods marked with lable app: <span class="underline"><span class="underline">APP<sub>NAME</sub></span></span> . Please note that labels play an important role in Kubernetes. We labeled our pods such in above deployment. The Labels must match for the service "selector" to work.
+</p>
+
+<pre class="example">
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: __APP_NAME__
+  name: __APP_NAME__-svc
+spec:
+  ports:
+    - name: httpport
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: __APP_NAME__
+  sessionAffinity: None
+  type: NodePort
+</pre>
+</div>
+</li>
+
+<li><a id="sec-1-5-2-3" name="sec-1-5-2-3"></a>Ingress<br  /><div class="outline-text-5" id="text-1-5-2-3">
+<p>
+Inside the cluster the Pods/services can interact to each other via service endpoints. However, to exposes HTTP and HTTPS routes to services within the cluster to outside world, we use ingress.
+Below is a simple ingress which points to our service and also points to the http port it will expose externally. We get a publicly accessible endpoint through ingress.
+</p>
+
+<pre class="example">
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  labels:
+    app: __APP_NAME__
+  name: __APP_NAME__-ingress
+spec:
+  backend:
+    serviceName: __APP_NAME__-svc
+    servicePort: httpport
+</pre>
+</div>
+</li></ol>
+</div>
+
+<div id="outline-container-sec-1-5-3" class="outline-4">
+<h4 id="sec-1-5-3"><span class="section-number-4">1.5.3</span> Jenkinsfile</h4>
+<div class="outline-text-4" id="text-1-5-3">
+<p>
+Our Jenkinsfile is located at the root of the project and it contains the code for operating various steps in sequence. Let us take a look at the stages one by one:
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="sec-1-5-3-1" name="sec-1-5-3-1"></a>Checkout and Initialization<br  /><div class="outline-text-5" id="text-1-5-3-1">
+<p>
+We have a declarative pipeline so we get the declarative git checkout SCM as first step. We have a helper function called getEnvVar which reads the values from our env<sub>vars</sub>/application.properties file defined above:
+</p>
+
+<pre class="example">
+def getEnvVar(String paramName){
+    return sh (script: "grep '${paramName}' env_vars/project.properties|cut -d'=' -f2", returnStdout: true).trim();
+}
+</pre>
+
+<p>
+And here is how our initialization step looks like. We set the variables here. Most of them come from the application.properties file mentioned above.
+</p>
+
+<pre class="example">
+stage('Init'){
+    steps{
+        //checkout scm;
+    script{
+    env.BASE_DIR = pwd()
+    env.CURRENT_BRANCH = env.BRANCH_NAME
+    env.IMAGE_TAG = getImageTag(env.CURRENT_BRANCH)
+    env.APP_NAME= getEnvVar('APP_NAME')
+    env.IMAGE_NAME = "${APP_NAME}-app"
+    ...
+    ...
+    }
+    }
+}
+</pre>
+</div>
+</li>
+
+<li><a id="sec-1-5-3-2" name="sec-1-5-3-2"></a>Cleanup<br  /><div class="outline-text-5" id="text-1-5-3-2">
+<p>
+We are performing cleanup here, this is optional. We are cleaning up the dangling images and images older than 2 days:
+</p>
+
+<pre class="example">
+stage('Cleanup'){
+    steps{
+        sh '''
+        docker rmi $(docker images -f 'dangling=true' -q) || true
+        docker rmi $(docker images | sed 1,2d | awk '{print $3}') || true
+        '''
+    }
+
+}
+</pre>
+</div>
+</li>
+
+<li><a id="sec-1-5-3-3" name="sec-1-5-3-3"></a>Building the Docker image<br  /><div class="outline-text-5" id="text-1-5-3-3">
+<p>
+In this step we build the image. We include the DOCKER<sub>REGISTRY</sub><sub>URL</sub> in the tag because we will push this image later to our docker registry.
+</p>
+
+<pre class="example">
+sh '''
+docker build -t ${DOCKER_REGISTRY_URL}/${DOCKER_PROJECT_NAMESPACE}/${IMAGE_NAME}:${RELEASE_TAG} --build-arg APP_NAME=${IMAGE_NAME}  -f app/Dockerfile app/.
+'''
+</pre>
+</div>
+</li>
+
+<li><a id="sec-1-5-3-4" name="sec-1-5-3-4"></a>Publishing the image to Docker registry<br  /><div class="outline-text-5" id="text-1-5-3-4">
+<p>
+For this we need to use the username password credentials which we added . We login to docker registry first and publish the image to our docker registry. (registry.hub.docke.com in our case).
+</p>
+
+<pre class="example">
+withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${JENKINS_DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWD']])
+{
+sh '''
+echo $DOCKER_PASSWD | docker login --username ${DOCKER_USERNAME} --password-stdin ${DOCKER_REGISTRY_URL} 
+docker push ${DOCKER_REGISTRY_URL}/${DOCKER_PROJECT_NAMESPACE}/${IMAGE_NAME}:${RELEASE_TAG}
+docker logout
+'''
+}
+</pre>
+</div>
+</li>
+
+<li><a id="sec-1-5-3-5" name="sec-1-5-3-5"></a>Deploying to Google Cloud Platform Kubernetes Engine<br  /><div class="outline-text-5" id="text-1-5-3-5">
+<p>
+In this step we make use of Google Cloud Platform's gcloud cli to activate the service account.
+We also make use of the JENKINS<sub>GCLOUD</sub><sub>CRED</sub><sub>ID</sub> secret file credential which we added to Jenkins credentials to get the Google cloud cluster credentials.
+</p>
+
+<p>
+We have a utility script named process<sub>files</sub>.sh. This utility script replaces the variables which we pass as arguments. Below is how the utility script looks like:
+</p>
+
+<pre class="example">
+#!/bin/bash
+
+if (($# &lt;4))
+  then
+    echo "Usage : $0 &lt;DOCKER_PROJECT_NAME&gt; &lt;APP_NAME&gt; &lt;IMAGE_TAG&gt; &lt;directory containing k8s files&gt;"
+    exit 1
+fi
+
+PROJECT_NAME=$1
+APP_NAME=$2
+IMAGE=$3
+WORK_DIR=$4
+
+main(){
+find $WORK_DIR -name *.yml -type f -exec sed -i.bak1 's#__PROJECT_NAME__#'$PROJECT_NAME'#' {} \;
+find $WORK_DIR -name *.yml -type f -exec sed -i.bak2 's#__APP_NAME__#'$APP_NAME'#' {} \;
+find $WORK_DIR -name *.yml -type f -exec sed -i.bak3  's#__IMAGE__#'$IMAGE'#' {} \;
+}
+main
+</pre>
+
+<p>
+Above utility script is placed next to our deployment , service and egress files. Once executed, it will process the files with requisite arguments.
+</p>
+
+<pre class="example">
+stage('Deploy'){
+    steps{
+    withCredentials([file(credentialsId: "${JENKINS_GCLOUD_CRED_ID}", variable: 'JENKINSGCLOUDCREDENTIAL')])
+    {
+    sh """
+        gcloud auth activate-service-account --key-file=${JENKINSGCLOUDCREDENTIAL}
+        gcloud config set compute/zone asia-southeast1-a
+        gcloud config set compute/region asia-southeast1
+        gcloud config set project ${GCLOUD_PROJECT_ID}
+        gcloud container clusters get-credentials ${GCLOUD_K8S_CLUSTER_NAME}
+
+        chmod +x $BASE_DIR/k8s/process_files.sh
+
+        cd $BASE_DIR/k8s/
+        ./process_files.sh "$GCLOUD_PROJECT_ID" "${IMAGE_NAME}" "${DOCKER_PROJECT_NAMESPACE}/${IMAGE_NAME}:${RELEASE_TAG}" "./${IMAGE_NAME}/"
+
+        cd $BASE_DIR/k8s/${IMAGE_NAME}/.
+        kubectl apply -f $BASE_DIR/k8s/${IMAGE_NAME}/
+
+        gcloud auth revoke --all
+        """
+    }
+    }
+}
+</pre>
+</div>
+</li></ol>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> Conclusion</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+In this article we looked at how to containerize a simple static web application and continuously deploy it using Jenkins pipeline as code to Kubernetes cluster.
+In the articles which follow we would take a look at how to:
+</p>
+
+<ul class="org-ul">
+<li>Setup Continuous Deployment Pipelines of Java Maven Project to Kubernetes
+</li>
+<li>Setup Continuous Deployment Pipelines of Python (flask) project to Kubernetes
+</li>
+<li>Setup Continuous Deployment Pipelines of Nodejs (Angular5) project to Kubernetes
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2018-12-17 Mon 05:17</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
