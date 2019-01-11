@@ -1,0 +1,34 @@
+* send email
+** ADA Id management dashboard (LDAP, Keytabs, User management)
+Hi V, as discussed, below is the ID Management Dashboard hosted on Openshift:
+
+
+1. How to access frontend:
+You must authenticate via Reg1. You must be in ADMIN Group. Currently following users can see ADMIN Menu.
+v,c,n,as,an
+
+2. Normal Users, how to access:
+Following 2 features are available for normal(non admin) users:
+- List my keytabs
+- Download/email keytab 
+(Access must be added by Admin to allow user to withdraw keytab)
+
+3. How to access API:
+YOu must authenticate via auth api (). And for all subsequent requests you must provide JWT in Auth** header of every request.
+
+4. For Normal Users, - the user can withdraw keytab with their own reg1 credentials.
+* description of functionalities
+** Admin User
+** Normal User
+- List my keytabs
+- Withdraw my keytab
+
+
+* technical architecture of the solution
+
+
+* fix the config.py volume
+
+
+
+* add the generate keytab function with REALM
