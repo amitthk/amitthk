@@ -1,0 +1,7 @@
+https://sites.google.com/site/mrxpalmeiras/vault-cheat-sheet
+
+./vault server -dev
+
+cat app.properties | base64 | ./vault write secret/app/uat application.properties=-
+
+./vault kv get -field=application.properties secret/app/uat | base64 --decode
