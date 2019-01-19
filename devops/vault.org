@@ -5,3 +5,68 @@ https://sites.google.com/site/mrxpalmeiras/vault-cheat-sheet
 cat app.properties | base64 | ./vault write secret/app/uat application.properties=-
 
 ./vault kv get -field=application.properties secret/app/uat | base64 --decode
+
+vault auth enable ldap
+
+
+vault read auth/ldap/config
+
+#+BEGIN_SRC 
+Key                     Value
+---                     -----
+binddn                  n/a
+case_sensitive_names    false
+certificate             n/a
+deny_null_bind          true
+discoverdn              true
+groupattr               cn
+groupdn                 n/a
+groupfilter             (|(memberUid={{.Username}})(member={{.UserDN}})(uniqueMember={{.UserDN}}))
+insecure_tls            true
+starttls                false
+tls_max_version         tls12
+tls_min_version         tls12
+upndomain               amitthk.com
+url                     ldap://192.168.0.119:389
+userattr                uid
+userdn                  ou=People,dc=amitthk,dc=com
+#+END_SRC
+
+#+BEGIN_SRC 
+vault write auth/ldap/config \
+    url="ldap://192.168.0.119" \
+    userattr="cn" \
+    userdn="ou=Users,dc=amitthk,dc=com" \
+    groupdn="ou=Groups,dc=amitthk,dc=com" \
+    groupfilter="(&(objectClass=groupOfNames)(member={{.UserDN}}))" \
+    groupattr="cn"
+
+#+END_SRC
+
+echo 'path "secret/pyfln/sit" { capabilities = [
+"read","create","update","list","delete"]}' | C:\Apps\Tools\vault\vault policy write pyfln_sit -
+
+vault write auth/ldap/users/atksv policies=pyfln_sit
+
+#+BEGIN_SRC 
+vault policy write foo-policy -<<EOF
+# Normal servers have version 1 of KV mounted by default, so will need these
+# paths:
+path "secret/*" {
+  capabilities = ["create"]
+}
+path "secret/foo" {
+  capabilities = ["read"]
+}
+
+# Dev servers have version 2 of KV mounted by default, so will need these
+# paths:
+path "secret/data/*" {
+  capabilities = ["create"]
+}
+path "secret/data/foo" {
+  capabilities = ["read"]
+}
+EOF
+
+#+END_SRC
