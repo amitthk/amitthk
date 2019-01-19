@@ -2,14 +2,18 @@ https://sites.google.com/site/mrxpalmeiras/vault-cheat-sheet
 
 ./vault server -dev
 
+vault server -config=s3backend.hcl
+
 cat app.properties | base64 | ./vault write secret/app/uat application.properties=-
+
+cat ./id_rsa_sit_amitthk | base64 | /c/Apps/Tools/vault/vault write secret/pyfln/sit sit_key_file=-
 
 ./vault kv get -field=application.properties secret/app/uat | base64 --decode
 
 vault auth enable ldap
 
-
 vault read auth/ldap/config
+
 
 #+BEGIN_SRC 
 Key                     Value
@@ -43,6 +47,8 @@ userdn                  ou=People,dc=amitthk,dc=com
 
 #+END_SRC
 
+./vault login -method=ldap username=atksv
+
 #+BEGIN_SRC 
 echo 'path "secret/pyfln/sit" { capabilities = ["read","create","update","list","delete"]}' | C:\Apps\Tools\vault\vault policy write pyfln_sit -
 #+END_SRC
@@ -74,3 +80,7 @@ EOF
 
 https://www.burgundywall.com/post/hashicorp-vault-and-freeipa
 
+
+vault operator  init -key-shares=3 -key-threshold=2
+
+vault operator unseal
