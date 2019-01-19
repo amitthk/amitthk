@@ -71,3 +71,6 @@ path "secret/data/foo" {
 EOF
 
 #+END_SRC
+
+https://www.burgundywall.com/post/hashicorp-vault-and-freeipa
+
