@@ -1,0 +1,81 @@
+* Amazon emr
+
+** Launching a cluster
+
+Select the EMR and launch the cluster with all services required. Use spot instances for better pricing
+
+*** AWS EMR
+
+Launch the cluster with appropriate permissions.
+
+connect using the key
+
+#+BEGIN_SRC 
+ssh -i /c//Apps/Tools/keys/all_keys/all_keys/cdhstack_admin.pem hadoop@ec2-52-221-223-15.ap-southeast-1.compute.amazonaws.com
+#+END_SRC
+
+Install the foxy proxy standard edition from chrome
+https://chrome.google.com/webstore/search/foxy%20proxy
+
+
+create following xml file
+
+#+BEGIN_SRC 
+<?xml version="1.0" encoding="UTF-8"?>
+<foxyproxy>
+    <proxies>
+        <proxy name="emr-socks-proxy" id="2322596116" notes="" fromSubscription="false" enabled="true" mode="manual" selectedTabIndex="2" lastresort="false" animatedIcons="true" includeInCycle="true" color="#0055E5" proxyDNS="true" noInternalIPs="false" autoconfMode="pac" clearCacheBeforeUse="false" disableCache="false" clearCookiesBeforeUse="false" rejectCookies="false">
+            <matches>
+                <match enabled="true" name="*ec2*.amazonaws.com*" pattern="*ec2*.amazonaws.com*" isRegEx="false" isBlackList="false" isMultiLine="false" caseSensitive="false" fromSubscription="false" />
+                <match enabled="true" name="*ec2*.compute*" pattern="*ec2*.compute*" isRegEx="false" isBlackList="false" isMultiLine="false" caseSensitive="false" fromSubscription="false" />
+                <match enabled="true" name="10.*" pattern="http://10.*" isRegEx="false" isBlackList="false" isMultiLine="false" caseSensitive="false" fromSubscription="false" />
+                <match enabled="true" name="*10*.amazonaws.com*" pattern="*10*.amazonaws.com*" isRegEx="false" isBlackList="false" isMultiLine="false" caseSensitive="false" fromSubscription="false" />
+                <match enabled="true" name="*10*.compute*" pattern="*10*.compute*" isRegEx="false" isBlackList="false" isMultiLine="false" caseSensitive="false" fromSubscription="false" />
+                <match enabled="true" name="*.compute.internal*" pattern="*.compute.internal*" isRegEx="false" isBlackList="false" isMultiLine="false" caseSensitive="false" fromSubscription="false" />
+                <match enabled="true" name="*.ec2.internal*" pattern="*.ec2.internal*" isRegEx="false" isBlackList="false" isMultiLine="false" caseSensitive="false" fromSubscription="false" />
+            </matches>
+            <manualconf host="localhost" port="8157" socksversion="5" isSocks="true" username="" password="" domain="" />
+        </proxy>
+    </proxies>
+</foxyproxy>
+#+END_SRC
+
+Add the above xml as setings in foxy proxy in chrome.
+
+Then go to following urls for access:
+
+| Name of interface    | URI                                    |
+| YARN ResourceManager | http://master-public-dns-name:8088/    |
+| YARN NodeManager     | http://coretask-public-dns-name:8042/  |
+| Hadoop HDFS NameNode | http://master-public-dns-name:50070/   |
+| Hadoop HDFS DataNode | http://coretask-public-dns-name:50075/ |
+| Spark HistoryServer  | http://master-public-dns-name:18080/   |
+| Zeppelin             | http://master-public-dns-name:8890/    |
+| Hue                  | http://master-public-dns-name:8888/    |
+| Ganglia              | http://master-public-dns-name/ganglia/ |
+| HBase                | http://master-public-dns-name:16010/   |
+| JupyterHub           | https://master-public-dns-name:9443/   |
+
+
+e.g. 
+
+Presto:
+http://ec2-52-221-223-15.ap-southeast-1.compute.amazonaws.com:8889
+
+Hue:
+http://ec2-52-221-223-15.ap-southeast-1.compute.amazonaws.com:8888
+
+(create the admin account at first login)
+
+Jupyterhub:
+https://ec2-52-221-223-15.ap-southeast-1.compute.amazonaws.com:9443/hub/admin
+Id:  jovyan: jupyter
+
+Yarn RM:
+http://ec2-52-221-223-15.ap-southeast-1.compute.amazonaws.com:8088
+
+History server:
+http://ec2-52-221-223-15.ap-southeast-1.compute.amazonaws.com:18080/
+
+Hadoop hdfs:
+http://ec2-52-221-223-15.ap-southeast-1.compute.amazonaws.com:50070

@@ -571,7 +571,7 @@ Launch the cluster with appropriate permissions.
 connect using the key
 
 #+BEGIN_SRC 
-
+ssh -i /c//Apps/Tools/keys/all_keys/all_keys/cdhstack_admin.pem hadoop@ec2-52-221-223-15.ap-southeast-1.compute.amazonaws.com
 #+END_SRC
 
 Install the foxy proxy standard edition from chrome
@@ -614,7 +614,7 @@ Then go to following urls for access:
 | Hue                  | http://master-public-dns-name:8888/    |
 | Ganglia              | http://master-public-dns-name/ganglia/ |
 | HBase                | http://master-public-dns-name:16010/   |
-| JupyterHub           | http://master-public-dns-name:9443/    |
+| JupyterHub           | https://master-public-dns-name:9443/   |
 |                      |                                        |
 *** Tips and tricks
 **** Allow ec2 to access s3 buckets
