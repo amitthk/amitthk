@@ -2,6 +2,12 @@
 ** Installation
 
 ** Using Hive
+
+*** Connect via beeline
+
+#+BEGIN_SRC
+!connect jdbc:hive2://ec2-52-221-223-15.ap-southeast-1.compute.amazonaws.com:10000
+#+END_SRC
 *** Data preparation
 First, downlod MovieLens dataset from the following site.
 

@@ -14,6 +14,8 @@ connect using the key
 ssh -i /c//Apps/Tools/keys/all_keys/all_keys/cdhstack_admin.pem hadoop@ec2-52-221-223-15.ap-southeast-1.compute.amazonaws.com
 #+END_SRC
 
+** accessing the cluster
+
 Install the foxy proxy standard edition from chrome
 https://chrome.google.com/webstore/search/foxy%20proxy
 
@@ -59,6 +61,7 @@ Then go to following urls for access:
 
 e.g. 
 
+
 Presto:
 http://ec2-52-221-223-15.ap-southeast-1.compute.amazonaws.com:8889
 
@@ -66,6 +69,13 @@ Hue:
 http://ec2-52-221-223-15.ap-southeast-1.compute.amazonaws.com:8888
 
 (create the admin account at first login)
+
+Hive:
+Connect via beeline:
+#+BEGIN_SRC 
+!connect jdbc:hive2://ec2-52-221-223-15.ap-southeast-1.compute.amazonaws.com:10000
+#+END_SRC
+
 
 Jupyterhub:
 https://ec2-52-221-223-15.ap-southeast-1.compute.amazonaws.com:9443/hub/admin
