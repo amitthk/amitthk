@@ -232,6 +232,37 @@ wget http://archive.cloudera.com/cdh5/parcels/5.15.1/CDH-5.15.1-1.cdh5.15.1.p0.4
 wget http://archive.cloudera.com/cdh5/parcels/5.15.1/manifest.json
 
 #+END_SRC
+*** sample starter commands 
+#+BEGIN_SRC 
+    1  vi /etc/selinux/config
+    2  service iptables status
+    3  service iptables stop
+    4  yum install iptables-services
+    5  service iptables status
+    6  service iptables disable
+    7  chkconfig iptables off
+    8  df -h
+    9  resize2fs /dev/xvda1
+   10  fdisk /dev/xvda
+   11  ls /
+   12  xfs_growfs /dev/root_vg/root
+   13  xfs_growfs /dev/xvda1/root
+   14  xfs_growfs /dev/xvda1
+   15  xfs_growfs /dev/xvda1/
+   16  df -h
+   17  echo "vm.swappiness=1" >> /etc/syctl.conf
+   18  vi /etc/sysctl.conf
+   19  vi /etc/sysctl.conf
+   20  echo "vm.swappiness=1" >> /etc/syctl.conf
+   21  vi /etc/sysctl.conf
+   22  vi /etc/sysctl.conf
+   23  cd /etc/sysctl.d/
+   24  ls
+   25  vi 99-sysctl.conf
+   26  reboot
+   27  history > hist.sh
+
+#+END_SRC
 
 *** steps/phases
 1. Install JDK

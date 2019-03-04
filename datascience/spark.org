@@ -55,6 +55,37 @@ Data Sources => Transformation => Actions => UI Dashboard (Real time)/Processed 
 ** install
 Unzip the binaries and set the 
 
+** start spark standalone
+
+*** open up the ports
+firewall-cmd --zone=public --add-port=7077/tcp --permanent
+firewall-cmd --zone=public --add-port=8090/tcp --permanent
+systemctl restart firewalld
+
+*** update the spark conf
+vi /opt/spark-2.3.0-bin-hadoop2.7/conf/spark-defaults.conf
+
+- here we set 
+spark.master.ui.port=8090
+
+*** start the spark master and worker standalone
+/opt/spark-2.3.0-bin-hadoop2.7/sbin/start-mater.sh
+/opt/spark-2.3.0-bin-hadoop2.7/sbin/start-slave.sh spark://localhost:7077
+
+
+*** start the spark shell with remote master
+.\spark-shell --master spark://192.168.0.119:7077
+
+*** submit a sample job (tbc)
+
+./bin/spark-submit --class org.apache.spark.examples.SparkPi --master spark://192.168.0.119:7077  examples/jars/spark-examples*.jar 10
+./bin/spark-submit --class org.apache.spark.examples.SparkPi --master spark://192.168.0.119:7077 --driver-memory 4g --executor-memory 2g --executor-cores 1 --queue thequeue examples/jars/spark-examples*.jar 10
+
+*** Or on the yarn (tbc):
+./bin/spark-submit --class org.apache.spark.examples.SparkPi --master spark://192.168.0.119:7077  examples/jars/spark-examples*.jar 10./bin/spark-submit --class org.apache.spark.examples.SparkPi --master spark://192.168.0.119:70771  examples/jars/spark-examples*.jar 10./bin/spark-submit --class org.apache.spark.examples.SparkPi --master spark://192.168.0.119:70771  examples/jars/spark-examples*.jar 10./bin/spark-submit --class org.apache.spark.examples.SparkPi --master spark://192.168.0.119:70771  examples/jars/spark-examples*.jar 10
+./bin/spark-submit --class org.apache.spark.examples.SparkPi --master yarn --deploy-mode cluster --driver-memory 4g --executor-memory 2g --executor-cores 1 --queue thequeue examples/jars/spark-examples*.jar 10
+
+
 ** start zookeeper, kafka, spark
 
 *** start zookeeper first
@@ -138,6 +169,23 @@ sc = SparkContext.getOrCreate() //brand new SC
   - parallelize
   - sc.parallelize(....)
   - list.getNumPartitions()
+
+*** spark configuration
+- Properties
+application params
+- Environment vars
+system specific
+- logging
+log4j.properties
+
+Application (in code)
+
+> 
+flags passed in spark2-submit /spark2-shell
+>
+
+spark-defaults.conf
+
 
 ** pyspark codes
 
