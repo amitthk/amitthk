@@ -1,0 +1,39 @@
+* unplanned and urgent
+** AWS Cert
+** TOEFL
+** Monika passport renew
+** MLE practice and certification
+** Get the papers for Bangalore Provident apartment
+** Transfer to MOM
+* references
+** montly recurring
+*** Pay rental
+*** Pay credit cards
+*** Starhub Bill
+*** SP Services bill
+
+* 2019
+** mar
+** apr
+*** vault HA
+*** ansible POC to prod
+*** spark hadoop cluster ansible
+- httpd
+  - s3 public bucket
+- ldap
+  - utility server ith ldap conf and root account
+- kerberos
+  - krb5.conf
+
+*** Pay rental
+*** PR Form submission
+*** AWS Certification
+*** Alluxio containerized cluster and pull request
+*** tableau take over
+** may
+** jun
+** jul
+** aug
+** sep
+** oct
+** nov

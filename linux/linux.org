@@ -582,6 +582,10 @@ esac
 ***** for loop
 
 #+BEGIN_SRC 
+for f in $(ls -b); do echo "---" > "${f}main.yml";done
+#+END_SRC
+
+#+BEGIN_SRC 
 
 for u in $*
 
