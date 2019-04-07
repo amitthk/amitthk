@@ -1,0 +1,9 @@
+* aws cli
+** s3
+S3 get latest
+#+BEGIN_SRC 
+aws s3 ls s3://devopsmaster-repo/user-api/ --recursive | sort | tail -n 1 | awk '{print $4}'
+
+List all Jars:
+aws s3 ls --recursive s3://devopsmaster-repo/user-api | grep '.*\.jar' | awk -F " " '{print $4}'
+#+END_SRC

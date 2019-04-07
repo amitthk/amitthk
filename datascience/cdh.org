@@ -283,3 +283,26 @@ wget http://archive.cloudera.com/cdh5/parcels/5.15.1/manifest.json
 *** turn off iptables
 *** resize volume
 *** change swappiness
+** Path B via packages
+
+** Ldap
+yum install slapd
+
+
+
+slappasswd 
+
+use this password to update the following file:
+vi /etc/openldap/slapd.conf
+
+change the olcRootPW
+
+#+BEGIN_SRC 
+ldapmodify -Q -Y EXTERNAL -H ldapi:/// << E0F
+dn: olcDatabase={2}hdb,cn=config
+changetype: modify
+add: olcRootPW
+olcRootPW: {SSHA}qUoTRPwppaedqHQTgYOPYWokr3SiXjbK
+E0F
+
+#+END_SRC

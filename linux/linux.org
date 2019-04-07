@@ -628,6 +628,11 @@ done
 
 #+END_SRC
 
+ 
+**** repeat a command on multipe files in directory
+#+BEGIN_SRC 
+for f in /etc/httpd/conf.d/*.conf; do mv $f $f.bak ;done
+#+END_SRC
 *** yum
 #+BEGIN_SRC 
 yum -y install firefox
