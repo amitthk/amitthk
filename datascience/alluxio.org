@@ -1,0 +1,174 @@
+* alluxio
+** ID CREATION
+#+BEGIN_SRC 
+
+for i in $(cat hostlist); do echo $i; ssh $i 'sudo groupadd alluxio -g 500'; done
+for i in $(cat hostlist); do echo $i; ssh $i 'sudo useradd alluxio -u 500 -g 500'; done
+for i in $(cat hostlist); do echo $i; ssh $i 'sudo printf "alluxio\nalluxio" | sudo passwd alluxio'; done
+
+#+END_SRC
+Verify: id alluxio
+#+BEGIN_SRC 
+for i in $(cat hostlist); do echo $i; ssh $i 'id alluxio'; done
+
+#+END_SRC
+** PASSWORDLESS SSH
+
+As ec2-user
+#+BEGIN_SRC 
+ssh-keygen
+for i in $(cat hostlist); do echo $i; scp -i ~/.ssh/id_rsa ~/.ssh/id_rsa.pub ${i}:/tmp; done
+for i in $(cat hostlist); do echo $i; ssh $i 'sudo mkdir /home/alluxio/.ssh/ && sudo chown alluxio:alluxio /home/alluxio/.ssh && sudo chmod 700 /home/alluxio/.ssh'; done
+for i in $(cat hostlist); do echo $i; ssh $i 'sudo runuser -l alluxio -c "cat /tmp/id_rsa.pub >> ~/.ssh/authorized_keys"'; done
+for i in $(cat hostlist); do echo $i; ssh $i 'sudo chmod 640 /home/alluxio/.ssh/authorized_keys'; done
+for i in $(cat hostlist); do echo $i; scp -i ~/.ssh/id_rsa ~/.ssh/id_rsa alluxio@${i}:~/.ssh/; done
+#+END_SRC
+** ALLUXIO LOCAL INSTALL
+*** As ec2-user
+#+BEGIN_SRC 
+sudo mkdir /mnt/ramdisk
+sudo mount -t ramfs -o size=1GB ramfs /mnt/ramdisk
+sudo chown alluxio:alluxio /mnt/ramdisk
+sudo chmod 755 /mnt/ramdisk
+sudo chmod 777 /opt
+
+#+END_SRC
+
+*** As alluxio
+#+BEGIN_SRC 
+aws s3 cp s3://alluxio-sharing-apse/dbs/alluxio-enterprise-1.8.1-F-cdh-5.14-bin.tar.gz /opt/
+cd /opt
+tar -xvf alluxio-enterprise-1.8.1-F-cdh-5.14-bin.tar.gz
+ln -s alluxio-enterprise-1.8.1-F-cdh-5.14 alluxio
+cd alluxio
+cp conf/alluxio-site.properties.template conf/alluxio-site.properties
+ln -s /etc/hadoop/conf/hdfs-site.xml /opt/alluxio/conf/hdfs-site.xml
+ln -s /etc/hadoop/conf/core-site.xml /opt/alluxio/conf/core-site.xml
+vi conf/alluxio-site.properties and uncomment line alluxio.master.hostname=localhost
+alluxio.worker.memory.size=1GB
+alluxio.worker.tieredstore.levels=1
+alluxio.worker.tieredstore.level0.alias=MEM
+alluxio.worker.tieredstore.level0.dirs.path=/mnt/ramdisk
+sudo cp /home/ec2-user/alluxio-enterprise-license.json ./license.json
+sudo chown alluxio:alluxio /opt/alluxio/license.json
+     
+V: bin/alluxio runTests
+#+END_SRC
+** ALLUXIO CLUSTER MODE
+
+As alluxio
+#+BEGIN_SRC 
+edit conf/workers with below lines
+edit conf/masters with below lines
+
+#+END_SRC
+Edit alluxio-site.properties with the below lines
+#+BEGIN_SRC 
+alluxio.underfs.address=hdfs://<master-hostname>/underFSStorage
+alluxio.underfs.hdfs.version=cdh-5.14
+alluxio.master.journal.folder=hdfs://<master-hostname>/journal
+alluxio.zookeeper.enabled=true
+alluxio.zookeeper.address=
+alluxio.security.authorization.permission.enabled=true
+alluxio.security.authentication.type=SIMPLE
+#+END_SRC
+*** Mount the ramfs to all Worker Nodes
+
+Create the hdfs directories using the 'hdfs' user.
+#+BEGIN_SRC 
+hdfs dfs -mkdir /underFSStorage
+hdfs dfs -mkdir /journal
+hdfs dfs -chown alluxio:alluxio /journal
+hdfs dfs -chown alluxio:alluxio /underFSStorage
+
+
+#+END_SRC
+Setup the 777 permission for the /opt on all machines:
+#+BEGIN_SRC 
+for i in $(cat hostlist); do echo $i ; ssh $i 'sudo chmod 777 /opt' ; done
+
+#+END_SRC
+Run the following commands with alluxio user on master1:
+#+BEGIN_SRC 
+for i in $(cat hostlist); do echo $i;  scp -r /opt/alluxio-enterprise-1.8.1-F-cdh-5.14/ $i:~/ ; done
+for i in $(cat hostlist); do echo $i;  ssh $i 'cp -r ~/alluxio-enterprise-1.8.1-F-cdh-5.14 /opt/'; done
+
+
+for i in $(cat workers); do echo $i ; ssh $i 'sudo mkdir /mnt/ramdisk &&sudo mount -t ramfs -o size=1GB ramfs /mnt/ramdisk && sudo chown alluxio:alluxio /mnt/ramdisk && sudo chmod 755 /mnt/ramdisk' ; done
+
+for i in $(cat hostlist); do echo $i ; ssh $i 'cd /opt && ln -s alluxio-enterprise-1.8.1-F-cdh-5.14 alluxio' ; done
+
+for i in $(cat hostlist); do echo $i ; ssh $i 'rm /opt/alluxio/conf/hdfs-site.xml && rm /opt/alluxio/conf/core-site.xml && ln -s /etc/hadoop/conf/hdfs-site.xml /opt/alluxio/conf/hdfs-site.xml && ln -s /etc/hadoop/conf/core-site.xml /opt/alluxio/conf/core-site.xml'; done
+#+END_SRC
+** ALLUXIO WITH SPARK
+#+BEGIN_SRC 
+val s = sc.textFile("alluxio:///<your-file-here>")
+s.collect().foreach(println)
+
+#+END_SRC
+Go to HDFS > Configuration and search ¡®core-site.xml¡¯. Add the below property to Cluster-wide Advanced Configuration Snippet for core-site.xml
+fs.alluxio.impl=alluxio.hadoop.FileSystem
+** YARN Impersonation
+#+BEGIN_SRC 
+alluxio.master.security.impersonation.yarn.users=*
+
+
+for i in $(cat hostlist); do echo $i; ssh $i 'sudo cp /opt/alluxio/client/alluxio-enterprise-1.8.1-F-client.jar /opt/cloudera/parcels/CDH/jars/'; done
+#+END_SRC
+** ALLUXIO WITH HDFS-KERBEROS
+As ec2-user:
+#+BEGIN_SRC 
+sudo /usr/sbin/kadmin.local -q "addprinc -randkey hdfs/alluxio"
+sudo /usr/sbin/kadmin.local -q "xst -norandkey -k hdfs.keytab hdfs/alluxio@ALLUXIO.COM"
+
+mv hdfs.keytab /tmp
+Sudo chown alluxio:alluxio /tmp/hdfs.keytab
+#+END_SRC
+As alluxio:
+#+BEGIN_SRC 
+mv /tmp/hdfs.keytab /opt/alluxio/conf/hdfs.keytab
+
+alluxio.master.mount.table.root.option.alluxio.security.underfs.hdfs.kerberos.client.principal=hdfs/alluxio@ALLUXIO.COM
+alluxio.master.mount.table.root.option.alluxio.security.underfs.hdfs.kerberos.client.keytab.file=/opt/alluxio/conf/hdfs.keytab
+
+alluxio.master.journal.ufs.option.alluxio.security.underfs.hdfs.kerberos.client.principal=hdfs/alluxio@ALLUXIO.COM
+alluxio.master.journal.ufs.option.alluxio.security.underfs.hdfs.kerberos.client.keytab.file=/opt/alluxio/conf/hdfs.keytab
+#+END_SRC
+** KERBEROS-ALLUXIO
+#+BEGIN_SRC 
+sudo /usr/sbin/kadmin.local -q "addprinc -randkey alluxio/training4-masters-1"
+sudo /usr/sbin/kadmin.local -q "xst -norandkey -k alluxiom1.keytab alluxio/training4-masters-1@ALLUXIO.COM"
+sudo /usr/sbin/kadmin.local -q "addprinc -randkey alluxio/training4-masters-2"
+sudo /usr/sbin/kadmin.local -q "xst -norandkey -k alluxiom2.keytab alluxio/training4-masters-2@ALLUXIO.COM"
+sudo /usr/sbin/kadmin.local -q "addprinc -randkey alluxio/training4-masters-3"
+sudo /usr/sbin/kadmin.local -q "xst -norandkey -k alluxiom3.keytab alluxio/training4-masters-3@ALLUXIO.COM"
+sudo /usr/sbin/kadmin.local -q "addprinc -randkey alluxio/training4-workers-1"
+sudo /usr/sbin/kadmin.local -q "xst -norandkey -k alluxiow1.keytab alluxio/training4-workers-1@ALLUXIO.COM"
+sudo /usr/sbin/kadmin.local -q "addprinc -randkey alluxio/training4-workers-2"
+sudo /usr/sbin/kadmin.local -q "xst -norandkey -k alluxiow2.keytab alluxio/training4-workers-2@ALLUXIO.COM"
+sudo /usr/sbin/kadmin.local -q "addprinc -randkey alluxio/training4-workers-3"
+sudo /usr/sbin/kadmin.local -q "xst -norandkey -k alluxiow3.keytab alluxio/training4-workers-3@ALLUXIO.COM"
+
+#+END_SRC
+#+BEGIN_SRC 
+alluxio.security.authentication.type=KERBEROS
+alluxio.security.kerberos.service.name=alluxio
+alluxio.security.kerberos.server.principal=alluxio/training-masters-1@ALLUXIO.COM
+alluxio.security.kerberos.server.keytab.file=/opt/alluxio/conf/alluxio.keytab
+#+END_SRC
+** ALLUXIO CLIENT IMPERSONATION
+#+BEGIN_SRC 
+
+for i in $(cat ~/hostlist); do echo $i; ssh $i "echo 'alluxio.master.security.impersonation.ec2-user.users=*' >> /opt/alluxio-enterprise-1.8.1-F-cdh-5.14/conf/alluxio-site.properties";done
+for i in $(cat ~/hostlist); do echo $i; ssh $i 'cat /opt/alluxio/conf/alluxio-site.properties';done
+
+#+END_SRC
+
+~alluxio.master.security.impersonation.ec2-user.users=*~
+
+#+BEGIN_SRC 
+sudo /usr/sbin/kadmin.local -q "addprinc ec2-user"
+sudo /usr/sbin/kadmin.local -q "xst -norandkey -k ec2-user.keytab ec2-user@ALLUXIO.COM"
+
+
+#+END_SRC
