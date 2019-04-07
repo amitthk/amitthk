@@ -178,6 +178,7 @@ sudo usermod -a -G www apache
  sudo service httpd restart
 #+END_SRC
 *** Files
+#+BEGIN_SRC 
 echo $SSH_C
 
 echo $SSH_CONNECTION  : list of all ssh connections
@@ -206,12 +207,15 @@ sudo yum install words
 grep -E '^po..ute$' /usr/share/dict/words
 grep -E '[aeiou]{5}
 
+#+END_SRC
 
 - sed
+#+BEGIN_SRC 
 function clean_file {
 sed -i '/^#/d;/^$/d' $1
 }
 
+#+END_SRC
 then clean_file
 
 *** Cleaning up files
@@ -1044,224 +1048,116 @@ sudo file -s /dev/xvd*
 
 #+END_SRC
 
-** elasticsearch logstash
-
-*** elasticsearch
-
-**** using yum
-
+** linux operations essential
 #+BEGIN_SRC 
-sudo yum install java-1.8.0-openjdk.x86_64
-wget https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.3.noarch.rpm
-sudo rpm -ivh elasticsearch-1.7.3.noarch.rpm
-sudo systemctl enable elasticsearch.service
-#+END_SRC
+$write tux
 
-~vi /etc/elasticsearch/elasticsearch.yml
+$cat > message << END
+"some message
+END
 
-~curl -X GET 'http://localhost:9200'
+$wall < message
 
-**** using rpm
+$shutdown <halt poweroff reboot>
+shutdown -h 5 "The system is getting down in 5 min"
+$shutdown -c (cancel it)
 
-#+BEGIN_SRC 
-rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
-#+END_SRC
+$halt
 
-~vi /etc/yum.repos.d/elasticsearch.repo
+$init --help
 
-#+BEGIN_SRC 
-
-[elasticsearch-6.x]
-name=Elasticsearch repository for 6.x packages
-baseurl=https://artifacts.elastic.co/packages/6.x/yum
-gpgcheck=1
-gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
-enabled=1
-autorefresh=1
-type=rpm-md
-#+END_SRC
-
-**** running with SysV init
-
-#+BEGIN_SRC 
-sudo chkconfig --add elasticsearch
-sudo -i service elasticsearch start
-sudo -i service elasticsearch stop
-#+END_SRC
-
-**** running with systemd
-
-#+BEGIN_SRC 
-sudo /bin/systemctl daemon-reload
-sudo /bin/systemctl enable elasticsearch.service
-sudo systemctl start elasticsearch.service
-sudo systemctl stop elasticsearch.service
-sudo journalctl --unit elasticsearch
-#+END_SRC
-
-*** logstash
-~rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
-
-vi /etc/yum.repos.d/logstash.repo
-
-#+BEGIN_SRC 
-[logstash-6.x]
-name=Elastic repository for 6.x packages
-baseurl=https://artifacts.elastic.co/packages/6.x/yum
-gpgcheck=1
-gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
-enabled=1
-autorefresh=1
-type=rpm-md
-#+END_SRC
-
-#+BEGIN_SRC 
-sudo yum install logstash
-#+END_SRC
-
-**** running logstash
-
-#+BEGIN_SRC 
-#via SysV init
-sudo /etc/init.d/logstash start
-
-#or via systemd
-sudo systemctl start logstash.service
-
-#or via upstart
-sudo initctl start logstash
-#+END_SRC
-
-**** testing
-
-#+BEGIN_SRC 
-
-/usr/share/logstash/bin/logstash -e 'input { stdin {} } output { elasticsearch { hosts => ["192.168.0.2:9200"]}}'
-#check at elasticsearch
-curl http://192.168.0.2:9200/logstash-*/_search
-#+END_SRC
-
-*** Install filebeat packetbeat
-#+BEGIN_SRC 
-curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-6.3.2-x86_64.rpm
-sudo rpm -vi filebeat-6.3.2-x86_64.rpm
-#+END_SRC
-
-#+BEGIN_SRC 
-
-#+END_SRC
-
-~vi /etc/filebeat/filebeat.yml
-~vi /etc/packetbeat/packetbeat.yml
-
-#+BEGIN_SRC 
-...
-  paths:
-    - /var/log/syslog
-  document_type: syslog
-...
-tags: ["us-west-01"]
-...
-fields:
-  globo_environment: staging
-...
-#send it to logstash instead of elasticsearch
-output.logstash
-  hosts: ["192.168.0.3:5043"]
-#+END_SRC
-
-run the filebeat or packetbeat to generate the json template
+$ls /run
 
 
+$cat !$
 
-**** config on logstash server
-~vi /etc/logstash/conf.d/beats.conf
+===runlevels
+$who
 
-#+BEGIN_SRC 
-...
+$who -r
+$runevel
+$systemctl get-default
+$systmctl set-default multi-user.target
 
-filter {
-  if[type] == "syslog"{
-   grok {
-      match => [ ..... ]
-    }
-   date {
-      match => ["syslog_timestamp", "MMM d HH:mm:ss", "MMM dd HH:mm:ss"]
-    }
-  }
-}
+$systemctl isolate multi-user.target
 
-...
+$ps
+$man ps
+#   - Unix: -
+#   - BSD : no dash
+#   -  GNU:  --
+
+ps aux
+ps -e --forest
+pstree
+ps
+ps -f (full listing)
+ps -F (extra full)
+ps -l (long listing)
+ps -ly
+ps -elf (longand full)
+ps -elf | grep sshd
+ps -p1 -f
+echo $$
+ps -p $$ -F
+
+cd $$
+ls -l cwd
+ls -l  exe
+
+cat loadavg (last process id used)
+#=====
+stty -a (shortcuts for processes)
+
+kill -l  (listing of all kill signals)
+
+kill -term 8537 (ask to close)
+kill -sigkill 8537 (force kill)
+
+#=====
+pgrep sshd
+ps -F -p $(pgrep sshd)
+
+sleep 100&
+sleep 100&
+pgrep sleep
+pkill sleep
+
+top
+#=======
+free
+free -m (megabyte)
+free -g
+pmap $$
+pwdx $$
+sudo pwdx $(pgrep sshd)
+#======
+who
+lscpu
+cat /proc/uptime
+cat /proc/loadavg
+watch -n 4 uptime (run the command every 4 seconds)
+tload
+#======
+top -b n1 (batch mode 1 iteration)
+top -b n1 > file1
+less file1
+vmstat
+vmstat -S k
+vmstat -S m
+vmstat 5 3 (5 seconds gap 3 iterations)
+
+#=====
+#shared libraries
+
+ldd /usr/bin/ls
+ldd /usr/bin/grep
+pmap $$
+ldd /usr/bin/bash
+pwd
+pwd -P (actual from the link directoy)
 
 #+END_SRC
-
-**** install template and start filebeat service 
-
-#+BEGIN_SRC 
-#install the template
-curl -XPUT 'http://192.168.0.2:9200/_template/filebeat' -d@/etc/filebeat/filebeat.template.json
-
-#start the filebeat service
-systemctl filebeat enable
-service filebeat start
-#+END_SRC
-
-*** install kibana
-**** using repo
-#+BEGIN_SRC 
-rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
-#+END_SRC
-
-~vi /etc/yum.repos.d/kibana.repo
-#+BEGIN_SRC 
-[kibana-4.6]
-name=Kibana repository for 4.6.x packages
-baseurl=https://packages.elastic.co/kibana/4.6/centos
-gpgcheck=1
-gpgkey=https://packages.elastic.co/GPG-KEY-elasticsearch
-enabled=1
-#+END_SRC
-
-~yum install kibana
-
-**** or using rpm
-#+BEGIN_SRC 
-wget https://artifacts.elastic.co/downloads/kibana/kibana-6.3.2-x86_64.rpm
-shasum -a 512 kibana-6.3.2-x86_64.rpm 
-sudo rpm --install kibana-6.3.2-x86_64.rpm
-#+END_SRC
-
-**** enable service
-
-#+BEGIN_SRC 
-
-chkconfig --add kibana
-sudo /bin/systemctl daemon-reload
-sudo /bin/systemctl enable kibana.service
-#+END_SRC
-
-**** see filebeat data in kibana dashboard
-Management > Index Patterns > Add New > filebeat-*
-
-TimeField name @timestamp
-
-**** create dashboard
-
-***** Add visualization
-
-Visualize > filebeat-* > 
-X-axis > Date Histogram  
-Split-Lines > Terms
-Field > beat.hostname
-
-Save as "our syslog visual"
-
-***** Add dashboard
-Dashboard > add "our syslog visual"
-
-*** install xpack watcher
-install xpack
-update the elasticsearch.yml with email infor
 
 ** maven
 Write maven wrapper to package build
