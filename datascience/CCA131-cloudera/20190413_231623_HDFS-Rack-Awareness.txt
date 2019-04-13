@@ -1,0 +1,7 @@
+HDFS Rack Awareness
+
+cd /var/run/cloudera-scm-agent/process
+
+cd /var/run/cloudera-scm-agent/process/###-SERVICE-roleInstance
+
+cat topology.map

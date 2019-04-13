@@ -1,0 +1,31 @@
+HDFS FSCK Utility
+
+
+hdfs fsck /
+
+
+hdfs dfs -put <source> <fsck_test_file_target>
+
+hdfs fsck /<fsck_test_file_target> -files -blocks -locations
+
+hdfs getconf -confKey dfs.replication
+
+hdfs fsck / -blockId <block_Id>
+
+
+In Datanode where the block is located
+rm -f <path of the block>
+
+find . name "block_id"
+
+hdfs dfs -ls /
+
+hdfs dfs -cat <fsck_test_file_target>
+
+hdfs fsck /
+
+hdfs dfs -ls /
+
+hdfs dfs -rm -skipTrash /<fsck_test_file_target>
+
+hdfs dfsadmin -triggerBlockReport <datanode>:50020

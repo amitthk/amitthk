@@ -1,0 +1,69 @@
+Cloudera Installation Path B - Manager Installation and Configuration
+
+sudo su
+
+yum list all | grep cloudera
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+yum -y install mysql-connector-java
+
+
+yum -y install mariadb-server mariadb
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+mysql -u 'temp' -h 'private ip' -P 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+yum -y install cloudera-manager-agent.x86_64 cloudera-manager-daemons.x86_64 cloudera-manager-server.x86_64 oracle-j2sdk1.7.x86_64
+
+cd /usr/java/jdk1.7.0_67-cloudera/
+
+cd /etc/default/
+
+cat cloudera-scm-server
+
+vi cloudera-scm-server
+
+###################FILE-Content################################
+
+export JAVA_HOME=/usr/java/jdk1.7.0_67-cloudera/
+
+###################FILE-Content################################
+
+
+cd /usr/share/cmf/schema
+
+/usr/share/cmf/schema/scm_prepare_database.sh mysql -h<db_host_name> -utemp -ppassword123 --scm-host <cloudera_manager_hostname> scm scm scm
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+vi /etc/cloudera-scm-agent/config.ini
+
+###################FILE-Content################################
+
+server_host = <private dns>
+export JAVA_HOME=/usr/java/jdk1.7.0_67-cloudera/
+
+
+###################FILE-Content################################
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+service cloudera-scm-server start
+chkconfig cloudera-scm-server on
+
+service cloudera-scm-agent start
+chkconfig cloudera-scm-agent on
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+<public dns>:7180
+
+admin/admin
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

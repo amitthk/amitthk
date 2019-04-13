@@ -1,0 +1,30 @@
+HDFS Snapshot
+
+user hdfs
+
+su hdfs
+cd 
+hdfs dfs -put <source> <target>
+
+hdfs dfs -rm <snapshot_enabled_folder>/<test_file>
+
+hdfs dfs -mkdir <snapshot_test_folder>
+hdfs dfsadmin -allowSnapshot <snapshot_test_folder>
+hdfs dfs -put <source> <snapshot_test_folder>
+
+hdfs dfs -createSnapshot <snapshot_test_folder> <name>
+
+hdfs dfs -ls <snapshot_test_folder>/.snapshot
+
+hdfs dfs -rm <snapshot_test_folder>/<teest_file>
+
+
+hdfs snapshotDiff <snapshot_test_folder> <snapshot_test_folder1> 
+
+hdfs lsSnapshottableDir
+
+hdfs dfs -deleteSnapshot <snapshot_test_folder> <name>
+
+hdfs dfsadmin -disallowSnapshot <snapshot_test_folder> 
+
+

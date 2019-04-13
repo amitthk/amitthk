@@ -1,0 +1,32 @@
+HDFS Quota Management
+
+
+hdfs dfs -puut test.txt /quotatest/1.txt
+hdfs dfs -puut test.txt /quotatest/2.txt
+hdfs dfs -puut test.txt /quotatest/3.txt
+hdfs dfs -puut test.txt /quotatest/4.txt
+
+
+hdfs dfs -count -q -h -v /quotatest
+
+hdfs dfs -rm /quotatest/4.txt
+
+
+hdfs dfs -puut test.txt /quotatest/4spacetest.txt
+
+
+hdfs dfs -puut test.txt /quotatest/350MBspacetest.txt
+
+hdfs fsck /quotatest/4spacetest.txt -blocks -locations -files
+
+find . -name "blk_xxxxxxxxxxx"
+
+
+hdfs dfsadmin -setQuota 6 /quotatest
+hdfs dfsadmin -clrQuota /quotatest
+
+hdfs dfsadmin -setSpaceQuota <quota> <dirname>
+hdfs dfsadmin -clrSpaceQuota
+
+
+

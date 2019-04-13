@@ -1,0 +1,13 @@
+HDFS httpFS
+
+
+
+curl "http://<httpFS server dns>:14000/webhdfs/v1/?op=LISTSTATUS&user.name=hdfs"
+
+curl "http://<httpFS server dns>:14000/webhdfs/v1/?user.name=hdfs&op=LISTSTATUS"
+
+curl -X PUT "http://<httpFS server dns>:14000/webhdfs/v1/httpFSTest?user.name=hdfs&op=MKDIRS"
+
+curl -i -X PUT "http://<httpFS server dns>:14000/webhdfs/v1/muthu4allhttpFS.txt?user.name=hdfs&op=CREATE"
+
+curl -i -H 'Content-Type: application/octet-stream' -T test.txt "http://<httpFS server dns>:14000/webhdfs/v1/muthu4allhttpFS.txt?op=CREATE&user.name=hdfs&data=true"

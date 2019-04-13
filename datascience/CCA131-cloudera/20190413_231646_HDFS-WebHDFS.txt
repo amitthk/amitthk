@@ -1,0 +1,12 @@
+HDFS WebHDFS
+
+curl -i -L "http://<namenode dns>:50070/webhdfs/v1/?op=LISTSTATUS"
+
+curl -i -X PUT "http://<namenode dns>:50070/webhdfs/v1/webhdfstest?user.name=hdfs&op=MKDIRS"
+
+hdfs dfs -ls /
+
+curl -i -X PUT "http://<namenode dns>:50070/webhdfs/v1/muthu4all.txt?user.name=hdfs&op=CREATE"
+curl -i -T muthu4all.txt "http://<as provided by earlier command>:50075/webhdfs/v1/muthu4all.txt?op=CREATE&user.name=hdfs&namenoderpcaddress=<namenode>:8020&overwrite=false"
+
+curl -i -L "http://<namenode dns>:50070/webhdfs/v1/muthu4all.txt?op=OPEN&user.name=hdfs"

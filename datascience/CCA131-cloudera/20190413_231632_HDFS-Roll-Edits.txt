@@ -1,0 +1,11 @@
+HDFS Roll Edits
+
+cd /dfs/nn/current
+
+hdfs dfs -mkdir /rolledits
+
+hdfs oev -i edits_inprogress_xxxxxyyyyy -p xml -o /var/lib/hadoop-hdfs/out_fs_3.xml
+
+hdfs dfs -put <source> <hdfs_target>
+
+

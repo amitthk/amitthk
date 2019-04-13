@@ -1,0 +1,24 @@
+CentOS user authentication with OpenLDAP
+
+yum -y install nss-pam-ldapd
+
+// Name Service Switch (NSS, nsswitch) module that allows your LDAP server to provide user account, group, host name, alias, netgroup, and basically any other information that you would normally get from /etc flat files or NIS
+
+authconfig --enableldap --enableldapauth --enablemkhomedir --ldapserver=<ldapserver_hostname>:389 --ldapbasedn="dc=muthu4all,dc=com" --update
+
+
+
+
+or 
+authconfig-tui
+
+su <username>
+cd
+
+id <username>
+
+
+su <username>
+cd
+
+hdfs dfs -put <source> <user_home_dir>

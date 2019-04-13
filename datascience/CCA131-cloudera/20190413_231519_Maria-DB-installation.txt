@@ -1,0 +1,17 @@
+Maria DB installation
+
+yum -y install mariadb-server mariadb
+yum -y install mysql-connector-java
+
+systemctl start mariadb
+
+
+systemctl enable mariadb
+systemctl status mariadb
+
+
+
+systemctl stop mariadb
+
+
+mysql_secure_installation

@@ -1,0 +1,21 @@
+HDFS Edits FSImage - Offline Image View (OIV) and Offline Edits View (OEV)
+
+
+cd /dfs/nn/current
+
+cat seen_txid
+
+cat VERSIONS
+
+hdfs oiv -i fsimage <fsimage file>
+
+hdfs dfs -ls webhdfs://127.0.0.1:5978/
+
+hdfs oiv -i fsimage -p XML -o /var/lib/hadoop-hdfs/out_2.xml
+
+tail /var/lib/hadoop-hdfs/out_2.xml
+
+
+hdfs oev -i edits_inprogress_0000000000000000385 -p xml -o /var/lib/hadoop-hdfs/out_5.xml
+
+

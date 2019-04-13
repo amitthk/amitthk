@@ -1,0 +1,57 @@
+Kerberos - Working with Keytab and Service Ticket
+
+
+kadmin -p admin/admin@MUTHU4ALL.COM
+
+listprincs
+
+addprinc pprodlast2
+
+
+cd /var/run/cloudera-scm-agent/process
+
+cd xyz-NAMENODE
+
+klist -kt hdfs.keytab
+
+
+cp hdfs.keytab /home/users/userid/
+chown pprodlast2 /home/users/pprodlast2/hdfs.keytab
+
+klist -kt hdfs.keytab
+
+
+su - <username>
+cd
+ls
+
+hdfs dfs -ls /
+
+kinit -kt hdfs.keytab hdfs/namenode-service-ticket
+
+hdfs dfs -ls /
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~
+addprinc pprodlast3
+
+su - pprodlast3
+
+kinit
+
+klist
+
+hdfs dfs -ls /
+
+kdestroy
+
+klist
+
+hdfs dfs -ls /
+
+
+
+
+
+

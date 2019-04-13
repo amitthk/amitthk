@@ -1,0 +1,19 @@
+Cloudera Manager - OpenLDAP Integration for Authentication
+
+
+Seperate Organisation Unit
+
+External Authentication - Category
+
+Authentication Backend Order -> External Then Database
+
+External Authentication Type -> LDAP
+LDAP url ldap://ip-172-31-3-132.us-west-2.compute.internal:389
+
+LDAP bind user distinguished name cn=admin,dc=muthu4all,dc=com
+ldap bind password
+ldap user search filter (uid={0})
+ldap user search base ou=clouderausers,dc=muthu4all,dc=com
+ldap group search filter objectClass=posixGroup
+group search base = ou=clouderausers,dc=muthu4all,dc=com
+ldap distinguished name pattern -> uid={0},ou=clouderausers,dc=muthu4all,dc=com

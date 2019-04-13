@@ -1,0 +1,18 @@
+HDFS Recovery
+
+user: hdfs
+
+hdfs dfs -put <source> <target>
+
+cd /dfs/nn/current/
+cd
+ls -la
+
+strings <edit_xxxxxxx>
+
+mv <edits> /var/lib/hadoop-hdfs/editscopy
+
+
+hdfs namenoe -recover
+
+hdfs dfs -ls /

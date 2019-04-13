@@ -1,0 +1,64 @@
+HDFS Shell Commands
+
+sudo su
+su hdfs
+
+hdfs dfs 
+
+cat test.txt
+
+hdfs dfs -put test.txt /test.txt
+
+
+hdfs dfs -ls /
+
+hdfs dfs -setrep 2 /test.txt
+
+hdfs fsck / -files -blocks -locations
+
+hdfs dfs -cat /test.txt
+
+hdfs dfs -tail /test.txt
+
+hdfs dfs -count /
+
+hdfs dfs -count -q /
+
+hdfs dfs -du /
+
+hdfs dfs -get /test.txt /fromhdfs.txt
+
+hdfs dfs -get /test.txt ./fromhdfs.txt
+
+hdfs dfs -mkdir /muthu4all
+
+hdfs dfs -ls /
+
+hdfs dfs -touchz /muthu4all/touchtest.txt
+
+hdfs dfs -test -e /test.txt
+
+echo $?
+
+hdfs dfs -test -e /test.txt123
+
+echo $?
+
+hdfs dfs -test -z /muthu4all/touchtest.txt
+
+echo $?
+
+hdfs dfs -test -d /muthu4all/touchtest.txt
+
+echo $?
+
+hdfs dfs -test -d /muthu4all
+
+echo $?
+
+hdfs dfs -chmod 755 /test.txt
+
+
+
+
+

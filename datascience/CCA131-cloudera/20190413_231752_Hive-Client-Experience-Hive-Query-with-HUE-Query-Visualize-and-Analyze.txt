@@ -1,0 +1,27 @@
+Hive Client - Experience Hive Query with HUE - Query Visualize and Analyze
+
+
+select count(*) from movies;
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+SELECT users.age,
+       count(*)
+FROM ratings
+JOIN users ON(ratings.userid=users.userid)
+WHERE rating=5
+GROUP BY users.age;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+SELECT o.occupation,
+       count(*)
+FROM ratings r,
+     occupations o,
+     users u
+WHERE r.userid = u.userid
+  AND o.id = u.occupation
+  AND r.rating = 5
+GROUP BY o.occupation;
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+

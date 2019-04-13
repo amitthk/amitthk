@@ -1,0 +1,53 @@
+Cloudera Installation Path B - Agent and CDH Installation and Configuration
+
+
+sudo su
+
+
+yum list all | grep cloudera
+
+yum -y install cloudera-manager-agent.x86_64 cloudera-manager-daemons.x86_64 oracle-j2sdk1.7.x86_64
+
+
+vi /etc/cloudera-scm-agent/config.ini
+
+###################FILE-Content################################
+
+server_host = <private dns>
+export JAVA_HOME=/usr/java/jdk1.7.0_67-cloudera/
+
+
+###################FILE-Content################################
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+mysql -u root -p
+
+create database reportmanager;
+create user 'reportmanager'@'%' identified by 'password123';
+grant all privileges on reportmanager.* to 'reportmanager'@'%';
+
+
+create database hue;
+create user 'hue'@'%' identified by 'password123';
+
+grant all privileges on hue.* to 'hue'@'%';
+
+
+create database hive;
+create user 'hive'@'%' identified by 'password123';
+grant all privileges on hive.* to 'hive'@'%';
+
+create database oozie;
+create user 'oozie'@'%' identified by 'password123';
+grant all privileges on oozie.* to 'oozie'@'%';
+
+
+flush privileges;
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+yum -y install mysql-connector-java
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

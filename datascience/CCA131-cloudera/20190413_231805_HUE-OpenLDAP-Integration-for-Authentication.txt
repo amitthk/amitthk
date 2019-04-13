@@ -1,0 +1,18 @@
+Cloudera manager -> hue -> configuration
+
+authentication backend
+-> desktop.auth.backend.ldap
+
+Authentication Backend -> desktop.auth.backend.LdapSackend
+ldap_url -> ldap://ip-172-31-3-132.us-west-2.compute.internal:389
+ldap_username_pattern -> uid=<username>,ou=users,dc=muthu4all,dc=com
+search_bind_authentication -> Select ( True )
+use_start_tls -> True
+create_users_on_logon -> True
+base_dn -> dc=muthu4all,dc=com
+bind_dn -> cn=admin,dc=muthu4all,dc=com
+bind_password -> Provide as per LDAP configuration
+user_filter -> objectClass=*
+user_name_attr -> uid
+group_filter -> objectClass=posixGroup
+

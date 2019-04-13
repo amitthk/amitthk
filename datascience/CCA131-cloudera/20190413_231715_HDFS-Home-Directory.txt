@@ -1,0 +1,25 @@
+HDFS - Home Directory
+
+
+id <username>
+
+su - <username>
+
+cd
+
+pwd
+
+hdfs dfs -put <source>
+
+hdfs dfs -mkdir /user/<username>
+
+hdfs dfs -ls /user
+
+hdfs dfs -chown <username>:hdfs /user/<username>
+
+
+hdfs dfs -chmod -R 700 /user/<username>
+
+hdfs dfs -ls /user
+
+hdfs dfs -put <source>

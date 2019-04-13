@@ -1,0 +1,11 @@
+Kerberos - Configure Cloudera to Kerberize the Cluster
+
+
+cat /etc/krb5.conf
+
+
+*****encryption type as : aes256-cts-hmac-sha1-96
+
+
+admin/admin@MUTHU4ALL.COM
+

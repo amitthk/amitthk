@@ -1,0 +1,29 @@
+HDFS Save Namespace
+
+User as hdfs
+
+
+hdfs dfs -put <source> <target>
+
+cd /dfs/nn/current
+
+ls -la
+
+hdfs dfsadmin -rollEdits
+
+hdfs dfs -put <source> <target>
+
+hdfs dfsadmin -safemode enter
+
+hdfs dfs -put <source> <target>
+
+hdfs dfsadmin -saveNamespace
+
+hdfs dfsadmin -safemode leave
+
+Property for hdfs-site.xml
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+dfs.namenode.num.extra.edits.retained
+dfs.namenode.num.checkpoints.retained
+dfs.namenode.max.extra.edits.segments.retained

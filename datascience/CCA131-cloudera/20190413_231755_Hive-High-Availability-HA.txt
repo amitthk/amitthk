@@ -1,0 +1,19 @@
+Hive High Availability -HA
+
+
+beeline
+!connect jdbc:hive2://<hive server2>:10000
+
+userid/password
+hive/hive
+
+show databases;
+
+
+beeline -u "jdbc:hive2://zookeeperhost1:2181,zookeeperhost2:2181,zookeeperhost3:2181/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2"
+
+
+show databases
+
+
+

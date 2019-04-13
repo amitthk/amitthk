@@ -1,0 +1,93 @@
+Lecture : Cloudera Installation Path B with local repository - AMI Prepare
+
+
+OS : CentOS 7
+username : centos
+
+
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/sysconfig/selinux 
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config 
+
+sudo vi /etc/systemd/system/disable-thp.service
+
+~~~~~~~~~~~~~~~~~File Content~~~~~~~~~~~~~~~~~~~~~~~~
+[Unit]
+Description=Disable Transparent Huge Pages (THP)
+
+[Service]
+Type=simple
+ExecStart=/bin/sh -c "echo 'never' > /sys/kernel/mm/transparent_hugepage/enabled && echo 'never' > /sys/kernel/mm/transparent_hugepage/defrag"
+
+[Install]
+WantedBy=multi-user.target
+
+~~~~~~~~~~~~~~~~~File Content~~~~~~~~~~~~~~~~~~~~~~~~
+
+sudo systemctl daemon-reload
+
+sudo systemctl start disable-thp
+sudo systemctl enable disable-thp
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+echo "vm.swappiness = 1" >> /etc/sysctl.conf 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+//Expand EBS Volume OR HVM RESIZE - CENTOS 7 with HVM doesnt need resize
+
+ df -h
+ sudo resize2fs /dev/xvde
+ 
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+yum -y update
+yum -y install ntp 
+chkconfig ntpd on
+
+service ntpd start
+service ntpd status
+
+
+yum -y install wget
+yum -y install yum-utils
+yum -y install unzip
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+ 
+cat /etc/sysconfig/selinux  
+cat /etc/selinux/config 
+
+cat /sys/kernel/mm/transparent_hugepage/enabled
+cat /sys/kernel/mm/transparent_hugepage/defrag
+
+
+cat /proc/sys/vm/swappiness
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+sudo su
+
+cd /etc/yum.repos.d/
+
+vi /etc/yum.repos.d/cloudera-manager.repo
+
+
+
+####################File Content########################
+[cloudera-manager]
+name=cloudera-manager
+baseurl = http://private-ip-or-dns-of-repo-server/cm/5.14.1/
+enabled=1
+gpgcheck=0
+gpgfile=http://private-ip-or-dns-of-repo-server/cm/RPM-GPG-KEY-cloudera
+
+####################File Content########################
+
+yum clean all
+yum makecache
+yum list all | grep cloudera
+yum repolist
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

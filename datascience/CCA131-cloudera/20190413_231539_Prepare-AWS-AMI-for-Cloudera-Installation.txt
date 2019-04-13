@@ -1,0 +1,35 @@
+Lecture : Prepare AWS AMI for Cloudera Installation
+
+AWS AMI : CentOS 6.5 (x86_64) - Release Media
+
+
+cat /etc/sysconfig/selinux 
+
+vi /etc/sysconfig/selinux 
+
+[code] SELINUX=disabled
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+service iptables status
+
+service iptables stop
+
+chkconfig iptables off
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+df -h
+
+resize2fs /dev/xvde
+
+df -h
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+cat /proc/sys/vm/swappiness
+
+echo "vm.swappiness = 1" >> /etc/sysctl.conf 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

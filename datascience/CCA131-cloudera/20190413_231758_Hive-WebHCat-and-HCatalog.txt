@@ -1,0 +1,20 @@
+Hive WebHCat and HCatalog
+
+curl -i http://<webHCat host_name>:50111/templeton/v1/status
+
+hcat -e "create table groups123(name string,placeholder string,id int) row format delimited fields terminated by ':' stored as textfile"
+
+hcat -e "desc groups123"
+
+beeline
+!connect jdbc:hive2://<hive server2>:10000
+
+userid/password
+hive/hive
+
+show databases;
+
+show tables
+
+
+describe fromatted group123

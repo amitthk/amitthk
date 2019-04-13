@@ -1,0 +1,61 @@
+Impala Compare with Hive - Architecture and Performance
+
+select count(*) from ratings;
+
+SELECT users.age,
+       count(*)
+FROM ratings
+JOIN users ON(ratings.userid=users.userid)
+WHERE rating=5
+GROUP BY users.age;
+
+
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+create database movielens;
+use movielens;
+
+CREATE TABLE ratings (
+  userid INT, 
+  movieid INT,
+  rating INT, 
+  tstamp STRING
+) ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '#'
+STORED AS TEXTFILE;
+
+CREATE TABLE movies (
+  movieid INT, 
+  title STRING,
+  genres ARRAY<STRING>
+) ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '#'
+COLLECTION ITEMS TERMINATED BY "|"
+STORED AS TEXTFILE;
+
+CREATE TABLE users (
+  userid INT, 
+  gender STRING, 
+  age INT,
+  occupation INT,
+  zipcode STRING
+) ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '#'
+STORED AS TEXTFILE;
+
+CREATE TABLE occupations (
+  id INT,
+  occupation STRING
+) ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '#'
+STORED AS TEXTFILE;
+
+LOAD DATA LOCAL INPATH 'ratings.t' OVERWRITE INTO TABLE ratings;
+LOAD DATA LOCAL INPATH 'movies.t' OVERWRITE INTO TABLE movies;
+LOAD DATA LOCAL INPATH 'users.t' OVERWRITE INTO TABLE users;
+LOAD DATA LOCAL INPATH 'occupation.dat' OVERWRITE INTO TABLE occupations;
+

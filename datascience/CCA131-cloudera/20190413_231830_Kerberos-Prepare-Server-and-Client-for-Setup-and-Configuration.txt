@@ -1,0 +1,53 @@
+Kerberos Prepare Server and Client for Setup and Configuration
+
+//In server
+yum -y install krb5-server krb5-libs krb5-workstation
+
+
+
+//In other hosts
+yum -y install krb5-libs krb5-workstation
+yum -y install openldap-clients
+
+
+vi /etc/krb5.conf
+
+//domain name change in 6 places
+
+//allow_weak_crypto = true
+
+
+kdb5_util create -s
+
+ls /var/kerberos/krb5kdc/principal
+
+service krb5kdc restart
+service kadmin restart
+
+chkconfig krb5kdc on
+chkconfig kadmin on
+
+
+kadmin.local -q "addprinc admin/admin"
+
+
+vi /var/kerberos/krb5kdc/kadm5.acl
+
+*/admin@MUTHU4ALL.COM	*
+
+service krb5kdc restart
+service kadmin restart
+
+
+kadmin -p "admin/admin@MUTHU4ALL.COM"
+>>listprincs
+>>addprinc
+>>addprinc testuser
+
+modprinc -maxrenewlife 90day krbtgt/MUTHU4ALL.COM@MUTHU4ALL.COM
+
+
+
+
+
+

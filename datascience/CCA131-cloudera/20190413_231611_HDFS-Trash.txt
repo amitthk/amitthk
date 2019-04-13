@@ -1,0 +1,24 @@
+HDFS Trash
+
+hdfs dfs -put test.txt /trashtest.txt
+
+hdfs dfs -ls /
+
+hdfs dfs -rm /trashtest.txt
+
+hdfs dfs -ls /user/hdfs/.Trash/Current
+
+hdfs dfs -ls /user/hdfs/.Trash
+
+hdfs dfs -put test.txt /skiptrash.txt
+
+hdfs dfs -rm -skipTrash /skiptrash.txt
+
+hdfs dfs -mv /user/hdfs/.Trash/Current/trashtest.txt /recover_fromtrash.txt
+
+
+hdfs dfs -expunge
+
+
+
+

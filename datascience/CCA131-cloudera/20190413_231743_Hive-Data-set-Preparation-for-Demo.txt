@@ -1,0 +1,23 @@
+Hive Data set Preparation for Demo
+
+
+yum -y install unzip
+
+su hdfs
+wget http://files.grouplens.org/datasets/movielens/ml-1m.zip
+
+unzip ml-1m.zip
+
+cd ml-1m/
+sed 's/::/#/g' movies.dat > movies.t
+sed 's/::/#/g' ratings.dat > ratings.t
+sed 's/::/#/g' users.dat > users.t
+
+
+hdfs dfs -mkdir /movielens
+
+hdfs dfs -put ratings.t /movielens/ratings.t
+hdfs dfs -put movies.t /movielens/movies.t
+hdfs dfs -put users.t /movielens/users.t
+hdfs dfs -put occupations.t /movielens/occupations.t
+

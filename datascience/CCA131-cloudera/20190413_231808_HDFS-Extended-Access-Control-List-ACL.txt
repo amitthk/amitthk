@@ -1,0 +1,27 @@
+HDFS Extended Access Control List (ACL)
+
+
+user: hdfs
+
+hdfs dfs -ls /
+
+hdfs dfs -mkdir /research2
+
+hdfs dfs -chown pprodlast1:production /research2
+
+su pprodlast1
+
+hdfs dfs -put test.txt /research2/2017_1.txt
+
+su pprodlast2
+
+hdfs dfs -put test.txt /research2/2017_2.txt
+
+~~~~~~~~~~~~~~~~~~~
+
+su pprodlast1
+
+hdfs dfs -getfacl /research2
+
+hdfs dfs -setfacl -m user:pprodlast2:rwx /research2
+

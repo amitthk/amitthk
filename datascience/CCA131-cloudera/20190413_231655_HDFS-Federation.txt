@@ -1,0 +1,22 @@
+HDFS Federation
+
+
+su hdfs
+cd
+cd /dfs/nn/current
+
+cat VERSION
+
+hdfs dfs -ls /
+
+hdfs dfs -ls /nameservices/<nameservice_name>
+
+hdfs dfs -put <source> /nameservices/<nameservice_name>/<target_name>
+
+hdfs dfs -ls /nameservices/<nameservice_name>/
+
+strings <edits_inprogress_xxxx>
+
+
+strings <edits_xxxxx_xxxxx>
+

@@ -1,0 +1,4 @@
+YARN - Resource Manager - FIFO - First In First Out Scheduler
+
+
+nohup sudo -u <userid> hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 50 100 &

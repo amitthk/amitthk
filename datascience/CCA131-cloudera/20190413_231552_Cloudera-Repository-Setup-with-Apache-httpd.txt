@@ -1,0 +1,37 @@
+Lecture: Cloudera Repository Setup with Apache httpd
+
+sudo su
+
+service httpd status
+
+yum -y install httpd
+
+chkconfig httpd on
+
+service httpd restart
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+service iptables status
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+http://archive.cloudera.com/cm5/repo-as-tarball/5.14.1/
+
+wget http://archive.cloudera.com/cm5/repo-as-tarball/5.14.1/cm5.14.1-centos7.tar.gz
+
+tar zxvf cm5.14.1-centos7.tar.gz -C /var/www/html/
+
+
+cd /var/www/html
+
+mkdir cdh5.14.0
+
+cd cdh5.14.0
+
+http://archive.cloudera.com/cdh5/parcels/5.14/
+
+wget http://archive.cloudera.com/cdh5/parcels/5.14/CDH-5.14.0-1.cdh5.14.0.p0.24-el7.parcel
+wget http://archive.cloudera.com/cdh5/parcels/5.14/manifest.json
+
+

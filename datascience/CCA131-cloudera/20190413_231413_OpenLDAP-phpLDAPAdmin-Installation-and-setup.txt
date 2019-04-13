@@ -1,0 +1,101 @@
+OpenLDAP - phpLDAPAdmin - Installation and setup
+
+
+ami-b5ed9ccd
+
+Server OS : Ubuntu 16.04
+Instance Type : t2 medium
+
+Username : ubuntu
+
+sudo apt-get update
+
+sudo apt install slapd ldap-utils
+
+systemctl status slapd
+
+
+sudo dpkg-reconfigure slapd
+
+0# do not omit server configuration
+
+#1.Provide domain name like muuthu4all.com. This will be similar to A record for your domain name. This will be used as base DN(Distinguisedh name) of the LDAP directory.
+
+#2. Enter your organisation name. - muthu4all
+
+#3. Set administrator password for the server.
+
+#4. Backend database choose between BDB, HBD, [MDB]
+
+#5. No to remove database when slapd is purged.
+
+#6. Move old database.
+
+#7. LDAP v.2 is older. Use LDAP v3.
+
+#8. Server should be up and running.
+
+
+Client Configuration
+~~~~~~~~~~~~~~~~~~~~
+sudo vi /etc/ldap/ldap.conf
+
+
+BASE     dc=muthu4all,dc=com
+URI      ldap://localhost
+
+Since we are installing the same host, we can use localhost.
+
+Testing
+~~~~~~~
+
+ldapsearch -x
+
+Result: 0 Success indicates that OpenLDAP server is working. 
+
+result: 32 No such object indicates that OpenLDAP server is NOT working. 
+
+Installing phpLDAPadmin
+~~~~~~~~~~~~~~~~~~~~~~~
+
+sudo apt-get update
+sudo apt install phpldapadmin
+
+
+This will install apache webserver in port 80 as dependency. [phpldapadmin.conf @ /etc/apache2/conf-enabled/]
+public domain./phpldapadmin
+
+Configure phpldapadmin to use OpenLDAPServer
+
+//go to line Esc + :293
+
+sudo vi /etc/phpldapadmin/config.php
+
+Line 293 --> (connects to localhost) 			$servers->setValue('server','host','127.0.0.1');
+
+Line 296 --> (let us keep the default port 389)		// $servers->setValue('server','port',389);
+
+Line 300 --> (base DN willl be detected automatically)	$servers->setValue('server','base',array('dc=example ,dc=com'));
+	 --> TO						$servers->setValue('server','base',array())
+
+
+Line 335 --> (TLS encryption is commented default)	// $servers->setValue('server','tls',false);
+
+		
+Line 453 --> (Disable anonymous login) 			// $servers->setValue('login','anon_bind',true);
+	 --> TO						$servers->setValue('login','anon_bind',false);
+		
+Line 161 --> (disable template warnings )		// $config->custom->appearance['hide_template_warning'] = false;
+	 --> TO						$config->custom->appearance['hide_template_warning'] = true;
+		
+
+
+Login cn=admin,dc=muthu4all,dc=com. 
+
+dc - domain component
+dn -distinguished name
+
+
+http://<publicdns>/phpldapadmin/
+
+

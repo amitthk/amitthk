@@ -1,0 +1,20 @@
+AWS AMI - with HVM
+CentOS 7
+https://aws.amazon.com/marketplace/fulfillment?productId=b7ee8a69-ee97-4a49-9e68-afaee216db2e&ref_=dtl_psb_continue
+userid : centos
+
+US East (N. Virginia)	ami-4bf3d731	Launch with EC2 Console
+US East (Ohio)	ami-e1496384	Launch with EC2 Console
+US West (N. California)	ami-65e0e305	Launch with EC2 Console
+US West (Oregon)	ami-a042f4d8	Launch with EC2 Console
+Canada (Central)	ami-dcad28b8	Launch with EC2 Console
+EU (Frankfurt)	ami-337be65c	Launch with EC2 Console
+EU (Ireland)	ami-6e28b517	Launch with EC2 Console
+EU (London)	ami-ee6a718a	Launch with EC2 Console
+EU (Paris)	ami-bfff49c2	Launch with EC2 Console
+Asia Pacific (Singapore)	ami-d2fa88ae	Launch with EC2 Console
+Asia Pacific (Sydney)	ami-b6bb47d4	Launch with EC2 Console
+Asia Pacific (Seoul)	ami-7248e81c	Launch with EC2 Console
+Asia Pacific (Tokyo)	ami-25bd2743	Launch with EC2 Console
+Asia Pacific (Mumbai)	ami-5d99ce32	Launch with EC2 Console
+South America (Sao Paulo)	ami-f9adef95

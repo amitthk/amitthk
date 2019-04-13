@@ -1,0 +1,54 @@
+Lecture : MySQL Database setup and Installation
+
+CentOS 6
+
+
+sudo su
+yum -y update
+
+yum -y install mysql-server mysql-connector-java
+service mysqld status
+
+service mysqld start
+
+chkconfig mysqld on
+
+/usr/bin/mysql_secure_installation
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+mysql -u root -h localhost -p
+
+mysql > show database
+
+mysql > create user 'temp'@'%' identified by 'password123';
+
+mysql > grant all privileges on *.* to 'temp'@'%' with grant option;
+
+mysql > quit;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+mysql -u temp -h localhost -p
+
+mysql > show database
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+service iptables status
+
+service iptables stop
+
+chkconfig iptables off
+
+iptables --flush
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+mysql -u root -p
+
+create database reportmanager;
+
+create user 'reportmanager'@'%' identified by 'password123';
+
+grant all privileges on reportmanager.* to 'reportmanager'@'%';
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
