@@ -52,3 +52,35 @@ create user 'reportmanager'@'%' identified by 'password123';
 grant all privileges on reportmanager.* to 'reportmanager'@'%';
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+create user scm identified by 'cdhadm123';
+create database scm;
+grant all privileges on scm.* to 'scm'@'%';
+create user amon identified by 'cdhadm123';
+create database amon;
+grant all privileges on amon.* to 'amon'@'%';
+create user rman identified by 'cdhadm123';
+create database rman;
+grant all privileges on rman.* to 'rman'@'%';
+create user hue identified by 'cdhadm123';
+create database hue;
+grant all privileges on hue.* to 'hue'@'%';
+create user metastore identified by 'cdhadm123';
+create database metastore;
+grant all privileges on metastore.* to 'metastore'@'%';
+create user sentry identified by 'cdhadm123';
+create database sentry;
+grant all privileges on sentry.* to 'sentry'@'%';
+create user nav identified by 'cdhadm123';
+create database nav;
+grant all privileges on nav.* to 'nav'@'%';
+create user navms identified by 'cdhadm123';
+create database navms;
+grant all privileges on navms.* to 'navms'@'%';
+create user oozie identified by 'cdhadm123';
+create database oozie;
+grant all privileges on oozie.* to 'oozie'@'%';
+create user hive identified by 'cdhadm123';
+create database hive;
+grant all privileges on hive.* to 'hive'@'%';
+

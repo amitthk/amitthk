@@ -1,10 +1,26 @@
 * unplanned and urgent
-** AWS Cert
+** DONE [#A] create cluster
+** TODO [#A] Tableau
+** TODO [#A] Ansible POC to PROD
+*** Find out the server hosting the ansible and able to connect to staging server
+*** Create user on the target server
+*** Raise the CR to add the ssh key for the user
+*** Find out 3 multiple file copy operations to do as POC
+*** Create the ansible playbook to injest the files
+*** Setup the JIRA , Jenkins , Ansible workflow for POC
+*** Find out the users whose passwords need to be withdraws and systems where connectivity to be established
+*** Raise the CR to run the POC playbook via automation
+*** Test and confirm the working code
+** TODO [#A] Alluxio Cluster
+** TODO [#A] AWS Cert
+** TODO [#A] Ldap, kerberos setup
+** TODO [#A] Spark submit
+** TODO [#C] MLE practice 
+** TODO [#C] MLE certification
+** TODO [#B] Monika passport renew
+** TODO [#C] Take down the Ansible notes
 ** TOEFL
-** Monika passport renew
-** MLE practice and certification
 ** Get the papers for Bangalore Provident apartment
-** Transfer to MOM
 * references
 ** montly recurring
 *** Pay rental
@@ -15,8 +31,11 @@
 * 2019
 ** mar
 ** apr
-*** vault HA
+*** AWS Certification
 *** ansible POC to prod
+*** PR Form submission
+*** tableau take over
+*** vault HA
 *** spark hadoop cluster ansible
 - httpd
   - s3 public bucket
@@ -25,11 +44,7 @@
 - kerberos
   - krb5.conf
 
-*** Pay rental
-*** PR Form submission
-*** AWS Certification
 *** Alluxio containerized cluster and pull request
-*** tableau take over
 ** may
 ** jun
 ** jul
@@ -37,3 +52,7 @@
 ** sep
 ** oct
 ** nov
+* done
+** Transfer to MOM
+** Citibank pay
+** Pay rental

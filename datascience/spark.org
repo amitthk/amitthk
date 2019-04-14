@@ -55,6 +55,25 @@ Data Sources => Transformation => Actions => UI Dashboard (Real time)/Processed 
 ** install
 Unzip the binaries and set the 
 
+** submit job to spark
+
+*** Submit to standalone spark in client mode
+#+BEGIN_SRC 
+spark-submit --class org.apache.spark.examples.SparkPi --master spark://ip-172-31-30-47.ap-southeast-1.compute.internal:7077 --executor-memory 512m --executor-cores 1 --num-executors 1 --driver-memory 512m --deploy-mode client /opt/cloudera/parcels/CDH/lib/spark/examples/lib/spark-examples-1.6.0-cdh5.16.1-hadoop2.6.0-cdh5.16.1.jar 10
+#+END_SRC
+
+*** Submit to yarn
+#+BEGIN_SRC 
+spark-submit --class org.apache.spark.examples.SparkPi --master yarn --executor-memory 512m --executor-cores 1 --num-executors 1 --driver-memory 512m --deploy-mode client /opt/cloudera/parcels/CDH/lib/spark/examples/lib/spark-examples-1.6.0-cdh5.16.1-hadoop2.6.0-cdh5.16.1.jar 10
+#+END_SRC
+
+*** Submit to standalone in cluster mode
+- deploy-mode cluster
+- spark cluster port can be found from spark webui it is node:6066
+
+#+BEGIN_SRC 
+spark-submit --class org.apache.spark.examples.SparkPi --master spark://ip-172-31-30-47.ap-southeast-1.compute.internal:6066 --executor-memory 512m --executor-cores 1 --num-executors 1 --driver-memory 512m --deploy-mode cluster $(pwd)/spark-examples-1.6.0-cdh5.16.1-hadoop2.6.0-cdh5.16.1.jar 10
+#+END_SRC
 ** start spark standalone
 
 *** open up the ports

@@ -585,8 +585,27 @@ esac
 
 ***** for loop
 
+****** Create a fle in all directories
+
 #+BEGIN_SRC 
 for f in $(ls -b); do echo "---" > "${f}main.yml";done
+#+END_SRC
+
+****** Run a command in loop
+
+#+BEGIN_SRC 
+for i in $(cat hostlist); do echo $i; ssh -i /c/Apps/Tools/keys/all_keys/all_keys/cdhstack_admin.pem centos@$i 'sudo yum history redo last'; done
+#+END_SRC
+
+****** Open firewall for all hosts in hostlist
+#+BEGIN_SRC
+for i in $(cat hostlist); do echo $i; ssh -i ./cdhstack_admin.pem centos@$i 'sudo firewall-cmd --zone=trusted --add-source=172.31.0.0/16 --permanent; firewall-cmd --reload'; donefor i in $(cat hostlist); do echo $i; ssh -i /c/Apps/Tools/keys/all_keys/all_keys/cdhstack_admin.pem centos@$i 'sudo firewall-cmd --zone=trusted --add-source=172.31.0.0/16 --permanent; firewall-cmd --reload'; done
+for i in $(cat hostlist); do echo $i; ssh -i ./cdhstack_admin.pem centos@$i 'sudo firewall-cmd --zone=dmz --add-port=6930-9000/tcp --permanent;sudo firewall-cmd --reload'; done
+#+END_SRC
+
+****** Open a list of ports for hosts in hostlist
+#+BEGIN_SRC 
+for i in $(cat hostlist); do echo $i; ssh -i /c/Apps/Tools/keys/all_keys/all_keys/cdhstack_admin.pem centos@$i 'sudo firewall-cmd --zone=dmz --add-port=6930-9000/tcp --permanent;sudo firewall-cmd --reload'; done
 #+END_SRC
 
 #+BEGIN_SRC 

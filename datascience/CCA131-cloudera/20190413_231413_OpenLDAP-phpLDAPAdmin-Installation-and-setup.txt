@@ -41,10 +41,149 @@ Client Configuration
 sudo vi /etc/ldap/ldap.conf
 
 
-BASE     dc=muthu4all,dc=com
-URI      ldap://localhost
+BASE     dc=pys3viewer,dc=mywire,dc=org
+URI      ldap://pys3viewer.mywire.org
 
 Since we are installing the same host, we can use localhost.
+
+getsebool -a | grep ldap
+setsebool -P httpd_can_connect_ldap=on
+
+~~~~~~~~~~~~~
+/etc/openldap/slapd.conf
+~~~~~~~~~~~~~
+include         /etc/openldap/schema/core.schema
+include         /etc/openldap/schema/cosine.schema
+include         /etc/openldap/schema/inetorgperson.schema
+include         /etc/openldap/schema/nis.schema
+pidfile         /var/run/openldap/slapd.pid
+argsfile        /var/run/openldap/slapd.args
+modulepath      /usr/lib64/openldap
+
+access to *
+                by self write
+                by dn.base="cn=Manager,dc=pys3viewer,dc=mywire,dc=org" write
+                by * read
+access to attrs=userPassword
+                by self write
+                by anonymous auth
+                by dn.base="cn=Manager,dc=pys3viewer,dc=mywire,dc=org" write
+                by * none
+access to attrs=shadowLastChange
+                by self write
+                by * read
+
+database        hdb
+suffix          "dc=pys3viewer,dc=mywire,dc=org"
+rootdn          "cn=Manager,dc=pys3viewer,dc=mywire,dc=org"
+rootpw          {SSHA}gB/U9C81JN46waUAuMwukPh4Z+ux0ga9
+#This directory has to be created and would contain the ldap database.
+directory       /var/lib/ldap/pys3viewer.mywire.org/
+index objectClass                       eq,pres
+index ou,cn,mail,surname,givenname      eq,pres,sub
+index uidNumber,gidNumber,loginShell    eq,pres
+index uid,memberUid                     eq,pres,sub
+index nisMapName,nisMapEntry            eq,pres,sub
+
+~~~~~~~~~~~~\
+/etc/openldap/ldap.conf
+~~~~~~~~~~~~~~
+#
+# LDAP Defaults
+#
+
+# See ldap.conf(5) for details
+# This file should be world readable but not world writable.
+
+BASE    dc=pys3viewer,dc=mywire,dc=org
+URI     ldap://localhost
+
+#SIZELIMIT      12
+#TIMELIMIT      15
+#DEREF          never
+#TLS_CACERTDIR /etc/openldap/cacerts
+#TLS_CACERT /etc/openldap/certs/cert.crt
+~~~~~~~~~~~~~~~~~
+Create the ldap database now:
+~~~~~~~~~~~~~~~~~
+mkdir -p /etc/openldap/slapd.d/
+chown -R ldapadmin:ldapadmin /etc/openldap/slapd.d/
+slaptest -f /etc/openldap/slapd.conf -F /etc/openldap/slapd.d/
+
+
+
+Create the ou.ldif
+----------------------------------------------
+dn: dc=pys3viewer,dc=mywire,dc=org
+objectclass: dcObject
+objectclass: organization
+o: pys3viewer.mywire.org
+dc: pys3viewer
+
+dn: cn=Manager,dc=pys3viewer,dc=mywire,dc=org
+objectclass: organizationalRole
+cn: Manager
+---------------------------------------------
+
+ldapadd -D "cn=Manager,dc=pys3viewer,dc=mywire,dc=org" -W -f ou.ldif
+
+Add following ldifs:
+---------------
+
+dn: ou=Group,dc=pys3viewer,dc=mywire,dc=org
+objectClass: organizationalUnit
+ou: Group
+----------
+dn: ou=People,dc=pys3viewer,dc=mywire,dc=org
+objectClass: organizationalUnit
+ou: People
+---------
+dn: uid=atksv,ou=People,dc=pys3viewer,dc=mywire,dc=org
+objectClass: shadowAccount
+objectClass: posixAccount
+objectClass: account
+objectClass: top
+cn: atksv
+gidNumber: 100
+homeDirectory: /home/atksv
+uid: atksv
+uidNumber: 9999
+gecos: Raj [Admin (at) Amitthk]
+loginShell: /bin/bash
+shadowLastChange: 17058
+shadowMax: 99999
+shadowMin: 0
+shadowWarning: 7
+userPassword:: e1NTSEF9RHlSNW92TDJ3YmJIZGtBSmxPQzQ3WU80emRiZnJod0k=
+--------
+
+ldapsearch -D "cn=Manager,dc=pys3viewer,dc=mywire,dc=org" -W -p 389 -h pys3viewer.mywire.org -b "cn=Manager,dc=pys3viewer,dc=mywire,dc=org"
+
+~~~~~~~~~~~`~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Alternate to db:
+~~~~~~~~~~~~~~~~
+vi db.ldif
+~~~~~~
+
+dn: olcDatabase={2}hdb,cn=config
+changetype: modify
+replace: olcSuffix
+olcSuffix: dc=pys3viewer,dc=mywire,dc=org
+ 
+dn: olcDatabase={2}hdb,cn=config
+changetype: modify
+replace: olcRootDN
+olcRootDN: cn=ldapadm,dc=pys3viewer,dc=mywire,dc=org
+ 
+dn: olcDatabase={2}hdb,cn=config
+changetype: modify
+replace: olcRootPW
+olcRootPW: hashed_output_from_the_slappasswd_command
+
+-------
+ldapmodify -Y EXTERNAL -H ldapi:/// -f db.ldif -W
+---------------
+
 
 Testing
 ~~~~~~~

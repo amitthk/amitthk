@@ -15,3 +15,26 @@ systemctl stop mariadb
 
 
 mysql_secure_installation
+
+=========
+To allow remote connections to mariadb:
+
+Check where the defaults are being loaded from:
+
+mysql --print-defaults
+mysql --help --verbose
+
+==> following line  indicates where defaults are loaded from:
+Default options are read from the following files in the given order:
+/etc/my.cnf /etc/mysql/my.cnf ~/.my.cnf 
+
+vi /etc/my.cnf
+
+Add to the following section:
+[mysqld]
+skip-networking=0
+skip-bind-address
+
+
+===
+sudo service mariadb restart
