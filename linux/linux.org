@@ -1,5 +1,225 @@
 * linux
 
+** linux operations essential
+
+*** hierarchy of environment variables
+| System wide   |                               |                                                  |
+|               | /etc/environment              | specifically meant for environment variables     |
+|               | /etc/env.d/*                  | environment variables, split in multiple files   |
+|               | /etc/profile                  | all types of initialization scripts              |
+|               | /etc/profile.d/*              | initialization scripts                           |
+|               | /etc/bashrc, /etc/bash.bashrc | meant for functions and aliases                  |
+| User specific |                               |                                                  |
+|               | ~/.bash_profile               | initialization for login (bash-)shells           |
+|               | ~/.bashrc                     | initialization for all interactive (bash-)shells |
+|               | ~/.profile                    | used for all shells                              |
+|               | ~/.cshrc, ~/.zshrc, ~/.tcshrc | similar for non-bash                             |
+
+
+*** system info
+
+#+BEGIN_SRC 
+cat /etc/system-release
+lsb_release -d
+rpm -qf $(which lsb_release)
+uname -r 
+
+#kernel version
+cat /proc/version
+
+#options passed to the kernel during boot
+cat /proc/cmdline
+
+#block devices
+lsblk
+
+
+#+END_SRC
+
+
+#+BEGIN_SRC 
+#send message to tux
+$write tux
+
+#+END_SRC
+
+#+BEGIN_SRC
+
+
+#multiline message
+
+
+$cat > message << END
+"some message
+END
+
+#+END_SRC
+
+#+BEGIN_SRC
+
+
+$wall < message
+
+#+END_SRC
+
+#+BEGIN_SRC
+
+
+$shutdown <halt poweroff reboot>
+shutdown -h 5 "The system is getting down in 5 min"
+$shutdown -c (cancel it)
+
+$halt
+
+$init --help
+
+$ls /run
+
+#last command
+$cat !$
+
+#+END_SRC
+
+
+
+
+*** runlevels
+
+#+BEGIN_SRC
+
+#who's logged on
+$who
+
+#current runlevel - runlevel 5 is graphical target
+$who -r
+
+#also current runlevel
+$runevel
+
+#current target
+$systemctl get-default
+#set the default target. graphical/multiple users can logon
+$systmctl set-default multi-user.target
+#get some information on how our sshdaemon is running 
+$systemctl isolate multi-user.target
+
+# rescue.target is runlevel 1 - emergency mode - no networking , only root user
+
+#halt and restart
+telinit 0 
+
+#+END_SRC
+
+*** recovery mode - recover lost root password
+
+vi /etc/default/grub
+
+#set GRUB_DISABLE_RECOVERY="false"
+
+grub2-mkconfig -o /boot/grub2/grub.cfg
+
+- grub on the boot menu select an entry and 'e' to edit
+#find linux16 line
+#remove entry -> rhgb quiet
+#add in place -> rd.break enforcing=0
+
+- mount the root file system and change password
+switch_root: mount -o remount,rw /sysroot
+switch_root: chroot /sysroot
+passwd
+<change the password>
+mount -o remount,ro /sysroot
+exit
+
+- login again as root and now restore config
+restorecon /etc/shadow
+setenforce 1
+
+
+
+*** processes
+
+#+BEGIN_SRC
+
+
+$ps
+$man ps
+#   - Unix: -
+#   - BSD : no dash
+#   -  GNU:  --
+
+ps aux
+ps -e --forest
+pstree
+ps
+ps -f (full listing)
+ps -F (extra full)
+ps -l (long listing)
+ps -ly
+ps -elf (longand full)
+ps -elf | grep sshd
+ps -p1 -f
+echo $$
+ps -p $$ -F
+
+cd $$
+ls -l cwd
+ls -l  exe
+
+cat loadavg (last process id used)
+#=====
+stty -a (shortcuts for processes)
+
+kill -l  (listing of all kill signals)
+
+kill -term 8537 (ask to close)
+kill -sigkill 8537 (force kill)
+
+#=====
+pgrep sshd
+ps -F -p $(pgrep sshd)
+
+sleep 100&
+sleep 100&
+pgrep sleep
+pkill sleep
+
+top
+#=======
+free
+free -m (megabyte)
+free -g
+pmap $$
+pwdx $$
+sudo pwdx $(pgrep sshd)
+#======
+who
+lscpu
+cat /proc/uptime
+cat /proc/loadavg
+watch -n 4 uptime (run the command every 4 seconds)
+tload
+#======
+top -b n1 (batch mode 1 iteration)
+top -b n1 > file1
+less file1
+vmstat
+vmstat -S k
+vmstat -S m
+vmstat 5 3 (5 seconds gap 3 iterations)
+
+#=====
+#shared libraries
+
+ldd /usr/bin/ls
+ldd /usr/bin/grep
+pmap $$
+ldd /usr/bin/bash
+pwd
+pwd -P (actual from the link directoy)
+
+#+END_SRC
+
 ** LFCS Essentials
 *** Basic Command line
 - ctrl shift +
@@ -178,6 +398,11 @@ sudo usermod -a -G www apache
  sudo service httpd restart
 #+END_SRC
 *** Files
+find and execute a command on files in directory
+#+BEGIN_SRC 
+find /etc/ -name  'sshd_config' -exec cp {} {}.bak \;
+#+END_SRC
+
 #+BEGIN_SRC 
 echo $SSH_C
 
@@ -784,7 +1009,8 @@ gpgcheck=0"
 puppet apply /etc/puppet/manifests/mysite.pp
 #+END_SRC
 
-*** sed, awk, grep
+
+** sed, awk, grep
 #+BEGIN_SRC 
 declare -f | grep ‘^[a-z_]’
 
@@ -797,7 +1023,7 @@ ifconfig eth0|awk -F":"'/HWaddr/{ print $3 $4 $5 $6 $7 }'
 
 #+END_SRC
 
-**** grep - global regular expressions and print
+*** grep - global regular expressions and print
 
 - transmission data from ifconfig
   - ifconfig eth0 | grep RX
@@ -806,7 +1032,14 @@ ifconfig eth0|awk -F":"'/HWaddr/{ print $3 $4 $5 $6 $7 }'
 - count the number of cpu cores in host
   - grep -c name /proc/
 
-***** parse csv
+
+**** ls only the files
+
+#+BEGIN_SRC 
+ls -l | egrep -v '^d'
+#+END_SRC
+
+**** parse csv
 
 ~vi parsecsv.sh
 
@@ -826,7 +1059,7 @@ IFS=$OLDIFS
 
 - -A specified how many lines after match to include
 
-***** regular expressions
+**** regular expressions
 | ANCHORS                                      | symbol     |
 | Start of string                              | ^          |
 | End of string                                | $          |
@@ -854,7 +1087,7 @@ e.g valid SSN numbers
 -v reverses the search, -E enhanced regex 
 grep -vE '\b[0-9]{3}-[0-9]{2}-[0-9]{4}\b' employees
 
-**** sed
+*** sed
 | PRINT command                                                        | e.g                                                              |
 | Print the pattern space                                              | sed ' p ' /etc/passwd                                            |
 | Suppress standrd output only matched lines display                   | sed -n ' p ' /etc/passwd                                         |
@@ -881,7 +1114,171 @@ sed ‘ {
 
 .....
 
-**** awk
+*** awk
+
+| Execute awk cmds from BEGIN block  | BEGIN |
+| read input line                    | loop  |
+| execute awk commands on a line     | loop  |
+| repeat if not end of file          | loop  |
+| Eecute awk commands from END block | END   |
+
+**** syntax
+#+BEGIN_SRC 
+BEGIN {awk-commands}
+/pattern/ {awk-commands}
+END {awk-commands}
+#+END_SRC
+
+e.g
+#+BEGIN_SRC 
+awk 'BEGIN{printf "Sr No\tName\tSub\tMarks\n"} {print} marks.txt END{printf "done"}'
+
+#+END_SRC
+
+**** running awk
+
+Directly
+#+BEGIN_SRC 
+#awk [options] file ...
+awk '{print}' marks.txt 
+#+END_SRC
+
+via a awk file
+
+#+BEGIN_SRC 
+#awk [options] -f file ....
+awk -f command.awk marks.txt
+#+END_SRC
+
+**** variables
+
+#+BEGIN_SRC 
+awk -v name=Jerry 'BEGIN{printf "Name = %s\n", name}'
+#+END_SRC
+
+**** patterns
+The default behavior is print each line so following two are same
+
+/alluxio/ is a pattern here
+
+#+BEGIN_SRC 
+ps -elf | awk '/alluxio/ {print $0}'
+ps -elf | awk '/alluxio/'
+#+END_SRC
+
+
+***** printing the ps elf sepecific fields
+#+BEGIN_SRC 
+ps -elf | awk '/a/ {print $3 "\t" $4}'
+#+END_SRC
+
+**** awk built in variables
+
+***** ARGC
+#+BEGIN_SRC 
+awk 'BEGIN {print "Arguments =", ARGC}' One Two Three Four
+#+END_SRC
+
+***** ARGV
+#+BEGIN_SRC 
+awk 'BEGIN { 
+   for (i = 0; i < ARGC - 1; ++i) { 
+      printf "ARGV[%d] = %s\n", i, ARGV[i] 
+   } 
+}' one two three four
+#+END_SRC
+
+***** conversion format CONVFMT
+
+#+BEGIN_SRC 
+awk 'BEGIN { print "Conversion Format =", CONVFMT }'
+#+END_SRC
+
+***** ENVIRON
+#+BEGIN_SRC 
+awk 'BEGIN { print ENVIRON["USER"] }'
+#+END_SRC
+
+***** FILENAME
+#+BEGIN_SRC 
+awk 'END {print FILENAME}' marks.txt
+#+END_SRC
+
+***** FS (field separator - default value is space)
+#+BEGIN_SRC 
+awk 'BEGIN {print "FS = " FS}' | cat -vte
+#+END_SRC
+
+***** NF (number of fields in current record)
+#+BEGIN_SRC 
+echo -e "One Two\nOne Two Three\nOne Two Three Four" | awk 'NF > 2'
+#+END_SRC
+
+***** RS
+It represents (input) record separator and its default value is newline.
+
+Example
+#+BEGIN_SRC 
+[jerry]$ awk 'BEGIN {print "RS = " RS}' | cat -vte
+
+#+END_SRC
+On executing this code, you get the following result −
+
+Output
+
+RS = $
+$
+
+***** RSTART
+It represents the first position in the string matched by match function.
+
+Example
+
+#+BEGIN_SRC 
+[jerry]$ awk 'BEGIN { if (match("One Two Three", "Thre")) { print RSTART } }'
+
+#+END_SRC
+
+On executing this code, you get the following result −
+
+Output
+
+9
+
+***** SUBSEP
+It represents the separator character for array subscripts and its default value is \034.
+
+Example
+
+#+BEGIN_SRC 
+[jerry]$ awk 'BEGIN { print "SUBSEP = " SUBSEP }' | cat -vte
+
+#+END_SRC
+On executing this code, you get the following result −
+
+Output
+
+SUBSEP = ^\$
+$0
+It represents the entire input record.
+
+Example
+
+~awk '{print $0}' marks.txt~
+
+***** $n nth field in current record
+#+BEGIN_SRC 
+
+ls -la | awk '{print $2 \t $4}'
+#+END_SRC
+
+***** run awk command only on  files in directory
+
+#+BEGIN_SRC 
+ls -l | egrep -v '^d' | awk '/.*.ldif/ {print "ls -la " $9}' | /bin/bash
+#+END_SRC
+
+**** examples
 
 vi users.awk
 
@@ -919,7 +1316,7 @@ print "Total Number of Users Processed: ", count}
 #+END_SRC
 
 
-***** xml file refining
+**** xml file refining
 xml.awk
 
 #+BEGIN_SRC 
@@ -930,7 +1327,7 @@ $0 ~ search { print }
 Usage:
 awk -f xml.awk search=example vh.conf
 
-***** Log files refining using awk
+**** Log files refining using awk
 
 #+BEGIN_SRC 
 # print first field
@@ -938,7 +1335,7 @@ awk ‘ { print $1 } ‘ access.log
 
 #+END_SRC
 
-***** count unique access by client
+**** count unique access by client
 #+BEGIN_SRC 
 BEGIN { FS=" ";print "Log access" }
 { ip[$1]++ }
@@ -947,7 +1344,7 @@ print i, " has accessed ", ip[i], " times."
 }
 #+END_SRC
 
-***** maximum browser count
+**** maximum browser count
 
 #+BEGIN_SRC 
 BEGIN { FS=" "; print "Most Popular Browser" }
@@ -960,7 +1357,7 @@ print "Most access was from ", maxbrowser, " and ", max, "
 times." }
 #+END_SRC
 
-**** notes sed awk grep
+*** notes sed awk grep
  
 Grep awk sed
 
@@ -1069,117 +1466,6 @@ sudo yum install xfsprogs
 sudo xfs_growfs -d /mnt
 
 sudo file -s /dev/xvd*
-
-#+END_SRC
-
-** linux operations essential
-#+BEGIN_SRC 
-$write tux
-
-$cat > message << END
-"some message
-END
-
-$wall < message
-
-$shutdown <halt poweroff reboot>
-shutdown -h 5 "The system is getting down in 5 min"
-$shutdown -c (cancel it)
-
-$halt
-
-$init --help
-
-$ls /run
-
-
-$cat !$
-
-===runlevels
-$who
-
-$who -r
-$runevel
-$systemctl get-default
-$systmctl set-default multi-user.target
-
-$systemctl isolate multi-user.target
-
-$ps
-$man ps
-#   - Unix: -
-#   - BSD : no dash
-#   -  GNU:  --
-
-ps aux
-ps -e --forest
-pstree
-ps
-ps -f (full listing)
-ps -F (extra full)
-ps -l (long listing)
-ps -ly
-ps -elf (longand full)
-ps -elf | grep sshd
-ps -p1 -f
-echo $$
-ps -p $$ -F
-
-cd $$
-ls -l cwd
-ls -l  exe
-
-cat loadavg (last process id used)
-#=====
-stty -a (shortcuts for processes)
-
-kill -l  (listing of all kill signals)
-
-kill -term 8537 (ask to close)
-kill -sigkill 8537 (force kill)
-
-#=====
-pgrep sshd
-ps -F -p $(pgrep sshd)
-
-sleep 100&
-sleep 100&
-pgrep sleep
-pkill sleep
-
-top
-#=======
-free
-free -m (megabyte)
-free -g
-pmap $$
-pwdx $$
-sudo pwdx $(pgrep sshd)
-#======
-who
-lscpu
-cat /proc/uptime
-cat /proc/loadavg
-watch -n 4 uptime (run the command every 4 seconds)
-tload
-#======
-top -b n1 (batch mode 1 iteration)
-top -b n1 > file1
-less file1
-vmstat
-vmstat -S k
-vmstat -S m
-vmstat 5 3 (5 seconds gap 3 iterations)
-
-#=====
-#shared libraries
-
-ldd /usr/bin/ls
-ldd /usr/bin/grep
-pmap $$
-ldd /usr/bin/bash
-pwd
-pwd -P (actual from the link directoy)
 
 #+END_SRC
 
