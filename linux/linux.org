@@ -1038,7 +1038,6 @@ gpgcheck=0"
 puppet apply /etc/puppet/manifests/mysite.pp
 #+END_SRC
 
-
 ** sed, awk, grep
 #+BEGIN_SRC 
 declare -f | grep ‘^[a-z_]’
@@ -1473,6 +1472,24 @@ nc -l 8990
 
 #windows
 nc -L -p 8990
+#+END_SRC
+
+** sshd allow only key ssh on specific ports
+
+vi /etc/ssh/sshd_config
+
+#+BEGIN_SRC 
+Port 22
+Port 60022
+
+#..
+#..
+
+
+#at end
+Match LocalPort 60022
+PasswordAuthentication no
+RSAAuthentication yes
 #+END_SRC
 
 ** resize volume grow partition

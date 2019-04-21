@@ -278,6 +278,8 @@ minReplication
 ** install jupyter
 
 *** local install python3 and jupyter
+
+**** local install python3
 #+BEGIN_SRC 
 # To allow for building python ssl libs
 yum install openssl-devel
@@ -307,6 +309,9 @@ yum install openssl-devel
 yum install -y jupyter
 
 #+END_SRC
+
+**** allow jupyter over network
+
 Now running the jupyter notebook (as different user) will only allow you on localhost
 su hadoop
 jupyter notebook
@@ -317,6 +322,11 @@ jupyter notebook --generate-config
 
 vi /home/hadoop/.jupyter/jupyter_notebook_config.py
 
+
+#+END_SRC
+
+**** password protect notebook
+#+BEGIN_SRC
 #run this command to create the password for you notebook
 jupyter notebook password
 
@@ -347,6 +357,40 @@ Out[2]: 'sha1:67c9e60bb8b6:9ffede0825894254b2e042ea597d771089e11aed'
 Update this:
 
 c.NotebookApp.password = u'sha1:67c9e60bb8b6:9ffede0825894254b2e042ea597d771089e11aed'
+
+
+**** create the service file to run jupyter at start
+
+vi /etc/systemd/system/jupyter.service
+
+#+BEGIN_SRC 
+[Unit]
+Description=Jupyter Workplace
+
+[Service]
+Type=simple
+PIDFile=/run/jupyter.pid
+ExecStart=/opt/python-3.6.2/bin/jupyter-notebook --config=/home/hadoop/.jupyter/jupyter_notebook_config.py
+User=hadoop
+Group=hadoop
+WorkingDirectory=/home/hadoop
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+
+#+END_SRC
+
+enable and run the service
+
+#+BEGIN_SRC 
+systemctl enable jupyter.service
+systemctl daemon-reload
+systemctl start jupyter.service
+systemctl status jupyter.service
+
+#+END_SRC
 
 *** Debian Install jupyter
 #+BEGIN_SRC 
