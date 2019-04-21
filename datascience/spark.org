@@ -52,11 +52,104 @@ Data Sources => Transformation => Actions => UI Dashboard (Real time)/Processed 
 - Perform Queries on Data Frame
 - Run SQL on DATA Frames
 
-** install
-Unzip the binaries and set the 
+** setup hdfs
+
+*** vi /opt/hadoop-2.7.3/etc/hadoop/core-site.xml
+#+BEGIN_SRC 
+    <configuration>
+        <property>
+            <name>fs.default.name</name>
+            <value>hdfs://node-master:9000</value>
+        </property>
+    </configuration>
+
+#+END_SRC
 
 
-vi ~/.bash_profile
+*** vi /opt/hadoop-2.7.3/etc/hadoop/hdfs-site.xml
+
+#+BEGIN_SRC 
+<configuration>
+    <property>
+            <name>dfs.namenode.name.dir</name>
+            <value>/home/hadoop/data/nameNode</value>
+    </property>
+
+    <property>
+            <name>dfs.datanode.data.dir</name>
+            <value>/home/hadoop/data/dataNode</value>
+    </property>
+
+    <property>
+            <name>dfs.replication</name>
+            <value>1</value>
+    </property>
+</configuration>
+
+#+END_SRC
+
+*** vi /opt/hadoop-2.7.3/etc/hadoop/mapred-site.xml
+ cp /opt/hadoop-2.7.3/etc/hadoop/mapred-site.xml.template /opt/hadoop-2.7.3/etc/hadoop/mapred-site.xml
+
+#+BEGIN_SRC 
+<configuration>
+    <property>
+            <name>mapreduce.framework.name</name>
+            <value>yarn</value>
+    </property>
+</configuration>
+
+#+END_SRC
+
+*** vi /opt/hadoop-2.7.3/etc/hadoop/yarn-site.xml
+#+BEGIN_SRC 
+    <property>
+            <name>yarn.acl.enable</name>
+            <value>0</value>
+    </property>
+
+    <property>
+            <name>yarn.resourcemanager.hostname</name>
+            <value>localhost</value>
+    </property>
+
+    <property>
+            <name>yarn.nodemanager.aux-services</name>
+            <value>mapreduce_shuffle</value>
+    </property>
+
+#+END_SRC
+
+*** format the namenode and start the services
+#+BEGIN_SRC 
+hadoop namenode -format
+start-all.sh
+
+or 
+hadoop namenode -format
+start-dfs.sh
+start-yarn.sh
+
+#+END_SRC
+** install spark
+
+*** Unzip the binaries and set the
+
+**** download the native lib
+from: http://www.apache.org/dyn/closer.cgi/hadoop/common/hadoop-2.7.3/hadoop-2.7.3.tar.gz
+get the link
+#+BEGIN_SRC 
+wget http://archive.apache.org/dist/hadoop/common/hadoop-2.7.3/hadoop-2.7.3.tar.gz
+#+END_SRC
+
+**** vi /opt/hadoop-2.7.3/etc/hadoop/hadoop-env.sh
+
+set the JAVA_HOME=/usr/java/default/jre
+
+or 
+JAVA_HOME=/usr/java/jdk1.8.0_181-amd64/jre
+
+**** vi ~/.bash_profile
 
 #+BEGIN_SRC 
 # .bash_profile
@@ -73,7 +166,7 @@ export JAVA_HOME=/usr/java/default
 export PATH=$PATH:$JAVA_HOME/bin
 export CLASSPATH=.:$JAVA_HOME/jre/lib:$JAVA_HOME/lib:$JAVA_HOME/lib/tools.jar
 #export HADOOP_HOME=/opt/hadoop-2.8.3
-export HADOOP_HOME=/opt/spark-2.3.0-bin-hadoop2.7
+export HADOOP_HOME=/opt/hadoop-2.7.3
 export HIVE_HOME=/opt/apache-hive-2.3.3
 export HADOOP_INSTALL=$HADOOP_HOME
 export HADOOP_MAPRED_HOME=$HADOOP_HOME
@@ -91,13 +184,21 @@ export PATH=$PATH:$DERBY_HOME/bin
 #18
 export CLASSPATH=$CLASSPATH:$DERBY_HOME/lib/derby.jar:$DERBY_HOME/lib/derbytools.jar
 #export HADOOP_CONF_DIR=/opt/hadoop-2.8.3/etc/hadoop
-export HADOOP_CONF_DIR=/opt/spark-2.3.0-bin-hadoop2.7/etc/hadoop
+export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
 export SPARK_HOME=/opt/spark-2.3.0-bin-hadoop2.7
-export LD_LIBRARY_PATH=/opt/hadoop-2.8.3/etc/hadoop/lib/native:$LD_LIBRARY_PATH
+export PATH=$SPARK_HOME/bin:$PATH
+
+export LD_LIBRARY_PATH=$HADOOP_HOME/lib/native:$LD_LIBRARY_PATH
 export HADOOP_OPTS="${HADOOP_OPTS}-Djava.library.path=$HADOOP_HOME/lib/native"
+
+export PATH=/opt/python-3.6.2/bin:$PATH
+export PYSPARK_SUBMIT_ARGS="pyspark-shell"
+export PYSPARK_DRIVER_PYTHON=ipython
+export PYSPARK_DRIVER_PYTHON_OPTS='notebook' pyspark
+
 #+END_SRC
 
-- Spark is super picky about the hostnames and IP(s) . set them right in spark-env.sh
+**** Spark is super picky about the hostnames and IP(s) . set them right in spark-env.sh
 
 vi /opt/spark-2.3.0-bin-hadoop2.7/conf/spark-env.sh
 
@@ -109,7 +210,19 @@ SPARK_MASTER_WEBUI_PORT=8091
 
 #+END_SRC
 
-Now start the master and slave
+**** start the hdfs
+ensure vi /opt/hadoop-2.7.3/etc/hadoop/hadoop-env.sh contains the JAVA_HOME
+#+BEGIN_SRC 
+start-all.sh
+
+#+END_SRC
+
+Try running spark shell
+#+BEGIN_SRC 
+spark-shell --master yarn --deploy-mode client
+#+END_SRC
+
+**** Now start the spark master and slave
 #+BEGIN_SRC
 start-master.sh
 
@@ -117,7 +230,135 @@ start-slave.sh spark://localhost:7077
 tail -n230 -f /opt/spark-2.3.0-bin-hadoop2.7/logs/spark-hadoop-org.apache.spark.deploy.worker.Worker-1-x220.centos.out
 #+END_SRC
 
+**** if you are facing the spark-libs.jar not found issue, you will need to pack all the jars in $SPARK_HOME/jars to one
 
+You could also use the spark.yarn.archive option and set that to the location of an archive (you create) containing all the JARs in the $SPARK_HOME/jars/ folder, at the root level of the archive. For example:
+
+- Create the archive: 
+~jar cv0f spark-libs.jar -C $SPARK_HOME/jars/ .~
+- Upload to HDFS: 
+~hdfs dfs -put spark-libs.jar /some/path/.~
+- 2a. For a large cluster, increase the replication count of the Spark archive so that you reduce the amount of times a NodeManager will do a remote copy. hdfs dfs ¡Vsetrep -w 10 hdfs:///some/path/spark-libs.jar (Change the amount of replicas proportional to the number of total NodeManagers)
+- Set spark.yarn.archive to hdfs:///some/path/spark-libs.jar
+
+**** vi vi /opt/spark-2.3.0-bin-hadoop2.7/conf/spark-defaults.conf
+
+#+BEGIN_SRC 
+spark.master.ui.port 8090
+spark.master yarn
+spark.driver.memory 512m
+spark.yarn.am.memory 512m
+spark.executor.memory 512m
+
+spark.eventLog.enabled  true
+spark.eventLog.dir hdfs://127.0.0.1:9000/spark-logs
+spark.history.provider org.apache.spark.deploy.history.FsHistoryProvider
+spark.history.fs.logDirectory hdfs://127.0.0.1:9000/spark-logs
+spark.history.fs.update.interval 10s
+spark.history.ui.port 18080
+spark.yarn.archive=hdfs:///var/lib/spark/spark-libs.jar
+#+END_SRC
+
+
+#+BEGIN_SRC 
+hdfs dfs -mkdir /var
+hdfs dfs -mkdir /var/lib
+hdfs dfs -mkdir /var/lib/spark
+hdfs dfs -put spark-libs.jar /var/lib/spark/.
+hdfs dfs -ls /var/lib/spark
+#+END_SRC
+
+**** there is an error - namenode is in safemode
+#+BEGIN_SRC 
+hdfs dfsadmin -safemode leave
+#+END_SRC
+
+minReplication
+
+** install jupyter
+
+*** local install python3 and jupyter
+#+BEGIN_SRC 
+# To allow for building python ssl libs
+yum install openssl-devel
+# Download the source of *any* python version
+cd /usr/src
+wget https://www.python.org/ftp/python/3.6.2/Python-3.6.2.tar.xz
+tar xf Python-3.6.2.tar.xz 
+cd Python-3.6.2
+
+# Configure the build w/ your installed libraries
+./configure
+
+#need to do this because ModuleNotFoundError: No module named '_sqlite3' pysqlite2 errors
+yum install -y sqlite-devel
+./configure --enable-loadable-sqlite-extensions
+
+#make it
+make
+
+# Install into /usr/local/bin/python3.6, don't overwrite global python bin
+make install
+
+#this is required for pip . pip3 is default configured with ssl
+yum install openssl-devel
+
+#now install jupyter notebook
+yum install -y jupyter
+
+#+END_SRC
+Now running the jupyter notebook (as different user) will only allow you on localhost
+su hadoop
+jupyter notebook
+
+but to allow it from network here's what u got to do
+#+BEGIN_SRC 
+jupyter notebook --generate-config
+
+vi /home/hadoop/.jupyter/jupyter_notebook_config.py
+
+#run this command to create the password for you notebook
+jupyter notebook password
+
+jupyter notebook password
+#Enter password:  ****
+#Verify password: ****
+#[NotebookPasswordApp] Wrote hashed password to /Users/you/.jupyter/jupyter_notebook_config.json
+
+#+END_SRC
+
+Now you can run your notebook with 
+
+~jupyter notebook~
+
+**** Jupyter notebook permission issue
+
+~unset XDG_RUNTIME_DIR~
+
+YOu can also prepare the hashed password
+#+BEGIN_SRC 
+In [1]: from notebook.auth import passwd
+In [2]: passwd()
+Enter password:
+Verify password:
+Out[2]: 'sha1:67c9e60bb8b6:9ffede0825894254b2e042ea597d771089e11aed'
+
+#+END_SRC
+Update this:
+
+c.NotebookApp.password = u'sha1:67c9e60bb8b6:9ffede0825894254b2e042ea597d771089e11aed'
+
+*** Debian Install jupyter
+#+BEGIN_SRC 
+sudo apt-get install -y python-dev
+sudo pip install --upgrade pip
+sudo pip install jupyter
+sudo apt-get install -y python-seaborn python-pandas
+sudo apt-get install -y ttf-bitstream-vera
+
+#+END_SRC
+
+Run with the command jupyter notebook
 
 ** submit job to spark
 

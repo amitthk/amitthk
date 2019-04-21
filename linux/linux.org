@@ -3005,6 +3005,74 @@ sudo apt-get install -y ttf-bitstream-vera
 
 Run with the command jupyter notebook
 
+** local install python3 and jupyter
+#+BEGIN_SRC 
+# To allow for building python ssl libs
+yum install openssl-devel
+# Download the source of *any* python version
+cd /usr/src
+wget https://www.python.org/ftp/python/3.6.2/Python-3.6.2.tar.xz
+tar xf Python-3.6.2.tar.xz 
+cd Python-3.6.2
+
+# Configure the build w/ your installed libraries
+./configure
+
+#need to do this because ModuleNotFoundError: No module named '_sqlite3' pysqlite2 errors
+yum install -y sqlite-devel
+./configure --enable-loadable-sqlite-extensions
+
+#make it
+make
+
+# Install into /usr/local/bin/python3.6, don't overwrite global python bin
+make install
+
+#this is required for pip . pip3 is default configured with ssl
+yum install openssl-devel
+
+#now install jupyter notebook
+yum install -y jupyter
+
+#+END_SRC
+Now running the jupyter notebook (as different user) will only allow you on localhost
+su hadoop
+jupyter notebook
+
+but to allow it from network here's what u got to do
+#+BEGIN_SRC 
+jupyter notebook --generate-config
+
+vi /home/hadoop/.jupyter/jupyter_notebook_config.py
+
+#run this command to create the password for you notebook
+jupyter notebook password
+
+jupyter notebook password
+#Enter password:  ****
+#Verify password: ****
+#[NotebookPasswordApp] Wrote hashed password to /Users/you/.jupyter/jupyter_notebook_config.json
+
+#+END_SRC
+
+Now you can run your notebook with 
+
+~jupyter notebook~
+
+YOu can also prepare the hashed password
+#+BEGIN_SRC 
+In [1]: from notebook.auth import passwd
+In [2]: passwd()
+Enter password:
+Verify password:
+Out[2]: 'sha1:67c9e60bb8b6:9ffede0825894254b2e042ea597d771089e11aed'
+
+#+END_SRC
+Update this:
+
+c.NotebookApp.password = u'sha1:67c9e60bb8b6:9ffede0825894254b2e042ea597d771089e11aed'
+
+
 ** Reinstalling ruby
 
  http://stackoverflow.com/questions/23184819/rails-new-app-or-rails-h-craps-out-with-cannot-load-such-file-io-console
