@@ -55,6 +55,70 @@ Data Sources => Transformation => Actions => UI Dashboard (Real time)/Processed 
 ** install
 Unzip the binaries and set the 
 
+
+vi ~/.bash_profile
+
+#+BEGIN_SRC 
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+PATH=$PATH:$HOME/.local/bin:$HOME/bin
+export JAVA_HOME=/usr/java/default
+export PATH=$PATH:$JAVA_HOME/bin
+export CLASSPATH=.:$JAVA_HOME/jre/lib:$JAVA_HOME/lib:$JAVA_HOME/lib/tools.jar
+#export HADOOP_HOME=/opt/hadoop-2.8.3
+export HADOOP_HOME=/opt/spark-2.3.0-bin-hadoop2.7
+export HIVE_HOME=/opt/apache-hive-2.3.3
+export HADOOP_INSTALL=$HADOOP_HOME
+export HADOOP_MAPRED_HOME=$HADOOP_HOME
+export HADOOP_COMMON_HOME=$HADOOP_HOME
+export HADOOP_HDFS_HOME=$HADOOP_HOME
+export YARN_HOME=$HADOOP_HOME
+export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
+export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin
+export PATH=$PATH:$HIVE_HOME/bin
+#export CLASSPATH=$CLASSPATH:$HADOOP_HOME/lib/*:.
+#export CLASSPATH=$CLASSPATH:$HIVE_HOME/lib/*:.
+export DERBY_HOME=/opt/derby
+export PATH=$PATH:$DERBY_HOME/bin
+#Apache Hive
+#18
+export CLASSPATH=$CLASSPATH:$DERBY_HOME/lib/derby.jar:$DERBY_HOME/lib/derbytools.jar
+#export HADOOP_CONF_DIR=/opt/hadoop-2.8.3/etc/hadoop
+export HADOOP_CONF_DIR=/opt/spark-2.3.0-bin-hadoop2.7/etc/hadoop
+export SPARK_HOME=/opt/spark-2.3.0-bin-hadoop2.7
+export LD_LIBRARY_PATH=/opt/hadoop-2.8.3/etc/hadoop/lib/native:$LD_LIBRARY_PATH
+export HADOOP_OPTS="${HADOOP_OPTS}-Djava.library.path=$HADOOP_HOME/lib/native"
+#+END_SRC
+
+- Spark is super picky about the hostnames and IP(s) . set them right in spark-env.sh
+
+vi /opt/spark-2.3.0-bin-hadoop2.7/conf/spark-env.sh
+
+#+BEGIN_SRC 
+
+SPARK_MASTER_HOST=localhost
+SPARK_MASTER_PORT=7077
+SPARK_MASTER_WEBUI_PORT=8091
+
+#+END_SRC
+
+Now start the master and slave
+#+BEGIN_SRC
+start-master.sh
+
+start-slave.sh spark://localhost:7077
+tail -n230 -f /opt/spark-2.3.0-bin-hadoop2.7/logs/spark-hadoop-org.apache.spark.deploy.worker.Worker-1-x220.centos.out
+#+END_SRC
+
+
+
 ** submit job to spark
 
 *** Submit to standalone spark in client mode

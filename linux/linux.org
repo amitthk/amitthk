@@ -78,12 +78,25 @@ $ls /run
 #last command
 $cat !$
 
+#repeat last command argument
+# !# is last command. $ is the last command argument
+cp /opt/spark-2.3.0-bin-hadoop2.7/conf/spark-env.sh.template !#$.bak
+
 #+END_SRC
 
 
 
 
 *** runlevels
+|     Sysvinit | Runlevel                                                  | Systemd Target  Function                                          |
+|            0 | runlevel0.target, poweroff.target    System halt/shutdown |                                                                   |
+| 1, s, single | runlevel1.target, rescue.target                           | Single-user mode                                                  |
+|         2, 4 | runlevel2.target, runlevel4.target, multi-user.target     | User-defined/Site-specific runlevels. By default, identical to 3. |
+|            3 | runlevel3.target, multi-user.target                       | Multi-user, non-graphical mode, text console only                 |
+|            5 | runlevel5.target, graphical.target                        | Multi-user, graphical mode                                        |
+|            6 | runlevel6.target, reboot.target                           | Reboot                                                            |
+|    emergency | emergency.target                                          | Emergency mode                                                    |
+
 
 #+BEGIN_SRC
 
@@ -97,11 +110,27 @@ $who -r
 $runevel
 
 #current target
-$systemctl get-default
+systemctl get-default
+
+#list of all targets
+systemctl list-units --type=target
+
 #set the default target. graphical/multiple users can logon
-$systmctl set-default multi-user.target
-#get some information on how our sshdaemon is running 
-$systemctl isolate multi-user.target
+systmctl set-default multi-user.target
+
+#or set the default target like this 
+systemctl isolate multi-user.target
+
+#or set the default target like this
+ln -sf /lib/systemd/system/[desired].target /etc/systemd/system/default.target
+
+#can also be set in the kernel line using below option
+systemd.unit=multi-user.target
+
+#here we see that runlevel 3 is emulated by multi-user.target
+systemctl isolate multi-user.target
+systemctl isolate runlevel3.target
+ls -l /usr/lib/systemd/system/runlevel3.target
 
 # rescue.target is runlevel 1 - emergency mode - no networking , only root user
 
