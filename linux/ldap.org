@@ -1,0 +1,178 @@
+* OpenLdap
+
+OpenLDAP - phpLDAPAdmin - Installation and setup
+
+
+ami-b5ed9ccd
+
+Server OS : Ubuntu 16.04
+Instance Type : t2 medium
+
+Username : ubuntu
+
+sudo apt-get update
+
+sudo apt install slapd ldap-utils
+
+systemctl status slapd
+
+
+sudo dpkg-reconfigure slapd
+
+0# do not omit server configuration
+
+#1.Provide domain name like muuthu4all.com. This will be similar to A record for your domain name. This will be used as base DN(Distinguisedh name) of the LDAP directory.
+
+#2. Enter your organisation name. - amitthk
+
+#3. Set administrator password for the server.
+
+#4. Backend database choose between BDB, HBD, [MDB]
+
+#5. No to remove database when slapd is purged.
+
+#6. Move old database.
+
+#7. LDAP v.2 is older. Use LDAP v3.
+
+#8. Server should be up and running.
+
+
+Client Configuration
+~~~~~~~~~~~~~~~~~~~~
+sudo vi /etc/ldap/ldap.conf
+
+
+BASE     dc=amitthk,dc=com
+URI      ldap://localhost
+
+Since we are installing the same host, we can use localhost.
+
+Testing
+~~~~~~~
+
+ldapsearch -x
+
+Result: 0 Success indicates that OpenLDAP server is working. 
+
+result: 32 No such object indicates that OpenLDAP server is NOT working. 
+
+Installing phpLDAPadmin
+~~~~~~~~~~~~~~~~~~~~~~~
+
+sudo apt-get update
+sudo apt install phpldapadmin
+
+
+This will install apache webserver in port 80 as dependency. [phpldapadmin.conf @ /etc/apache2/conf-enabled/]
+public domain./phpldapadmin
+
+Configure phpldapadmin to use OpenLDAPServer
+
+//go to line Esc + :293
+
+sudo vi /etc/phpldapadmin/config.php
+
+Line 293 --> (connects to localhost) 			$servers->setValue('server','host','127.0.0.1');
+
+Line 296 --> (let us keep the default port 389)		// $servers->setValue('server','port',389);
+
+Line 300 --> (base DN willl be detected automatically)	$servers->setValue('server','base',array('dc=example ,dc=com'));
+	 --> TO						$servers->setValue('server','base',array())
+
+
+Line 335 --> (TLS encryption is commented default)	// $servers->setValue('server','tls',false);
+
+		
+Line 453 --> (Disable anonymous login) 			// $servers->setValue('login','anon_bind',true);
+	 --> TO						$servers->setValue('login','anon_bind',false);
+		
+Line 161 --> (disable template warnings )		// $config->custom->appearance['hide_template_warning'] = false;
+	 --> TO						$config->custom->appearance['hide_template_warning'] = true;
+		
+
+
+Login cn=admin,dc=amitthk,dc=com. 
+
+dc - domain component
+dn -distinguished name
+
+
+http://<publicdns>/phpldapadmin/
+* sample of ldap operations
+** sample add user
+
+#+BEGIN_SRC 
+ldapadd ... << EOF
+
+dn: cn=atksv,ou=uat,dc=dynu,dc=com
+cn: atksv
+displayName: atksv
+givenName: atksv
+mail: atksv@uat.dynu.com
+objectClass: inetOrgPerson
+
+EOF
+#+END_SRC
+
+** add a role
+#+BEGIN_SRC 
+cat &lt;&lt;EOF | ldapadd -H ldapi:/// -D cn=admin,dc=nodomain -w&nbsp;h.TDVyELBjm0g
+dn: cn=monitor,dc=nodomain
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: monitor
+description: LDAP monitor
+userPassword:&nbsp;cA.5rMfzHw9vw
+EOF
+#+END_SRC
+
+** modify
+
+#+BEGIN_SRC 
+cat &lt;&lt;EOF | ldapmodify -Y EXTERNAL -H ldapi:///
+dn: cn=module{0},cn=config
+changetype: modify
+add: olcModuleLoad
+olcModuleLoad: {2}back_monitor.la
+EOF
+#+END_SRC
+
+** update monitor database
+#+BEGIN_SRC 
+#1 
+cat &lt;&lt;EOF | ldapadd -Y EXTERNAL -H ldapi:///
+dn: olcDatabase={2}Monitor,cn=config
+objectClass: olcDatabaseConfig
+objectClass: olcMonitorConfig
+olcDatabase: {2}Monitor
+olcAccess: {0}to dn.subtree="cn=Monitor" 
+  by dn.base="cn=monitor,dc=nodomain" read by * none
+EOF
+#+END_SRC
+
+* centos user auth with ldap
+CentOS user authentication with OpenLDAP
+
+yum -y install nss-pam-ldapd
+
+// Name Service Switch (NSS, nsswitch) module that allows your LDAP server to provide user account, group, host name, alias, netgroup, and basically any other information that you would normally get from /etc flat files or NIS
+
+authconfig --enableldap --enableldapauth --enablemkhomedir --ldapserver=<ldapserver_hostname>:389 --ldapbasedn="dc=amitthk,dc=com" --update
+
+
+
+
+or 
+authconfig-tui
+
+su <username>
+cd
+
+id <username>
+
+
+su <username>
+cd
+
+hdfs dfs -put <source> <user_home_dir>

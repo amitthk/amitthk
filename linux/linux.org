@@ -1515,6 +1515,86 @@ sudo file -s /dev/xvd*
 
 #+END_SRC
 
+** SSL certificates import , trust store and pem file
+
+*** Keystore (your credentials) , truststore (others credentials)
+Import a cert to truststore
+#+BEGIN_SRC 
+keytool -import -alias nexuscalias -trustcacerts certfile.cer -keystore /home/ec2-user/keystore.jks
+
+#+END_SRC
+
+Adding CA Certificate to truststore
+#+BEGIN_SRC
+
+keytool -v -alias mavensev -import -file certfile.cer -keystore keystore.jks
+
+
+#+END_SRC
+
+**** Maven params
+
+#+BEGIN_SRC 
+MAVEN_OPTS="-Xmx512m -Djavax.net.ssl.trustStore=trust.jks \
+                     -Djavax.net.ssl.trustStorePassword=  \
+                     -Djavax.net.ssl.keyStore=/home/directory/mycertificate.p12 \
+                     -Djavax.net.ssl.keyStoreType=pkcs12 \
+                     -Djavax.net.ssl.keyStorePassword=XXXXXX"
+#+END_SRC
+
+**** maven mvn command with truststore
+
+#+BEGIN_SRC 
+mvn install -Djavax.net.ssl.trustStore=trust1.jks -Djavax.net.ssl.trustStorePassword=changeit spring-boot:run
+#+END_SRC
+
+**** create a trust store from url cert
+
+#+BEGIN_SRC 
+
+echo -n | openssl s_client -showcerts -connect www.google.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > /tmp/temp_cert.crt
+
+openssl x509 -in /tmp/temp_cert.crt -text
+
+keytool -import -trustcacerts -keystore cacerts -storepass changit -noprompt -alias mavencert -file /tmp/temp_cert.crt
+
+#+END_SRC
+
+**** pem file from cert file
+
+#+BEGIN_SRC 
+openssl x509 -in /tmp/temp_cert.crt -outform PEM
+#+END_SRC
+
+or if it is a der file
+#+BEGIN_SRC 
+openssl x509 -inform DER -in /tmp/temp_cert.crt -outform PEM
+#+END_SRC
+
+*** socks5 proxy
+
+#+BEGIN_SRC 
+
+ssh -D 8123 -f -C -q -N myuser@myserver
+
+#+END_SRC
+
+foxy proxy config
+#+BEGIN_SRC 
+<?xml version="1.0" encoding="UTF-8"?>
+<foxyproxy>
+    <proxies>
+        <proxy name="aws-socks-proxy" id="2322596116" notes="" fromSubscription="false" enabled="true" mode="manual" selectedTabIndex="2" lastresort="false" animatedIcons="true" includeInCycle="true" color="#0055E5" proxyDNS="true" noInternalIPs="false" autoconfMode="pac" clearCacheBeforeUse="false" disableCache="false" clearCookiesBeforeUse="false" rejectCookies="false">
+            <matches>
+                <match enabled="true" name="*ec2*.amazonaws.com*" pattern="*ec2*.amazonaws.com*" isRegEx="false" isBlackList="false" isMultiLine="false" caseSensitive="false" fromSubscription="false" />
+                <match enabled="true" name="*.ec2.internal*" pattern="*.ec2.internal*" isRegEx="false" isBlackList="false" isMultiLine="false" caseSensitive="false" fromSubscription="false" />
+            </matches>
+            <manualconf host="localhost" port="8132" socksversion="5" isSocks="true" username="" password="" domain="" />
+        </proxy>
+    </proxies>
+</foxyproxy>
+#+END_SRC
+
 ** maven
 Write maven wrapper to package build
 
