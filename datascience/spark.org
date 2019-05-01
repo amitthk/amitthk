@@ -322,7 +322,16 @@ jupyter notebook --generate-config
 
 vi /home/hadoop/.jupyter/jupyter_notebook_config.py
 
+#+END_SRC
 
+jupyter_notebook_config.py
+#+BEGIN_SRC 
+c.NotebookApp.ip = '0.0.0.0'
+c.NotebookApp.certfile = u'/home/hadoop/.jupyter/jupyter.pem'
+c.NotebookApp.keyfile = u'/home/hadoop/.jupyter/jupyter.key'
+c.NotebookApp.open_browser = False
+c.NotebookApp.password = u'sha1:{{sha1_password}}'
+c.NotebookApp.port = 8882
 #+END_SRC
 
 **** password protect notebook
