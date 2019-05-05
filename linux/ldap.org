@@ -1,11 +1,8 @@
 * OpenLdap
+** OpenLDAP
+*** Server OS : Ubuntu 16.04
 
-OpenLDAP - phpLDAPAdmin - Installation and setup
-
-
-ami-b5ed9ccd
-
-Server OS : Ubuntu 16.04
+- ami-b5ed9ccd
 Instance Type : t2 medium
 
 Username : ubuntu
@@ -36,9 +33,261 @@ sudo dpkg-reconfigure slapd
 #7. LDAP v.2 is older. Use LDAP v3.
 
 #8. Server should be up and running.
+*** Centos
+**** install:
+
+#+BEGIN_SRC 
+yum -y install openldap compat-openldap openldap-clients openldap-servers openldap-servers-sql openldap-devel
+#+END_SRC
+**** setup the db
+***** Option 1. You can eiher modify the file 
+~sudo vi /etc/openldap/slapd.conf~
+
+#+BEGIN_SRC 
+include         /etc/openldap/schema/core.schema
+include         /etc/openldap/schema/cosine.schema
+include         /etc/openldap/schema/inetorgperson.schema
+include         /etc/openldap/schema/nis.schema
+pidfile         /var/run/openldap/slapd.pid
+argsfile        /var/run/openldap/slapd.args
+modulepath      /usr/lib64/openldap
+
+access to *
+                by self write
+                by dn.base="cn=Manager,dc=amitthk,dc=mywire,dc=org" write
+                by * read
+access to attrs=userPassword
+                by self write
+                by anonymous auth
+                by dn.base="cn=Manager,dc=amitthk,dc=mywire,dc=org" write
+                by * none
+access to attrs=shadowLastChange
+                by self write
+                by * read
+
+database        bdb
+suffix          "dc=amitthk,dc=mywire,dc=org"
+rootdn          "cn=Manager,dc=amitthk,dc=mywire,dc=org"
+rootpw          {SSHA}OXX1O5miv49eaBmf1P9k+GDKVvEyaMm9
+#This directory has to be created and would contain the ldap database.
+directory       /var/lib/ldap/amitthk.mywire.org/
+index objectClass                       eq,pres
+index ou,cn,mail,surname,givenname      eq,pres,sub
+index uidNumber,gidNumber,loginShell    eq,pres
+index uid,memberUid                     eq,pres,sub
+index nisMapName,nisMapEntry            eq,pres,sub
+#+END_SRC
 
 
-Client Configuration
+
+***** Option 2. create the following file db.ldif
+
+#+BEGIN_SRC 
+dn: olcDatabase={2}hdb,cn=config
+changetype: modify
+replace: olcSuffix
+olcSuffix: dc=itzgeek,dc=local
+
+dn: olcDatabase={2}hdb,cn=config
+changetype: modify
+replace: olcRootDN
+olcRootDN: cn=ldapadm,dc=itzgeek,dc=local
+
+dn: olcDatabase={2}hdb,cn=config
+changetype: modify
+replace: olcRootPW
+olcRootPW: {SSHA}d/thexcQUuSfe3rx3gRaEhHpNJ52N8D3
+
+#+END_SRC
+****** send the db.ldif to LDAP or updae the 
+
+#+BEGIN_SRC 
+ldapmodify -Y EXTERNAL  -H ldapi:/// -f db.ldif
+#+END_SRC
+
+**** Update the root password
+
+#+BEGIN_SRC 
+slappasswd
+
+# you'd get a hash to be used later
+#+END_SRC
+
+Update following file
+~sudo vi /etc/openldap/slapd.conf~
+
+#+BEGIN_SRC 
+suffix          "dc=amitthk,dc=mywire,dc=org"
+rootdn          "cn=Manager,dc=amitthk,dc=mywire,dc=org"
+rootpw          {SSHA}OXX1O5miv49eaBmf1P9k+GDKVvEyaMm9
+#+END_SRC
+
+#+BEGIN_SRC 
+ldapmodify -Q -Y EXTERNAL -H ldapi:/// << E0F
+dn: olcDatabase={2}hdb,cn=config
+changetype: modify
+add: olcRootPW
+olcRootPW: {SSHA}qUoTRPwppaedqHQTgYOPYWokr3SiXjbK
+E0F
+#+END_SRC
+
+
+**** verify
+
+#+BEGIN_SRC 
+netstat -antup | grep -i 389
+ldapsearch -x
+ldapsearch -x -b "dc=amitthk,dc=mywire,dc=org" "(objectclass=*)"
+#+END_SRC
+
+**** Use this command to run an ldif ahead
+#+BEGIN_SRC 
+/usr/bin/ldapadd -a -x -D 'cn=admin,dc=amitthk,dc=mywire,dc=org' -W -f admin.ldif
+#+END_SRC
+
+**** Add an Organizational role to your ldap so that you can login
+#+BEGIN_SRC 
+dn: dc=amitthk,dc=mywire,dc=org
+objectclass: dcObject
+objectclass: organization
+o: amitthk.mywire.org
+dc: amitthk
+
+dn: cn=admin,dc=amitthk,dc=mywire,dc=org
+objectclass: organizationalRole
+cn: admin
+#+END_SRC
+
+**** Add the admin user
+
+#+BEGIN_SRC 
+dn: dc=amitthk,dc=mywire,dc=org
+objectclass: dcObject
+objectclass: organization
+o: Admin amitthk
+dc: amitthk
+dn: cn=admin,dc=amitthk,dc=mywire,dc=org
+objectclass: organizationalRole
+cn: admin
+#+END_SRC
+
+**** add some OUs to your ldap
+#+BEGIN_SRC 
+dn: ou=People,dc=amitthk,dc=mywire,dc=org
+objectClass: organizationalUnit
+ou: People
+
+dn: ou=Groups,dc=amitthk,dc=mywire,dc=org
+objectClass: organizationalUnit
+ou: Groups
+
+#+END_SRC
+
+**** add another user
+#+BEGIN_SRC 
+dn: uid=atksv,ou=People,dc=amitthk,dc=mywire,dc=org
+changetype: add
+uid: atksv
+cn: atksv
+sn: 3
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+loginShell: /bin/bash
+homeDirectory: /home/atksv
+uidNumber: 10000002
+gidNumber: 10000002
+userPassword: {SSHA}LQxNMFyltNcMFi1aYqcKasOr1O7n9iO/
+mail: atksv@amitthk.mywire.org
+gecos: Admin User
+#+END_SRC
+
+**** add a group
+#+BEGIN_SRC 
+dn: cn=hadoop,ou=Groups,dc=amitthk,dc=mywire,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: hadoop
+gidNumber: 10000002
+description: "This group is for the hadoop users"
+#+END_SRC
+**** add a user to group
+
+#+BEGIN_SRC 
+dn: cn=hadoop,ou=Groups,dc=amitthk,dc=mywire,dc=org
+changetype: modify
+add: memberUid
+memberUid: 10000002
+#+END_SRC
+
+**** delete a user
+#+BEGIN_SRC 
+dn: uid=atksv,dc=amitthk,dc=mywire,dc=org
+changetype: delete
+#+END_SRC
+
+#+BEGIN_SRC 
+
+#+END_SRC
+
+**** delete a group
+#+BEGIN_SRC 
+dn: cn=<Group Name>,ou=Groups,dc=amitthk,dc=mywire,dc=org
+changetype: delete
+#+END_SRC
+
+#+BEGIN_SRC 
+ldapmodify -Z -x -W -D "cn=LDAPAdmin,ou=People,dc=your,dc=domain" -f /root/ldifs/del_group.ldif
+#+END_SRC
+
+** common commands
+https://simp.readthedocs.io/en/master/user_guide/User_Management/LDAP.html
+
+slapd - this is the LDAP server daemon
+
+slurpd - the daemon that synchronizes with other LDAP servers
+
+slapadd - this program is used to add ldif files into LDAP
+
+Example:
+# slapadd -l users.ldif
+
+slappasswd - it will create a password that can be used with ldapmodify, or rootpw.   You have to copy and paste the password into your file.
+
+# slappasswd
+New password: 
+Re-enter new password: 
+{SSHA}6i0fOQCvnjtbPi47I+1RWcRsOoLjUDNR
+
+slapcat ¡V retrieves entries from LDAP directory
+slapindex ¡V reindexes the slapd directory
+
+ldapadd ¡V adds entries to LDAP
+
+Example:
+ldapadd -x -D "cn=admin,dc=linux,dc=local" -W -f users.ldif 
+
+ldapdelete ¡V deletes entries
+ldapmodify ¡V modifies LDAP entries
+The "-W" is an option that will request your password.
+
+Example:
+ ldapmodify -D "cn=admin,dc=linux,dc=local" -W -x -v -f /etc/openldap/users.ldif 
+
+
+ldapsearch ¡V search for entries
+This example will search for all entries.
+
+Example:
+~ldapsearch -x -b "dc=linux,dc=local" "(objectclass=*)"~
+
+ldapcompare ¡V create comparison parameters
+ldapwhoami ¡V run whoami
+ldapmodrdn ¡V modifies RDN entries
+
+
+
+** Client Configuration
 ~~~~~~~~~~~~~~~~~~~~
 sudo vi /etc/ldap/ldap.conf
 
@@ -47,8 +296,7 @@ BASE     dc=amitthk,dc=com
 URI      ldap://localhost
 
 Since we are installing the same host, we can use localhost.
-
-Testing
+*** Testing
 ~~~~~~~
 
 ldapsearch -x
@@ -56,8 +304,7 @@ ldapsearch -x
 Result: 0 Success indicates that OpenLDAP server is working. 
 
 result: 32 No such object indicates that OpenLDAP server is NOT working. 
-
-Installing phpLDAPadmin
+** Installing phpLDAPadmin
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 sudo apt-get update
@@ -99,7 +346,19 @@ dn -distinguished name
 
 
 http://<publicdns>/phpldapadmin/
-* sample of ldap operations
+** sample of ldap operations
+
+*** add a role
+#+BEGIN_SRC 
+cat &lt;&lt;EOF | ldapadd -H ldapi:/// -D cn=admin,dc=nodomain -w&nbsp;h.TDVyELBjm0g
+dn: cn=monitor,dc=nodomain
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: monitor
+description: LDAP monitor
+userPassword:&nbsp;cA.5rMfzHw9vw
+EOF
+#+END_SRC
 ** sample add user
 
 #+BEGIN_SRC 
@@ -115,22 +374,10 @@ objectClass: inetOrgPerson
 EOF
 #+END_SRC
 
-** add a role
-#+BEGIN_SRC 
-cat &lt;&lt;EOF | ldapadd -H ldapi:/// -D cn=admin,dc=nodomain -w&nbsp;h.TDVyELBjm0g
-dn: cn=monitor,dc=nodomain
-objectClass: simpleSecurityObject
-objectClass: organizationalRole
-cn: monitor
-description: LDAP monitor
-userPassword:&nbsp;cA.5rMfzHw9vw
-EOF
-#+END_SRC
-
-** modify
+*** modify
 
 #+BEGIN_SRC 
-cat &lt;&lt;EOF | ldapmodify -Y EXTERNAL -H ldapi:///
+cat <<EOF | ldapmodify -Y EXTERNAL -H ldapi:///
 dn: cn=module{0},cn=config
 changetype: modify
 add: olcModuleLoad
@@ -141,7 +388,7 @@ EOF
 ** update monitor database
 #+BEGIN_SRC 
 #1 
-cat &lt;&lt;EOF | ldapadd -Y EXTERNAL -H ldapi:///
+cat <<EOF | ldapadd -Y EXTERNAL -H ldapi:///
 dn: olcDatabase={2}Monitor,cn=config
 objectClass: olcDatabaseConfig
 objectClass: olcMonitorConfig
@@ -151,7 +398,7 @@ olcAccess: {0}to dn.subtree="cn=Monitor"
 EOF
 #+END_SRC
 
-* centos user auth with ldap
+** centos user auth with ldap
 CentOS user authentication with OpenLDAP
 
 yum -y install nss-pam-ldapd
