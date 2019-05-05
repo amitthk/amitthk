@@ -51,7 +51,7 @@ Sample '/etc/krb5.conf'
 
 ```
 [libdefaults]
-    default_realm = CW.COM
+    default_realm = AMITTHK.MYWIRE.ORG
     dns_lookup_realm = false
     dns_lookup_kdc = false
     ticket_lifetime = 24h
@@ -62,50 +62,50 @@ Sample '/etc/krb5.conf'
     permitted_enctypes = des-cbc-md5 des-cbc-crc des3-cbc-sha1
 
 [realms]
-    CW.COM = {
-        kdc = kdc.cw.com:88
-        admin_server = kdc.cw.com:749
-        default_domain = cw.com
+    AMITTHK.MYWIRE.ORG = {
+        kdc = amitthk.mywire.org
+        admin_server = amitthk.mywire.org
+        default_domain = amitthk.mywire.org
     }
 
 [domain_realm]
-    .cw.com = CW.COM
-     cw.com = CW.COM
+    .amitthk.mywire.org = AMITTHK.MYWIRE.ORG
+     amitthk.mywire.org = AMITTHK.MYWIRE.ORG
 
 [logging]
     kdc = FILE:/var/log/krb5kdc.log
     admin_server = FILE:/var/log/kadmin.log
     default = FILE:/var/log/krb5lib.log
+
 ```
 
 Adjust `/var/kerberos/krb5kdc/kdc.conf` on the KDC:
 
 ```
-default_realm = CW.COM
-
 [kdcdefaults]
-    v4_mode = nopreauth
-    kdc_ports = 0
+    kdc_ports = 88
+    kdc_tcp_ports = 88
 
 [realms]
-    CW.COM = {
-        kdc_ports = 88
-        admin_keytab = /etc/kadm5.keytab
-        database_name = /var/kerberos/krb5kdc/principal
-        acl_file = /var/kerberos/krb5kdc/kadm5.acl
-        key_stash_file = /var/kerberos/krb5kdc/stash
-        max_life = 10h 0m 0s
-        max_renewable_life = 7d 0h 0m 0s
-        master_key_type = des3-hmac-sha1
-        supported_enctypes = arcfour-hmac:normal des3-hmac-sha1:normal des-cbc-crc:normal des:normal des:v4 des:norealm des:onlyrealm des:afs3
-        default_principal_flags = +preauth
+    AMITTHK.MYWIRE.ORG = {
+    kdc_ports = 88
+    kdc_tcp_ports = 88
+    admin_keytab = /etc/kadm5.keytab
+    database_name = /var/kerberos/krb5kdc/principal
+    acl_file = /var/kerberos/krb5kdc/kadm5.acl
+    key_stash_file = /var/kerberos/krb5kdc/stash
+    max_life = 10h 0m 0s
+    max_renewable_life = 7d 0h 0m 0s
+    master_key_type = des3-hmac-sha1
+    supported_enctypes = arcfour-hmac:normal des3-hmac-sha1:normal des-cbc-crc:normal des:normal des:v4 des:norealm des:onlyrealm des:afs3
+    default_principal_flags = +preauth
     }
 ```
 
 Adjust `/var/kerberos/krb5kdc/kadm5.acl` on KDC:
 
 ```
-*/admin@CW.COM	    *
+*/admin@AMITTHK.MYWIRE.ORG     *
 ```
 
 ## Creating KDC database to hold our sensitive Kerberos data
@@ -115,7 +115,7 @@ also stashes your password on the KDC so you don’t have to enter it each time
 you start the KDC:
 
 ```
-kdb5_util create -r CW.COM -s
+kdb5_util create -r AMITTHK.MYWIRE.ORG -s
 ```
 
 > This command may take a while to complete based on the CPU power
@@ -134,8 +134,7 @@ kadmin.local:  exit
 Let’s start the Kerberos KDC and kadmin daemons:
 
 ```
-systemctl start krb5kdc.service
-systemctl start kadmin.service
+systemctl start krb5kdc.service kadmin.service 
 systemctl enable krb5kdc.service
 systemctl enable kadmin.service
 ```
@@ -144,8 +143,8 @@ Now, let’s create a principal for our KDC server and stick it in it’s keytab
 
 ```
 [root@kdc ~]# kadmin.local
-kadmin.local:  addprinc -randkey host/kdc.cw.com
-kadmin.local:  ktadd host/kdc.cw.com
+kadmin.local:  addprinc -randkey host/amitthk.mywire.org
+kadmin.local:  ktadd host/amitthk.mywire.org
 ```
 
 ## Setup kerberos client

@@ -1474,6 +1474,17 @@ nc -l 8990
 nc -L -p 8990
 #+END_SRC
 
+** force reinstall an app recreate files
+#+BEGIN_SRC 
+#I need to check which rpm modified the files i was trying to restore
+rpm -qf /etc/kerberos
+
+#This will list down the rpms which modified above directory
+
+#Now i will reinstall bot of the rpm s which modified my file
+yum reinstall krb5-libs-1.15.1-37.el7_6.x86_64
+yum reinstall krb5-server-1.15.1-37.el7_6.x86_64
+#+END_SRC
 ** sshd allow only key ssh on specific ports
 
 vi /etc/ssh/sshd_config
