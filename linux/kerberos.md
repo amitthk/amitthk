@@ -147,6 +147,73 @@ kadmin.local:  addprinc -randkey host/amitthk.mywire.org
 kadmin.local:  ktadd host/amitthk.mywire.org
 ```
 
+Now to connect to kerberos server make sure you have the firewall open and the port added to firewalls.
+
+Login to the server and check the principals you have:
+
+```
+kadmin -p "admin/admin@AMITTHK.MYWIRE.ORG" -s AMITTHK.MYWIRE.ORG
+
+#run this command on kadmin console
+kadmin: listprincs
+```
+You can add some principals and those can be used to login
+
+Login with one of your principals and check the validity of ticket:
+```
+kinit -p admin/admin@AMITTHK.MYWIRE.ORG
+klist
+```
+
+Now to create keytab login again and check the key of a principal
+```
+kadmin -p "admin/admin@AMITTHK.MYWIRE.ORG" -s AMITTHK.MYWIRE.ORG
+#Now on kadmin: prompt
+
+listprincs
+getprinc atksv@AMITTHK.MYWIRE.ORG
+exit
+```
+generate keytab
+```
+[root@test5~]#ktutil
+
+ktutil: add_entry -password -p atksv@AMITTHK.MYWIRE.ORG -k 1 -e des3-cbc-sha1-kd 
+Password for atksv@AMITTHK.MYWIRE.ORG: 
+
+ktutil: add_entry -password -p atksv@AMITTHK.MYWIRE.ORG -k 1 -e arcfour-hmac-md5 
+Password for atksv@AMITTHK.MYWIRE.ORG: 
+
+ktutil: add_entry -password -p atksv@AMITTHK.MYWIRE.ORG -k 1 -e des-hmac-sha1 
+Password for atksv@AMITTHK.MYWIRE.ORG: 
+
+ktutil: add_entry -password -p atksv@AMITTHK.MYWIRE.ORG -k 1 -e des-cbc-md5 
+Password for atksv@AMITTHK.MYWIRE.ORG: 
+
+ktutil: add_entry -password -p atksv@AMITTHK.MYWIRE.ORG -k 1 -e des-cbc-md4 
+Password for atksv@AMITTHK.MYWIRE.ORG:
+
+ktutil: wkt /tmp/tmp.keytab
+```
+
+
+Make sure your ssh is compiled with kerberos, otherwise ssh will stop working.
+
+To enable kerberos authentication in ssh modify the /etc/ssh/sshd_config
+```
+# Kerberos options
+KerberosAuthentication yes
+KerberosGetAFSToken no
+KerberosOrLocalPasswd yes
+KerberosTicketCleanup
+```
+
+Below option decides whether you want sshd to fall back to ordinary password authentication if Kerberos authentication fails:
+```
+KerberosOrLocalPasswd [yes|no]
+```
+
+
 ## Setup kerberos client
 
 ```
