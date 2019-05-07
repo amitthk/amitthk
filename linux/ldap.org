@@ -304,6 +304,10 @@ ldapsearch -x
 Result: 0 Success indicates that OpenLDAP server is working. 
 
 result: 32 No such object indicates that OpenLDAP server is NOT working. 
+
+** Python ldap notes
+- pyfln project
+- https://www.sbarjatiya.com/notes_wiki/index.php/LDAP_manipulations_using_python
 ** Installing phpLDAPadmin
 ~~~~~~~~~~~~~~~~~~~~~~~
 
