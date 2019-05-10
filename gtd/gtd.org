@@ -2,7 +2,7 @@
 ** get everything sorted and planned for the Ansible POC CR
 *** test the qa server with key tomorrow
 ** go and submit the passport
-** Fill out the remaining form, send out the email, call on monday
+*** Fill out the remaining form, send out the email, call on monday
 ** Test out and fix the bug in eureka zuul
 ** deploy openproj with local mysql, also to dev6
 ** sort out the CR for th Tableau dashboard thing
