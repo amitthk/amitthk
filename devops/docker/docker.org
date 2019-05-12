@@ -91,6 +91,25 @@ http://stackoverflow.com/questions/32723111/how-to-remove-old-and-unused-docker-
 sudo usermod -a -G docker $USER
 sudo chmod 666 /var/run/docker.sock
 #+END_SRC
+
+** docker connect to host network
+
+Docker can directly connect to host ip
+
+#+BEGIN_SRC 
+
+
+#+END_SRC
+
+To allow firewall, we must first create a docker network with appropriate subnet
+
+#+BEGIN_SRC 
+docker network create --subnet=10.10.0.0/28  openproj
+
+# then we need to launch the container in above network
+
+docker run -d -p 8885:80 --network openproj --name openproject -e SECRET_KEY_BASE=thisshouldbereallysecreasefdaerqewr  -e DATABASE_URL=postgres://openprojadm:one2three4@192.168.0.119:5432/openproj  -v /var/lib/openproject/static:/var/openproject/assets  openproject/community:8
+#+END_SRC
 * Docker Swarm
 
 docker swarm init --advertise-addr 192.168.0.101:2377 --listen-addr 192.168.0.101:2377

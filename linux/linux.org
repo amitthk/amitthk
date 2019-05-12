@@ -3475,6 +3475,47 @@ sudo sh -c 'echo "deb [arch=amd64] http://apt-mo.trafficmanager.net/repos/dotnet
   sudo apt-key adv --keyserver apt-mo.trafficmanager.net --recv-keys 417A0893
   
   #+END_SRC
+
+** postgresql reset password
+#+BEGIN_SRC
+su -
+psql -U postgres
+
+SHOW hba_file;
+
+\q
+ 
+vi /var/lib/pgsql/9.4/data/pg_hba.conf
+
+# add the line
+# local   all         postgres                          trust
+
+systemctl list-units --type service
+service postgresql-9.4 restart
+#+END_SRC
+
+trust - anyone who can connect to the server is authorized to access the database
+
+peer - use client's operating system user name as database user name to access it.
+
+md5 - password-base authentication
+
+#+BEGIN_SRC 
+su -
+psql -U postgres
+alter user postgres with password 'd1t$t4d3nt';
+create database openproj;
+create user openprojadm with password 'one2three4';
+grant all privileges on database openproj to openprojadm;
+
+SHOW hba_file;
+
+\q
+
+
+#+END_SRC
+
+
 ** postgresql open port
 
 ~vi /etc/postgresql/9.5/main/postgresql.conf~
@@ -3492,6 +3533,9 @@ host all postgres 127.0.0.1/32 md5
 #host  all  all 0.0.0.0/0 md5
 #hostnossl  all  all  0.0.0.0/0  trust
 #+END_SRC
+
+
+
 ** Jenkins server initial setup
 
 #+BEGIN_SRC 
