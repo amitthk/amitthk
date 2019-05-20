@@ -1,4 +1,40 @@
 * Jenkins
+** centos
+#+BEGIN_SRC 
+sudo yum -y install firewalld
+sudo systemctl start firewalld
+sudo firewall-cmd --permanent --zone=public --add-port=8080/tcp
+sudo firewall-cmd --permanent --zone=public --add-port=8080-9000/tcp
+sudo firewall-cmd --permanent --zone=public --add-port=60022/tcp
+sudo systemctl enable firewalld
+sudo vi /etc/ssh/sshd_config 
+sudo service sshd restart
+sudo service sshd status
+sudo firewall-cmd --reload
+sudo firewall-cmd --list-all
+sudo yum install -y java-1.8.0-openjdk-devel
+curl --silent --location http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo | sudo tee /etc/yum.repos.d/jenkins.repo
+sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
+sudo yum install jenkins
+sudo systemctl enable jenkins
+sudo systemctl start jenkins
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+sudo yum remove docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine
+sudo yum install -y yum-utils   device-mapper-persistent-data   lvm2;
+sudo yum-config-manager     --add-repo     https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum install docker-ce docker-ce-cli containerd.io
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo groupadd docker
+sudo usermod -aG docker $USER
+sudo chmod 770 /var/run/docker.sock
+sudo systemctl restart docker
+sudo yum install -y epel-release
+sudo yum install -y ansible
+sudo yum install -y git python-pip docker-py
+sudo usermod -aG docker jenkins
+#+END_SRC
+
 ** Install Jenkins
 #+BEGIN_SRC 
 sudo apt-get install openjdk-8-jdk -y

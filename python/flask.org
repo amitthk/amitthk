@@ -148,3 +148,194 @@ db.session.commit()
 Bookmark.query.get(2)
 
 ==============
+#+BEGIN_SRC 
+import sys
+import os
+import json, imp, ast
+import configparser
+from functools import wraps
+import pymongo
+from bson.objectid import ObjectId
+from bson.json_util import dumps
+from pymongo import MongoClient
+
+import flask_restplus
+
+from flask import Blueprint, request, abort, Response, jsonify, url_for, session
+from flask import current_app as app
+from flask_restplus import Api, Resource, fields, reqparse
+from DbHelper import DbHelper
+
+DEBUG = True
+
+blueprint = Blueprint('userinfo',__name__,url_prefix='/api/userinfo')
+api = Api(blueprint)
+ns = api.namespace('userinfo',description='Simple Flask Ldap App')
+
+
+add_user_model = api.model("add_user_model", {
+    "firstName": fields.String("firstName"),
+    "lastName": fields.String("lastName"),
+    "dob": fields.String("dob"),
+    "email": fields.String("email"),
+    "country": fields.String("country"),
+    "passwordHash": fields.String("passwordHash")
+})
+
+
+utils_path = sys.path.append(os.path.join(os.path.dirname(__file__), "utils.py"))
+utils = imp.load_source('*', utils_path)
+
+@ns.route("")
+@ns.route("/<id>")
+class Home(Resource):
+    # method_decorators=[must_auth]
+    def get(self):
+        """
+        Function to get the userinfos.
+        """
+        try:
+            dbhelper = DbHelper()
+            q_params = utils.parse_q_params(request.query_string)
+            if q_params:
+                query = {k: int(v) if isinstance(v, str) and v.isdigit() else v for k, v in q_params.items()}
+                records_fetched = dbhelper.collection.find(query)
+                if records_fetched.count() > 0:
+                    return json_util.dumps(records_fetched)
+                else:
+                    return "No Records found", 404
+            else:
+                if dbhelper.collection.find().count > 0:
+                    return Response(dumps(dbhelper.collection.find()), mimetype='application/json')
+                else:
+                    return jsonify([])
+        except:
+            raise #return "", 500
+
+    @api.expect(add_user_model)    
+    def post(self):
+        """
+        Function to add new userinfo(s).
+        """
+        try:
+            dbhelper = DbHelper()
+            try:
+                body = ast.literal_eval(json.dumps(request.get_json()))
+            except:
+                return "", 400
+
+            record_created = dbhelper.collection.insert(body)
+
+            if isinstance(record_created, list):
+                return Response(jsonify([str(v) for v in record_created]), status=201, mimetype = 'application/json')
+            else:
+                return Response(jsonify(str(record_created)), status=201, mimetype = 'application/json')
+        except:
+            raise #return "", 500
+
+    @api.expect(add_user_model)    
+    def put(self, id=None):
+        """
+        Function to update a userinfo.
+        """
+        try:
+            dbhelper = DbHelper()
+            try:
+                body = ast.literal_eval(json.dumps(request.get_json()))
+            except:
+                return "", 400
+            records_updated = dbhelper.collection.update_one({"_id": ObjectId(id)}, body)
+
+            if records_updated.modified_count > 0:
+                return Response(jsonify("Updated {} items!".format(records_updated.modified_count)), status=200, mimetype = 'application/json')
+            else:
+                return "", 404
+        except:
+            raise #return "", 500
+
+    
+    def delete(self, id=None):
+        """
+        Function to delete a userinfo.
+        """
+        try:
+            dbhelper = DbHelper()
+            q_params = utils.parse_q_params(request.query_string)
+            delete_user = dbhelper.collection.delete_one({"_id": ObjectId(id)})
+            if delete_user.deleted_count > 0 :
+                return Response("Deleted {} items!".format(delete_user.deleted_count), status=204, mimetype = 'application/json')
+            else:
+                return "", 404
+        except:
+            raise #return "", 500
+
+
+
+#+END_SRC
+
+#+BEGIN_SRC 
+from flask import current_app
+from pymongo import MongoClient
+import string
+
+class DbHelper:
+    def __init__(self):
+        self.db_host = current_app.config['DATABASE_HOSTNAME']
+        self.db_port = current_app.config['DATABASE_PORT']
+        self.client = MongoClient(self.db_host,int(self.db_port.strip(string.ascii_letters)))
+        self.db = self.client.test
+        self.collection = self.db.registration
+#+END_SRC
+
+#+BEGIN_SRC 
+from urlparse import parse_qs
+
+
+def parse_q_params(query_string):
+    # Parse the query param string
+    q_params = dict(parse_qs(query_string))
+    # Get the value from the list
+    q_params = {k: v[0] for k, v in q_params.items()}
+    return q_params
+
+#+END_SRC
+
+#+BEGIN_SRC 
+import sys
+import os
+import json
+import configparser
+from functools import wraps
+
+import flask_restplus
+
+from flask import Flask, request, abort, Response, jsonify, url_for, session
+from flask_restplus import Api, Resource, fields, reqparse
+from auth.AuthApi import blueprint as auth_blueprint
+from vault.VaultUserApi import blueprint as vault_user_blueprint
+from userinfo.UserInfoApi import blueprint as userinfo_blueprint
+
+DEBUG = True
+
+app = Flask(__name__,instance_relative_config=True)
+app.config.from_object(__name__)
+app.config.from_pyfile('app.cfg')
+
+
+config = configparser.ConfigParser
+
+api = Api(app, version='1.0', title='Flask demo app', description = 'Flask demo app')
+app.register_blueprint(auth_blueprint)
+app.register_blueprint(vault_user_blueprint)
+app.register_blueprint(userinfo_blueprint)
+
+if __name__=="__main__":
+    app.run(host='0.0.0.0')
+#+END_SRC
+
+#+BEGIN_SRC 
+from app import app
+
+if __name__ == "__main__":
+    app.run()
+#+END_SRC
