@@ -66,7 +66,131 @@ Add the following virtualhost config:
 </VirtualHost>
 #+END_SRC
 
+** HTTPS or SSL over TLS
 
+#+BEGIN_SRC 
+yum install -y mod_ssl
+#+END_SRC
+
+generate the ssl certificate
+#+BEGIN_SRC 
+openssl genrsa -des3 -out server.key 2048
+openssl rsa -in server.key -out server.key
+openssl req -new -key server.key -out server.csr
+openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+
+#+END_SRC
+
+#+BEGIN_SRC 
+<VirtualHost *:8888>
+
+    SSLEngine On
+
+    # Set the path to SSL certificate
+    # Usage: SSLCertificateFile /path/to/cert.pem
+    SSLCertificateFile /etc/httpd/conf.d/ssl/atksv.mywire.org/server.crt
+    SSLCertificateKeyFile /etc/httpd/conf.d/ssl/atksv.mywire.org/server.key
+
+
+    # Servers to proxy the connection, or;
+    # List of application servers:
+    # Usage:
+    # ProxyPass / http://[IP Addr.]:[port]/
+    # ProxyPassReverse / http://[IP Addr.]:[port]/
+    # Example:
+    ProxyPass / http://0.0.0.0:32727/
+    ProxyPassReverse / http://0.0.0.0:32727/
+
+    # Or, balance the load:
+    # ProxyPass / balancer://balancer_cluster_name
+
+</VirtualHost>
+
+#+END_SRC
+
+#+BEGIN_SRC 
+ <VirtualHost *:443>
+ ServerName www.bb.com:443
+ DcoumentRoot "/var/www/html/www.bb.com"
+ SSLEngine On
+ SSLCertificateFile /etc/pki/tls/certs/www.bb.com.crt
+ SSLCertificateKeyFile /etc/pki/tls/private/www.bb.com.local.key
+ </VirtualHost>
+
+#+END_SRC
+ ======
+*** Self signed certificate
+#+BEGIN_SRC 
+ yum install openssl openssl-libs -y
+ openssl genrsa -out www.bb.com.local.key 2048
+
+#+END_SRC
+**** Generate a certificate request
+ ~openssl req -new -key www.bb.com.local.key -out www.bb.com.csr~
+ <follow the prompts>
+**** Generate certificate now
+ ~openssl x509 -req -days 365 -signkey www.bb.local.key -in www.bb.local.csr -out www.bb.local.crt~
+ ~chmod 600 ww.bb.local.*~
+
+**** Move to respective places
+ #+BEGIN_SRC 
+mv www.bb.local.key /etc/pki/tls/private/
+ mv www.bb.local.crt /etc/pki/tls/certs/
+ restorecon -RvF /etc/pki/tls/
+
+ 
+ #+END_SRC
+**** Now install the SSL module
+#+BEGIN_SRC 
+ yum install mod_ssl
+ vi /etc/httpd/conf.d
+
+#+END_SRC
+ <configure the above directives>
+
+#+BEGIN_SRC 
+ systemctl restart httpd.service
+ firewall -cmd --add-service=https --permanent
+
+#+END_SRC
+**** Test the certificate
+ ~openssl s_client -connect www.bb.com.local:443 -state | more~
+
+
+** Reverse proxy websocket and http with ssl certificate
+
+#+BEGIN_SRC 
+VirtualHost *:8888>
+
+    SSLEngine On
+
+    # Set the path to SSL certificate
+    # Usage: SSLCertificateFile /path/to/cert.pem
+    SSLCertificateFile /etc/httpd/conf.d/ssl/atksv.mywire.org/server.crt
+    SSLCertificateKeyFile /etc/httpd/conf.d/ssl/atksv.mywire.org/server.key
+
+
+    # Servers to proxy the connection, or;
+    # List of application servers:
+    # Usage:
+    # ProxyPass / http://[IP Addr.]:[port]/
+    # ProxyPassReverse / http://[IP Addr.]:[port]/
+    # Example:
+
+    ProxyPass /socket ws://0.0.0.0:32727/socket
+    ProxyPassReverse /socket ws://0.0.0.0:32727/socket
+
+    ProxyPass /images/ http://0.0.0.0:32727/images/
+    ProxyPassReverse /images/ http://0.0.0.0:32727/images/
+
+    ProxyPass / http://0.0.0.0:32727/
+    ProxyPassReverse / http://0.0.0.0:32727/
+
+    # Or, balance the load:
+    # ProxyPass / balancer://balancer_cluster_name
+
+</VirtualHost>
+#+END_SRC
 ** Setting up two domains pointing to same httpd
 
 Here we simply separate the two websites using the ServerName
@@ -316,56 +440,6 @@ http://sysadminsjourney.com/content/2010/02/01/apache-modproxy-error-13permissio
   </VirtualHost>
 
  #+END_SRC
-
-** HTTPS or SSL over TLS
- 
-#+BEGIN_SRC 
- <VirtualHost *:443>
- ServerName www.bb.com:443
- DcoumentRoot "/var/www/html/www.bb.com"
- SSLEngine On
- SSLCertificateFile /etc/pki/tls/certs/www.bb.com.crt
- SSLCertificateKeyFile /etc/pki/tls/private/www.bb.com.local.key
- </VirtualHost>
-
-#+END_SRC
- ======
-*** Self signed certificate
-#+BEGIN_SRC 
- yum install openssl openssl-libs -y
- openssl genrsa -out www.bb.com.local.key 2048
-
-#+END_SRC
-**** Generate a certificate request
- ~openssl req -new -key www.bb.com.local.key -out www.bb.com.csr~
- <follow the prompts>
-**** Generate certificate now
- ~openssl x509 -req -days 365 -signkey www.bb.local.key -in www.bb.local.csr -out www.bb.local.crt~
- ~chmod 600 ww.bb.local.*~
-
-**** Move to respective places
- #+BEGIN_SRC 
-mv www.bb.local.key /etc/pki/tls/private/
- mv www.bb.local.crt /etc/pki/tls/certs/
- restorecon -RvF /etc/pki/tls/
-
- 
- #+END_SRC
-**** Now install the SSL module
-#+BEGIN_SRC 
- yum install mod_ssl
- vi /etc/httpd/conf.d
-
-#+END_SRC
- <configure the above directives>
-
-#+BEGIN_SRC 
- systemctl restart httpd.service
- firewall -cmd --add-service=https --permanent
-
-#+END_SRC
-**** Test the certificate
- ~openssl s_client -connect www.bb.com.local:443 -state | more~
 
 ** Access control
 
