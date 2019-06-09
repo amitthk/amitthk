@@ -1,0 +1,843 @@
+* Apache / httpd
+
+ Virtual Hosts
+ Dynamic Loading Modules
+ Multiple Process and Threads
+ Access Control and Authentication, network filtering
+ Encryption (https)
+ Compression
+ URL Rewrite
+
+people > access > resources
+
+** Install and configuration 
+
+~yum install httpd httpd-tools httpd-manual~
+
+ main config  ~/etc/httpd/conf/httpd.conf~
+
+ additional config
+ ~/etc/httpd/conf.d/*~
+ Example config
+ ~/usr/shar/doc/httpd-<version>/~
+ httpd-default.conf,  httpd-vhosts.....
+
+** Test/debug the configuration
+
+#+BEGIN_SRC 
+apachectl configtest
+/sbin/httpd -S
+#+END_SRC
+
+** Simple reverse proxy 
+
+Let's clean up the httpd.conf
+
+#+BEGIN_SRC 
+ sudo sed '/^[[:blank:]]*#/d;s/#.*//g' /etc/httpd/conf/httpd.conf
+#if all looks ok
+sudo sed -i.bak '/^[[:blank:]]*#/d;s/#.*//g' /etc/httpd/conf/httpd.conf
+#+END_SRC
+
+Make sure following modules are included in (/etc/httpd/conf.modules.d/00-proxy.conf) :
+
+#+BEGIN_SRC 
+LoadModule proxy_module modules/mod_proxy.so
+LoadModule lbmethod_byrequests_module modules/mod_lbmethod_byrequests.so
+LoadModule proxy_balancer_module modules/mod_proxy_balancer.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
+#+END_SRC
+
+If not, use a2enmod to enable them.
+
+Make sure the virtualhost configs from conf.d are incluede in (/etc/httpd/conf/httpd.conf):
+
+#+BEGIN_SRC 
+Include conf.modules.d/*.conf
+#+END_SRC
+
+Add the following virtualhost config:
+
+#+BEGIN_SRC 
+<VirtualHost *:80>
+ ProxyPreserveHost On
+ ProxyPass / http://127.0.0.1:8080/
+ ProxyPassReverse / http://127.0.0.1:8080/
+</VirtualHost>
+#+END_SRC
+
+
+** Setting up two domains pointing to same httpd
+
+Here we simply separate the two websites using the ServerName
+
+At the root we only we simply host the 
+
+#+BEGIN_SRC 
+
+Listen 80
+
+Include conf.modules.d/*.conf
+
+User apache
+Group apache
+
+
+ServerAdmin root@localhost
+
+<Directory />
+    AllowOverride none
+    Require all denied
+</Directory>
+
+NameVirtualHost *:80
+
+#DocumentRoot "/var/www/html"
+
+<Directory "/var/www">
+    AllowOverride None
+    Require all granted
+</Directory>
+
+#.......
+
+IncludeOptional conf.d/*.conf
+
+#+END_SRC
+
+/etc/httpd/conf.d/vhosts.conf  looks like this:
+
+#+BEGIN_SRC 
+<VirtualHost *:80>
+    DocumentRoot "/home/user/site1/"
+    ServerName api.jvcdp.mywire.org
+</VirtualHost>
+
+<VirtualHost *:80>
+    DocumentRoot "/home/user/site2/"
+    ServerName ui.jvcdp.mywire.org
+</VirtualHost>
+#+END_SRC
+
+
+** Setting up front end on static and backend on reverse proxy
+
+#+BEGIN_SRC 
+<VirtualHost *:80>
+    DocumentRoot /var/www/pys3viewerui
+    ServerName localhost
+
+ProxyPreserveHost On
+
+
+Alias /pys3viewerui/ "/var/www/pys3viewerui/"
+
+<Directory /var/www/pys3viewerui>
+    Options FollowSymLinks
+    AllowOverride All
+    order allow,deny
+    allow from all
+</Directory>
+
+
+#ProxyPass        "/pys3viewerapi/" "unix:/var/www/pys3viewerapi/pys3viewerapi.sock|pys3viewerapi://localhost/pys3viewerapi/"
+
+ProxyPass /pys3viewerapi/ http://127.0.0.1:8081/
+ProxyPassReverse /pys3viewerapi/ http://127.0.0.1:8081/
+
+
+</VirtualHost>
+#+END_SRC
+
+** Setting up two sites in subdirectories  ???**
+
+Root of our config /etc/httpd/conf/httpd.conf is simple:
+
+#+BEGIN_SRC 
+
+Listen 80
+
+Include conf.modules.d/*.conf
+
+User apache
+Group apache
+
+
+ServerAdmin root@localhost
+
+<Directory />
+    AllowOverride none
+    Require all denied
+</Directory>
+
+NameVirtualHost *:80
+
+#DocumentRoot "/var/www/html"
+
+<Directory "/var/www">
+    AllowOverride None
+    Require all granted
+</Directory>
+
+#.......
+
+IncludeOptional conf.d/*.conf
+
+#+END_SRC
+
+/etc/httpd/conf.d/vhosts.conf  looks like this:
+
+#+BEGIN_SRC 
+<VirtualHost *:80>
+    DocumentRoot /var/www/pys3viewerui
+    ServerName localhost
+
+    Alias /pys3viewerui/ "/var/www/pys3viewerui/"
+
+#this directory will be the root context as well. it will be first hit
+
+    <Directory /var/www/pys3viewerui>
+        Options FollowSymLinks
+        AllowOverride All
+        order allow,deny
+        allow from all
+   </Directory>
+
+#for the requests going to /pys3viewerapi/*  this site will be hit
+    Alias /pys3viewerapi/ "/var/www/pys3viewerapi/"
+
+   <Directory /var/www/pys3viewerapi>
+      Options FollowSymLinks
+      AllowOverride All
+      order allow,deny
+      allow from all
+   </Directory>
+
+
+</VirtualHost>
+
+#+END_SRC
+
+
+
+
+** RHEL not able to proxy - gives Service Unavailable
+
+Run this command:
+
+~/usr/sbin/setsebool -P httpd_can_network_connect 1~
+
+It is explained here:
+
+http://sysadminsjourney.com/content/2010/02/01/apache-modproxy-error-13permission-denied-error-rhel/
+
+** Directives
+ configuration directives (default /etc/httpd)
+ ServerRoot
+ Listen
+ Include (other config in )
+ User/Group
+ DocumentRoot
+ Options
+ AllowOverride (.HTaccess  which configs allow override)
+
+ ========
+ scoped config. directives
+ ...common  
+ #+BEGIN_SRC 
+ <Directory />
+ AllowOverride none
+ Require all deny
+ </Directory>
+
+ #+END_SRC
+
+ =======
+
+#+BEGIN_SRC 
+ sudo yum install httpd httpd-tools httpd-manual -y
+ sudo firewall-cmd --add-service=httpd --permanent
+ sudo firewall-cmd --reload
+ systemctl staus httpd
+
+#+END_SRC
+ ====
+
+** Virtualhosts
+ #+BEGIN_SRC 
+
+
+ <VirtualHost *:80>
+ ServerName www.bb.com
+ DcoumentRoot "/var/www/html/www.bb.com"
+ </VirtualHost>
+
+
+ #+END_SRC
+
+ #+BEGIN_SRC 
+
+ apachectl status
+ vi /sbin/apachects
+ sudo apachectl stop
+ apachectl configtest
+ sudo vi /etc/httpd/conf/httpd.conf
+
+ httpd -t < Syntax OK>
+ httpd -t -D DUMP_VHOSTS
+ systemctl restart httpd.service
+
+
+ #+END_SRC
+
+ ====
+#+BEGIN_SRC 
+ cd /.../conf.d/
+ mkdir -p /var/www/html/www.bb.com
+ mv /var/www/html/index.thml /var/www/html/www.bb.com/
+ cp www.psdemo.local.conf  www.bb.com.conf
+
+#+END_SRC
+  ======
+
+*** httpd.conf config for subdomain
+
+ #+BEGIN_SRC 
+
+  <VirtualHost *:80>
+  #    ServerAdmin webmaster@amitthk.com
+       DocumentRoot /var/www/vhosts/blog
+       ServerName default:80
+  #    ErrorLog /var/logs/amitthk.com-error_log
+  #    CustomLog /var/logs/amitthk.com-access_log common
+      <Directory /var/www/vhosts/blog>
+      AllowOverride All
+      </Directory>
+  </VirtualHost>
+
+ #+END_SRC
+
+** HTTPS or SSL over TLS
+ 
+#+BEGIN_SRC 
+ <VirtualHost *:443>
+ ServerName www.bb.com:443
+ DcoumentRoot "/var/www/html/www.bb.com"
+ SSLEngine On
+ SSLCertificateFile /etc/pki/tls/certs/www.bb.com.crt
+ SSLCertificateKeyFile /etc/pki/tls/private/www.bb.com.local.key
+ </VirtualHost>
+
+#+END_SRC
+ ======
+*** Self signed certificate
+#+BEGIN_SRC 
+ yum install openssl openssl-libs -y
+ openssl genrsa -out www.bb.com.local.key 2048
+
+#+END_SRC
+**** Generate a certificate request
+ ~openssl req -new -key www.bb.com.local.key -out www.bb.com.csr~
+ <follow the prompts>
+**** Generate certificate now
+ ~openssl x509 -req -days 365 -signkey www.bb.local.key -in www.bb.local.csr -out www.bb.local.crt~
+ ~chmod 600 ww.bb.local.*~
+
+**** Move to respective places
+ #+BEGIN_SRC 
+mv www.bb.local.key /etc/pki/tls/private/
+ mv www.bb.local.crt /etc/pki/tls/certs/
+ restorecon -RvF /etc/pki/tls/
+
+ 
+ #+END_SRC
+**** Now install the SSL module
+#+BEGIN_SRC 
+ yum install mod_ssl
+ vi /etc/httpd/conf.d
+
+#+END_SRC
+ <configure the above directives>
+
+#+BEGIN_SRC 
+ systemctl restart httpd.service
+ firewall -cmd --add-service=https --permanent
+
+#+END_SRC
+**** Test the certificate
+ ~openssl s_client -connect www.bb.com.local:443 -state | more~
+
+** Access control
+
+ Filtering 
+ - By IP ,
+ - Range of IPS,
+ - Domain Names
+
+*** Access Control
+
+**** Users
+ #+BEGIN_SRC
+ <Directory /var/www/html/www.bb.com.local/>
+ AllowOverride None
+ AuthType Basic
+ AuthName "Please enter a valid username and password"
+ AuthUserFile /etc/httpd/conf.d/.userdb
+ Require user demo
+ </Directory>
+
+ #+END_SRC
+***** Simplified
+ #+BEGIN_SRC 
+ <Directory /var/www/html/www.bb.com.local/>
+ AllowOverride AuthConfig
+ Require user demo
+ </Directory>
+
+
+ #+END_SRC
+****** Create .htaccess inside the target directory
+ #+BEGIN_SRC 
+ AuthType Basic
+ AuthName "Please enter a valid username and password"
+ AuthUserFile /etc/httpd/conf.d/.userdb
+ #+END_SRC
+
+ Create httpassword
+
+ #+BEGIN_SRC 
+ httpasswd -c /etc/httpd/conf.d/.userdb demo
+
+ httpd -t -D DUMP_VHOSTS
+ systemctl restart httpd.service
+ #+END_SRC
+
+**** IP
+ #+BEGIN_SRC 
+ <Directory /var/www/html/www.bb.com/>
+
+ Require ip 192.168.0.0/24
+ </Directory>
+
+ #+END_SRC
+
+  Block b y IP
+ #+BEGIN_SRC 
+
+ <Directory /var/www/html/www.bb.com/>
+   <RequireALL>
+    Require all granted
+    Require not ip 192.168.2.0/24
+   </RequireAll>
+ </Directory>
+
+
+ #+END_SRC
+
+** Logging
+ Server logs
+ VSHost level logs
+
+ Logging:
+ - AccessLog
+   - LogFormat
+ - ErrorLog
+   - ErrorLogFormat
+   - LogFormat
+ - LogFormat
+   - format string   Comon - %h %l %u %t \ "%r\" %>s %b
+   - Combined .....
+   - Custom:
+     - LogFormat %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\" Combined
+ - Log file location
+   - default: /etc/httpd/logs -> /var/log/httpd
+   - ServerRoot /etc/httpd
+   - CustomLog  "logs/access_log" combined
+
+ Log file rotation (system rotates logs by dates)
+
+*** Examining logs
+ Common log examine commands
+ - tail -f
+ - grep/egrep
+ - awk
+
+
+ ll /etc/httpd
+ vi /etc/httpd/conf.d/www.bb.com.conf
+
+ #+BEGIN_SRC 
+ <virtualhost ****>
+ CustomLog "logs/www.bb.com.local.access_log" combined
+ #+END_SRC
+
+
+ ~awk '{print $1}' access_log* | sort | uniq -c | sort~
+** Unable to bind to port Permission denied
+#+BEGIN_SRC 
+semanage port -a -t http_port_t  -p tcp 8090
+
+#+END_SRC
+
+
+* Apache / httpd
+
+ Virtual Hosts
+ Dynamic Loading Modules
+ Multiple Process and Threads
+ Access Control and Authentication, network filtering
+ Encryption (https)
+ Compression
+ URL Rewrite
+
+people > access > resources
+
+** Install and configuration 
+
+~yum install httpd httpd-tools httpd-manual~
+
+~sudo firewall-cmd --add-service=http --permanent~
+~sudo firewallcmd --reload~
+~systemctl status httpd~
+
+#+BEGIN_SRC 
+systemctl start httpd
+systemctl enable httpd
+ps -aux --forest
+sudo vi /etc/httpd/conf/httpd.conf
+
+#+END_SRC
+
+ main config  ~/etc/httpd/conf/httpd.conf~
+
+ additional config
+ ~/etc/httpd/conf.d/*~
+ Example config
+ ~/usr/shar/doc/httpd-<version>/~
+ httpd-default.conf,  httpd-vhosts.....
+
+
+** Directives
+ configuration directives (default /etc/httpd)
+ ServerRoot
+ Listen
+ Include (other config in )
+ User/Group
+ DocumentRoot
+ Options
+ AllowOverride (.HTaccess  which configs allow override)
+
+ ========
+ scoped config. directives
+ ...common  
+ #+BEGIN_SRC 
+ <Directory />
+ AllowOverride none
+ Require all deny
+ </Directory>
+
+ #+END_SRC
+
+ =======
+
+#+BEGIN_SRC 
+ sudo yum install httpd httpd-tools httpd-manual -y
+ sudo firewall-cmd --add-service=httpd --permanent
+ sudo firewall-cmd --reload
+ systemctl staus httpd
+
+#+END_SRC
+ ====
+
+** Listen on another port
+
+vi /etc/conf/httpd.conf
+
+add
+
+Listen 80
+Listen 8085
+Listen 8086
+
+create a default virtualhost
+
+vi /etc/conf.d/default-site.conf
+
+<VirtualHost *:8085>
+</VirtualHost>
+
+
+*** Permission issue due to SeLinux on centos
+
+I happened to run into this problem because of missing SELinux permissions. By default, SELinux only allowed apache/httpd to bind to the following ports:
+
+80, 81, 443, 488, 8008, 8009, 8443, 9000
+So binding to my httpd.conf-configured Listen 88 HTTP port and config.d/ssl.conf-configured  Listen 8445 TLS/SSL port would fail with that default SELinux configuration.
+
+To fix my problem, I had to add ports 88 and 8445 to my system's SELinux configuration:
+
+Install semanage tools: sudo yum -y install policycoreutils-python
+Allow port 8085 for httpd: sudo semanage port -a -t http_port_t -p tcp 8085
+Allow port 8086 for httpd: sudo semanage port -a -t http_port_t -p tcp 8086
+
+
+** Virtualhosts
+ #+BEGIN_SRC 
+
+
+ <VirtualHost *:80>
+ ServerName www.bb.com
+ DcoumentRoot "/var/www/html/www.bb.com"
+ </VirtualHost>
+
+
+ #+END_SRC
+
+
+Multiple dir
+
+#+BEGIN_SRC 
+<VirtualHost *:80>
+ ServerName www.bb.com
+ DcoumentRoot "/var/www/html/www.bb.com"
+</VirtualHost>
+
+<Directory /var/www/vhosts/blog>
+     AllowOverride none
+     Require all granted
+</Directory>
+
+<Directory /var/www2/vhosts/blog>
+    Options Indexes FollowSymlinks       
+    AllowOverride none
+    Require all granted
+</Directory>
+
+#+END_SRC
+
+
+
+ #+BEGIN_SRC 
+
+ apachectl status
+ vi /sbin/apachects
+ sudo apachectl stop
+ apachectl configtest
+ sudo vi /etc/httpd/conf/httpd.conf
+
+ httpd -t
+# < Syntax OK>
+ httpd -t -D DUMP_VHOSTS
+ systemctl restart httpd.service
+
+
+ #+END_SRC
+
+ ====
+#+BEGIN_SRC 
+ cd /.../conf.d/
+ mkdir -p /var/www/html/www.bb.com
+ mv /var/www/html/index.thml /var/www/html/www.bb.com/
+ cp www.psdemo.local.conf  www.bb.com.conf
+
+#+END_SRC
+
+
+
+  ======
+
+*** httpd.conf config for subdomain
+
+ #+BEGIN_SRC 
+
+  <VirtualHost *:80>
+  #    ServerAdmin webmaster@amitthk.com
+       DocumentRoot /var/www/vhosts/blog
+       ServerName default:80
+  #    ErrorLog /var/logs/amitthk.com-error_log
+  #    CustomLog /var/logs/amitthk.com-access_log common
+      <Directory /var/www/vhosts/blog>
+      AllowOverride All
+      </Directory>
+  </VirtualHost>
+
+ #+END_SRC
+
+** HTTPS or SSL over TLS
+yum install mod_ssl
+systemctl restart httpd
+
+*** simple
+
+#+BEGIN_SRC 
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout pys3viewer.key -out pys3viewer.crt
+
+#add this to your virtualhost
+
+DocumentRoot /var/www/website
+ServerName www.yourdomain.com
+SSLEngine on
+SSLCertificateFile /etc/ssl/crt/mysitename.crt
+SSLCertificateKeyFile /etc/ssl/crt/mysitename.key
+
+
+
+#+END_SRC
+
+*** advanced
+
+ 
+#+BEGIN_SRC 
+ <VirtualHost *:443>
+ ServerName www.bb.com:443
+ DcoumentRoot "/var/www/html/www.bb.com"
+ SSLEngine On
+ SSLCertificateFile /etc/pki/tls/certs/www.bb.com.crt
+ SSLCertificateKeyFile /etc/pki/tls/private/www.bb.com.local.key
+ </VirtualHost>
+
+#+END_SRC
+ ======
+*** Self signed certificate
+#+BEGIN_SRC 
+ yum install openssl openssl-libs -y
+ openssl genrsa -out www.bb.com.local.key 2048
+
+#+END_SRC
+**** Generate a certificate request
+~openssl req -new -key www.bb.com.local.key -out www.bb.com.csr~
+ <follow the prompts>
+**** Generate certificate now
+ ~openssl x509 -req -days 365 -signkey www.bb.local.key -in www.bb.local.csr -out www.bb.local.crt~
+ ~chmod 600 ww.bb.local.*~
+
+**** Move to respective places
+ #+BEGIN_SRC 
+mv www.bb.local.key /etc/pki/tls/private/
+ mv www.bb.local.crt /etc/pki/tls/certs/
+ restorecon -RvF /etc/pki/tls/
+
+ 
+ #+END_SRC
+**** Now install the SSL module
+#+BEGIN_SRC 
+ yum install mod_ssl
+ vi /etc/httpd/conf.d
+
+#+END_SRC
+ <configure the above directives>
+
+#+BEGIN_SRC 
+ systemctl restart httpd.service
+ firewall -cmd --add-service=https --permanent
+
+#+END_SRC
+**** Test the certificate
+ ~openssl s_client -connect www.bb.com.local:443 -state | more~
+
+** Access control
+
+ Filtering 
+ - By IP ,
+ - Range of IPS,
+ - Domain Names
+
+*** Access Control
+
+**** Users
+ #+BEGIN_SRC
+ <Directory /var/www/html/www.bb.com.local/>
+ AllowOverride None
+ AuthType Basic
+ AuthName "Please enter a valid username and password"
+ AuthUserFile /etc/httpd/conf.d/.userdb
+ Require user demo
+ </Directory>
+
+ #+END_SRC
+***** Simplified
+ #+BEGIN_SRC 
+ <Directory /var/www/html/www.bb.com.local/>
+ AllowOverride AuthConfig
+ Require user demo
+ </Directory>
+
+
+ #+END_SRC
+****** Create .htaccess inside the target directory
+ #+BEGIN_SRC 
+ AuthType Basic
+ AuthName "Please enter a valid username and password"
+ AuthUserFile /etc/httpd/conf.d/.userdb
+ #+END_SRC
+
+ Create httpassword
+
+ #+BEGIN_SRC 
+ httpasswd -c /etc/httpd/conf.d/.userdb demo
+
+ httpd -t -D DUMP_VHOSTS
+ systemctl restart httpd.service
+ #+END_SRC
+
+**** IP
+ #+BEGIN_SRC 
+ <Directory /var/www/html/www.bb.com/>
+
+ Require ip 192.168.0.0/24
+ </Directory>
+
+ #+END_SRC
+
+  Block b y IP
+ #+BEGIN_SRC 
+
+ <Directory /var/www/html/www.bb.com/>
+   <RequireALL>
+    Require all granted
+    Require not ip 192.168.2.0/24
+   </RequireAll>
+ </Directory>
+
+
+ #+END_SRC
+
+** Logging
+ Server logs
+ VSHost level logs
+
+ Logging:
+ - AccessLog
+   - LogFormat
+ - ErrorLog
+   - ErrorLogFormat
+   - LogFormat
+ - LogFormat
+   - format string   Comon - %h %l %u %t \ "%r\" %>s %b
+   - Combined .....
+   - Custom:
+     - LogFormat %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\" Combined
+ - Log file location
+   - default: /etc/httpd/logs -> /var/log/httpd
+   - ServerRoot /etc/httpd
+   - CustomLog  "logs/access_log" combined
+
+ Log file rotation (system rotates logs by dates)
+
+*** Examining logs
+ Common log examine commands
+ - tail -f
+ - grep/egrep
+ - awk
+
+
+ ll /etc/httpd
+ vi /etc/httpd/conf.d/www.bb.com.conf
+
+ #+BEGIN_SRC 
+ <virtualhost ****>
+ CustomLog "logs/www.bb.com.local.access_log" combined
+ #+END_SRC
+
+
+ ~awk '{print $1}' access_log* | sort | uniq -c | sort~

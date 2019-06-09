@@ -1,0 +1,195 @@
+* nginx
+** nginx ssl reverse proxy
+
+#+BEGIN_SRC 
+semanage port -a -t http_port_t  -p tcp 8888
+
+vi /etc/nginx/nginx.conf
+
+#+END_SRC
+
+vi /etc/nginx/nginx.conf
+#+BEGIN_SRC 
+user nginx;
+worker_processes auto;
+error_log /var/log/nginx/error.log;
+pid /run/nginx.pid;
+
+
+include /usr/share/nginx/modules/*.conf;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile            on;
+    tcp_nopush          on;
+    tcp_nodelay         on;
+    keepalive_timeout   65;
+    types_hash_max_size 2048;
+
+    include             /etc/nginx/mime.types;
+    default_type        application/octet-stream;
+
+
+
+
+    include /etc/nginx/conf.d/*.conf;
+
+    server {
+        listen       8888 default_server;
+        listen       [::]:8888 default_server;
+        server_name  _;
+        root         /usr/share/nginx/html;
+
+
+        include /etc/nginx/default.d/*.conf;
+
+        location /jenkins/ {
+          proxy_pass http://127.0.0.1:8080/;
+        }
+
+        error_page 404 /404.html;
+            location = /40x.html {
+        }
+
+        error_page 500 502 503 504 /50x.html;
+            location = /50x.html {
+        }
+    }
+
+#+END_SRC
+
+** generate ssl cert for the site
+#+BEGIN_SRC 
+
+firewall-cmd --list-all
+mkdir -p /etc/nginx/ssl/atksv.mywire.org
+cd /etc/nginx/ssl/atksv.mywire.org
+
+openssl genrsa -des3 -out server.key 2048
+openssl rsa -in server.key -out server.key
+openssl req -new -key server.key -out server.csr
+openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+
+
+#+END_SRC
+
+vi /etc/nginx/conf.d/atksv.mywire.org.conf
+
+#+BEGIN_SRC 
+
+upstream mywebapp1 {
+    server localhost:32727;
+}
+
+server {
+    listen 8887 ssl;
+    listen [::]:8887 ssl;
+    server_name localhost, atksv.mywire.org;
+
+    ssl on;
+    ssl_certificate         /etc/nginx/ssl/atksv.mywire.org/server.crt;
+    ssl_certificate_key     /etc/nginx/ssl/atksv.mywire.org/server.key;
+
+##ignore this if using self signed certificate
+#    ssl_trusted_certificate /etc/nginx/ssl/atksv.mywire.org/ca-certs.pem;
+
+    location / {
+        proxy_pass http://mywebapp1;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+#+END_SRC
+
+** nginx reverse proxy apis
+
+#+BEGIN_SRC 
+user  ubuntu;
+worker_processes  1;
+
+error_log  /var/log/nginx/error.log warn;
+pid        /var/run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    upstream user_api{
+        server {{sit_base_url}}:8080;
+    }
+
+    upstream dashboard_api{
+        server {{sit_base_url}}:8080;
+    }
+
+    server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+    	location / {
+    		root    /home/{{ ansible_ssh_user }}/app/docker/{{project_id}}/app;
+    		index   index.html;
+            try_files $uri$args $uri$args/ /index.html;
+    	}
+
+    	location /api/auth/login {
+#            rewrite ^/api/users/v1/?(.*)$ /$1 break;
+            proxy_pass http://user_api/user-api;
+    	    proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $host;
+	    }
+
+    	location /api/auth/register {
+#            rewrite ^/api/users/v1/?(.*)$ /$1 break;
+            proxy_pass http://user_api/user-api;
+    	    proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $host;
+	    }
+
+	    location /api/dashboard/home {
+#            rewrite ^/api/dashboard/v1/?(.*)$ /$1 break;
+            proxy_pass http://dashboard_api/dashboard-api;
+    	    proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $host;
+	    }
+    }
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile        off; # disable to avoid caching and volume mount issues
+    #tcp_nopush     on;
+
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+    #include /etc/nginx/conf.d/*.conf;
+}
+#+END_SRC
+
+
+** nginx on docker
+docker run --name amitthk-nginx -v /some/content:/usr/share/nginx/html:ro -d nginx
