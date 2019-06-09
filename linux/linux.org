@@ -1606,6 +1606,10 @@ foxy proxy config
 </foxyproxy>
 #+END_SRC
 
+** detect java java and se JAVA_HOME in /etc/profile.d/jdk.sh
+#+BEGIN_SRC 
+export JAVA_HOME=$(dirname $(dirname $(readlink $(readlink $(which javac)))))
+#+END_SRC
 ** maven
 Write maven wrapper to package build
 

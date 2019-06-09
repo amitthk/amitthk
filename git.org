@@ -319,3 +319,33 @@ done < params.txt
     - git checkout develop
     - git flow feature start
     
+** git usefull commands
+
+*** checkout a specifc directory or file from anothe branch
+#+BEGIN_SRC 
+git fetch upstream
+gt checkout "upstream/${branchname}" -- terraform/inventories/hosts
+#+END_SRC
+
+*** push changes to a separate branch in upstream
+
+#+BEGIN_SRC 
+git add --all
+
+git remote remove upstream || true
+git remote add upstream https://${credentialid}@github.com/amitthk/${inventory_repo}
+
+git commit -am "Added local changes to inventory" || true
+
+git fetch upstream
+
+#Merge local to upstream branch or checkout a new branch
+git merge -X ours "upstream/${branch_name}" || git checkout -b "${branch_name}"
+
+git merge -x ours "${branch_name}"
+
+git commit -am "Merged the ${branch_name} to terraform state" || true
+
+git push upstream HEAD:${branch_name}
+
+#+END_SRC
