@@ -423,3 +423,62 @@ oc policy add-role-to-user admin system:serviceaccounts:test:robot
 oc serviceaccounts get-token robot
 #+END_SRC
 
+* Docker general notes
+- The problem
+  - different app. stacks
+  - different hardware deploy envs
+  - running apps accross all envs
+  - easily migrate from one env to another
+- Solution
+  - unit of software delivery
+
+Container
+
+- share machine's os kernel
+- start instantly use less compute tand ram
+- images are constructed from filesystem layers and share common files. minimize disk usage and image downloads are faster
+
+
+Vms = host > host os > hyperviser > guest os > bins libs > app (a,b,c)
+
+containers > server > host os > content mgr > bin libs > app(a,b,c)
+
+
+Benefits
+- portability
+- everything in single image
+- different apps isolated, simultaneously can rn
+- fast dev. deploy
+- better resource utilization
+
+Use cases
+- consistend dev, prod env
+- CI CD
+
+ECS benefits
+- fully managed elastic svc
+- shared state optimistic scheduling
+- deep integratoin to other aws svcs
+  - ELB
+  - ebs
+  - vpc
+  - cloudwatch
+  - iam
+  - cloudtrail
+
+
+Coudwatch
+
+- Supportded docker logging
+  - json file, syslog, journald, gelf, luentd, awslogs
+  - stdout/sterr outputs
+- awsllogs sends logs to AMz cloudwatch
+  - log groups for services
+  - logs streams for ctrs
+- metric data to cloudwatch at 1 min interval
+  - cpu reservation
+  - mem utilization
+  - cup reserv
+  - mem utilz
+
+

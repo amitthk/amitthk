@@ -696,6 +696,190 @@ path: "{{(download_location+'/'+ item) | dirname}}"
   notify:
     - "Restart application"
 #+END_SRC
+
+** Getting group hosts and list of ips in string concatenated via template
+#+BEGIN_SRC 
+stack_masters: "{{groups['hosts'][:1]}}"
+stack_workers: "{{groups['hosts'][1:]}}"
+ntp_server_host: "{{stack_masters[0]}}"
+
+super_adm_passwd: "{{ ansible_fqdn | password_hash('sha512') | password_hash('sha512') }}"
+
+SERVER_COUNT: "{{groups['hosts'] | length}}"
+all_node_ips: |
+  "{% for host in groups['hosts'] -%}
+    {{ hostvars[host]['ansible_eth0']['ipv4']['address'] }}{% if not loop.last %}","{% endif %}
+  {%- endfor %}"
+
+#+END_SRC
+
+** Variable from template and skipping the curent host
+#+BEGIN_SRC 
+stack_masters: "{{groups['hosts'][:1]}}"
+stack_workers: "{{groups['hosts'][1:]}}"
+ntp_server_host: "{{stack_masters[0]}}"
+
+super_adm_passwd: "{{ ansible_fqdn | password_hash('sha512') | password_hash('sha512') }}"
+
+SERVER_COUNT: "{{groups['hosts'] | length}}"
+all_node_private_ips: |
+  "{% for host in groups['hosts'] -%}
+    {{ hostvars[host]['ansible_eth0']['ipv4']['address'] }}{% if not loop.last %}","{% endif %}
+  {%- endfor %}"
+
+all_hostnames: |
+  "{% for host in groups['hosts'] -%}
+    {{host}}{% if not loop.last %}","{% endif %}
+  {%- endfor %}"
+#+END_SRC
+
+** don't re_download if already exist
+#+BEGIN_SRC 
+- name: check if the artifact exists
+  stat: path=/tmp/{{ item.package }}
+  register: package_exists
+
+- name: "download {{item.name}}"
+  get_url:
+    url: "{{ item.url }}"
+    dest: /tmp/{{ item.package }}
+    mode: 0644
+  when: package_exists.stat.exists == False or re_download == True
+
+- name: unarchive 
+  unarchive:
+    remote_src: yes
+    dest: "{{ install_base_dir }}/"
+    src: /tmp/{{ item.package }}
+  when: package_exists.stat.exists == False or re_download == True
+#+END_SRC
+
+** docker from tgz
+
+install.yml
+#+BEGIN_SRC 
+---
+- name: "ensure install base directoy"
+  file:
+    path: '{{item.home_dir}}'
+    state: directory
+    mode: 0755
+
+- name: "download {{item.name}}"
+  get_url:
+    url: "{{ item.url }}"
+    dest: /tmp/{{ item.package }}
+    mode: 0644
+
+- name: unarchive 
+  unarchive:
+    remote_src: yes
+    dest: "{{ item.home_dir }}"
+    src: /tmp/{{ item.package }}
+    mode: 0755
+    extra_opts: [--strip-components=1]
+#+END_SRC
+main.yml
+#+BEGIN_SRC 
+---
+- name: install package
+  include_tasks: install.yml
+  with_items:
+    - "{{docker_package}}"
+
+- name: create docker service file
+  template:
+    src: "{{item}}.j2"
+    dest: "/usr/lib/systemd/system/{{item}}"
+    mode: 0755
+  with_items:
+    - docker.service
+
+- name: enable the docker service
+  service:
+    name: docker
+    enabled: yes
+
+- name: start the docker service
+  service:
+    name: docker
+    state: started
+
+- name: include the users tasks
+  include_tasks: users.yml
+
+- name: start the docker service
+  service:
+    name: docker
+    state: restarted
+#+END_SRC
+
+users.yml
+
+#+BEGIN_SRC 
+---
+- name: "Ensure group {{item}} exists"
+  group:
+    name: "{{item}}"
+    state: present
+  with_items:
+    - "{{service_accounts}}"
+
+- name: "Ensure the user {{item}} with a bash shell, appending the group {{item}}"
+  user:
+    name: "{{item}}"
+    shell: /bin/bash
+    groups: "{{item}}"
+    append: yes
+  with_items:
+    - "{{service_accounts}}"
+
+- name: assign the current user to this group
+  user:
+    name: "{{ ansible_user }}"
+    groups: "{{item}}"
+    append: yes
+  with_items:
+    - "{{service_accounts}}"
+
+#+END_SRC
+
+docker.service.j2
+#+BEGIN_SRC 
+[Unit]
+Description=Docker Application Container Engine
+Documentation=https://docs.docker.com
+After=network-online.target firewalld.service
+Wants=network-online.target
+
+[Service]
+Type=notify
+# the default is not to use systemd for cgroups because the delegate issues still
+# exists and systemd currently does not support the cgroup feature set required
+# for containers run by docker
+ExecStart=/usr/bin/dockerd
+ExecReload=/bin/kill -s HUP $MAINPID
+# Having non-zero Limit*s causes performance problems due to accounting overhead
+# in the kernel. We recommend using cgroups to do container-local accounting.
+LimitNOFILE=infinity
+LimitNPROC=infinity
+LimitCORE=infinity
+# Uncomment TasksMax if your systemd version supports it.
+# Only systemd 226 and above support this version.
+#TasksMax=infinity
+TimeoutStartSec=0
+# set delegate yes so that systemd does not reset the cgroups of docker containers
+Delegate=yes
+# kill only the docker process, not all processes in the cgroup
+KillMode=process
+# restart the docker process if it exits prematurely
+Restart=on-failure
+StartLimitBurst=3
+StartLimitInterval=60s
+
+[Install]
+WantedBy=multi-user.target
+#+END_SRC
 * Quick ref
  - Inventory and Config
    - features

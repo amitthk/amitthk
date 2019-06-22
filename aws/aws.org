@@ -628,3 +628,31 @@ In the policies select s3 readonly/s3full access
   - Instance settings
   - Attach/Remove IAM role
   - Choose the above IAM Role
+
+**** Restrict s3 bucket access to a particular IP and vpc only
+#+BEGIN_SRC 
+{
+    "Version": "2012-10-17",
+    "Id": "Policy1415115909152",
+    "Statement": [
+        {
+            "Sid": "Access-to-specific-VPCE-only",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:*",
+            "Resource": [
+                "arn:aws:s3:::jvcdp-repo",
+                "arn:aws:s3:::jvcdp-repo/*"
+            ],
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:sourceVpc": "vpc-6f4d330b"
+                },
+                "IpAddress": {
+                    "aws:SourceIp": "58.182.32.136/32"
+                }
+            }
+        }
+    ]
+}
+#+END_SRC
