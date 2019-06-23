@@ -1536,6 +1536,8 @@ openssl req -new -key server.key -out server.csr
 openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
 #+END_SRC
 
+~keytool -import -trustcacerts -keystore /usr/java/jdk1.8.0_181-amd64/jre/lib/security/cacerts  -storepass changeit -noprompt -alias mycert -file atksv.mywire.org.crt~
+
 *** Keystore (your credentials) , truststore (others credentials)
 Import a cert to truststore
 #+BEGIN_SRC 
