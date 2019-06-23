@@ -1538,6 +1538,11 @@ openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
 
 ~keytool -import -trustcacerts -keystore /usr/java/jdk1.8.0_181-amd64/jre/lib/security/cacerts  -storepass changeit -noprompt -alias mycert -file atksv.mywire.org.crt~
 
+Import this file to a keystore
+
+~keytool -import -alias nexuscalias -file atksv.mywire.org.crt -noprompt -storepass changeit  -keystor
+e atksv.mywire.org.jks~
+
 *** Keystore (your credentials) , truststore (others credentials)
 Import a cert to truststore
 #+BEGIN_SRC 
