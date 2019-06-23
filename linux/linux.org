@@ -1528,6 +1528,14 @@ sudo file -s /dev/xvd*
 
 ** SSL certificates import , trust store and pem file
 
+*** Generate ssl cert
+#+BEGIN_SRC
+openssl genrsa -des3 -out server.key 2048
+openssl rsa -in server.key -out server.key
+openssl req -new -key server.key -out server.csr
+openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+#+END_SRC
+
 *** Keystore (your credentials) , truststore (others credentials)
 Import a cert to truststore
 #+BEGIN_SRC 
