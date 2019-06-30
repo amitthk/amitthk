@@ -1630,6 +1630,15 @@ openssl x509 -inform DER -in /tmp/temp_cert.crt -outform PEM
 
     # Edit variables as mentioned in the blog post 
 
+    vi /etc/sysconfig/jenkins
+
+# UPdate JENKINS_PORT="-1"
+# JENKINS_HTTPS_PORT="8880"
+# JENKINS_HTTPS_KEYSTORE="/var/lib/jenkins/ssl/jenkins_keystore.jks"
+#+END_SRC
+
+Via route tables
+#+BEGIN_SRC
     # Configure kernel to allow port forwarding
     sysctl -w net.ipv4.ip_forward=1
 

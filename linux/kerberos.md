@@ -123,6 +123,8 @@ kdb5_util create -r AMITTHK.MYWIRE.ORG -s
 Now on the KDC create a admin principal and also a test user (user1):
 
 ```
+kadmin -s amitthk.mywire.org -p admin/admin@AMITTHK.MYWIRE.ORG
+
 [root@kdc ~]# kadmin.local
 kadmin.local:  addprinc root/admin
 kadmin.local:  addprinc user1
