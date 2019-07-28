@@ -51,7 +51,7 @@ Sample '/etc/krb5.conf'
 
 ```
 [libdefaults]
-    default_realm = AMITTHK.MYWIRE.ORG
+    default_realm = LDAP.AMITTHK.COM
     dns_lookup_realm = false
     dns_lookup_kdc = false
     ticket_lifetime = 24h
@@ -62,15 +62,15 @@ Sample '/etc/krb5.conf'
     permitted_enctypes = des-cbc-md5 des-cbc-crc des3-cbc-sha1
 
 [realms]
-    AMITTHK.MYWIRE.ORG = {
-        kdc = amitthk.mywire.org
-        admin_server = amitthk.mywire.org
-        default_domain = amitthk.mywire.org
+    LDAP.AMITTHK.COM = {
+        kdc = ldap.amitthk.com
+        admin_server = ldap.amitthk.com
+        default_domain = ldap.amitthk.com
     }
 
 [domain_realm]
-    .amitthk.mywire.org = AMITTHK.MYWIRE.ORG
-     amitthk.mywire.org = AMITTHK.MYWIRE.ORG
+    .ldap.amitthk.com = LDAP.AMITTHK.COM
+     ldap.amitthk.com = LDAP.AMITTHK.COM
 
 [logging]
     kdc = FILE:/var/log/krb5kdc.log
@@ -87,7 +87,7 @@ Adjust `/var/kerberos/krb5kdc/kdc.conf` on the KDC:
     kdc_tcp_ports = 88
 
 [realms]
-    AMITTHK.MYWIRE.ORG = {
+    LDAP.AMITTHK.COM = {
     kdc_ports = 88
     kdc_tcp_ports = 88
     admin_keytab = /etc/kadm5.keytab
@@ -105,7 +105,7 @@ Adjust `/var/kerberos/krb5kdc/kdc.conf` on the KDC:
 Adjust `/var/kerberos/krb5kdc/kadm5.acl` on KDC:
 
 ```
-*/admin@AMITTHK.MYWIRE.ORG     *
+*/admin@LDAP.AMITTHK.COM     *
 ```
 
 ## Creating KDC database to hold our sensitive Kerberos data
@@ -115,7 +115,7 @@ also stashes your password on the KDC so you don’t have to enter it each time
 you start the KDC:
 
 ```
-kdb5_util create -r AMITTHK.MYWIRE.ORG -s
+kdb5_util create -r LDAP.AMITTHK.COM -s
 ```
 
 > This command may take a while to complete based on the CPU power
@@ -123,7 +123,7 @@ kdb5_util create -r AMITTHK.MYWIRE.ORG -s
 Now on the KDC create a admin principal and also a test user (user1):
 
 ```
-kadmin -s amitthk.mywire.org -p admin/admin@AMITTHK.MYWIRE.ORG
+kadmin -s ldap.amitthk.com -p admin/admin@LDAP.AMITTHK.COM
 
 [root@kdc ~]# kadmin.local
 kadmin.local:  addprinc root/admin
@@ -142,11 +142,13 @@ systemctl enable kadmin.service
 ```
 
 Now, let’s create a principal for our KDC server and stick it in it’s keytab:
-
+Add one off or multiple principals:
 ```
+[root@kdc ~]#kadmin.local -q "addprinc admin/admin"
+
 [root@kdc ~]# kadmin.local
-kadmin.local:  addprinc -randkey host/amitthk.mywire.org
-kadmin.local:  ktadd host/amitthk.mywire.org
+kadmin.local:  addprinc -randkey host/ldap.amitthk.com
+kadmin.local:  ktadd host/ldap.amitthk.com
 ```
 
 Now to connect to kerberos server make sure you have the firewall open and the port added to firewalls.
@@ -154,7 +156,7 @@ Now to connect to kerberos server make sure you have the firewall open and the p
 Login to the server and check the principals you have:
 
 ```
-kadmin -p "admin/admin@AMITTHK.MYWIRE.ORG" -s AMITTHK.MYWIRE.ORG
+kadmin -p "admin/admin@LDAP.AMITTHK.COM" -s LDAP.AMITTHK.COM
 
 #run this command on kadmin console
 kadmin: listprincs
@@ -163,37 +165,37 @@ You can add some principals and those can be used to login
 
 Login with one of your principals and check the validity of ticket:
 ```
-kinit -p admin/admin@AMITTHK.MYWIRE.ORG
+kinit -p admin/admin@LDAP.AMITTHK.COM
 klist
 ```
 
 Now to create keytab login again and check the key of a principal
 ```
-kadmin -p "admin/admin@AMITTHK.MYWIRE.ORG" -s AMITTHK.MYWIRE.ORG
+kadmin -p "admin/admin@LDAP.AMITTHK.COM" -s LDAP.AMITTHK.COM
 #Now on kadmin: prompt
 
 listprincs
-getprinc atksv@AMITTHK.MYWIRE.ORG
+getprinc atksv@LDAP.AMITTHK.COM
 exit
 ```
 generate keytab
 ```
 [root@test5~]#ktutil
 
-ktutil: add_entry -password -p atksv@AMITTHK.MYWIRE.ORG -k 1 -e des3-cbc-sha1-kd 
-Password for atksv@AMITTHK.MYWIRE.ORG: 
+ktutil: add_entry -password -p atksv@LDAP.AMITTHK.COM -k 1 -e des3-cbc-sha1-kd 
+Password for atksv@LDAP.AMITTHK.COM: 
 
-ktutil: add_entry -password -p atksv@AMITTHK.MYWIRE.ORG -k 1 -e arcfour-hmac-md5 
-Password for atksv@AMITTHK.MYWIRE.ORG: 
+ktutil: add_entry -password -p atksv@LDAP.AMITTHK.COM -k 1 -e arcfour-hmac-md5 
+Password for atksv@LDAP.AMITTHK.COM: 
 
-ktutil: add_entry -password -p atksv@AMITTHK.MYWIRE.ORG -k 1 -e des-hmac-sha1 
-Password for atksv@AMITTHK.MYWIRE.ORG: 
+ktutil: add_entry -password -p atksv@LDAP.AMITTHK.COM -k 1 -e des-hmac-sha1 
+Password for atksv@LDAP.AMITTHK.COM: 
 
-ktutil: add_entry -password -p atksv@AMITTHK.MYWIRE.ORG -k 1 -e des-cbc-md5 
-Password for atksv@AMITTHK.MYWIRE.ORG: 
+ktutil: add_entry -password -p atksv@LDAP.AMITTHK.COM -k 1 -e des-cbc-md5 
+Password for atksv@LDAP.AMITTHK.COM: 
 
-ktutil: add_entry -password -p atksv@AMITTHK.MYWIRE.ORG -k 1 -e des-cbc-md4 
-Password for atksv@AMITTHK.MYWIRE.ORG:
+ktutil: add_entry -password -p atksv@LDAP.AMITTHK.COM -k 1 -e des-cbc-md4 
+Password for atksv@LDAP.AMITTHK.COM:
 
 ktutil: wkt /tmp/tmp.keytab
 ```

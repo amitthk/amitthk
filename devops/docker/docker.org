@@ -110,6 +110,29 @@ docker network create --subnet=10.10.0.0/28  openproj
 
 docker run -d -p 8885:80 --network openproj --name openproject -e SECRET_KEY_BASE=thisshouldbereallysecreasefdaerqewr  -e DATABASE_URL=postgres://openprojadm:one2three4@192.168.0.119:5432/openproj  -v /var/lib/openproject/static:/var/openproject/assets  openproject/community:8
 #+END_SRC
+** docker on raspberry pi
+
+ wget https://downloads.hypriot.com/docker-hypriot_1.10.2-1_armhf.deb
+ dpkg -i docker-hypriot_1.10.2-1_armhf.deb
+
+#+BEGIN_SRC 
+curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh
+
+sudo groupadd docker
+
+sudo gpasswd -a pi docker
+
+sudo apt-get update
+
+apt-get install -y python3-dev python3-pip libffi-dev build-essential
+
+sudo apt-get install -y python python-pip openssl libssl-dev
+
+pip install pynacl>=1.0.1
+
+sudo pip install docker-compose
+
+#+END_SRC
 * Docker Swarm
 
 docker swarm init --advertise-addr 192.168.0.101:2377 --listen-addr 192.168.0.101:2377

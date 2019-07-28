@@ -84,3 +84,88 @@ https://www.burgundywall.com/post/hashicorp-vault-and-freeipa
 vault operator  init -key-shares=3 -key-threshold=2
 
 vault operator unseal
+
+** admin policy
+
+We can attach an existing policy to a user like this
+
+#+BEGIN_SRC 
+vault write auth/ldap/users/atksv policies=super_adm
+#+END_SRC
+
+Create the following policy named super_adm
+
+#+BEGIN_SRC
+# Manage kv
+path "kv/+/+/*"
+{
+  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+} 
+# Manage auth methods broadly across Vault
+path "kv/*"
+{
+  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+}
+# Manage auth methods broadly across Vault
+path "auth/*"
+{
+  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+}
+
+# Create, update, and delete auth methods
+path "sys/auth/*"
+{
+  capabilities = ["create", "update", "delete", "sudo"]
+}
+
+# List auth methods
+path "sys/auth"
+{
+  capabilities = ["read"]
+}
+
+# Create and manage ACL policies
+path "sys/policies/acl/*"
+{
+  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+}
+
+# To list policies - Step 3
+path "sys/policies/acl"
+{
+  capabilities = ["list"]
+}
+
+# List, create, update, and delete key/value secrets
+path "secret/*"
+{
+  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+}
+
+# Create and manage secret engines broadly across Vault.
+path "sys/mounts/*"
+{
+  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+}
+
+# Read health checks
+path "sys/health"
+{
+  capabilities = ["read", "sudo"]
+}
+
+# To perform Step 4
+path "sys/capabilities"
+{
+  capabilities = ["create", "update"]
+}
+
+# To perform Step 4
+path "sys/capabilities-self"
+{
+  capabilities = ["create", "update"]
+}
+
+#+END_SRC
+
+vault write auth/userpass/users/amitthk password=<somepassword> policies=super_adm

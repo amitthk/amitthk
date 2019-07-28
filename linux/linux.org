@@ -1504,6 +1504,48 @@ RSAAuthentication yes
 #+END_SRC
 
 ** resize volume grow partition
+
+Debian resize the partition to size of disk
+
+#+BEGIN_SRC 
+fdisk /dev/mmcblk0
+
+Command (m for help): p
+
+Disk /dev/mmcblk0: 15.8 GB, 15804137472 bytes
+4 heads, 16 sectors/track, 482304 cylinders, total 30867456 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x34605ba5
+
+        Device Boot      Start         End      Blocks   Id  System
+/dev/mmcblk0p1           40960      124927       41984   83  Linux
+/dev/mmcblk0p2          124928     7170047     3522560   83  Linux
+
+Command (m for help): d
+Partition number (1-4): 2
+
+Command (m for help): n
+Partition type:
+   p   primary (1 primary, 0 extended, 3 free)
+   e   extended
+Select (default p): p
+Partition number (1-4, default 2): 2
+First sector (2048-30867455, default 2048): 124928
+Last sector, +sectors or +size{K,M,G} (124928-30867455, default 30867455):
+Using default value 30867455
+
+Command (m for help): w
+
+Theen quit (command q), reboot. You will then be able to use resize:
+
+resizefs /dev/root
+#+END_SRC
+
+Centos / Amazon ec2 grow the partition
+
+
 #+BEGIN_SRC 
 df -u
 #list the block devices
@@ -1520,9 +1562,16 @@ sudo resize2fs /dev/xvda1
 
 #if it is xfs
 sudo yum install xfsprogs
-sudo xfs_growfs -d /mnt
+sudo xfs_growfs -d /
 
 sudo file -s /dev/xvd*
+
+for i in `cat h`; do ssh -i ./cdhstack_admin.pem centos@$i sudo df -h; done
+for i in `cat h`; do ssh -i ./cdhstack_admin.pem centos@$i sudo sudo yum install -y xfsprogs; done
+for i in `cat h`; do ssh -i ./cdhstack_admin.pem centos@$i sudo resize2fs /dev/xvda1; done
+for i in `cat h`; do ssh -i ./cdhstack_admin.pem centos@$i sudo xfs_growfs -d /; done
+
+for i in `cat h`; do ssh -i ./cdhstack_admin.pem centos@$i sudo shutdown -r 0 ; done
 
 #+END_SRC
 
@@ -2118,6 +2167,26 @@ sudo resize2fs /dev/mmcblk0p2
 
  wget https://downloads.hypriot.com/docker-hypriot_1.10.2-1_armhf.deb
  dpkg -i docker-hypriot_1.10.2-1_armhf.deb
+
+#+BEGIN_SRC 
+curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh
+
+sudo groupadd docker
+
+sudo gpasswd -a pi docker
+
+sudo apt-get update
+
+apt-get install -y python3-dev python3-pip libffi-dev build-essential
+
+sudo apt-get install -y python python-pip openssl libssl-dev
+
+pip install pynacl>=1.0.1
+
+sudo pip install docker-compose
+
+#+END_SRC
+
 
 ** redmine on raspberry pi
 
