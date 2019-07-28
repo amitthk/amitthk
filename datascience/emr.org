@@ -16,6 +16,8 @@ ssh -i /c//Apps/Tools/keys/all_keys/all_keys/cdhstack_admin.pem hadoop@ec2-52-22
 
 ** accessing the cluster
 
+~ssh -i ./cdhstack_admin.pem -D 8127 -f -C -q -N hadoop@ec2-13-250-105-27.ap-southeast-1.compute.amazonaws.com~
+
 Install the foxy proxy standard edition from chrome
 https://chrome.google.com/webstore/search/foxy%20proxy
 
