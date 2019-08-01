@@ -203,3 +203,8 @@ tar -xzvf ansible-2.6.4 -C ~/tmp
 cd ~/tmp/ansible-2.6.4
 ~/tmp/ansible-2.6.4/bin/ansible-playbook -i hosts main.yml --vvv'
 #+END_SRC
+
+** python one line read json value
+#+BEGIN_SRC 
+curl -s -N  --insecure   -H "X-Vault-Token: s.eUF4WdsfdsafdasfdasZe"     -X GET     https://atksv.mywire.org:8886/v1/kv/data/analytics/sit/jupyterhub | python -c 'import json,sys;print json.load(sys.stdin)["data"]["data"]["jupyterhub_config.py"]'
+#+END_SRC

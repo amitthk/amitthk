@@ -169,3 +169,31 @@ path "sys/capabilities-self"
 #+END_SRC
 
 vault write auth/userpass/users/amitthk password=<somepassword> policies=super_adm
+
+** read only policy
+
+#+BEGIN_SRC 
+path "kv/*"
+{
+  capabilities = ["read","list"]
+}
+path "kv/+/*"
+{
+  capabilities = ["read","list"]
+}
+#+END_SRC
+
+
+** vault commands
+
+#+BEGIN_SRC 
+
+cat .tokn | vault login -
+
+vault token create -policy=kv_read_only
+
+curl -s -N  --insecure   -H "X-Vault-Token: s.eUF4WUSn9uheh2zGUtpEW6Ze"     -X GET     https://atksv.mywire.org:8886/v1/kv/data/analytics/sit/jupyterhub | python -c 'import json,sys;print json.load(sys.stdin)["data"]["data"]["jupyterhub_config.py"]'
+
+#+END_SRC
+
+
