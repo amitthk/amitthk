@@ -2405,6 +2405,37 @@ sudo usermod -a -G www apache
 
  [[http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/hosting-wordpress.html#create_user_and_database]]
 
+** Installing local gcc (non priviledged user)
+One easy way to install GCC higher version (which supports C++ 11 standard) in alternative directory (meaning without root privilege) is as follows:
+
+Download the latest GCC from http://gcc.gnu.org/
+Untar the package
+If you don’t have prerequisites for GCC (http://gcc.gnu.org/install/prerequisites.html), you need to the following steps:
+Go to the source directory.
+Do “contrib/download_prerequisites”.
+Create a new directory called “gcc-build” peer to the source directory.
+In “gcc-build”, perform “../gcc-XXX/configure –prefix=YYY”
+Do “make” and “make install”
+Add “YYY/lib” or “YYY/lib64” into your LD_LIBRARY_PATH and LD_RUN_PATH
+
+
+** Install pip locally as non priviledged user
+
+#+BEGIN_SRC 
+wget https://bootstrap.pypa.io/get-pip.py && python get-pip.py --user
+cd .local/bin
+./pip install <package_name> --user
+
+
+vi .profile_python
+
+export PATH=$PATH:/Users/amitthk/Library/Python/2.7/bin
+#+END_SRC
+
+** Installing local openjdk
+curl -o openjdk.tar.gz https://download.java.net/java/GA/jdk9/9.0.4/binaries/openjdk-9.0.4_linux-x64_bin.tar.gz
+mkdir -p /home/atksv/jdk
+tar -xzvf openjdk.tar.gz --directory /home/atksv/jdk
 ** Installing redmine
 
  Install ruby and ruby on rails firs
