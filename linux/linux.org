@@ -2408,6 +2408,21 @@ sudo usermod -a -G www apache
 ** Installing local gcc (non priviledged user)
 One easy way to install GCC higher version (which supports C++ 11 standard) in alternative directory (meaning without root privilege) is as follows:
 
+ftp://ftp.gnu.org/gnu/gcc/gcc-9.2.0/
+
+yum install -y bzip2
+tar xzf gcc-7.1.tar.gz
+cd gcc-7.1
+./contrib/download_prerequisites
+cd ..
+mkdir objdir
+cd objdir
+$PWD/../gcc-7.1/configure --prefix=/home/folder --enable-languages=c,c++,fortran,go
+make
+make install
+
+*** ==alt====
+
 Download the latest GCC from http://gcc.gnu.org/
 Untar the package
 If you don’t have prerequisites for GCC (http://gcc.gnu.org/install/prerequisites.html), you need to the following steps:
@@ -2417,6 +2432,116 @@ Create a new directory called “gcc-build” peer to the source directory.
 In “gcc-build”, perform “../gcc-XXX/configure –prefix=YYY”
 Do “make” and “make install”
 Add “YYY/lib” or “YYY/lib64” into your LD_LIBRARY_PATH and LD_RUN_PATH
+
+*** alt install gcc from scratch
+
+On our compute cluster, I needed gcc-4.8.4 to compile some code. At the global level, gcc-4.4.7 is installed, and I do not have superuser privileges on the system (which is, all things considered, a good thing).
+
+Here are my notes on how I installed gcc-4.8.4 locally, without superuser privileges, in case they might one day be of use to someone...
+
+All my local installations are under $HOME/.local, so we'll start with
+
+ export PREFIX = $HOME/.local
+ mkdir $PREFIX/build
+ mkdir $PREFIX/download
+The first step is to install the pre-requisite GMP, MPFR, MPC, ISL and CLooG. At first I attempted to build a static gcc, which I later gave up on, but I installed those as static libraries. Not sure whether that was a good idea or not...
+
+GMP
+ cd $PREFIX/download
+ wget https://gmplib.org/download/gmp/gmp-6.0.0a.tar.lz
+ tar --lzip -xvf gmp-6.0.0a.tar.lz
+ cd ../build
+ mkdir build-gmp
+ cd build-gmp
+ ../../downloads/gmp-6.0.0/configure --disable-shared --enable-static --prefix=$PREFIX
+ make
+ make check
+ make install
+MPFR
+ cd ../../download
+ wget http://www.mpfr.org/mpfr-3.1.2/mpfr-3.1.2.tar.gz
+ tar zxvf mpfr-3.1.2.tar.gz
+ cd ../build
+ mkdir build-mpfr
+ cd build-mpfr
+ ../../downloads/mpfr-3.1.2/configure --with-gmp=$PREFIX --disable-shared --enable-static --prefix=$PREFIX/
+ make
+ make install
+MPC
+ cd ../../download
+ wget http://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz
+ tar zxvf mpc-1.0.3.tar.gz
+ cd ../build
+ mkdir build-mpc
+ cd /build-mpc
+ ../../downloads/mpc-1.0.3/configure --with-gmp=$PREFIX --with-mpfr=$PREFIX --disable-shared --enable-static --prefix=$PREFIX
+ make                                                                                                                       
+ make install
+ISL
+ cd ../../download
+ wget http://isl.gforge.inria.fr/isl-0.14.tar.gz
+ tar zxvf isl-0.14.tar.gz
+ cd ../build
+ mkdir build-isl
+ cd build-isl/
+ ../../downloads/isl-0.14/configure --with-gmp-prefix=$PREFIX --disable-shared --enable-static --prefix=$PREFIX
+ make
+ make install
+CLooG
+ cd ../../downloads
+ wget http://www.bastoul.net/cloog/pages/download/cloog-0.18.4.tar.gz
+ tar zxvf cloog-0.18.4.tar.gz
+ cd ../build
+ mkdir build-cloog
+ cd build-cloog/
+ ../../downloads/cloog-0.18.4/configure --with-gmp-prefix=$PREFIX --with-isl-prefix=$PREFIX --disable-shared --enable-static --prefix=$PREFIX
+ make
+ make check
+ make install
+GCC
+ cd ../../downloads
+ wget https://ftp.gnu.org/gnu/gcc/gcc-4.8.4/gcc-4.8.4.tar.gz
+ tar zxvf gcc-4.8.4.tar.gz
+ cd gcc-4.8.4
+ cd ../build
+ mkdir build-gcc
+ cd build-gcc
+ export LD_LIBRARY_PATH=$PREFIX/lib
+ export C_INCLUDE_PATH=$PREFIX/include
+ export CPLUS_INCLUDE_PATH=$PREFIX/include
+ ../../downloads/gcc-4.8.4/configure --with-gmp=$PREFIX --with-mpfr=$PREFIX --with-mpc=$PREFIX --with-isl=$PREFIX --with-cloog=$PREFIX --disable-multilib --prefix=$PREFIX --enable-languages=c,c++ --with-pic
+ make
+ make install
+Path modifications
+As per the message I got:
+
+ Libraries have been installed in:
+  $PREFIX/lib/../lib64
+ If you ever happen to want to link against installed libraries
+ in a given directory, LIBDIR, you must either use libtool, and
+ specify the full pathname of the library, or use the `-LLIBDIR'
+ flag during linking and do at least one of the following:
+  - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
+    during execution
+  - add LIBDIR to the `LD_RUN_PATH' environment variable
+    during linking
+  - use the `-Wl,-rpath -Wl,LIBDIR' linker flag
+  - have your system administrator add LIBDIR to `/etc/ld.so.conf'
+I added $PREFIX/lib64 to the LD_LIBRARY_PATH to my ~/.bashrc.
+
+Also make sure $PREFIX/bin is in your PATH.
+
+Final check
+ which gcc
+returns
+
+ $PREFIX/bin/gcc
+and
+
+ gcc --version
+returns
+
+ gcc (GCC) 4.8.4
 
 
 ** Install pip locally as non priviledged user
