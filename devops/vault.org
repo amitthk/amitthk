@@ -103,6 +103,8 @@ curl \
 #+END_SRC
 
 **  token
+https://www.vaultproject.io/api/auth/token/index.html
+
 lookup self
 #+BEGIN_SRC 
 curl \
