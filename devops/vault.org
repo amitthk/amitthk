@@ -85,6 +85,81 @@ vault operator  init -key-shares=3 -key-threshold=2
 
 vault operator unseal
 
+** read from vault
+
+#+BEGIN_SRC 
+curl \
+    --header "X-Vault-Token: ..." \
+    https://127.0.0.1:8200/v1/secret/data/my-secret
+#+END_SRC
+
+write
+#+BEGIN_SRC 
+curl \
+    --header "X-Vault-Token: ..." \
+    --request POST \
+    --data @payload.json \
+    https://127.0.0.1:8200/v1/secret/data/my-secret
+#+END_SRC
+
+**  token
+lookup self
+#+BEGIN_SRC 
+curl \
+    --header "X-Vault-Token: ..." \
+    http://127.0.0.1:8200/v1/auth/token/lookup-self
+#+END_SRC
+
+renew
+#+BEGIN_SRC 
+{
+  "token": "ClientToken"
+}
+#+END_SRC
+
+
+#+BEGIN_SRC
+#request
+curl \
+    --header "X-Vault-Token: ..." \
+    --request POST \
+    --data @payload.json \
+    http://127.0.0.1:8200/v1/auth/token/renew
+#+END_SRC
+
+revoke
+#+BEGIN_SRC 
+curl \
+    --header "X-Vault-Token: ..." \
+    --request POST \
+    --data @payload.json \
+    http://127.0.0.1:8200/v1/auth/token/revoke
+#+END_SRC
+
+create token
+#+BEGIN_SRC 
+{
+  "policies": [
+    "web",
+    "stage"
+  ],
+  "meta": {
+    "user": "armon"
+  },
+  "ttl": "1h",
+  "renewable": true
+}
+
+#+END_SRC
+
+#+BEGIN_SRC 
+curl \
+    --header "X-Vault-Token: ..." \
+    --request POST \
+    --data @payload.json \
+    http://127.0.0.1:8200/v1/auth/token/create
+#+END_SRC
+
 ** admin policy
 
 We can attach an existing policy to a user like this

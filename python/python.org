@@ -1,5 +1,17 @@
 * python
 
+** local install
+
+#+BEGIN_SRC 
+cd setuptools-41.1.0
+python setup.py install --user
+export PATH=$PATH:~/.local/bin
+
+export PYTHONPATH=~/.local/lib/python2.7/site-packages
+python -m easy_install --prefix=~/.local
+python -m easy_install --prefix=~/.local pip-19.2.2.tar.gz
+#+END_SRC
+
 ** Pycharm 
 
 *** Sphinx quickstart
