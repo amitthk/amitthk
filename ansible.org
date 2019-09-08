@@ -675,6 +675,8 @@ Run like this:
     - debug: 
         msg: "{{hostvars[groups['scm'][0]]['inventory_hostname']}}"
     - debug: 
+        msg: "{{hostvars[inventory_hostname]['ansible_default_ipv4']['address']}}"
+    - debug: 
         msg: "{{hostvars[groups['scm'][0]]['ansible_default_ipv4']['address']}}"
   tags:
     - ping
