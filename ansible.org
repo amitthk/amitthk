@@ -643,6 +643,43 @@ permission denied for relation pg_authid
 #     - "{{app_dbschemas}}"
 #+END_SRC
 
+** simple ansible run script
+#+BEGIN_SRC 
+#!/bin/bash -xe
+key_path=$1
+tags=$2
+playbook_name=$3
+ansible-playbook -i hosts --private-key=${key_path} --tags=${tags} ${playbook_name}
+#+END_SRC
+
+Run like this:
+~./run.sh ~/.ssh/cdhstack_admin.pem all main.yml~
+
+** Ansible get the private ip and public ip
+#+BEGIN_SRC 
+---
+- name: Basic
+  become: true
+  gather_facts: True
+  hosts: all
+  become: no
+  become_user: "{{ansible_become_user}}"
+  become_method: "{{ansible_become_method}}"
+  tasks:
+    - name: ping the host
+      ping:
+    - copy:
+        content: "{{hostvars | to_nice_json}}"
+        dest: "{{inventory_dir}}/hostvars.json"
+      delegate_to: localhost
+    - debug: 
+        msg: "{{hostvars[groups['scm'][0]]['inventory_hostname']}}"
+    - debug: 
+        msg: "{{hostvars[groups['scm'][0]]['ansible_default_ipv4']['address']}}"
+  tags:
+    - ping
+#+END_SRC
+
 ** Using AWS credentials from Environment variables
 
 #+BEGIN_SRC 
