@@ -127,14 +127,32 @@
 - object range 0byest to 5TB. one bucket can store unlimited objects. S3 = unlimited storage.
 - Durability - will my data be there in future - 99.99999 (11 nines) 
 
+- The total volume of data and number of objects you can store are unlimited. Individual Amazon S3 objects can range in size from a minimum of 0 bytes to a maximum of 5 terabytes. 
+- The largest object that can be uploaded in a single PUT is 5 gigabytes. For objects larger than 100 megabytes, customers should consider using the Multipart Upload capability.
+
 - availabilty - can i access my data right now - 99.99%
 
 - Storage classes
   - Standard/ general purpose - low first-byte latency and hight throughput
+    - Designed for durability of 99.999999999% of objects across multiple Availability Zones
+    - Designed for 99.99% availability over a given year
+  - Amazon S3 Intelligent-Tiering (S3 Intelligent-Tiering)
+    - For unknown or unpredictable access patterns
+    - S3 monitors access patterns of the objects in S3 Intelligent-Tiering, and moves the ones that have not been accessed for 30 consecutive days to the infrequent access tier. If an object in the infrequent access tier is accessed, it is automatically moved back to the frequent access tier
+    - durability of 99.999999999%, 99.9% availability over a given year
+    - Resilient against events that impact an entire Availability Zone
+
   - Infrequent access - same durability, low latency and hight throughput - designed for long-lived less frequent
+    - accessed less frequently, but requires rapid access when needed. S3 Standard-IA offers the high durability, high throughput, and low latency of S3 Standard, with a low per GB storage price and per GB retrieval fee
+    - durability of 99.999999999%, 99.9% availability over a given year
     - lower per-GB montly cost
     - minimum object size 128KB. minimum duration 30 days, and per-GB retrieval cost
     - suitable for data tored for longer than 30 days
+  - Amazon S3 One Zone-Infrequent Access (S3 One Zone-IA)
+    - 99.5% availability, Because S3 One Zone-IA stores data in a single AWS Availability Zone, data stored in this storage class will be lost in the event of Availability Zone destruction.
+
+
+
   - Reduced redundancy -  archive - lower durability (4 nines). suitable for derived data that can be reproduced like thumbnails.
   - Glacier - issue a restore command - 3 to 5 hours later copied to S3 RRS.
   - 5% of s3 data free every month
@@ -146,6 +164,17 @@
   - coarse grained - ACLs
   - fine grained - bucket policies, AWS IAM policies, query-string auth.
 
+|                                    | S3 Standard             | S3 Intelligent-Tiering* | S3 Standard-IA          | S3 One Zone-IA†         | S3 Glacier              | "S3 Glacier Deep Archive" |
+| Designed for durability            | "99.999999999%(11 9’s)" | "99.999999999%(11 9’s)" | "99.999999999%(11 9’s)" | "99.999999999%(11 9’s)" | "99.999999999%(11 9’s)" | "99.999999999%(11 9’s)"   |
+| Designed for availability          | 99.99%                  | 99.90%                  | 99.90%                  | 99.50%                  | 99.99%                  | 99.99%                    |
+| Availability SLA                   | 99.90%                  | 99%                     | 99%                     | 99%                     | 99.90%                  | 99.90%                    |
+| Availability Zones                 | ≥3                      | ≥3                      | ≥3                      | 1                       | ≥3                      | ≥3                        |
+| Minimum capacity charge per object | N/A                     | N/A                     | 128KB                   | 128KB                   | 40KB                    | 40KB                      |
+| Minimum storage duration charge    | N/A                     | 30 days                 | 30 days                 | 30 days                 | 90 days                 | 180 days                  |
+| Retrieval fee                      | N/A                     | N/A                     | per GB retrieved        | per GB retrieved        | per GB retrieved        | per GB retrieved          |
+| First byte latency                 | milliseconds            | millseconds             | milliseconds            | milliseconds            | select minutes or hours | select hours              |
+| Storage type                       | Object                  | Object                  | Object                  | Object                  | Object                  | Object                    |
+| Lifecycle transitions              | Yes                     | Yes                     | Yes                     | Yes                     | Yes                     | Yes                       |
 
 
 ***** EBS
@@ -289,6 +318,31 @@ used both as storage class (lifecyle management) and independent archival storag
 - S3 Zone Apex support
 - Management Console
  
+
+- vpc
+
+A VPC is limited to a region, which means you can’t have a VPC spanning regions. 
+Within a VPC, you have all the AZs that are part of the region where the VPC belongs
+•  Subnets are AZ specific. For multiple AZs, create multiple subnets.
+
+•  VPC are region specific. For multiple regions, create different VPCs.'
+If you create more than one subnet in a VPC, the CIDR blocks of the subnets cannot overlap. 
+
+From any subnet AWS reserves, the first four IP addresses and the last IP address are for internal networking purposes, and they are not available for your usage. Always keep this in mind while calculating the number of IP addresses in a subnet.
+if a subnet does not have an Internet gateway in the route table, any servers that are part of that subnet won’t be able to access the Internet. Each subnet must have a route table at any time. How
+
+However, you can associate multiple subnets with the same route table.
+VPC’s default route table (known as the main route table) is created automatically, and you can’t modify it. VPC comes with an implicit router that is not visible. 
+
+Using a NAT device, you can enable any instance in a private subnet to connect to the Internet, but this does not mean the Internet can initiate a connection to the instance.
+Please note that NAT devices can be used only for IPv4 traffic; they can’t be used for IPv6. 
+
+There are two types of NAT devices available within AWS.
+
+•  NAT instances
+
+•  NAT gateways
+
 **** Management tools
  
 ***** cloudwatch
