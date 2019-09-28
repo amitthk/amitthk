@@ -347,7 +347,18 @@ A security group is like a virtual firewall that can be assigned to any instance
 
 An NACL is a layer of security that acts as a firewall at the subnet level. Since an NACL is optional, you have the option of configuring it or not
 
+VPC endpoint does is give you the ability to connect to VPC and S3 directly using a private connection. Therefore, the traffic never leaves the Amazon network. Currently, the VPC endpoint is available only for S3 and DynamoDB. 
 
+Amazon provides DNS servers that are used to resolve the address of any instance running inside VPC. Public IPv4 addresses enable communication over the Internet, and private IPv4 addresses enable communication within an internal network (within VPC). 
+
+You can also use your own DNS server and create a new set of DHCP options for your VPC
+
+DHCP Option Sets: Dynamic Host Configuration Protocol (DHCP) option sets are used to specify host configurations for instances in your VPC, including the default domain name and DNS server for your instances. AWS recommends that you create a DHCP options set for your AWS Directory Service directory and assign the DHCP options set to the VPC that your directory is in. This allows any instances in that VPC to point to the specified domain and DNS servers to resolve their domain names.For your VPC, Amazon automatically creates and associates a DHCP option set. It also sets two options in it that are domain name servers defaulted to AmazonProvidedDNS (which is an Amazon DNS server) and the domain name for your region.
+
+- Load balancers
+ - Application load balancers - suitable http,https -  Layer 7 -
+ - Network load balancers - layer 4 , ultra low latencies on million of requests
+ - Classic LB: http/https, layer 7, strict layer 4
 
 **** Management tools
  
