@@ -2575,9 +2575,33 @@ export PATH=$PATH:/Users/amitthk/Library/Python/2.7/bin
 #+END_SRC
 
 ** Installing local openjdk
+#+BEGIN_SRC 
 curl -o openjdk.tar.gz https://download.java.net/java/GA/jdk9/9.0.4/binaries/openjdk-9.0.4_linux-x64_bin.tar.gz
 mkdir -p /home/atksv/jdk
 tar -xzvf openjdk.tar.gz --directory /home/atksv/jdk
+#+END_SRC
+
+** offline install python 3
+#+BEGIN_SRC 
+curl -O http://python.org/ftp/python/3.3.2/Python-3.3.2.tar.bz2
+tar xvf Python-3.3.2.tar.bz2
+cd Python-3.3.2
+ ./configure
+ mkdir -p ~/usr/local
+ make altinstall prefix=$HOME/usr/local exec-prefix=$HOME/usr/local
+#+END_SRC
+set the path
+#+BEGIN_SRC 
+cd ~/usr/local/bin
+ln -s python3.3 python3
+echo "export PATH=\$HOME/usr/local/bin:\$PATH" >> ~/.bashrc
+ln -s pyvenv-3.3 pyvenv
+
+#+END_SRC
+change vim pyvenv-3.3
+#+BEGIN_SRC 
+#!/home/<user>/usr/local/bin/python3.3
+#+END_SRC
 ** Installing redmine
 
  Install ruby and ruby on rails firs
