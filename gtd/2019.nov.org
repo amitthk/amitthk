@@ -1,5 +1,17 @@
 * Spark on Nomad
 
+
+
+- run alluxio and copy the alluxio client jar
+- figure out alluxio underfs - maybe glusterfs or san
+- jupyterhub - krb, ldap integration - swarm provisioner
+- alluxio ingest data and test with spark
+- submit jobs see actual data going in
+
+Deploy alluxio on nomad 
+deploy presto jar to nomad
+service mesh
+
 Nomad service as normal user
 Harden
 Submit spark job success
