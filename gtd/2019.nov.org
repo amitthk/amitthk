@@ -1,0 +1,69 @@
+* Spark on Nomad
+
+Nomad service as normal user
+Harden
+Submit spark job success
+Alluxio fetch data
+Private ip to the cluster - shut down start up
+Copy the config to sparkola jobserver
+Test submit job from sparkola
+
+
+Blog the cluster
+
+Kerberize
+Ensure HA - perform chaos testing 
+High Mem, High CPU, ...
+Integrate bluetalon
+Integrate protegrity
+
+* Vault demo
+- Reply the email
+- Policy generator and UI usage
+  - Auto lodge two policies for a vault safe - read write and read only
+  - Once you generate tokens you're good to go
+  - Renewing the tokens
+- Lodge the id 2part to cyberark
+- Ansible direct integration
+- Jenkins integration
+- Openshift integration
+- Init container and load from vault
+- Spring boot on vault
+- Simple python app 
+- Curl based
+- Read write and read only policies
+- Vault as the safe
+
+* Jupyterhub on Docker Swarm, Openshift
+
+* Ada on aws
+- Desktopapp for adaalogin  python sdk
+- Alluxio design documentation
+
+* Ada ML
+- Lodge the id 2 part to cerberark for preprod
+
+Docker workloads on nomad
+Containerized alluxio on nomad
+
+
+
+ Vault - lodge id and other demo
+Desktop app for loge id
+ Take list from config files - destkop app
+Aws cli login and create presigned url - home pc
+ S3 browser
+ Teragen, terasort, performance testing
+ Aws developer training, aws security
+ Cloudera certified cert
+ Rhel certified Linux admin
+Ansible cert
+Openshift cert
+ pexpect spawn,   
+ Install jupyter
+ setup 5 node cluster
+ run spark job
+ install alluxio
+ run alluxio jobs
+ from jupyter run spark jobs
+ pay bills
