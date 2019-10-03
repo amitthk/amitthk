@@ -6,6 +6,7 @@
 - figure out alluxio underfs - maybe glusterfs or san
 - jupyterhub - krb, ldap integration - swarm provisioner
 - alluxio ingest data and test with spark
+- impersonation
 - submit jobs see actual data going in
 
 Deploy alluxio on nomad 
