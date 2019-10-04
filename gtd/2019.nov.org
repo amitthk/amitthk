@@ -48,6 +48,22 @@ Integrate protegrity
 - Vault as the safe
 
 * Jupyterhub on Docker Swarm, Openshift
+** jupyterhub
+- Dockerspawner jupyterhub on local machine
+- Local python install from package 
+  #+BEGIN_SRC 
+   yum install gcc openssl-devel bzip2-devel libffi-devel
+   cd /usr/src
+   wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz
+   tar xzf Python-3.7.3.tgz
+ 
+   cd Python-3.7.3
+   ./configure --enable-optimizations
+   make altinstall
+
+   #+END_SRC
+- package the singleuser instance and register the spawn with jupyterhub api
+- LDAP integration
 
 * Ada on aws
 - Desktopapp for adaalogin  python sdk
