@@ -1,0 +1,24 @@
+* nomad
+
+https://github.com/hashicorp/nomad/tree/master/terraform/examples/spark
+** spark submit
+#+BEGIN_SRC 
+spark-submit \
+  --class org.apache.spark.examples.JavaSparkPi \
+  --master nomad \
+  --deploy-mode cluster \
+  --conf spark.executor.instances=4 \
+  --conf spark.nomad.cluster.monitorUntil=complete \
+  --conf spark.eventLog.enabled=true \
+  --conf spark.eventLog.dir=hdfs://hdfs.service.consul/spark-events \
+  --conf spark.nomad.sparkDistribution=https://nomad-spark.s3.amazonaws.com/spark-2.1.0-bin-nomad.tgz \
+  https://nomad-spark.s3.amazonaws.com/spark-examples_2.11-2.1.0-SNAPSHOT.jar 100
+
+#+END_SRC
+
+#+BEGIN_SRC 
+spark-shell \
+  --master nomad \
+  --conf spark.executor.instances=4 \
+  --conf spark.nomad.sparkDistribution=https://nomad-spark.s3.amazonaws.com/spark-2.1.0-bin-nomad.tgz
+#+END_SRC

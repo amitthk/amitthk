@@ -996,3 +996,15 @@ WantedBy=multi-user.target
      - template:
        - src: templates/xx.j*
        - dest=/etc/.... owner=httpd
+
+** ansible add all hosts to /etc/hosts
+#+BEGIN_SRC 
+- name: Add IP address of all hosts to all hosts
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '.*{{ item }}$'
+    line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }} {{ hostvars[item].inventory_hostname }} {{item}}"
+    state: present
+  when: hostvars[item].inventory_hostname is defined
+  with_items: "{{ groups.hosts }}"
+#+END_SRC
