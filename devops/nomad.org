@@ -3,6 +3,13 @@
 https://github.com/hashicorp/nomad/tree/master/terraform/examples/spark
 ** spark submit
 #+BEGIN_SRC 
+spark-shell \ 
+ --conf spark.app.name=org.apache.spark.examples.JavaSparkPi  --class=org.apache.spark.examples.JavaSparkPi --master nomad --deploy-mode cluster \ 
+ --conf spark.executor.instances=2 \ 
+ --conf spark.nomad.sparkDistribution=https://nomad-spark.s3.amazonaws.com/spark-2.1.0-bin-nomad.tgz https://jvcdp-repo.s3-ap-southeast-1.amazonaws.com/org/mywire/amitthk/spark-2.4.0-nomad/examples/spark-examples_2.11-2.4.0.jar 10
+#+END_SRC
+
+#+BEGIN_SRC 
 spark-submit \
   --class org.apache.spark.examples.JavaSparkPi \
   --master nomad \
@@ -21,4 +28,19 @@ spark-shell \
   --master nomad \
   --conf spark.executor.instances=4 \
   --conf spark.nomad.sparkDistribution=https://nomad-spark.s3.amazonaws.com/spark-2.1.0-bin-nomad.tgz
+#+END_SRC
+
+#+BEGIN_SRC 
+spark-submit --conf spark.app.name=org.apache.spark.examples.JavaWordCount --class=org.apache.spark.examples.JavaSparkPi --master nomad --deploy-mode cluster --conf spark.executor.instances=2 --conf spark.nomad.sparkDistribution=https://nomad-spark.s3.amazonaws.com/spark-2.1.0-bin-nomad.tgz https://jvcdp-repo.s3-ap-southeast-1.amazonaws.com/org/mywire/amitthk/spark-2.4.0-nomad/examples/spark-examples_2.11-2.4.0.jar alluxio:///54.169.116.66:19998/movielens/README
+
+spark-submit \
+  --class org.apache.spark.examples.JavaWordCount \
+  --master nomad \
+  --deploy-mode cluster \
+  --conf spark.executor.instances=4 \
+  --conf spark.nomad.cluster.monitorUntil=complete \
+  --conf spark.eventLog.enabled=true \
+  --conf spark.nomad.sparkDistribution=https://s3.amazonaws.com/nomad-spark/spark-2.1.0-bin-nomad.tgz \
+  https://s3.amazonaws.com/nomad-spark/spark-examples_2.11-2.1.0-SNAPSHOT.jar \
+  alluxio:///54.169.116.66:19998/movielens/README
 #+END_SRC
