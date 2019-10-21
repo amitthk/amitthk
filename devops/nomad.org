@@ -1,6 +1,37 @@
 * nomad
 
+** war file 
+
+#+BEGIN_SRC 
+job "api"{
+datacenters = ["dc1"]
+group "api"{
+
+count = 1
+
+task "userapi" {
+  driver = "java"
+
+  config {
+    jar_path    = "/home/centos/userapi.war"
+    jvm_options = ["-Xmx2048m", "-Xms256m"]
+  }
+
+  artifact {
+    source = "http://ip-172-31-59-116.ap-southeast-1.compute.internal/userapi.war"
+    destination = "/home/centos" 
+
+  }
+}
+}
+}
+
+
+#+END_SRC
+
 https://github.com/hashicorp/nomad/tree/master/terraform/examples/spark
+
+
 ** spark submit
 #+BEGIN_SRC 
 spark-shell \ 

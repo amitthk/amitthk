@@ -1944,6 +1944,52 @@ ExecStart=/usr/bin/sh -c "/usr/bin/echo NAME=$(etcdctl get /name) > /etc/myconta
  sudo smbpasswd -a pi
 
 
+** setup ss5 socks proxy centos
+
+#+BEGIN_SRC 
+sudo yum -y install pam-devel openldap-devel cyrus-sasl-devel openssl-devel
+
+curl https://nchc.dl.sourceforge.net/project/ss5/ss5/3.8.9-8/ss5-3.8.9-8.tar.gz -o ss5.tar.gz
+tar -xzvf ss5.tar.gz 
+cd ss5-3.8.9/
+./configure
+sudo make && sudo make install
+#+END_SRC
+
+vi /etc/opt/ss5/ss5.conf
+
+No auth
+#+BEGIN_SRC 
+auth    0.0.0.0/0               -              -
+permit -        0.0.0.0/0       -       0.0.0.0/0       -       -       -       -       -
+
+#+END_SRC
+
+Username password auth:
+#+BEGIN_SRC 
+auth    0.0.0.0/0               -              u
+permit u        0.0.0.0/0       -       0.0.0.0/0       -       -       -       -       -
+#+END_SRC
+
+
+vi /etc/opt/ss5/ss5.passwd
+
+#+BEGIN_SRC 
+atksv chang31t
+#+END_SRC
+
+vi /etc/sysconfig/ss5
+#+BEGIN_SRC 
+SS5_OPTS=" -u root -b 0.0.0.0:10808"
+
+#+END_SRC
+
+#+BEGIN_SRC 
+chmod 755 /etc/sysconfig/ss5
+chmod 755 /etc/init.d/ss5
+service ss5 restart
+#+END_SRC
+
 ** setup samba
 1. Install:
 sudo apt-get update
