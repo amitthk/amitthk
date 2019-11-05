@@ -1,6 +1,31 @@
+* Openshift cluster
+200 cores per datacenter
+6TB ram
+~30tb ?
+
+Do we need a cluster storage? This will be highly resilient
+
+We do not need to oversubscribe the CPU as for operational workloads we manage cores in yarn
+
+To provide the Applications inventory
+
+Existing workloads
+ - Datanauts jobserver, airflow etc.
+ - SSO, Dag generation api
+ - DAAS components
+ - Sparkola ui
+
+Potential workloads
+ - Presto
+ - Alluxio
+ - Spark on K8S
+ - Analytical 
+   - ML models
+   - Development tools Mlflow, jupyterhub
+   - Spark on Kubernetes
+ - Kafka
+
 * Spark on Nomad
-
-
 
 - run alluxio and copy the alluxio client jar
 - figure out alluxio underfs - maybe glusterfs or san

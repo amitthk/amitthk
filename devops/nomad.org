@@ -42,15 +42,14 @@ spark-shell \
 
 #+BEGIN_SRC 
 spark-submit \
-  --class org.apache.spark.examples.JavaSparkPi \
-  --master nomad \
-  --deploy-mode cluster \
-  --conf spark.executor.instances=4 \
-  --conf spark.nomad.cluster.monitorUntil=complete \
-  --conf spark.eventLog.enabled=true \
-  --conf spark.eventLog.dir=hdfs://hdfs.service.consul/spark-events \
-  --conf spark.nomad.sparkDistribution=https://nomad-spark.s3.amazonaws.com/spark-2.1.0-bin-nomad.tgz \
-  https://nomad-spark.s3.amazonaws.com/spark-examples_2.11-2.1.0-SNAPSHOT.jar 100
+--class org.apache.spark.examples.JavaSparkPi \
+--master nomad \
+--deploy-mode cluster \
+--conf spark.executor.instances=4 \
+--conf spark.nomad.cluster.monitorUntil=complete \
+--conf spark.eventLog.enabled=true \
+--conf spark.nomad.sparkDistribution=https://jvcdp-repo.s3-ap-southeast-1.amazonaws.com/org/mywire/amitthk/spark-2.3.2-nomad/0.8.6/spark-2.3.2-nomad-0.8.6.tgz \
+https://jvcdp-repo.s3-ap-southeast-1.amazonaws.com/org/mywire/amitthk/spark-2.3.2-nomad/0.8.6/spark-examples_2.11-2.4.0.jar 10
 
 #+END_SRC
 
