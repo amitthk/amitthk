@@ -71,10 +71,18 @@ mv spark-2.3.4-bin-hadoop2.7 ~/Apps/spark/
 vi ~/.profile_hadoop
 #+BEGIN_SRC 
 export JAVA_HOME=~/Apps/java/zulu8.42.0.23-ca-jdk8.0.232-macosx_x64
-export PATH=~/Apps/java/zulu8.42.0.23-ca-jdk8.0.232-macosx_x64:~/Apps/spark/spark-2.3.4-bin-hadoop2.7/bin:$PATH
+export PATH=~/Apps/hadoop/hadoop-2.7.6/bin:~/Apps/java/zulu8.42.0.23-ca-jdk8.0.232-macosx_x64:~/Apps/spark/spark-2.3.4-bin-hadoop2.7/bin:~/Apps/sbt/bin:~/Apps/maven/bin:$PATH
 #export HADOOP_CONF_DIR=~/Apps/hadoop/hadoop-2.7.6/etc/hadoop
 export SPARK_HOME=~/Apps/spark/spark-2.3.4-bin-hadoop2.7
-#export LD_LIBRARY_PATH=~/Apps/hadoop/hadoop-2.7.6/lib/native:$LD_LIBRARY_PATH
+export HADOOP_HOME=~/Apps/hadoop/hadoop-2.7.6/
+export HADOOP_OPTS="$HADOOP_OPTS -Djava.library.path=$HADOOP_HOME/lib/native"
+#+END_SRC
+
+#+BEGIN_SRC 
+~/Apps/spark/spark-2.3.4-bin-hadoop2.7/sbin/start-master.sh
+~/Apps/spark/spark-2.3.4-bin-hadoop2.7/sbin/start-slave.sh spark://Amits-MBP:7077
+spark-shell --master=spark://Amits-MBP:7077
+
 #+END_SRC
 
 ** setup hdfs
