@@ -1,6 +1,8 @@
 ---
 - hosts: all
   become: yes
+  vars:
+    hadoop_maj_min_version_string: "{{hadoop_version.split('.')[0]}}.{{hadoop_version.split('.')[1]}}"
   tasks:
   - name: hostname file
     lineinfile: dest=/etc/hostname regexp=".*" line="localhost"
@@ -47,7 +49,7 @@
       creates: /opt/hadoop/dfs
   - name: download spark
     get_url:
-      url: https://archive.apache.org/dist/spark/spark-{{spark_version}}/spark-{{spark_version}}-bin-hadoop{{hadoop_version.split('.')[0]}}.{{hadoop_version.split('.')[1]}}.tgz
+      url: https://archive.apache.org/dist/spark/spark-{{spark_version}}/spark-{{spark_version}}-bin-hadoop{{hadoop_maj_min_version_string}}.tgz
       dest: /opt/spark-{{spark_version}}.tar.gz
     environment: "{{ proxy_env }}"
   - name: unpack spark
@@ -59,7 +61,7 @@
       owner: vagrant 
       group: vagrant
   - name: spark current version link
-    file: path=/opt/spark src=/opt/spark-{{spark_version}}-bin-hadoop2.6 state=link owner=vagrant group=vagrant
+    file: path=/opt/spark src=/opt/spark-{{spark_version}}-bin-hadoop{{hadoop_maj_min_version_string}} state=link owner=vagrant group=vagrant
   - name: hadoop conf dir in environment
     copy:
       dest: /etc/profile.d/hadoop-conf.sh
