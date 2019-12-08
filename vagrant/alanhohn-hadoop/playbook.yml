@@ -3,9 +3,9 @@
   become: yes
   tasks:
   - name: hostname file
-    lineinfile: dest=/etc/hostname regexp=".*" line="hadoop"
+    lineinfile: dest=/etc/hostname regexp=".*" line="localhost"
   - name: set hostname
-    command: hostnamectl set-hostname hadoop
+    command: hostnamectl set-hostname localhost
   - name: update
     apt: upgrade=yes
     environment: "{{ proxy_env }}"
@@ -16,7 +16,7 @@
         - openjdk-8-jdk
   - name: download hadoop
     get_url:
-      url: http://mirrors.ibiblio.org/apache/hadoop/common/hadoop-{{hadoop_version}}/hadoop-{{hadoop_version}}.tar.gz
+      url: https://archive.apache.org/dist/hadoop/core/hadoop-{{hadoop_version}}/hadoop-{{hadoop_version}}.tar.gz
       dest: /opt/hadoop-{{hadoop_version}}.tar.gz
     environment: "{{ proxy_env }}"
   - name: unpack hadoop
@@ -47,7 +47,7 @@
       creates: /opt/hadoop/dfs
   - name: download spark
     get_url:
-      url: http://mirrors.ibiblio.org/apache/spark/spark-{{spark_version}}/spark-{{spark_version}}-bin-hadoop2.6.tgz
+      url: https://archive.apache.org/dist/spark/spark-{{spark_version}}/spark-{{spark_version}}-bin-hadoop{{hadoop_version.split('.')[0]}}.{{hadoop_version.split('.')[1]}}.tgz
       dest: /opt/spark-{{spark_version}}.tar.gz
     environment: "{{ proxy_env }}"
   - name: unpack spark

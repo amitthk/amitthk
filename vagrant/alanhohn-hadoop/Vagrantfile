@@ -6,10 +6,10 @@ VAGRANTFILE_API_VERSION = "2"
 
 proxy = ENV['http_proxy'] || ""
 hadoopver = ENV['hadoop_version'] || "2.6.3"
-sparkver = ENV['spark_version'] || "1.5.2"
+sparkver = ENV['spark_version'] || "2.3.2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "ubuntu/wily64"
+  config.vm.box = "ubuntu/xenial64"
 
   config.vm.provider "virtualbox" do |vb|
     vb.memory = 4096
