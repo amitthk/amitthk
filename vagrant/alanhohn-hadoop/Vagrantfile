@@ -5,7 +5,7 @@
 VAGRANTFILE_API_VERSION = "2"
 
 proxy = ENV['http_proxy'] || ""
-hadoopver = ENV['hadoop_version'] || "2.6.3"
+hadoopver = ENV['hadoop_version'] || "2.7.1"
 sparkver = ENV['spark_version'] || "2.3.2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
