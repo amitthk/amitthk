@@ -1503,7 +1503,7 @@ PasswordAuthentication no
 RSAAuthentication yes
 #+END_SRC
 
-** resize volume grow partition
+** resize/expand volume grow partition
 
 Debian resize the partition to size of disk
 
@@ -1573,7 +1573,51 @@ for i in `cat h`; do ssh -i ./cdhstack_admin.pem centos@$i sudo xfs_growfs -d /;
 
 for i in `cat h`; do ssh -i ./cdhstack_admin.pem centos@$i sudo shutdown -r 0 ; done
 
+
+growpart /dev/nvme0n1 1
+yum -y install xfsprogs
+xfs_growfs -d /
+df -h
+
 #+END_SRC
+
+** move logical volume to new physical disk
+One volume group solution:
+#+BEGIN_SRC 
+ pvcreate /dev/sdb
+ vgextend vg0 /dev/sdb
+ pvmove -n /dev/vg0/bar /dev/sda /dev/sdb
+#+END_SRC
+
+Two volume group solution:
+
+#+BEGIN_SRC 
+ pvcreate /dev/sdb
+ vgcreate vg1 /dev/sdb
+ lvcreate -l100%FREE vg1
+ mkfs -t ext4 /dev/vg1/lvol1
+ mount /dev/vg1/lvol1 /mnt
+#+END_SRC
+
+Now difficult part, all activities MUST stop on /bar:
+
+#+BEGIN_SRC 
+ cd /mnt ; ( cd /bat ; tar cf - * ) | tar xf -
+ cd /
+ umount /mnt
+ mount /dev/vg1/lvol1 /bar
+#+END_SRC
+
+where
+
+- pvcreate erase all data on disk (and prepare for LVM)
+- lvcreate sould create a logical volume lvol1, you specify lv name with -n bar
+- I use HP-UX syntax for lv, you might have to use /dev/mapper/myvg-mylv syntax
+- Once you have verified data are OK, in new place:
+
+you can safely delete old /bar
+- edit /etc/fstab to use new /bar
+
 
 ** SSL certificates import , trust store and pem file
 
