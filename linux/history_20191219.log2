@@ -1,0 +1,500 @@
+     ansible-playbook -i ./hosts -e ansible_ssh_private_key_file=`pwd`/keys/cdhstack_admin.pem -e AWS_ACCESS_KEY_ID=AKIAR6WUYRZFFTKTA7XQ -e AWS_SECRET_ACCESS_KEY=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 hadoop.yml 
+     ansible-playbook -i ./hosts -e ansible_ssh_private_key_file=`pwd`/keys/cdhstack_admin.pem -e AWS_ACCESS_KEY_ID=AKIAR6WUYRZFFTKTA7XQ -e AWS_SECRET_ACCESS_KEY=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 hadoop.yml 
+     ansible-playbook -i ./hosts -e ansible_ssh_private_key_file=`pwd`/keys/cdhstack_admin.pem -e AWS_ACCESS_KEY_ID=AKIAR6WUYRZFFTKTA7XQ -e AWS_SECRET_ACCESS_KEY=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 fix-permissions.yml 
+     ansible-playbook -i ./hosts -e ansible_ssh_private_key_file=`pwd`/keys/cdhstack_admin.pem -e AWS_ACCESS_KEY_ID=AKIAR6WUYRZFFTKTA7XQ -e AWS_SECRET_ACCESS_KEY=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 permissions.yml 
+     ssh -i /Users/amitthk/projects/github/amitthk/tf-nomad/ansible/keys/cdhstack_admin.pem -o ProxyCommand="ssh -i /Users/amitthk/projects/github/amitthk/tf-nomad/ansible/keys/cdhstack_admin.pem -W %h:%p centos@13.229.226.69" centos@172.31.64.103
+     ls ~/Apps/spark/spark-2.3.4-bin-hadoop2.7/bin
+     export PATH=~/Apps/spark/spark-2.3.4-bin-hadoop2.7:$PATH
+     spark-shell
+     chmod +x ~/Apps/spark/spark-2.3.4-bin-hadoop2.7/bin
+     spark-shell
+     ls ~/Apps/spark/spark-2.3.4-bin-hadoop2.7/bin
+     export PATH=~/Apps/spark/spark-2.3.4-bin-hadoop2.7/bin:$PATH
+     ls ~/Apps/spark/spark-2.3.4-bin-hadoop2.7/bin
+     spark-shell
+     which java
+     echo $JAVA_HOME
+     vi ~/.profile_hadoop
+     source .profile_hadoop 
+     spark-shell
+     vi ~/.profile_hadoop
+     source .profile_hadoop 
+     spark-shell
+     java -version
+     vi ~/.profile_hadoop
+     source 
+     ls ~/Apps/hadoop/hadoop-2.7.6/
+     source ~/.profile_python 
+     source ~/.profile_hadoop 
+     spark-shell
+     which java
+     java -version
+     echo $JAVA_HOME
+     vi ~/Apps/hadoop/hadoop-2.7.6/etc/hadoop/hadoop-env.sh 
+     spark-shell
+     vi ~/Apps/spark/spark-2.3.4-bin-hadoop2.7/conf/spark-env.sh
+     pwd
+     vi ~/Apps/spark/spark-2.3.4-bin-hadoop2.7/conf/spark-env.sh
+     spark-shell
+     vi ~/.profile_hadoop 
+     vi ~/Apps/spark/spark-2.3.4-bin-hadoop2.7/conf/spark-env.sh.template 
+     vi ~/Apps/spark/spark-2.3.4-bin-hadoop2.7/conf/spark-env.sh
+     source ~/.profile_hadoop 
+     spark-shell
+     ln -s ~/Apps/java/jdk-9.0.4.jdk/Contents/Home /usr/libexec/java_home
+     ln -snf ~/Apps/java/jdk-9.0.4.jdk/Contents/Home /usr/libexec/java_home
+     java -version
+     javac
+     vi ~/.profile_hadoop 
+     ls ~/Apps/java/zulu8.42.0.23-ca-jdk8.0.232-macosx_x64
+     source ~/.profile_hadoop 
+     spark-shell
+     spark-shell --conf spark.yarn.appMasterEnv.JAVA_HOME=~/Apps/java/jdk-9.0.4.jdk/Contents/Home
+     spark-shell --conf spark.yarn.appMasterEnv.JAVA_HOME=~/Apps/java/zulu8.42.0.23-ca-jdk8.0.232-macosx_x64
+     vi ~/.profile_hadoop 
+     vi ~/Apps/spark/spark-2.3.4-bin-hadoop2.7/conf/spark-env.sh
+     source ~/.profile_hadoop 
+     spark-shell
+     vi ~/.profile_hadoop 
+     which sbt
+     source ~/.profile_hadoop 
+     which sbt
+     vi ~/.profile_hadoop 
+     source ~/.profile_hadoop
+     vi ~/.profile_hadoop 
+     vi ~/.profile_hadoop 
+     vi ~/.profile_hadoop 
+     source ~/.profile_hadoop 
+     which sbt
+     scala
+     which scala
+     which scalac
+     open .
+     which spark-submit
+     cd ~/Downloads/jvcdp-api-starter-0.0.1
+     cd target
+     source ~/.profile_hadoop 
+     spark-submit --class=com.boot.BlogpostApp ./blogposts.war
+     spark-submit --class=com.boot.BlogpostApp ./blogposts.war
+     vi ~/.profile_hadoop 
+     source ~/.profile_hadoop
+    spark-submit --class=com.boot.BlogpostApp ./blogposts.war
+    vi ~/.profile_hadoop 
+    echo $LD_LIBRARY_PATH
+    vi ~/.profile_hadoop 
+    source ~/.profile_hadoop 
+    echo $LD_LIBRARY_PATH
+    vi ~/.profile_hadoop 
+    ls ~/Apps/hadoop/hadoop-2.7.6/
+    ls ~/Apps/hadoop/hadoop-2.7.6/lib
+    ls ~/Apps/hadoop/hadoop-2.7.6/lib/native/
+    spark-submit --class=com.boot.BlogpostApp ./blogposts.war
+    ~/Apps/spark/spark-2.3.4-bin-hadoop2.7/sbin/start-master.sh 
+    ~/Apps/spark/spark-2.3.4-bin-hadoop2.7/sbin/start-slave.sh spark://localhost:7077
+    less /Users/amitthk/Apps/spark/spark-2.3.4-bin-hadoop2.7/logs/spark-amitthk-org.apache.spark.deploy.worker.Worker-1-Amits-MBP.out
+    ~/Apps/spark/spark-2.3.4-bin-hadoop2.7/sbin/stop-slave.sh
+    ~/Apps/spark/spark-2.3.4-bin-hadoop2.7/sbin/start-slave.sh spark://localhost:8080
+    less /Users/amitthk/Apps/spark/spark-2.3.4-bin-hadoop2.7/logs/spark-amitthk-org.apache.spark.deploy.worker.Worker-1-Amits-MBP.out
+    ~/Apps/spark/spark-2.3.4-bin-hadoop2.7/sbin/stop-slave.sh
+    ~/Apps/spark/spark-2.3.4-bin-hadoop2.7/sbin/start-slave.sh spark://Amits-MBP:7077
+    less /Users/amitthk/Apps/spark/spark-2.3.4-bin-hadoop2.7/logs/spark-amitthk-org.apache.spark.deploy.worker.Worker-1-Amits-MBP.out
+    spark-submit --class=com.boot.BlogpostApp ./blogposts.war
+    spark-submit --class=com.boot.BlogpostApp ./blogposts.war --master=spark://Amits-MBP:7077
+    spark-shell --master=spark://Amits-MBP:7077
+    history
+    cat ~/.profile_hadoop 
+    doker ps
+    docker images
+    docker run -it centos:7 /bin/bash
+    docker run -it -v $(pwd)/deps:/home centos:7 /bin/bash
+    cd deps
+    ls
+    ls gcc
+    tar -czvf gcc-4.8.5.tar.gz gcc
+    ls python36
+    tar -czvf python3-3.6.8-10.el7.x86_64.tar.gz python36
+    ls -lart pgsql
+    tar -czvf postgresql-9.2.24.tar.gz pgsql
+    ls
+    cd ..
+    mv deps ~/Downloads/.
+    cd ~/Downloads/
+    ls
+    docker run -it -v $(pwd)/deps:/home centos:7 /bin/bash
+    ls
+    cd deps
+    ls
+    tar -czvf systemd.tar.gz systemd
+    tar -czvf glib2.tar.gz glib2
+    mv glib2.tar.gz glib2-2.56.1-5.el7.x86_64.tar.gz
+    mv systemd.tar.gz systemd-219-67.el7_7.2.x86_64.tar.gz
+    docker run -it -v $(pwd)/deps:/home centos:7 /bin/bash
+    docker ps
+    docker ps -a
+    docker start b49956c662c6
+    docker ps
+    docker exec -it b49956c662c6 /bin/bash
+    source ~/.profile_hadoop 
+    which spark-submit
+    /Users/amitthk/Apps/spark/spark-2.3.4-bin-hadoop2.7/sbin/start-master.sh 
+    /Users/amitthk/Apps/spark/spark-2.3.4-bin-hadoop2.7/sbin/start-slave.sh 
+    /Users/amitthk/Apps/spark/spark-2.3.4-bin-hadoop2.7/sbin/start-slave.sh spark://Amits-MBP:7077
+    which java
+    java --version
+    source ~/.profile_hadoop 
+    which java
+    java --version
+    java --version
+    exit
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew
+    ls
+    mv homebrew Apps/
+    cd App
+    cd Apps
+    ls
+    cd homebrew/
+    ls
+    cd ..
+    cd ..
+    export PATH=~/Apps/homebrew/bin:$PATH
+    chmod -r 755 ~/Apps/homebrew
+    chmod -R 755 ~/Apps/homebrew
+    brew
+    brew tap AdoptOpenJDK/openjdk
+    brew cask install adoptopenjdk8
+    su "Amit Thakur"
+    su "Amit Thakur"
+    brew cask info java
+    echo $PATH
+    exit
+    java --version
+    ls /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk
+    ls /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/
+    ls /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/MacOS/
+    ls /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/MacOS/libjli.dylib 
+    ls /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk
+    ls /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/
+    ls /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/
+    vi ~/.profile_hadoop 
+    source ~/.profile_hadoop 
+    java --version
+    java -version
+    sparkR
+    pyspark
+    ls
+    cd Apps/
+    ls
+    cd java/
+    ls
+    cd zulu8.42.0.23-ca-jdk8.0.232-macosx_x64/
+    ls
+    cp ~/.profile_hadoop ~/.profile_hadoop_brew
+    vi ~/.profile_hadoop
+    pwd
+    vi ~/.profile_hadoop
+    source ~/.profile_hadoop
+    java -version
+    java
+    sparkR
+    pyspark
+    ls
+    cd ~/Apps
+    ls
+    vi ~/.profile_hadoop
+    chmod -R 755 hive
+    hive
+    source ~/.profile_hadoop
+    hive
+    brew install mariadb
+    su "Amit Thakur"
+    mysql.server start
+    mysql.server start
+    su "Amit Thakur"
+    ps -aux | grep mysql
+    ps -au | grep mysql
+    ps -ax | grep mysql
+    kill -9 10306
+    su
+    su "Amit Thakur"
+    su
+    su "Amit Thakur"
+    ls
+    mkdir tmp
+    cd tmp
+    wget https://data.gharchive.org/2015-{01..12}-{01..31}-{0..23}.json.gz
+    brew install wget
+    curl -o git-2015.json.gz https://data.gharchive.org/2015-{01..12}-{01..31}-{0..23}.json.gz
+    curl -O git-2015.json.gz https://data.gharchive.org/2015-{01..12}-{01..31}-{0..23}.json.gz
+    curl  https://data.gharchive.org/2015-{01..12}-{01..31}-{0..23}.json.gz
+    su "Amit Thakur"
+    su "Amit Thakur"
+    brew install wget
+    sudo chown -R $(whoami) /usr/local/Cellar /usr/local/Frameworks /usr/local/Homebrew /usr/local/bin /usr/local/etc /usr/local/etc/bash_completion.d /usr/local/include /usr/local/lib /usr/local/lib/pkgconfig /usr/local/opt /usr/local/sbin /usr/local/share /usr/local/share/aclocal /usr/local/share/doc /usr/local/share/info /usr/local/share/man /usr/local/share/man/man1 /usr/local/share/man/man3 /usr/local/share/man/man7 /usr/local/share/man/man8 /usr/local/share/zsh /usr/local/share/zsh/site-functions /usr/local/var/homebrew/linked /usr/local/var/homebrew/locks
+    sudo chown -R $(whoami) /usr/local/Cellar /usr/local/Frameworks /usr/local/Homebrew /usr/local/bin /usr/local/etc /usr/local/etc/bash_completion.d /usr/local/include /usr/local/lib /usr/local/lib/pkgconfig /usr/local/opt /usr/local/sbin /usr/local/share /usr/local/share/aclocal /usr/local/share/doc /usr/local/share/info /usr/local/share/man /usr/local/share/man/man1 /usr/local/share/man/man3 /usr/local/share/man/man7 /usr/local/share/man/man8 /usr/local/share/zsh /usr/local/share/zsh/site-functions /usr/local/var/homebrew/linked /usr/local/var/homebrew/locks
+    chown -R $(whoami) /usr/local/Cellar /usr/local/Frameworks /usr/local/Homebrew /usr/local/bin /usr/local/etc /usr/local/etc/bash_completion.d /usr/local/include /usr/local/lib /usr/local/lib/pkgconfig /usr/local/opt /usr/local/sbin /usr/local/share /usr/local/share/aclocal /usr/local/share/doc /usr/local/share/info /usr/local/share/man /usr/local/share/man/man1 /usr/local/share/man/man3 /usr/local/share/man/man7 /usr/local/share/man/man8 /usr/local/share/zsh /usr/local/share/zsh/site-functions /usr/local/var/homebrew/linked /usr/local/var/homebrew/locks
+    chmod u+w /usr/local/Cellar /usr/local/Frameworks /usr/local/Homebrew /usr/local/bin /usr/local/etc /usr/local/etc/bash_completion.d /usr/local/include /usr/local/lib /usr/local/lib/pkgconfig /usr/local/opt /usr/local/sbin /usr/local/share /usr/local/share/aclocal /usr/local/share/doc /usr/local/share/info /usr/local/share/man /usr/local/share/man/man1 /usr/local/share/man/man3 /usr/local/share/man/man7 /usr/local/share/man/man8 /usr/local/share/zsh /usr/local/share/zsh/site-functions /usr/local/var/homebrew/linked /usr/local/var/homebrew/locks
+    exit
+    vi ~/.bash_profile 
+    wget https://data.gharchive.org/2015-{01..12}-{01..31}-{0..23}.json.gz
+    which wget
+    git clone --depth=1 https://github.com/Homebrew/brew ~/.brew
+    export PATH="$HOME/.brew/bin:$HOME/.brew/sbin:$PATH"
+    brew update
+    brew install wget
+    echo 'export PATH="/Users/amitthk/.brew/opt/openssl@1.1/bin:$PATH"' >> ~/.bash_profile
+    echo 'export LDFLAGS="-L/Users/amitthk/.brew/opt/openssl@1.1/lib"' >>  ~/.bash_profile
+    echo 'export CPPFLAGS="-I/Users/amitthk/.brew/opt/openssl@1.1/include"' >> ~/.bash_profile
+    echo 'export PKG_CONFIG_PATH="/Users/amitthk/.brew/opt/openssl@1.1/lib/pkgconfig"' >> ~/.bash_profile 
+    cat ~/.bash_profile 
+    source ~/.bash_profile
+    clear
+    source ~/.profile_python 
+    terraform plan
+    terraform apply
+    terraform destroy
+    terraform plan
+    terraform init
+    terraform plan
+    source ~/.profile_python 
+    terraform plan
+    terraform init
+    terraform init
+    cd modules/cdhstack
+    ls
+    terraform init
+    terraform init
+    clear
+    echo ===================================>
+    echo "===================================>"
+    terraform init
+    terraform init
+    terraform init
+    terraform init
+    terraform init
+    terraform init
+    terraform init
+    terraform plan
+    terraform plan
+    terraform plan
+    terraform plan
+    terraform plan
+    terraform plan
+    terraform apply
+    terraform destroy
+    terraform plan
+    terraform plan
+    terraform plan
+    terraform plan
+    terraform plan
+    terraform plan
+    terraform plan
+    terraform plan
+    terraform plan
+    terraform apply
+    terraform destroy
+    terraform destroy
+    terraform plan
+    terraform plan
+    terraform apply
+    terraform apply
+    terraform destroy
+    terraform apply
+    cd ../
+    ls
+    cd ..
+    ls
+    python make_inventory.py ./modules/cdhstack/terraform.tfstate
+    ssh 54.255.178.213
+    cp /Users/amitthk/projects/github/amitthk/tf-nomad/ansible/keys/cdhstack_admin.pem .
+    ssh -i cdhstack_admin.pem  centos@54.255.178.213
+    ls
+    cd modules/cdhstack
+    cp ../../cdhstack_admin.pem ~/.ssh/
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.255.178.213
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@13.228.170.81
+    source ~/.profile_python 
+    ls
+    terraform state pull
+    terraform state pull > ../../abc.tfstate
+    cd ../../
+    ls
+    python make_inventory.py abc.tfstate 
+    rm abc.tfstate 
+    cd modules/cdhstack
+    terraform refresh
+    cd ../../
+    python make_inventory.py modules/cdhstack/terraform.tfstate
+    cd ../ansible/
+    ansible-playbook -i ./hosts --private-key=~/.ssh/cdhstack_admin.pem --tags=common main.yml 
+    ansible-playbook -i ./hosts --private-key=~/.ssh/cdhstack_admin.pem --tags=db main.yml 
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.254.209.190
+    cat hosts
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.255.214.152
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@52.221.227.239
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.169.41.252
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@52.221.208.247
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.255.214.152
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.254.209.190
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.254.209.190
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.255.214.152
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.254.209.190
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.254.209.190
+    ansible-playbook -i ./hosts --private-key=~/.ssh/cdhstack_admin.pem --tags=db main.yml 
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.254.209.190
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.255.214.152
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@52.221.208.247
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@52.221.227.239
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.169.41.252
+    ansible-playbook -i ./hosts --private-key=~/.ssh/cdhstack_admin.pem --tags=ldap main.yml 
+    ansible-playbook -i ./hosts --private-key=~/.ssh/cdhstack_admin.pem --tags=kerberos main.yml 
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.254.209.190
+    ansible-playbook -i ./hosts --private-key=~/.ssh/cdhstack_admin.pem --tags=ldap main.yml 
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.254.209.19054.254.209.190
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.254.209.190
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.255.178.213
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@13.228.170.81
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@13.228.170.81
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.169.41.252
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@52.221.208.247
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.254.209.190
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.255.214.152
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@52.221.227.239
+    vi lsth
+    for i in `cat ./lsth`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem $i 'df -h' ; done
+    for i in `cat ./lsth`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem $i 'sudo df -h' ; done
+    for i in `cat ./lsth`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo df -h' ; done
+    mv lsth hostlist
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo df -h' ; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i ; done
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.254.209.190
+    source ~/.profile_python 
+    ansible-playbook --private-key=~/.ssh/cdhstack_admin.pem --tags=db main.yml 
+    ls
+    pwd
+    ansible-playbook -i hosts --private-key=~/.ssh/cdhstack_admin.pem --tags=db main.yml 
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo mkdir -p /var/lib/zookeeper'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo id cloudera-scm-server'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo id cloudera-scm'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R cloudera-scm:cloudera-scm /var/lib/zookeeper'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo id zookeeper'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R zookeeper:zookeeper /var/lib/zookeeper'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo id zookeeper'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R zookeeper:zookeeper /var/lib/zookeeper'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chmod 770 /var/lib/zookeeper'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo setenforce Permissive'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo ls -lart /var/lib/zookeeper'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo ls -lart /var/lib/zookeeper/'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo sestatus'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sestatus'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo shutdown -r now'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sestatus'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo sestatus'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo sestatus'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo sestatus'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo sestatus'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo sestatus'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo sestatus'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo sestatus'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo sestatus'; done
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.254.209.190
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chmod 0777 /var/lib/zookeeper'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chmod -R 0777 /var/lib/zookeeper'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo mkdir -p /data/zookeeper/logs'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R zookeeper:zookeeper /data/zookeeper'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo mkdir -p /data/zookeeper/version-2'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R zookeeper:zookeeper /data/zookeeper'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo mkdir -p /data/zookeeper/logs/version-2'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R zookeeper:zookeeper /data/zookeeper'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo mkdir -p /tmp'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chmod 0777 /tmp'; done
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.254.209.190
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.255.214.152
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo ls -alt /opt/cloudera/parcels/CDH/lib/hadoop-yarn/bin/container-executor'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo usermod -a -G hadoop yarn'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo usermod -g yarn yarn'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo usermod -a -G hadoop yarn'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo cat opt/cloudera/parcels/CDH/meta/permissions.json'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo cat /opt/cloudera/parcels/CDH/meta/permissions.json'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo cat /etc/hadoop/conf.cloudera.yarn/container-executor.cfg'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo ls -lart /etc/hadoop/conf.cloudera.yarn'; done
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.255.214.152
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo cat /etc/hadoop/conf.cloudera.yarn/container-executor.cfg'; done
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@52.221.208.247
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo mkdir -p /data/hadoop-yarn'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R yarn:yarn /data/hadoop-yarn'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R yarn:hadoop /var/lib/hadoop-yarn/yarn-nm-recovery/yarn-nm-state'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo rm -rf  /var/lib/hadoop-yarn/yarn-nm-recovery/yarn-nm-state/LOCK'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo ls -lrt  /var/lib/hadoop-yarn/yarn-nm-recovery/yarn-nm-state/LOCK'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo ls -lrt  /var/lib/hadoop-yarn/yarn-nm-recovery/yarn-nm-state'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo mkdir -p /var/lib/hadoop-yarn/yarn-nm-recovery/yarn-nm-state'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R yarn:yarn /data/hadoop-yarn'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R yarn:hadoop /data/hadoop-yarn'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chmod 0777 /data/hadoop-yarn'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo ls -lart /var/lib'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo ls -lart /var/lib/hadoop*'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo ls -lart /var/lib/*'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo ls -lart /var/lib/'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo ls -lart /var/lib/ | grep hadoop'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chmod 755 /var/lib/hadoop-hdfs'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chmod 755 /var/lib/hadoop-yarn'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chmod 755 /var/lib/hadoop-httpfs'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chmod 755 /var/lib/hadoop-kms'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chmod 755 /var/lib/hadoop-mapreduce'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo ls -lart /var/lib/'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chmod -R 0755 /var/lib/hadoop-mapreduce'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chmod -R 0755 /var/lib/hadoop-yarn'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chmod -R 0755 /var/lib/hadoop-hdfs'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chmod -R 0755 /var/lib/hadoop-httpfs'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chmod -R 0755 /var/lib/hadoop-kms'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chmod -R 0755 /var/lib/hadoop-yarn'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chmod -R 0755 /var/lib'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R yarn:yarn /var/lib/hadoop-yarn'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R yarn:yarn /var/lib/hadoop-yarn'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R yarn:yarn /var/lib/hadoop-yarn'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R yarn:yarn /var/lib/hadoop-yarn'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R yarn:yarn /var/lib/hadoop-yarn'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -r yarn:yarn /var/lib/hadoop-yarn'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R yarn:yarn /var/lib/hadoop-yarn'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R hive:hive /var/lib/hive'; done
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.254.209.190
+    scp -i ~/.ssh/cdhstack_admin.pem  centos@54.254.209.190:/usr/share/java/mysql-connector-java.jar .
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo mkdir -p /usr/share/java'; done
+    for i in `cat ./hostlist`; do echo $i; scp -i ~/.ssh/cdhstack_admin.pem ./mysql-connector-java.jar centos@$i:/usr/share/java/.; done
+    for i in `cat ./hostlist`; do echo $i; scp -i ~/.ssh/cdhstack_admin.pem ./mysql-connector-java.jar centos@$i:~/.; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo cp ~/mysql-connector-java.jar /usr/share/java/.'; done
+    scp -i ~/.ssh/cdhstack_admin.pem  centos@54.254.209.190:/usr/share/java/mysql-connector-java.jar .
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.254.209.190
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.255.214.152
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo mkdir /var/lib/oozie/tomcat-deployment'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R oozie:oozie  /var/lib/oozie'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R oozie:oozie  /var/lib/oozie'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R oozie:oozie  /var/lib/oozie'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R oozie:oozie  /var/lib/oozie'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R oozie:oozie  /var/lib/oozie'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R oozie:oozie  /var/lib/oozie'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R oozie:oozie  /var/lib/oozie'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R oozie:oozie  /user/oozie/share/lib'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo mkdir -p /user/oozie/share/lib && sudo chown -R oozie:oozie  /user/oozie/share/lib'; done
+    ssh -i ~/.ssh/cdhstack_admin.pem  centos@54.255.214.152
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo service iptables disabled'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo service iptables stop'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chkconfig iptables off'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo mkdir -p /var/local/kafka/data'; done
+    for i in `cat ./hostlist`; do echo $i; ssh -i ~/.ssh/cdhstack_admin.pem centos@$i 'sudo chown -R kafka:kafka /var/local/kafka'; done
+    history > history_20191219.log
+    vi history_20191219.log 
+    sed 's/ddd\s+(.*)$/$1/g'
+    sed 's/ddd\s+(.*)$/$1/g' history_20191219.log 
+    sed 's/ddd\s+.*$/\1/g' history_20191219.log 
+    sed 's/ddd\s+(.*)$/\1/g' history_20191219.log 
+    sed 's/ddd\s+(.*\)$/\1/g' history_20191219.log 
+    sed 's/[0-9]+(.*)$/\1/g' history_20191219.log 
+    sed -E 's/[0-9]+(.*)$/\1/g' history_20191219.log 
+    sed -iE 's/[0-9]+(.*)$/\1/g' history_20191219.log 
+    sed -i -E 's/[0-9]+(.*)$/\1/g' history_20191219.log 
+    sed  -E 's/[0-9]+(.*)$/\1/g' history_20191219.log > history_20191219.log 
+    vi history_20191219.log 
+    history > history_20191219.log
