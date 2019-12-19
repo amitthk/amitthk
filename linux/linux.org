@@ -1485,6 +1485,13 @@ rpm -qf /etc/kerberos
 yum reinstall krb5-libs-1.15.1-37.el7_6.x86_64
 yum reinstall krb5-server-1.15.1-37.el7_6.x86_64
 #+END_SRC
+
+#+BEGIN_SRC 
+yum install -y yum-utils
+yumdownloader ntp
+rpm -Uvh --force ntp*.rpm
+#+END_SRC
+
 ** sshd allow only key ssh on specific ports
 
 vi /etc/ssh/sshd_config

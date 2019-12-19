@@ -90,6 +90,28 @@ You need to jdk in all the nodes so go from the web console fo cdm
 Go to web UI 
 hosts > configuration > look for java home
 
+** if you encounter zookeeper doesn't start because unable to access data directory
+#+BEGIN_SRC 
+mkdir -p /var/lib/zookeeper/logs/version-2
+chown -R zookeeper:zookeeper /var/lib/zookeeper
+
+#or if it is /data
+mkdir -p /data/zookeeper/logs/version-2
+chown -R zookeeper:zookeeper /data/zookeeper
+#+END_SRC
+
+** if hdfs is in safe mode unable to start
+
+#+BEGIN_SRC 
+sudo -u hdfs hdfs dfsadmin -safemode leave
+#+END_SRC
+
+** yarn /var/lib/hadoop-yarn/yarn-nm-recovery/yarn-nm-state/LOCK permission denied
+
+#+BEGIN_SRC 
+chown -R yarn:yarn /var/lib/hadoop-yarn
+#+END_SRC
+
 
 * Cloudera
   
