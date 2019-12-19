@@ -112,6 +112,20 @@ sudo -u hdfs hdfs dfsadmin -safemode leave
 chown -R yarn:yarn /var/lib/hadoop-yarn
 #+END_SRC
 
+** HDFS httpFS
+
+#+BEGIN_SRC 
+curl "http://<httpFS server dns>:14000/webhdfs/v1/?op=LISTSTATUS&user.name=hdfs"
+
+curl "http://<httpFS server dns>:14000/webhdfs/v1/?user.name=hdfs&op=LISTSTATUS"
+
+curl -X PUT "http://<httpFS server dns>:14000/webhdfs/v1/httpFSTest?user.name=hdfs&op=MKDIRS"
+
+curl -i -X PUT "http://<httpFS server dns>:14000/webhdfs/v1/muthu4allhttpFS.txt?user.name=hdfs&op=CREATE"
+
+curl -i -H 'Content-Type: application/octet-stream' -T test.txt "http://<httpFS server dns>:14000/webhdfs/v1/muthu4allhttpFS.txt?op=CREATE&user.name=hdfs&data=true"
+
+#+END_SRC
 
 * Cloudera
   
@@ -256,33 +270,33 @@ wget http://archive.cloudera.com/cdh5/parcels/5.15.1/manifest.json
 #+END_SRC
 *** sample starter commands 
 #+BEGIN_SRC 
-    1  vi /etc/selinux/config
-    2  service iptables status
-    3  service iptables stop
-    4  yum install iptables-services
-    5  service iptables status
-    6  service iptables disable
-    7  chkconfig iptables off
-    8  df -h
-    9  resize2fs /dev/xvda1
-   10  fdisk /dev/xvda
-   11  ls /
-   12  xfs_growfs /dev/root_vg/root
-   13  xfs_growfs /dev/xvda1/root
-   14  xfs_growfs /dev/xvda1
-   15  xfs_growfs /dev/xvda1/
-   16  df -h
-   17  echo "vm.swappiness=1" >> /etc/syctl.conf
-   18  vi /etc/sysctl.conf
-   19  vi /etc/sysctl.conf
-   20  echo "vm.swappiness=1" >> /etc/syctl.conf
-   21  vi /etc/sysctl.conf
-   22  vi /etc/sysctl.conf
-   23  cd /etc/sysctl.d/
-   24  ls
-   25  vi 99-sysctl.conf
-   26  reboot
-   27  history > hist.sh
+vi /etc/selinux/config
+service iptables status
+service iptables stop
+yum install iptables-services
+service iptables status
+service iptables disable
+chkconfig iptables off
+df -h
+resize2fs /dev/xvda1
+fdisk /dev/xvda
+ls /
+xfs_growfs /dev/root_vg/root
+xfs_growfs /dev/xvda1/root
+xfs_growfs /dev/xvda1
+xfs_growfs /dev/xvda1/
+df -h
+echo "vm.swappiness=1" >> /etc/syctl.conf
+vi /etc/sysctl.conf
+vi /etc/sysctl.conf
+echo "vm.swappiness=1" >> /etc/syctl.conf
+vi /etc/sysctl.conf
+vi /etc/sysctl.conf
+cd /etc/sysctl.d/
+ls
+vi 99-sysctl.conf
+reboot
+history > hist.sh
 
 #+END_SRC
 
