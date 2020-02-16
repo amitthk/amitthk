@@ -1658,6 +1658,24 @@ keytool -v -alias mavensev -import -file certfile.cer -keystore keystore.jks
 
 #+END_SRC
 
+debian/Ubuntu
+#+BEGIN_SRC 
+openssl s_client -showcerts -connect example.com:443 </dev/null 2>/dev/null|openssl x509 -outform PEM > example_com.crt
+sudo cp example_com.crt /usr/local/share/ca-certificates/example_com.crt
+sudo update-ca-certificates
+#+END_SRC
+
+
+Red Hat Enterprise Linux/Fedora/Centos
+
+#+BEGIN_SRC 
+openssl s_client -showcerts -connect example.com:443 </dev/null 2>/dev/null|openssl x509 -outform PEM > example_com.crt
+sudo cp example_com.crt /etc/pki/ca-trust/source/example_com.crt
+sudo update-ca-trust enable
+sudo update-ca-trust extract
+#+END_SRC
+
+
 **** Maven params
 
 #+BEGIN_SRC 
