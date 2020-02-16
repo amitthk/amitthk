@@ -1673,6 +1673,14 @@ openssl s_client -showcerts -connect example.com:443 </dev/null 2>/dev/null|open
 sudo cp example_com.crt /etc/pki/ca-trust/source/example_com.crt
 sudo update-ca-trust enable
 sudo update-ca-trust extract
+
+update-ca-trust enable
+cp example_com.pem /etc/pki/ca-trust/source/anchors/
+cp: overwrite ‘/etc/pki/ca-trust/source/anchors/example_com.pem’? yes
+update-ca-trust extract
+openssl verify  example_com.crt
+example_com.crt: OK
+
 #+END_SRC
 
 
