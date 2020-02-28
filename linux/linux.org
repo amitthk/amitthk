@@ -190,6 +190,7 @@ ps -elf | grep sshd
 ps -p1 -f
 echo $$
 ps -p $$ -F
+ps -eo pid,ppid,%cpu,%mem,cmd
 
 cd $$
 ls -l cwd
