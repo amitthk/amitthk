@@ -117,26 +117,35 @@ SQLAlchemy model classes;
 
 #pip install flask-sqlalchemy
 
+Define a model in sqlalchemy it will be turned into a table 
 
+#+BEGIN_SRC 
 class Bookmark(db.Model):
     id = db.Column(db.Integer, primary_key=true)
     url = db.Column(db.Text, nullable=False)
     timestamp = db.Column(db.DateTime, datetime.utcnow)
     description = db.Column(db.String(300))
     owner = db.relationship('User', backref='user', lazy='dynamic') //A one to many relationship to other table name user
+    lastUpdated = db.Column(db.DateTime, default=datetime.now)
     def __repr__(self):
         return "<bookmark  '{}' : '{}' >".format(self.description, self.url)
 
+#+END_SRC
 
 --
 modification in app.py
 
+#+BEGIN_SRC 
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "~tdjfd;safdsafjdsafj;fdsa"
+
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config(['SQLALCHEMY_DATABASE_URL'] = 'sqlite:///'+os.path.join(basedir, 'myform.db')
 db = SQLAlchemy(app)
+
+#+END_SRC
 
 ============
 from thermos.thermos import db
@@ -148,6 +157,8 @@ db.session.commit()
 Bookmark.query.get(2)
 
 ==============
+** Python Mongodb CRUD
+
 #+BEGIN_SRC 
 import sys
 import os
@@ -190,18 +201,18 @@ utils = imp.load_source('*', utils_path)
 @ns.route("/<id>")
 class Home(Resource):
     # method_decorators=[must_auth]
-    def get(self):
+    def get(self,collection=None):
         """
         Function to get the userinfos.
         """
         try:
-            dbhelper = DbHelper()
+            dbhelper = DbHelper(collection)
             q_params = utils.parse_q_params(request.query_string)
             if q_params:
-                query = {k: int(v) if isinstance(v, str) and v.isdigit() else v for k, v in q_params.items()}
+                query = {k: int(v) if isinstance(v, str) and k=='_id' else v for k, v in q_params.items()}
                 records_fetched = dbhelper.collection.find(query)
                 if records_fetched.count() > 0:
-                    return json_util.dumps(records_fetched)
+                    return Response(dumps(records_fetched),status=200)
                 else:
                     return "No Records found", 404
             else:
@@ -213,16 +224,20 @@ class Home(Resource):
             raise #return "", 500
 
     @api.expect(add_user_model)    
-    def post(self):
+    def post(self, collection=None):
         """
         Function to add new userinfo(s).
         """
         try:
-            dbhelper = DbHelper()
+            if collection is None:
+                return Response('collection cannot be null', status = 404)
+            dbhelper = DbHelper(collection)
             try:
-                body = ast.literal_eval(json.dumps(request.get_json()))
+                valustr = json.dumps(request.get_json(), separators=(',',':'), sort_keys=True)
+                value = json.loads(valuestr)
+                body=value
             except:
-                return "", 400
+                return Response("An error has occured in parsing the values", 500)
 
             record_created = dbhelper.collection.insert(body)
 
@@ -234,17 +249,22 @@ class Home(Resource):
             raise #return "", 500
 
     @api.expect(add_user_model)    
-    def put(self, id=None):
+    def put(self, collection=None):
         """
         Function to update a userinfo.
         """
         try:
-            dbhelper = DbHelper()
+            dbhelper = DbHelper(collection)
             try:
-                body = ast.literal_eval(json.dumps(request.get_json()))
+                valustr = json.dumps(request.get_json(), separators=(',',':'), sort_keys=True)
+                value = json.loads(valuestr)
+                body=value
             except:
-                return "", 400
-            records_updated = dbhelper.collection.update_one({"_id": ObjectId(id)}, body)
+                return Response("An error has occured in parsing the values", 500)
+            objkey = ObjectId(body["_id","$oid"])
+            updates = body.copy()
+            updates.pop('_id',True)
+            records_updated = dbhelper.collection.update_one({"_id": objkey}, {"$set", updates}, upsert=True)
 
             if records_updated.modified_count > 0:
                 return Response(jsonify("Updated {} items!".format(records_updated.modified_count)), status=200, mimetype = 'application/json')
@@ -254,18 +274,19 @@ class Home(Resource):
             raise #return "", 500
 
     
-    def delete(self, id=None):
+    def delete(self, collection=None):
         """
         Function to delete a userinfo.
         """
         try:
-            dbhelper = DbHelper()
+            dbhelper = DbHelper(collection)
             q_params = utils.parse_q_params(request.query_string)
-            delete_user = dbhelper.collection.delete_one({"_id": ObjectId(id)})
+            if q_params and q_params.get('ObjectId'):
+                delete_user = dbhelper.collection.delete_one({"_id": ObjectId(q_params.get('ObjectId'))})
             if delete_user.deleted_count > 0 :
                 return Response("Deleted {} items!".format(delete_user.deleted_count), status=204, mimetype = 'application/json')
             else:
-                return "", 404
+                return "No Object with that id", 404
         except:
             raise #return "", 500
 
@@ -279,12 +300,15 @@ from pymongo import MongoClient
 import string
 
 class DbHelper:
-    def __init__(self):
+    def __init__(self,collectionName=None):
+        if(collectionName is None):
+            raise Exception("collectionName cannot be null!")
         self.db_host = current_app.config['DATABASE_HOSTNAME']
         self.db_port = current_app.config['DATABASE_PORT']
+        self.db_name = current_app.config['DATABASE_NAME']
         self.client = MongoClient(self.db_host,int(self.db_port.strip(string.ascii_letters)))
-        self.db = self.client.test
-        self.collection = self.db.registration
+        self.db = self.client[self.db_name]
+        self.collection = self.db[collectionName]
 #+END_SRC
 
 #+BEGIN_SRC 
