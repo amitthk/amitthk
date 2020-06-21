@@ -91,3 +91,11 @@ export class ChildModule { }
     RouterModule,
     ChildModule]
 #+END_SRC
+
+
+** Angular cli error = The serve command requires to be run in an Angular project, but a project definition could not be found
+
+#+BEGIN_SRC 
+ng update @angular/cli --migrate-only --from=1.6.8
+ng update @angular/cli @angular/core
+#+END_SRC
