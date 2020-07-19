@@ -1,0 +1,41 @@
+* CCA175
+
+** read from files
+
+#+BEGIN_SRC 
+import scala.io.Source
+
+val orderItems = Source.fromFile("/Users/amitthk/projects/github/dgadiraju/data-master/retail_db/order_items/part-00000").getLines.toList
+orderItems(0)
+orderItems.take(10).foreach(println)
+orderItems.size
+
+val orderItemsFilter = orderItems.filter(orderItem => orderItem.split(",")(1).toInt == 2)
+val orderItemsMap = orderItemsFilter.map(orderItem => orderItem.split(",")(4).toFloat)
+
+orderItemsMap.sum
+
+orderItemsMap.reduce((total, orderItemSubtotal) => total + orderItemSubtotal)
+
+orderItemsMap.reduce(_ + _)
+
+#+END_SRC
+
+** read from s3Client
+#+BEGIN_SRC 
+
+import com.amazonaws.auth.AWSCredentialsProvider
+import com.amazonaws.regions.Region
+import com.amazonaws.services.s3.AmazonS3Client
+import com.amazonaws.regions.ServiceAbbreviations
+import scala.collection.JavaConverters._
+import com.amazonaws.services.s3.model.{ Region => S3Region }
+import com.amazonaws.services.s3.model.S3ObjectSummary
+import com.amazonaws.services.s3.model.Bucket
+val credentials = new BasicAWSCredentials("AKIAIVZ7RETVDKIESVYA", "MkO/XD+1ivRIZKy8N65Uncsys4AaPzLZQNDQvTfR")
+val s3Client = new AmazonS3Client(credentials)
+val s3Object = s3Client.getObject(new GetObjectRequest("s3://atksv.mywire.org/data/retail_db/order_items/", "part-00000"))
+val myData = Source.fromInputStream(s3Object.getObjectContent())
+
+#+END_SRC
+
