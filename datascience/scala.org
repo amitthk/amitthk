@@ -2,6 +2,12 @@
 
 ** read from files
 
+At scala prompt (REPL interface) you can enter paste mode by typing
+
+:paste
+
+exit paste mode by typing Ctrl+D afterward
+
 #+BEGIN_SRC 
 import scala.io.Source
 
@@ -21,6 +27,44 @@ orderItemsMap.reduce(_ + _)
 
 #+END_SRC
 
+** As part of this topic, we will look into Creating RDD Using Data from HDFS
+
+
+*** RDD – Resilient Distributed Dataset
+In-memory
+Distributed
+Resilient
+Reading files from HDFS
+Reading files from the local file system and create RDD
+A quick overview of Transformations and Actions
+DAG and lazy evaluation
+Previewing the data using Actions
+
+*** Creating RDD -Validating files from a file system
+#+BEGIN_SRC 
+hadoop fs -ls /public/reatil_db/orders
+hadoop fs -tail /public/retail_db/orders/part-00000
+#+END_SRC
+
+*** create RDD using spark-shell
+#+BEGIN_SRC 
+spark-shell --master yarn \
+ --conf spark.ui.port = 12654 \
+ --num-executors 1 \
+ --executor-memory 512M
+
+val orders = sc.textFile("/public/retail_db/orders")
+#+END_SRC
+To see first 10 records from the table we use orders.take(10)
+Reading files from the local file system and creating RDD
+#+BEGIN_SRC 
+val productsRaw = scala.io.Source.fromFile("/data/retail_db/products/part-00000").getLines.toList
+val productsRDD = sc.parallelize(productsRaw)
+productsRDD.take(10)
+
+#+END_SRC
+
+
 ** read from s3Client
 #+BEGIN_SRC 
 
@@ -39,3 +83,30 @@ val myData = Source.fromInputStream(s3Object.getObjectContent())
 
 #+END_SRC
 
+
+** creating a scala build.sbt
+build.sbt
+#+BEGIN_SRC 
+name := "testproject"
+version:= "1.0.0"
+scalaVersion := "2.10.6"
+#+END_SRC
+
+mkdir -p src/main/scala
+
+vi src/main/scala/orderSummary.scala
+
+#+BEGIN_SRC 
+import scala.io.Source
+
+object orderSummary{
+    def main(args: Array[String]) = {
+        val orderId = args(1).toInt
+        val orderItems = Source.fromFile("/Users/amitthk/projects/data-master/retail_db/order_items/part-00000").getLines
+        val orderRevenue = orderItems.filter(orderitem => orderitem.split(",")(1).toInt == orderId).
+          map(orderitem => orderitem.split(",")(4).toFloat).
+          reduce((t, v) => t + v)
+        println(orderRevenue)
+    }
+}
+#+END_SRC
