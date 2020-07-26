@@ -2176,7 +2176,10 @@ sudo /etc/init.d/networking reload
 
  ssh -i 'Box Sync'/Docs/amitthk_aws_keypair.pem  ec2-user@ec2-52-36-166-157.us-west-2.compute.amazonaws.com
 
-** docker mysql
+** docker mysql/mariadb
+#+BEGIN_SRC 
+echo "docker run -d --name amitthk-mariadb -v `pwd`/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=passpass  -p 3306:3306 mariadb:latest"
+#+END_SRC
 
 *** create busybox repository:-
  sudo docker run -v /var/lib/mysql --name=mysql_datastore -d busybox
