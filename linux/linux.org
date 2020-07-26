@@ -2191,6 +2191,16 @@ echo "docker run -d --name amitthk-mariadb -v `pwd`/data:/var/lib/mysql -e MYSQL
 *** install wordpress and point it to above mysql instance. also set the port accordingly
  sudo docker run --link=d-mysql:mysql -p 8983:80 -d wordpress
 
+** mongodb
+
+#+BEGIN_SRC 
+curl -O https://fastdl.mongodb.org/osx/mongodb-macos-x86_64-4.2.8.tgz
+mkdir -p /Users/amitthk/Apps/mongodb /Users/amitthk/Apps/mongodb/data/db
+tar -xzvf -C /Users/amitthk/Apps/mongodb mongodb-macos-x86_64-4.2.8.tgz
+
+/Users/amitthk/Apps/mongodb/bin/mongod -dbpath /Users/amitthk/Apps/mongodb/data/db
+#+END_SRC
+
 ** nginx on docker
  $ docker run --name amitthk-nginx -v /some/content:/usr/share/nginx/html:ro -d nginx
 
