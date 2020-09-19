@@ -817,3 +817,48 @@ public class CritereaQueryRepository {
     }
     }
 #+END_SRC
+
+
+** Generic mapping
+#+BEGIN_SRC
+    public static <T> List<T> map(Class<T> type, List<Object[]> records){
+        List<T> result = new LinkedList<>();
+        for(Object[] record : records){
+            result.add(map(type, record));
+        }
+        return result;
+    }
+#+END_SRC
+ 
+ 
+ ** GenericEntity mongodb repository
+#+BEGIN_SRC
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.Id;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class GenericEntity {
+    @Id
+    String Id;
+
+    String ObjectKey;
+
+    Object ObjectValue;
+}
+#+END_SRC
+
+#+BEGIN_SRC
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface GenericEntityMongoRepository extends MongoRepository<GenericEntity, String> {
+}
+#+END_SRC
