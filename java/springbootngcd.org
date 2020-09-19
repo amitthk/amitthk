@@ -862,3 +862,36 @@ import org.springframework.stereotype.Repository;
 public interface GenericEntityMongoRepository extends MongoRepository<GenericEntity, String> {
 }
 #+END_SRC
+
+** Spring jpa hibernate custom query results (Native or Hql) as typed java objects
+
+#+BEGIN_SRC
+
+    @PersistenceContext
+    EntityManager entityManager;
+
+    public  <T> List<T> getNativeQueryResultAsTypedList(Class<T> type, String query, HashMap<String, Object> params){
+        Query nativeQuery = entityManager.createNativeQuery(query);
+        if(params!=null && params.keySet().size()>0) {
+            for (String key : params.keySet()) {
+                nativeQuery.setParameter(key, params.get(key));
+            }
+        }
+        nativeQuery.unwrap(org.hibernate.Query.class)
+                .setResultTransformer(Transformers.aliasToBean(type));
+
+        return nativeQuery.getResultList();
+    }
+
+    public <T> List<T> getHqlQueryResultAsTypedList(Class<T> type, String query, HashMap<String,Object> params){
+        Query customQuery = entityManager.createQuery(query);
+        if(params!=null && params.keySet().size()>0) {
+            for (String key : params.keySet()) {
+                customQuery.setParameter(key, params.get(key));
+            }
+        }
+        customQuery.unwrap(org.hibernate.Query.class)
+                .setResultTransformer(Transformers.aliasToBean(type));
+        return  customQuery.getResultList();
+    }
+#+END_SRC
