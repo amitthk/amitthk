@@ -765,3 +765,55 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 }
 #+END_SRC
+
+
+
+
+
+** Mapping custom entity with Spring JPA
+
+
+
+Custom model like this
+#+BEGIN_SRC
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class EnvSummaryModel {
+    String environment;
+    Number janCost;
+    Number febCost;
+    Number aprCost;
+    Number mayCost;
+    }
+
+#+END_SRC
+
+#+BEGIN_SRC
+
+//Notice the alias for property names mapped to class above 
+@Repository
+public class CritereaQueryRepository {
+
+    @PersistenceContext
+    EntityManager entityManager;
+
+    public List<EnvSummaryModel> getEnvSummary(HashMap<String, Object> params){
+        String query = "select s.environment as environment,sum(sp.jan_cost) as janCost,sum(sp.feb_cost) as febCost"
+                + "from srvinfo s inner join srvprice sp on s.hostname=sp.hostname group by s.environment;";
+        Query nativeQuery = entityManager.createNativeQuery(query);
+        if(params!=null && params.keySet().size()>0) {
+            for (String key : params.keySet()) {
+                nativeQuery.setParameter(key, params.get(key));
+            }
+        }
+
+        nativeQuery.unwrap(org.hibernate.Query.class)
+                .setResultTransformer(Transformers.aliasToBean(EnvSummaryModel.class));
+
+        return nativeQuery.getResultList();
+    }
+    }
+#+END_SRC
