@@ -895,3 +895,222 @@ public interface GenericEntityMongoRepository extends MongoRepository<GenericEnt
         return  customQuery.getResultList();
     }
 #+END_SRC
+
+
+** POJO to excel and excel to pojo
+
+#+BEGIN_SRC
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.17</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.17</version>
+		</dependency>
+#+END_SRC
+
+#+BEGIN_SRC
+    public JsonArray getJsonElements(Workbook workbook, Integer sheetNumber) {
+        JsonArray rtrnList;
+        // Retrieving the number of sheets in the Workbook
+        logger.debug("Workbook has " + workbook.getNumberOfSheets() + " Sheets : ");
+        /*
+           =============================================================
+           Iterating over all the sheets in the workbook (Multiple ways)
+           =============================================================
+        */
+        // 1. You can obtain a sheetIterator and iterate over it
+        Iterator<Sheet> sheetIterator = workbook.sheetIterator();
+        logger.debug("Retrieving Sheets using Iterator");
+        while (sheetIterator.hasNext()) {
+            Sheet sheet = sheetIterator.next();
+            logger.debug("=> " + sheet.getSheetName());
+        }
+        // 2. Or you can use a for-each loop
+        logger.debug("Retrieving Sheets using for-each loop");
+        for (Sheet sheet : workbook) {
+            logger.debug("=> " + sheet.getSheetName());
+        }
+        // 3. Or you can use a Java 8 forEach with lambda
+        logger.debug("Retrieving Sheets using Java 8 forEach with lambda");
+        workbook.forEach(sheet -> {
+            logger.debug("=> " + sheet.getSheetName());
+        });
+        /*
+           ==================================================================
+           Iterating over all the rows and columns in a Sheet (Multiple ways)
+           ==================================================================
+        */
+        // Getting the Sheet at index zero
+        Sheet sheet = workbook.getSheetAt(sheetNumber);
+        // Create a DataFormatter to format and get each cell's value as String
+        DataFormatter dataFormatter = new DataFormatter();
+        //iterateWithRowIterator(sheet, dataFormatter);
+        rtrnList = toJsonObject(sheet, dataFormatter);
+
+        //iterateWithLambda(sheet, dataFormatter);
+        // Closing the workbook
+        return rtrnList;
+    }
+
+    protected void iterateSimple(Sheet sheet, DataFormatter dataFormatter) {
+        // 2. Or you can use a for-each loop to iterate over the rows and columns
+        logger.debug("\n\nIterating over Rows and Columns using for-each loop\n");
+        for (Row row : sheet) {
+            for (Cell cell : row) {
+                String cellValue = dataFormatter.formatCellValue(cell);
+                System.out.print(cellValue + "\t");
+            }
+            logger.debug("Finished iterating batch");
+        }
+    }
+
+    public XSSFWorkbook objectListToExcelWorksheet(List jsonArray){
+        //Create blank workbook
+        XSSFWorkbook workbook = new XSSFWorkbook();
+
+        try{
+            int rowid = 0;
+            Object firstElement = jsonArray.get(0);
+            String[] propNames= EntityUtils.getAllPropertyNames(firstElement);
+
+
+            XSSFSheet spreadsheet = workbook.createSheet(firstElement.getClass().getName());
+
+            //Create header row object
+            XSSFRow row;
+            //For the first item, add the header row as well as values
+            row = spreadsheet.createRow(rowid++);
+            int cellid = 0;
+            Cell cell = row.createCell(cellid++);
+            cell.setCellValue("#");
+
+            for (String propName : propNames){
+            String headerCellValue = propName;
+                Cell header_cell = row.createCell(cellid++);
+
+                for (AppSettings set : appSettingsRepository.findAll()){
+                    //If any of the aliases exist, pick the first alias and set it as header
+                    if(set.getName().equalsIgnoreCase(propName)) {
+                        String[] strAliases = set.getValue().split(",");
+                        List<String> lstAliases = Arrays.asList(strAliases);
+                        headerCellValue=lstAliases.get(0);
+                    }
+                }
+                header_cell.setCellValue(headerCellValue);
+            }
+
+
+            for(int i=0; i< jsonArray.size(); i++) {
+                Object obj = jsonArray.get(i);
+
+                XSSFRow value_row = spreadsheet.createRow(rowid++);
+                int value_cellid = 0;
+                Cell num_cell = value_row.createCell(value_cellid++);
+                num_cell.setCellValue(rowid);
+
+                for (String propName : propNames){
+                    Cell value_cell = value_row.createCell(value_cellid++);
+                    Object cel_value =EntityUtils.getPropertyValue(obj,propName);
+                    if (cel_value != null) {
+                        if (cel_value instanceof String) {
+                            value_cell.setCellValue((String)cel_value);
+                        } else if (cel_value instanceof Double) {
+                            value_cell.setCellValue((Double)cel_value);
+                        } else if (cel_value instanceof Integer) {
+                            value_cell.setCellValue((Integer)cel_value);
+                        } else if (cel_value instanceof java.util.Date) {
+                            value_cell.setCellValue((java.util.Date)cel_value);
+                        } else if (cel_value instanceof Boolean) {
+                            value_cell.setCellValue((Boolean)cel_value);
+                        }
+                    }
+                }
+            }
+        }catch (Exception ex){
+            logger.error(EntityUtils.getStrackTraceAsString(ex));
+        }
+        return workbook;
+    }
+
+    protected JsonArray toJsonObject(Sheet sheet, DataFormatter dataFormatter) {
+        // 2. Or you can use a for-each loop to iterate over the rows and columns
+        logger.debug("\n\nIterating over Rows and Columns using for-each loop\n");
+        Iterator<Row> sheetIterator = sheet.iterator();
+        JsonArray sheetArray = new JsonArray();
+        ArrayList<String> columnNames = new ArrayList<String>();
+        while (sheetIterator.hasNext()) {
+            Row currentRow = sheetIterator.next();
+            JsonObject jsonObject = new JsonObject();
+            if (currentRow.getRowNum() != 0) {
+                for (int j = 0; j < columnNames.size(); j++) {
+                    if (currentRow.getCell(j) != null) {
+                        if (currentRow.getCell(j).getCellTypeEnum() == CellType.STRING) {
+                            jsonObject.addProperty(columnNames.get(j), currentRow.getCell(j).getStringCellValue());
+                        } else if (currentRow.getCell(j).getCellTypeEnum() == CellType.NUMERIC) {
+                            jsonObject.addProperty(columnNames.get(j), currentRow.getCell(j).getNumericCellValue());
+                        } else if (currentRow.getCell(j).getCellTypeEnum() == CellType.BOOLEAN) {
+                            jsonObject.addProperty(columnNames.get(j), currentRow.getCell(j).getBooleanCellValue());
+                        } else if (currentRow.getCell(j).getCellTypeEnum() == CellType.BLANK) {
+                            jsonObject.addProperty(columnNames.get(j), "");
+                        }
+                    } else {
+                        jsonObject.addProperty(columnNames.get(j), "");
+                    }
+                }
+                sheetArray.add(jsonObject);
+            } else {
+                // store column names
+                for (int k = 0; k < currentRow.getPhysicalNumberOfCells(); k++) {
+                    String sheetHeaderValue = currentRow.getCell(k).getStringCellValue().trim();
+                    String sheetHeaderMap = sheetHeaderValue;
+
+                    for (AppSettings set : appSettingsRepository.findAll()){
+                        //If the header cell matches any of the aliases
+                        String[] strAliases = set.getValue().split(",");
+                        List<String> lstAliases = Arrays.asList(strAliases);
+                        if(lstAliases.stream().anyMatch(x->x.equalsIgnoreCase(sheetHeaderValue))){
+                            sheetHeaderMap=set.getName();
+                        }
+                    }
+                    columnNames.add(sheetHeaderMap);
+                }
+            }
+        }
+
+        return sheetArray;
+    }
+
+
+    protected void iterateWithLambda(Sheet sheet, DataFormatter dataFormatter) {
+        // 3. Or you can use Java 8 forEach loop with lambda
+        logger.debug("\n\nIterating over Rows and Columns using Java 8 forEach with lambda\n");
+        sheet.forEach(row -> {
+            row.forEach(cell -> {
+                String cellValue = dataFormatter.formatCellValue(cell);
+                System.out.print(cellValue + "\t");
+            });
+            logger.debug("finished iterating batch with lambda");
+        });
+    }
+
+    protected void iterateWithRowIterator(Sheet sheet, DataFormatter dataFormatter) {
+        // 1. You can obtain a rowIterator and columnIterator and iterate over them
+        logger.debug("\n\nIterating over Rows and Columns using Iterator\n");
+        Iterator<Row> rowIterator = sheet.rowIterator();
+        while (rowIterator.hasNext()) {
+            Row row = rowIterator.next();
+            // Now let's iterate over the columns of the current row
+            Iterator<Cell> cellIterator = row.cellIterator();
+            while (cellIterator.hasNext()) {
+                Cell cell = cellIterator.next();
+                String cellValue = dataFormatter.formatCellValue(cell);
+                System.out.print(cellValue + "\t");
+            }
+            logger.debug("Finished iterating batch using iterator");
+        }
+    }
+#+END_SRC
