@@ -1114,3 +1114,12 @@ public interface GenericEntityMongoRepository extends MongoRepository<GenericEnt
         }
     }
 #+END_SRC
+
+** fixing the node-sass dependency issue with angular 7
+
+#+BEGIN_SRC
+# delete first the package-lock.json as it might come from different system
+rm -rf $APP_BUILD_DIR/package-lock.json || true
+curl -k -O https://github.com/sass/node-sass/releases/download/v4.14.1/linux-x64-57_binding.node
+/bin/bash -c "npm --sass-binary-path=${APP_BUILD_DIR}/linux-x64-64_binding-4.12.0.node --registry "${MY_NPM_REGISTRY}" install --no-optional"
+#+END_SRC
