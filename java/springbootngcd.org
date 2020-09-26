@@ -1235,3 +1235,24 @@ public class AppSettingReader {
         this.role = role;
     }
 #+END_SRC
+
+
+** take a portion of jpa entity in spring boot
+#+BEGIN_SRC
+With the newer Spring versions One can do as follows:
+If not using native query this can done as below:
+public interface ProjectMini {
+    String getProjectId();
+    String getProjectName();
+}
+public interface ProjectRepository extends JpaRepository<Project, String> { 
+    @Query("SELECT p FROM Project p")
+    List<ProjectMini> findAllProjectsMini();
+}
+Using native query the same can be done as below:
+public interface ProjectRepository extends JpaRepository<Project, String> { 
+    @Query(value = "SELECT projectId, projectName FROM project", nativeQuery = true)
+    List<ProjectMini> findAllProjectsMini();
+}
+
+#+END_SRC
