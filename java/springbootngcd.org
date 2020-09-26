@@ -1123,3 +1123,115 @@ rm -rf $APP_BUILD_DIR/package-lock.json || true
 curl -k -O https://github.com/sass/node-sass/releases/download/v4.14.1/linux-x64-57_binding.node
 /bin/bash -c "npm --sass-binary-path=${APP_BUILD_DIR}/linux-x64-64_binding-4.12.0.node --registry "${MY_NPM_REGISTRY}" install --no-optional"
 #+END_SRC
+
+** Non anonymous ldap authentication with custom ldapauthorities populator
+
+#+BEGIN_SRC
+@Override
+	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+		logger.debug(" ******* in AuthenticationManagerBuilder ");
+		if(Boolean.parseBoolean(ldapEnabled)) {
+			auth
+					.ldapAuthentication()
+					.ldapAuthoritiesPopulator(authoritiesPopulator())
+					.userSearchFilter(ldapUserSearchFilter)
+					.userSearchBase(ldapUserSearchBase)
+					.groupSearchBase(ldapGroupSearchBase)
+					.groupSearchFilter("member={0}")
+					.contextSource()
+					.url(ldapProviderUrl)
+					.port(ldapProviderPort)
+					.managerDn(ldapBindUsername)
+					.managerPassword(ldapBindPassword)
+			.and()
+			.and()
+					.inMemoryAuthentication()
+					.withUser("adaeditor").password("{noop}ada-editors-1").roles("EDITOR")
+					.and()
+					.withUser("adaadmin").password("{noop}ada-cap-admin").roles("ADMIN");
+
+		}else{
+			auth
+					.inMemoryAuthentication()
+					.withUser("readonly").password("{noop}readonly1").roles("USER")
+					.and()
+					.withUser("adaeditor").password("{noop}ada-editors-1").roles("EDITOR")
+					.and()
+					.withUser("adaadmin").password("{noop}ada-cap-admin").roles("ADMIN");
+		}
+	}
+	
+        @Bean()
+	public LdapAuthoritiesPopulator authoritiesPopulator(){
+		LdapAuthoritiesPopulator customLdapAuthoritiesPopulator = new CustomLdapAuthoritiesPopulator();
+		return  customLdapAuthoritiesPopulator;
+	}
+#+END_SRC
+
+
+#+BEGIN_SRC
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.ldap.core.DirContextOperations;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.ldap.userdetails.LdapAuthoritiesPopulator;
+import org.springframework.stereotype.Component;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+@Component
+public class CustomLdapAuthoritiesPopulator implements LdapAuthoritiesPopulator {
+
+    private static final Logger logger = LoggerFactory.getLogger(CustomLdapAuthoritiesPopulator.class);
+
+    @Autowired
+    AppSettingReader appSettingReader;
+
+
+    @Override
+    public final Collection<? extends GrantedAuthority> getGrantedAuthorities(DirContextOperations userData, String username) {
+        Set<GrantedAuthority> gauth = new HashSet<>();
+        //you need to place logic for populating user authorities here
+        logger.debug("*********Granting Autorities for user {%s}".format(username));
+        for (Map.Entry<String, String> set : appSettingReader.getRole().entrySet()){
+            String[] strOneBankIds = set.getValue().split(",");
+            for (String s: strOneBankIds) {
+                if(s.equalsIgnoreCase(username)){
+                    gauth.add(new SimpleGrantedAuthority(set.getKey()));
+                }
+            }
+        }
+        gauth.add(new SimpleGrantedAuthority("USER"));
+        return gauth;
+    }
+}
+#+END_SRC
+
+
+#+BEGIN_SRC
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+
+@Component
+@EnableConfigurationProperties
+@ConfigurationProperties(prefix = "app")
+public class AppSettingReader {
+    private HashMap<String, String> role;
+
+    public HashMap<String, String> getRole() {
+        return role;
+    }
+
+    public void setRole(HashMap<String, String> role) {
+        this.role = role;
+    }
+#+END_SRC
