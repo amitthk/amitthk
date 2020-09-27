@@ -1258,7 +1258,7 @@ public interface ProjectRepository extends JpaRepository<Project, String> {
 #+END_SRC
 
 ** Seed Spring boot classes with json from resources
-#BEGIN_SRC
+#+BEGIN_SRC
 @Component
 public class ApplicationStartupListener  implements ApplicationListener<ApplicationReadyEvent> {
     /**
@@ -1298,10 +1298,10 @@ public class ApplicationStartupListener  implements ApplicationListener<Applicat
         return;
     }
 }
-#END_SRC
+#+END_SRC
 
 
-#BEGIN_SOURCE
+#+BEGIN_SOURCE
 //EntityUtils
     private static final Gson gson = new Gson();
 
@@ -1380,4 +1380,4 @@ public  static Date getTimeNow(){
         return resultList;
     }
 
-#END_SOURCE
+#+END_SOURCE
