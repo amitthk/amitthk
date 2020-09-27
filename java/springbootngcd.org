@@ -1256,3 +1256,128 @@ public interface ProjectRepository extends JpaRepository<Project, String> {
 }
 
 #+END_SRC
+
+** Seed Spring boot classes with json from resources
+#BEGIN_SRC
+@Component
+public class ApplicationStartupListener  implements ApplicationListener<ApplicationReadyEvent> {
+    /**
+     * This event is executed as late as conceivably possible to indicate that
+     * the application is ready to service requests.
+     */
+    private static final Logger logger = LoggerFactory.getLogger(ApplicationStartupListener.class);
+
+    @Autowired
+    AppSettingsRepository appSettingsRepository;
+
+    @Autowired
+    ComponentTagTypeRepository componentTagTypeRepository;
+
+    @Override
+    public void onApplicationEvent(final ApplicationReadyEvent event) {
+
+        try{
+            logger.debug("Initializing appSettings with Seed Data.");
+            String  appSettingsSeed = EntityUtils.getResourceAsString("data/appSettings-seed.json");
+            AppSettings[] appSettings = EntityUtils.parseJsonStringToTypedArray(AppSettings[].class, appSettingsSeed);
+
+            List<AppSettings> currentSettings = appSettingsRepository.findAll();
+
+            if(currentSettings==null||currentSettings.size()<=0){
+                for (AppSettings appsetting:appSettings
+                     ) {
+                    appsetting.setLastUpdated(EntityUtils.getTimeNow());
+                    appSettingsRepository.save(appsetting);
+                }
+                appSettingsRepository.flush();
+            }
+
+        }catch (Exception excp){
+            logger.error(EntityUtils.getStrackTraceAsString(excp));
+        }
+        return;
+    }
+}
+#END_SRC
+
+
+#BEGIN_SOURCE
+//EntityUtils
+    private static final Gson gson = new Gson();
+
+
+    public static Resource getResource(String relativePath) {
+        return new ClassPathResource(relativePath);
+    }
+
+    public static String getResourceAsString(String relativePath) {
+        Resource resource = new ClassPathResource(relativePath);
+        try (Reader reader = new InputStreamReader(resource.getInputStream(), UTF_8)) {
+            return FileCopyUtils.copyToString(reader);
+        } catch (IOException e) {
+            logger.error(EntityUtils.getStrackTraceAsString(e));
+            throw new UncheckedIOException(e);
+        }
+    }
+
+
+
+    public static String getStrackTraceAsString(Exception exc){
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        exc.printStackTrace(pw);
+        return sw.toString();
+    }
+
+public  static Date getTimeNow(){
+        Calendar today = Calendar.getInstance();
+        today.clear(Calendar.HOUR); today.clear(Calendar.MINUTE); today.clear(Calendar.SECOND);
+        return today.getTime();
+    }
+
+    public static String getCurrentDateTimeAsString(){
+        String pattern = "EEEEE-dd-MMMMM-yyyy-HH-mm-ss-SSSZ";
+        SimpleDateFormat simpleDateFormat =
+                new SimpleDateFormat(pattern, new Locale("en", "US"));
+        String date = simpleDateFormat.format(new Date());
+        return date;
+    }
+
+    public static <T> T map(Class<T> type, Object[] tuple){
+        List<Class<?>> tupleTypes = new ArrayList<>();
+        for(Object field : tuple){
+            tupleTypes.add(field.getClass());
+        }
+        try {
+            Constructor<T> ctor = type.getConstructor(tupleTypes.toArray(new Class<?>[tuple.length]));
+            return ctor.newInstance(tuple);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static <T> List<T> mapPojoToTypedList(Class<T> type, List<Object[]> records){
+        List<T> result = new LinkedList<>();
+        for(Object[] record : records){
+            result.add(map(type, record));
+        }
+        return result;
+    }
+
+    public static <T> List<T> getResultList(Query query, Class<T> type){
+        @SuppressWarnings("unchecked")
+        List<Object[]> records = query.getResultList();
+        return mapPojoToTypedList(type, records);
+    }
+
+    public static <T> T parseJsonStringToTypedObject(Type type,String jsonString){
+        T resultList = gson.fromJson(jsonString,type);
+        return resultList;
+    }
+
+    public static <T> T[] parseJsonStringToTypedArray(Type type,String jsonString){
+        T[] resultList = gson.fromJson(jsonString,type);
+        return resultList;
+    }
+
+#END_SOURCE
