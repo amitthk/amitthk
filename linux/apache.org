@@ -552,8 +552,38 @@ http://sysadminsjourney.com/content/2010/02/01/apache-modproxy-error-13permissio
 semanage port -a -t http_port_t  -p tcp 8090
 
 #+END_SRC
+** Ldap authentication
+#+BEGIN_SRC 
+<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/html
+	
+	<Directory /var/www/html/app1>
+		AuthType Basic
+		AuthName "app1 LDAP Auth"
+		AuthBasicProvider ldap
+		AuthLDAPURL "ldap://ldap.devopsideas.com:389/ou=people,dc=devopsideas,dc=com?uid" TLS
+		AuthLDAPBindDN "cn=serverid,ou=service_ids,dc=devopsideas,dc=com"
+		AuthLDAPBindPassword "<serverid_passwd>"
+		Require ldap-group cn=app1,ou=basic_authentication,ou=group,dc=devopsideas,dc=com
+	</Directory>
 
+        <Directory /var/www/html/app2>
+		AuthType Basic
+		AuthName "app2 LDAP Auth"
+		AuthBasicProvider ldap
+		AuthLDAPURL "ldap://ldap.devopsideas.com:389/ou=people,dc=devopsideas,dc=com?uid" TLS
+		AuthLDAPBindDN "cn=serverid,ou=service_ids,dc=devopsideas,dc=com"
+		AuthLDAPBindPassword "<serverid_passwd>"
+		Require ldap-group cn=app2,ou=basic_authentication,ou=group,dc=devopsideas,dc=com
+	</Directory>
 
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+</VirtualHost>
+
+#+END_SRC
 * Apache / httpd
 
  Virtual Hosts

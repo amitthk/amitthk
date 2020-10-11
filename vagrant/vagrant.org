@@ -1,0 +1,65 @@
+* vagrant
+
+- VAgrant (Virtual machine controller)
+Define VMs to startup and configs (ip, hostnames etc)
+
+- Virtual Box
+VM provider
+
+- Ansible (automation/provisioning)
+
+** 1st run
+vagrant init
+nano Vagrantfile
+
+Vagrant.configue(2) DO |config|
+ config.vm.define "acs" do |acs|
+  acs.vm.box = "ubuntu/trusty64"
+  acs.vm.hostname = "acs"
+  acs.vm.networkk "private_networkd", ip:192.168.33.10"
+ end
+
+ config.vm.define "web" do |web|
+  acs.vm.box = "ubuntu/centos"
+  acs.vm.hostname = "web"
+  acs.vm.networkk "private_networkd", ip:192.168.33.20"
+  acs.vm.networkk "forwarded_port", guest:80, host:8080
+ end
+
+ config.vm.define "db" do |db|
+  acs.vm.box = "ubuntu/centos"
+  acs.vm.hostname = "db"
+  acs.vm.networkk "private_networkd", ip:192.168.33.30"
+ end
+
+end
+/////////////
+
+$ vagrant up
+$ vboxmanage list runningvms
+$ sudo apt-get install ansible
+$ vagrant ssh web
+$vagrant$web sudo yum install ansible
+
+.....
+
+@db$
+sudo yum install gcc
+sudo yum install pythong-setuptools
+sudo easy_install pip
+sudo yum instal python-devel
+sudo install ansible
+
+-------------------------------------------
+$vagrant ssh acs
+$vi inventory
+
+192.168.33.20
+192.168.33.10
+192.168.33.30
+
+$ansible 192.168.33.20 -i inventory -u vagrant -m ping -k
+$ ssh vagrant@192.168.33.20 //we wil have the ssh keys now
+$ansible 192.168.33.20 -i inventory -u vagrant -m ping -k -vvv
+
+$ansible all -i inventory -u vagrant -m command -a "/usr/sbin/yum update -y"

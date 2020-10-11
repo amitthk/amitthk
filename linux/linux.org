@@ -190,6 +190,7 @@ ps -elf | grep sshd
 ps -p1 -f
 echo $$
 ps -p $$ -F
+ps -eo pid,ppid,%cpu,%mem,cmd
 
 cd $$
 ls -l cwd
@@ -1485,6 +1486,13 @@ rpm -qf /etc/kerberos
 yum reinstall krb5-libs-1.15.1-37.el7_6.x86_64
 yum reinstall krb5-server-1.15.1-37.el7_6.x86_64
 #+END_SRC
+
+#+BEGIN_SRC 
+yum install -y yum-utils
+yumdownloader ntp
+rpm -Uvh --force ntp*.rpm
+#+END_SRC
+
 ** sshd allow only key ssh on specific ports
 
 vi /etc/ssh/sshd_config
@@ -1503,7 +1511,7 @@ PasswordAuthentication no
 RSAAuthentication yes
 #+END_SRC
 
-** resize volume grow partition
+** resize/expand volume grow partition
 
 Debian resize the partition to size of disk
 
@@ -1573,7 +1581,51 @@ for i in `cat h`; do ssh -i ./cdhstack_admin.pem centos@$i sudo xfs_growfs -d /;
 
 for i in `cat h`; do ssh -i ./cdhstack_admin.pem centos@$i sudo shutdown -r 0 ; done
 
+
+growpart /dev/nvme0n1 1
+yum -y install xfsprogs
+xfs_growfs -d /
+df -h
+
 #+END_SRC
+
+** move logical volume to new physical disk
+One volume group solution:
+#+BEGIN_SRC 
+ pvcreate /dev/sdb
+ vgextend vg0 /dev/sdb
+ pvmove -n /dev/vg0/bar /dev/sda /dev/sdb
+#+END_SRC
+
+Two volume group solution:
+
+#+BEGIN_SRC 
+ pvcreate /dev/sdb
+ vgcreate vg1 /dev/sdb
+ lvcreate -l100%FREE vg1
+ mkfs -t ext4 /dev/vg1/lvol1
+ mount /dev/vg1/lvol1 /mnt
+#+END_SRC
+
+Now difficult part, all activities MUST stop on /bar:
+
+#+BEGIN_SRC 
+ cd /mnt ; ( cd /bat ; tar cf - * ) | tar xf -
+ cd /
+ umount /mnt
+ mount /dev/vg1/lvol1 /bar
+#+END_SRC
+
+where
+
+- pvcreate erase all data on disk (and prepare for LVM)
+- lvcreate sould create a logical volume lvol1, you specify lv name with -n bar
+- I use HP-UX syntax for lv, you might have to use /dev/mapper/myvg-mylv syntax
+- Once you have verified data are OK, in new place:
+
+you can safely delete old /bar
+- edit /etc/fstab to use new /bar
+
 
 ** SSL certificates import , trust store and pem file
 
@@ -1606,6 +1658,32 @@ keytool -v -alias mavensev -import -file certfile.cer -keystore keystore.jks
 
 
 #+END_SRC
+
+debian/Ubuntu
+#+BEGIN_SRC 
+openssl s_client -showcerts -connect example.com:443 </dev/null 2>/dev/null|openssl x509 -outform PEM > example_com.crt
+sudo cp example_com.crt /usr/local/share/ca-certificates/example_com.crt
+sudo update-ca-certificates
+#+END_SRC
+
+
+Red Hat Enterprise Linux/Fedora/Centos
+
+#+BEGIN_SRC 
+openssl s_client -showcerts -connect example.com:443 </dev/null 2>/dev/null|openssl x509 -outform PEM > example_com.crt
+sudo cp example_com.crt /etc/pki/ca-trust/source/example_com.crt
+sudo update-ca-trust enable
+sudo update-ca-trust extract
+
+update-ca-trust enable
+cp example_com.pem /etc/pki/ca-trust/source/anchors/
+cp: overwrite ‘/etc/pki/ca-trust/source/anchors/example_com.pem’? yes
+update-ca-trust extract
+openssl verify  example_com.crt
+example_com.crt: OK
+
+#+END_SRC
+
 
 **** Maven params
 
@@ -1944,6 +2022,52 @@ ExecStart=/usr/bin/sh -c "/usr/bin/echo NAME=$(etcdctl get /name) > /etc/myconta
  sudo smbpasswd -a pi
 
 
+** setup ss5 socks proxy centos
+
+#+BEGIN_SRC 
+sudo yum -y install pam-devel openldap-devel cyrus-sasl-devel openssl-devel
+
+curl https://nchc.dl.sourceforge.net/project/ss5/ss5/3.8.9-8/ss5-3.8.9-8.tar.gz -o ss5.tar.gz
+tar -xzvf ss5.tar.gz 
+cd ss5-3.8.9/
+./configure
+sudo make && sudo make install
+#+END_SRC
+
+vi /etc/opt/ss5/ss5.conf
+
+No auth
+#+BEGIN_SRC 
+auth    0.0.0.0/0               -              -
+permit -        0.0.0.0/0       -       0.0.0.0/0       -       -       -       -       -
+
+#+END_SRC
+
+Username password auth:
+#+BEGIN_SRC 
+auth    0.0.0.0/0               -              u
+permit u        0.0.0.0/0       -       0.0.0.0/0       -       -       -       -       -
+#+END_SRC
+
+
+vi /etc/opt/ss5/ss5.passwd
+
+#+BEGIN_SRC 
+atksv chang31t
+#+END_SRC
+
+vi /etc/sysconfig/ss5
+#+BEGIN_SRC 
+SS5_OPTS=" -u root -b 0.0.0.0:10808"
+
+#+END_SRC
+
+#+BEGIN_SRC 
+chmod 755 /etc/sysconfig/ss5
+chmod 755 /etc/init.d/ss5
+service ss5 restart
+#+END_SRC
+
 ** setup samba
 1. Install:
 sudo apt-get update
@@ -2052,7 +2176,10 @@ sudo /etc/init.d/networking reload
 
  ssh -i 'Box Sync'/Docs/amitthk_aws_keypair.pem  ec2-user@ec2-52-36-166-157.us-west-2.compute.amazonaws.com
 
-** docker mysql
+** docker mysql/mariadb
+#+BEGIN_SRC 
+echo "docker run -d --name amitthk-mariadb -v `pwd`/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=passpass  -p 3306:3306 mariadb:latest"
+#+END_SRC
 
 *** create busybox repository:-
  sudo docker run -v /var/lib/mysql --name=mysql_datastore -d busybox
@@ -2063,6 +2190,16 @@ sudo /etc/init.d/networking reload
 
 *** install wordpress and point it to above mysql instance. also set the port accordingly
  sudo docker run --link=d-mysql:mysql -p 8983:80 -d wordpress
+
+** mongodb
+
+#+BEGIN_SRC 
+curl -O https://fastdl.mongodb.org/osx/mongodb-macos-x86_64-4.2.8.tgz
+mkdir -p /Users/amitthk/Apps/mongodb /Users/amitthk/Apps/mongodb/data/db
+tar -xzvf -C /Users/amitthk/Apps/mongodb mongodb-macos-x86_64-4.2.8.tgz
+
+/Users/amitthk/Apps/mongodb/bin/mongod -dbpath /Users/amitthk/Apps/mongodb/data/db
+#+END_SRC
 
 ** nginx on docker
  $ docker run --name amitthk-nginx -v /some/content:/usr/share/nginx/html:ro -d nginx
@@ -2405,6 +2542,203 @@ sudo usermod -a -G www apache
 
  [[http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/hosting-wordpress.html#create_user_and_database]]
 
+** Installing local gcc (non priviledged user)
+One easy way to install GCC higher version (which supports C++ 11 standard) in alternative directory (meaning without root privilege) is as follows:
+
+#+BEGIN_SRC 
+ftp://ftp.gnu.org/gnu/gcc/gcc-9.2.0/
+
+yum install -y bzip2
+tar xzf gcc-7.1.tar.gz
+cd gcc-7.1
+./contrib/download_prerequisites
+cd ..
+mkdir objdir
+cd objdir
+$PWD/../gcc-7.1/configure --prefix=/home/folder --enable-languages=c,c++,fortran,go
+make
+make install
+#+END_SRC
+
+
+*** ==alt====
+
+- Download the latest GCC from http://gcc.gnu.org/
+- Untar the package
+- If you don’t have prerequisites for GCC (http://gcc.gnu.org/install/prerequisites.html), you need to the following steps:
+- Go to the source directory.
+- Do “contrib/download_prerequisites”.
+- Create a new directory called “gcc-build” peer to the source directory.
+- In “gcc-build”, perform “../gcc-XXX/configure –prefix=YYY”
+- Do “make” and “make install”
+- Add “YYY/lib” or “YYY/lib64” into your LD_LIBRARY_PATH and LD_RUN_PATH
+
+*** alt install gcc from scratch
+
+- On our compute cluster, I needed gcc-4.8.4 to compile some code. At the global level, gcc-4.4.7 is installed, and I do not have superuser privileges on the system (which is, all things considered, a good thing).
+
+- Here are my notes on how I installed gcc-4.8.4 locally, without superuser privileges, in case they might one day be of use to someone...
+
+- All my local installations are under $HOME/.local, so we'll start with
+
+#+BEGIN_SRC 
+ export PREFIX = $HOME/.local
+ mkdir $PREFIX/build
+ mkdir $PREFIX/download
+#+END_SRC
+The first step is to install the pre-requisite GMP, MPFR, MPC, ISL and CLooG. At first I attempted to build a static gcc, which I later gave up on, but I installed those as static libraries. Not sure whether that was a good idea or not...
+
+GMP
+#+BEGIN_SRC 
+ cd $PREFIX/download
+ wget https://gmplib.org/download/gmp/gmp-6.0.0a.tar.lz
+ tar --lzip -xvf gmp-6.0.0a.tar.lz
+ cd ../build
+ mkdir build-gmp
+ cd build-gmp
+ ../../downloads/gmp-6.0.0/configure --disable-shared --enable-static --prefix=$PREFIX
+ make
+ make check
+ make install
+#+END_SRC
+MPFR
+#+BEGIN_SRC 
+ cd ../../download
+ wget http://www.mpfr.org/mpfr-3.1.2/mpfr-3.1.2.tar.gz
+ tar zxvf mpfr-3.1.2.tar.gz
+ cd ../build
+ mkdir build-mpfr
+ cd build-mpfr
+ ../../downloads/mpfr-3.1.2/configure --with-gmp=$PREFIX --disable-shared --enable-static --prefix=$PREFIX/
+ make
+ make install
+#+END_SRC
+MPC
+#+BEGIN_SRC 
+ cd ../../download
+ wget http://ftp.gnu.org/gnu/mpc/mpc-1.0.3.tar.gz
+ tar zxvf mpc-1.0.3.tar.gz
+ cd ../build
+ mkdir build-mpc
+ cd /build-mpc
+ ../../downloads/mpc-1.0.3/configure --with-gmp=$PREFIX --with-mpfr=$PREFIX --disable-shared --enable-static --prefix=$PREFIX
+ make                                                                                                                       
+ make install
+#+END_SRC
+ISL
+#+BEGIN_SRC 
+ cd ../../download
+ wget http://isl.gforge.inria.fr/isl-0.14.tar.gz
+ tar zxvf isl-0.14.tar.gz
+ cd ../build
+ mkdir build-isl
+ cd build-isl/
+ ../../downloads/isl-0.14/configure --with-gmp-prefix=$PREFIX --disable-shared --enable-static --prefix=$PREFIX
+ make
+ make install
+#+END_SRC
+CLooG
+#+BEGIN_SRC 
+ cd ../../downloads
+ wget http://www.bastoul.net/cloog/pages/download/cloog-0.18.4.tar.gz
+ tar zxvf cloog-0.18.4.tar.gz
+ cd ../build
+ mkdir build-cloog
+ cd build-cloog/
+ ../../downloads/cloog-0.18.4/configure --with-gmp-prefix=$PREFIX --with-isl-prefix=$PREFIX --disable-shared --enable-static --prefix=$PREFIX
+ make
+ make check
+ make install
+#+END_SRC
+GCC
+#+BEGIN_SRC 
+ cd ../../downloads
+ wget https://ftp.gnu.org/gnu/gcc/gcc-4.8.4/gcc-4.8.4.tar.gz
+ tar zxvf gcc-4.8.4.tar.gz
+ cd gcc-4.8.4
+ cd ../build
+ mkdir build-gcc
+ cd build-gcc
+ export LD_LIBRARY_PATH=$PREFIX/lib
+ export C_INCLUDE_PATH=$PREFIX/include
+ export CPLUS_INCLUDE_PATH=$PREFIX/include
+ ../../downloads/gcc-4.8.4/configure --with-gmp=$PREFIX --with-mpfr=$PREFIX --with-mpc=$PREFIX --with-isl=$PREFIX --with-cloog=$PREFIX --disable-multilib --prefix=$PREFIX --enable-languages=c,c++ --with-pic
+ make
+ make install
+#+END_SRC
+Path modifications
+As per the message I got:
+
+- Libraries have been installed in:
+  $PREFIX/lib/../lib64
+- If you ever happen to want to link against installed libraries
+ in a given directory, LIBDIR, you must either use libtool, and
+ specify the full pathname of the library, or use the `-LLIBDIR'
+ flag during linking and do at least one of the following:
+  - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
+    during execution
+  - add LIBDIR to the `LD_RUN_PATH' environment variable
+    during linking
+  - use the `-Wl,-rpath -Wl,LIBDIR' linker flag
+  - have your system administrator add LIBDIR to `/etc/ld.so.conf'
+- I added $PREFIX/lib64 to the LD_LIBRARY_PATH to my ~/.bashrc.
+
+Also make sure $PREFIX/bin is in your PATH.
+
+Final check
+~which gcc~
+returns
+
+~$PREFIX/bin/gcc~
+and
+
+~gcc --version~
+returns
+
+ gcc (GCC) 4.8.4
+
+
+** Install pip locally as non priviledged user
+
+#+BEGIN_SRC 
+wget https://bootstrap.pypa.io/get-pip.py && python get-pip.py --user
+cd .local/bin
+./pip install <package_name> --user
+
+
+vi .profile_python
+
+export PATH=$PATH:/Users/amitthk/Library/Python/2.7/bin
+#+END_SRC
+
+** Installing local openjdk
+#+BEGIN_SRC 
+curl -o openjdk.tar.gz https://download.java.net/java/GA/jdk9/9.0.4/binaries/openjdk-9.0.4_linux-x64_bin.tar.gz
+mkdir -p /home/atksv/jdk
+tar -xzvf openjdk.tar.gz --directory /home/atksv/jdk
+#+END_SRC
+
+** offline install python 3
+#+BEGIN_SRC 
+curl -O http://python.org/ftp/python/3.3.2/Python-3.3.2.tar.bz2
+tar xvf Python-3.3.2.tar.bz2
+cd Python-3.3.2
+ ./configure
+ mkdir -p ~/usr/local
+ make altinstall prefix=$HOME/usr/local exec-prefix=$HOME/usr/local
+#+END_SRC
+set the path
+#+BEGIN_SRC 
+cd ~/usr/local/bin
+ln -s python3.3 python3
+echo "export PATH=\$HOME/usr/local/bin:\$PATH" >> ~/.bashrc
+ln -s pyvenv-3.3 pyvenv
+
+#+END_SRC
+change vim pyvenv-3.3
+#+BEGIN_SRC 
+#!/home/<user>/usr/local/bin/python3.3
+#+END_SRC
 ** Installing redmine
 
  Install ruby and ruby on rails firs

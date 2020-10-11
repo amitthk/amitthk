@@ -52,6 +52,39 @@ Data Sources => Transformation => Actions => UI Dashboard (Real time)/Processed 
 - Perform Queries on Data Frame
 - Run SQL on DATA Frames
 
+** Single node MacOs
+#+BEGIN_SRC 
+wget https://cdn.azul.com/zulu/bin/zulu8.42.0.23-ca-jdk8.0.232-macosx_x64.tar.gz
+tar -xzvf zulu8.42.0.23-ca-jdk8.0.232-macosx_x64.tar.gz
+mkdir -p ~/Apps/java
+mv zulu8.42.0.23-ca-jdk8.0.232-macosx_x64 ~/Apps/java/.
+
+wget https://archive.apache.org/dist/hadoop/common/hadoop-2.7.6/hadoop-2.7.6.tar.gz
+
+wget https://www-us.apache.org/dist/spark/spark-2.3.4/spark-2.3.4-bin-hadoop2.7.tgz
+tar -xzvf spark-2.3.4-bin-hadoop2.7.tgz
+mkdir -p ~/Apps/spark
+mv spark-2.3.4-bin-hadoop2.7 ~/Apps/spark/
+
+#+END_SRC
+
+vi ~/.profile_hadoop
+#+BEGIN_SRC 
+export JAVA_HOME=~/Apps/java/zulu8.42.0.23-ca-jdk8.0.232-macosx_x64
+export PATH=~/Apps/hadoop/hadoop-2.7.6/bin:~/Apps/java/zulu8.42.0.23-ca-jdk8.0.232-macosx_x64:~/Apps/spark/spark-2.3.4-bin-hadoop2.7/bin:~/Apps/sbt/bin:~/Apps/maven/bin:$PATH
+#export HADOOP_CONF_DIR=~/Apps/hadoop/hadoop-2.7.6/etc/hadoop
+export SPARK_HOME=~/Apps/spark/spark-2.3.4-bin-hadoop2.7
+export HADOOP_HOME=~/Apps/hadoop/hadoop-2.7.6/
+export HADOOP_OPTS="$HADOOP_OPTS -Djava.library.path=$HADOOP_HOME/lib/native"
+#+END_SRC
+
+#+BEGIN_SRC 
+~/Apps/spark/spark-2.3.4-bin-hadoop2.7/sbin/start-master.sh
+~/Apps/spark/spark-2.3.4-bin-hadoop2.7/sbin/start-slave.sh spark://Amits-MBP:7077
+spark-shell --master=spark://Amits-MBP:7077
+
+#+END_SRC
+
 ** setup hdfs
 
 *** vi /opt/hadoop-2.7.3/etc/hadoop/core-site.xml
@@ -238,7 +271,7 @@ You could also use the spark.yarn.archive option and set that to the location of
 ~jar cv0f spark-libs.jar -C $SPARK_HOME/jars/ .~
 - Upload to HDFS: 
 ~hdfs dfs -put spark-libs.jar /some/path/.~
-- 2a. For a large cluster, increase the replication count of the Spark archive so that you reduce the amount of times a NodeManager will do a remote copy. hdfs dfs ¡Vsetrep -w 10 hdfs:///some/path/spark-libs.jar (Change the amount of replicas proportional to the number of total NodeManagers)
+- 2a. For a large cluster, increase the replication count of the Spark archive so that you reduce the amount of times a NodeManager will do a remote copy. hdfs dfs ï¿½Vsetrep -w 10 hdfs:///some/path/spark-libs.jar (Change the amount of replicas proportional to the number of total NodeManagers)
 - Set spark.yarn.archive to hdfs:///some/path/spark-libs.jar
 
 **** vi vi /opt/spark-2.3.0-bin-hadoop2.7/conf/spark-defaults.conf

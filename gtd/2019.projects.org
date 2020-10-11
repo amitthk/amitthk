@@ -1,0 +1,25 @@
+* In Progress
+** MLE Jupyterhub 
+
+** ADAC cloud gateway
+
+** ADA on AWS
+
+** Core DevOps
+
+** Openshift Bootcamp trainings and project support
+
+
+** Vault on Openshift
+
+** Trifacta installantion and configuration
+
+** Collibra one click automation and containerization
+
+
+** Analytical cluster grounds up install , openjdk and automation
+
+
+** UEB DLP Model deployment to Openshift and Spark Streaming pipelines
+
+

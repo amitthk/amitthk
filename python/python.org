@@ -1,5 +1,17 @@
 * python
 
+** local install
+
+#+BEGIN_SRC 
+cd setuptools-41.1.0
+python setup.py install --user
+export PATH=$PATH:~/.local/bin
+
+export PYTHONPATH=~/.local/lib/python2.7/site-packages
+python -m easy_install --prefix=~/.local
+python -m easy_install --prefix=~/.local pip-19.2.2.tar.gz
+#+END_SRC
+
 ** Pycharm 
 
 *** Sphinx quickstart
@@ -207,4 +219,25 @@ cd ~/tmp/ansible-2.6.4
 ** python one line read json value
 #+BEGIN_SRC 
 curl -s -N  --insecure   -H "X-Vault-Token: s.eUF4WdsfdsafdasfdasZe"     -X GET     https://atksv.mywire.org:8886/v1/kv/data/analytics/sit/jupyterhub | python -c 'import json,sys;print json.load(sys.stdin)["data"]["data"]["jupyterhub_config.py"]'
+#+END_SRC
+
+** jupyterhub dummyauthenticator
+
+#+BEGIN_SRC 
+pip install jupyterhub-dummyauthenticator
+#+END_SRC
+
+jupyterhub_config.py
+#+BEGIN_SRC 
+c.JupyterHub.authenticator_class = 'dummyauthenticator.DummyAuthenticator'
+c.DummyAuthenticator.password = "somepassword"
+#+END_SRC
+
+** jupyterhub dockerspawner.SwarmSpawner unable to find service
+
+It is mostly because the underlying container is unable to spin up.
+The container entrypoint is jupyter-labhub. The command is only installed with jupyterlab=1.2.* .
+
+#+BEGIN_SRC 
+pip install jupyterlab==1.2.8
 #+END_SRC

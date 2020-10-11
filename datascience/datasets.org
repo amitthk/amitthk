@@ -1,0 +1,13 @@
+* datasets
+https://github.com/awesomedata/awesome-public-datasets#socialnetworks
+
+https://www.kdnuggets.com/datasets/index.html
+
+https://www.gharchive.org/
+
+
+#+BEGIN_SRC 
+wget https://data.gharchive.org/2019-{01..12}-{01..31}-{0..23}.json.gz
+for i in `ls -1 ./*.json.gz`;do echo $i && gunzip ./$i && rm -f $i;done
+aws s3 cp --recursive github-data s3://test-bucket-atk/github-data
+#+END_SRC

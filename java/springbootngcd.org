@@ -765,3 +765,791 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 }
 #+END_SRC
+
+
+
+
+
+** Mapping custom entity with Spring JPA
+
+
+
+Custom model like this
+#+BEGIN_SRC
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class EnvSummaryModel {
+    String environment;
+    Number janCost;
+    Number febCost;
+    Number aprCost;
+    Number mayCost;
+    }
+
+#+END_SRC
+
+#+BEGIN_SRC
+
+//Notice the alias for property names mapped to class above 
+@Repository
+public class CritereaQueryRepository {
+
+    @PersistenceContext
+    EntityManager entityManager;
+
+    public List<EnvSummaryModel> getEnvSummary(HashMap<String, Object> params){
+        String query = "select s.environment as environment,sum(sp.jan_cost) as janCost,sum(sp.feb_cost) as febCost"
+                + "from srvinfo s inner join srvprice sp on s.hostname=sp.hostname group by s.environment;";
+        Query nativeQuery = entityManager.createNativeQuery(query);
+        if(params!=null && params.keySet().size()>0) {
+            for (String key : params.keySet()) {
+                nativeQuery.setParameter(key, params.get(key));
+            }
+        }
+
+        nativeQuery.unwrap(org.hibernate.Query.class)
+                .setResultTransformer(Transformers.aliasToBean(EnvSummaryModel.class));
+
+        return nativeQuery.getResultList();
+    }
+    }
+#+END_SRC
+
+
+** Generic mapping
+#+BEGIN_SRC
+    public static <T> List<T> map(Class<T> type, List<Object[]> records){
+        List<T> result = new LinkedList<>();
+        for(Object[] record : records){
+            result.add(map(type, record));
+        }
+        return result;
+    }
+#+END_SRC
+ 
+ 
+ ** GenericEntity mongodb repository
+#+BEGIN_SRC
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.Id;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class GenericEntity {
+    @Id
+    String Id;
+
+    String ObjectKey;
+
+    Object ObjectValue;
+}
+#+END_SRC
+
+#+BEGIN_SRC
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface GenericEntityMongoRepository extends MongoRepository<GenericEntity, String> {
+}
+#+END_SRC
+
+** Spring jpa hibernate custom query results (Native or Hql) as typed java objects
+
+#+BEGIN_SRC
+
+    @PersistenceContext
+    EntityManager entityManager;
+
+    public  <T> List<T> getNativeQueryResultAsTypedList(Class<T> type, String query, HashMap<String, Object> params){
+        Query nativeQuery = entityManager.createNativeQuery(query);
+        if(params!=null && params.keySet().size()>0) {
+            for (String key : params.keySet()) {
+                nativeQuery.setParameter(key, params.get(key));
+            }
+        }
+        nativeQuery.unwrap(org.hibernate.Query.class)
+                .setResultTransformer(Transformers.aliasToBean(type));
+
+        return nativeQuery.getResultList();
+    }
+
+    public <T> List<T> getHqlQueryResultAsTypedList(Class<T> type, String query, HashMap<String,Object> params){
+        Query customQuery = entityManager.createQuery(query);
+        if(params!=null && params.keySet().size()>0) {
+            for (String key : params.keySet()) {
+                customQuery.setParameter(key, params.get(key));
+            }
+        }
+        customQuery.unwrap(org.hibernate.Query.class)
+                .setResultTransformer(Transformers.aliasToBean(type));
+        return  customQuery.getResultList();
+    }
+#+END_SRC
+
+
+** POJO to excel and excel to pojo
+
+#+BEGIN_SRC
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.17</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.17</version>
+		</dependency>
+#+END_SRC
+
+#+BEGIN_SRC
+    public JsonArray getJsonElements(Workbook workbook, Integer sheetNumber) {
+        JsonArray rtrnList;
+        // Retrieving the number of sheets in the Workbook
+        logger.debug("Workbook has " + workbook.getNumberOfSheets() + " Sheets : ");
+        /*
+           =============================================================
+           Iterating over all the sheets in the workbook (Multiple ways)
+           =============================================================
+        */
+        // 1. You can obtain a sheetIterator and iterate over it
+        Iterator<Sheet> sheetIterator = workbook.sheetIterator();
+        logger.debug("Retrieving Sheets using Iterator");
+        while (sheetIterator.hasNext()) {
+            Sheet sheet = sheetIterator.next();
+            logger.debug("=> " + sheet.getSheetName());
+        }
+        // 2. Or you can use a for-each loop
+        logger.debug("Retrieving Sheets using for-each loop");
+        for (Sheet sheet : workbook) {
+            logger.debug("=> " + sheet.getSheetName());
+        }
+        // 3. Or you can use a Java 8 forEach with lambda
+        logger.debug("Retrieving Sheets using Java 8 forEach with lambda");
+        workbook.forEach(sheet -> {
+            logger.debug("=> " + sheet.getSheetName());
+        });
+        /*
+           ==================================================================
+           Iterating over all the rows and columns in a Sheet (Multiple ways)
+           ==================================================================
+        */
+        // Getting the Sheet at index zero
+        Sheet sheet = workbook.getSheetAt(sheetNumber);
+        // Create a DataFormatter to format and get each cell's value as String
+        DataFormatter dataFormatter = new DataFormatter();
+        //iterateWithRowIterator(sheet, dataFormatter);
+        rtrnList = toJsonObject(sheet, dataFormatter);
+
+        //iterateWithLambda(sheet, dataFormatter);
+        // Closing the workbook
+        return rtrnList;
+    }
+
+    protected void iterateSimple(Sheet sheet, DataFormatter dataFormatter) {
+        // 2. Or you can use a for-each loop to iterate over the rows and columns
+        logger.debug("\n\nIterating over Rows and Columns using for-each loop\n");
+        for (Row row : sheet) {
+            for (Cell cell : row) {
+                String cellValue = dataFormatter.formatCellValue(cell);
+                System.out.print(cellValue + "\t");
+            }
+            logger.debug("Finished iterating batch");
+        }
+    }
+
+    public XSSFWorkbook objectListToExcelWorksheet(List jsonArray){
+        //Create blank workbook
+        XSSFWorkbook workbook = new XSSFWorkbook();
+
+        try{
+            int rowid = 0;
+            Object firstElement = jsonArray.get(0);
+            String[] propNames= EntityUtils.getAllPropertyNames(firstElement);
+
+
+            XSSFSheet spreadsheet = workbook.createSheet(firstElement.getClass().getName());
+
+            //Create header row object
+            XSSFRow row;
+            //For the first item, add the header row as well as values
+            row = spreadsheet.createRow(rowid++);
+            int cellid = 0;
+            Cell cell = row.createCell(cellid++);
+            cell.setCellValue("#");
+
+            for (String propName : propNames){
+            String headerCellValue = propName;
+                Cell header_cell = row.createCell(cellid++);
+
+                for (AppSettings set : appSettingsRepository.findAll()){
+                    //If any of the aliases exist, pick the first alias and set it as header
+                    if(set.getName().equalsIgnoreCase(propName)) {
+                        String[] strAliases = set.getValue().split(",");
+                        List<String> lstAliases = Arrays.asList(strAliases);
+                        headerCellValue=lstAliases.get(0);
+                    }
+                }
+                header_cell.setCellValue(headerCellValue);
+            }
+
+
+            for(int i=0; i< jsonArray.size(); i++) {
+                Object obj = jsonArray.get(i);
+
+                XSSFRow value_row = spreadsheet.createRow(rowid++);
+                int value_cellid = 0;
+                Cell num_cell = value_row.createCell(value_cellid++);
+                num_cell.setCellValue(rowid);
+
+                for (String propName : propNames){
+                    Cell value_cell = value_row.createCell(value_cellid++);
+                    Object cel_value =EntityUtils.getPropertyValue(obj,propName);
+                    if (cel_value != null) {
+                        if (cel_value instanceof String) {
+                            value_cell.setCellValue((String)cel_value);
+                        } else if (cel_value instanceof Double) {
+                            value_cell.setCellValue((Double)cel_value);
+                        } else if (cel_value instanceof Integer) {
+                            value_cell.setCellValue((Integer)cel_value);
+                        } else if (cel_value instanceof java.util.Date) {
+                            value_cell.setCellValue((java.util.Date)cel_value);
+                        } else if (cel_value instanceof Boolean) {
+                            value_cell.setCellValue((Boolean)cel_value);
+                        }
+                    }
+                }
+            }
+        }catch (Exception ex){
+            logger.error(EntityUtils.getStrackTraceAsString(ex));
+        }
+        return workbook;
+    }
+
+    protected JsonArray toJsonObject(Sheet sheet, DataFormatter dataFormatter) {
+        // 2. Or you can use a for-each loop to iterate over the rows and columns
+        logger.debug("\n\nIterating over Rows and Columns using for-each loop\n");
+        Iterator<Row> sheetIterator = sheet.iterator();
+        JsonArray sheetArray = new JsonArray();
+        ArrayList<String> columnNames = new ArrayList<String>();
+        while (sheetIterator.hasNext()) {
+            Row currentRow = sheetIterator.next();
+            JsonObject jsonObject = new JsonObject();
+            if (currentRow.getRowNum() != 0) {
+                for (int j = 0; j < columnNames.size(); j++) {
+                    if (currentRow.getCell(j) != null) {
+                        if (currentRow.getCell(j).getCellTypeEnum() == CellType.STRING) {
+                            jsonObject.addProperty(columnNames.get(j), currentRow.getCell(j).getStringCellValue());
+                        } else if (currentRow.getCell(j).getCellTypeEnum() == CellType.NUMERIC) {
+                            jsonObject.addProperty(columnNames.get(j), currentRow.getCell(j).getNumericCellValue());
+                        } else if (currentRow.getCell(j).getCellTypeEnum() == CellType.BOOLEAN) {
+                            jsonObject.addProperty(columnNames.get(j), currentRow.getCell(j).getBooleanCellValue());
+                        } else if (currentRow.getCell(j).getCellTypeEnum() == CellType.BLANK) {
+                            jsonObject.addProperty(columnNames.get(j), "");
+                        }
+                    } else {
+                        jsonObject.addProperty(columnNames.get(j), "");
+                    }
+                }
+                sheetArray.add(jsonObject);
+            } else {
+                // store column names
+                for (int k = 0; k < currentRow.getPhysicalNumberOfCells(); k++) {
+                    String sheetHeaderValue = currentRow.getCell(k).getStringCellValue().trim();
+                    String sheetHeaderMap = sheetHeaderValue;
+
+                    for (AppSettings set : appSettingsRepository.findAll()){
+                        //If the header cell matches any of the aliases
+                        String[] strAliases = set.getValue().split(",");
+                        List<String> lstAliases = Arrays.asList(strAliases);
+                        if(lstAliases.stream().anyMatch(x->x.equalsIgnoreCase(sheetHeaderValue))){
+                            sheetHeaderMap=set.getName();
+                        }
+                    }
+                    columnNames.add(sheetHeaderMap);
+                }
+            }
+        }
+
+        return sheetArray;
+    }
+
+
+    protected void iterateWithLambda(Sheet sheet, DataFormatter dataFormatter) {
+        // 3. Or you can use Java 8 forEach loop with lambda
+        logger.debug("\n\nIterating over Rows and Columns using Java 8 forEach with lambda\n");
+        sheet.forEach(row -> {
+            row.forEach(cell -> {
+                String cellValue = dataFormatter.formatCellValue(cell);
+                System.out.print(cellValue + "\t");
+            });
+            logger.debug("finished iterating batch with lambda");
+        });
+    }
+
+    protected void iterateWithRowIterator(Sheet sheet, DataFormatter dataFormatter) {
+        // 1. You can obtain a rowIterator and columnIterator and iterate over them
+        logger.debug("\n\nIterating over Rows and Columns using Iterator\n");
+        Iterator<Row> rowIterator = sheet.rowIterator();
+        while (rowIterator.hasNext()) {
+            Row row = rowIterator.next();
+            // Now let's iterate over the columns of the current row
+            Iterator<Cell> cellIterator = row.cellIterator();
+            while (cellIterator.hasNext()) {
+                Cell cell = cellIterator.next();
+                String cellValue = dataFormatter.formatCellValue(cell);
+                System.out.print(cellValue + "\t");
+            }
+            logger.debug("Finished iterating batch using iterator");
+        }
+    }
+#+END_SRC
+
+** fixing the node-sass dependency issue with angular 7
+
+#+BEGIN_SRC
+# delete first the package-lock.json as it might come from different system
+rm -rf $APP_BUILD_DIR/package-lock.json || true
+curl -k -O https://github.com/sass/node-sass/releases/download/v4.14.1/linux-x64-57_binding.node
+/bin/bash -c "npm --sass-binary-path=${APP_BUILD_DIR}/linux-x64-64_binding-4.12.0.node --registry "${MY_NPM_REGISTRY}" install --no-optional"
+#+END_SRC
+
+** Non anonymous ldap authentication with custom ldapauthorities populator
+
+#+BEGIN_SRC
+@Override
+	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+		logger.debug(" ******* in AuthenticationManagerBuilder ");
+		if(Boolean.parseBoolean(ldapEnabled)) {
+			auth
+					.ldapAuthentication()
+					.ldapAuthoritiesPopulator(authoritiesPopulator())
+					.userSearchFilter(ldapUserSearchFilter)
+					.userSearchBase(ldapUserSearchBase)
+					.groupSearchBase(ldapGroupSearchBase)
+					.groupSearchFilter("member={0}")
+					.contextSource()
+					.url(ldapProviderUrl)
+					.port(ldapProviderPort)
+					.managerDn(ldapBindUsername)
+					.managerPassword(ldapBindPassword)
+			.and()
+			.and()
+					.inMemoryAuthentication()
+					.withUser("editor").password("{noop}editors-1").roles("EDITOR")
+					.and()
+					.withUser("admin").password("{noop}cap-admin").roles("ADMIN");
+
+		}else{
+			auth
+					.inMemoryAuthentication()
+					.withUser("readonly").password("{noop}readonly1").roles("USER")
+					.and()
+					.withUser("editor").password("{noop}editors-1").roles("EDITOR")
+					.and()
+					.withUser("admin").password("{noop}cap-admin").roles("ADMIN");
+		}
+	}
+	
+        @Bean()
+	public LdapAuthoritiesPopulator authoritiesPopulator(){
+		LdapAuthoritiesPopulator customLdapAuthoritiesPopulator = new CustomLdapAuthoritiesPopulator();
+		return  customLdapAuthoritiesPopulator;
+	}
+#+END_SRC
+
+
+#+BEGIN_SRC
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.ldap.core.DirContextOperations;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.ldap.userdetails.LdapAuthoritiesPopulator;
+import org.springframework.stereotype.Component;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+@Component
+public class CustomLdapAuthoritiesPopulator implements LdapAuthoritiesPopulator {
+
+    private static final Logger logger = LoggerFactory.getLogger(CustomLdapAuthoritiesPopulator.class);
+
+    @Autowired
+    AppSettingReader appSettingReader;
+
+
+    @Override
+    public final Collection<? extends GrantedAuthority> getGrantedAuthorities(DirContextOperations userData, String username) {
+        Set<GrantedAuthority> gauth = new HashSet<>();
+        //you need to place logic for populating user authorities here
+        logger.debug("*********Granting Autorities for user {%s}".format(username));
+        for (Map.Entry<String, String> set : appSettingReader.getRole().entrySet()){
+            String[] strOneBankIds = set.getValue().split(",");
+            for (String s: strOneBankIds) {
+                if(s.equalsIgnoreCase(username)){
+                    gauth.add(new SimpleGrantedAuthority(set.getKey()));
+                }
+            }
+        }
+        gauth.add(new SimpleGrantedAuthority("USER"));
+        return gauth;
+    }
+}
+#+END_SRC
+
+
+#+BEGIN_SRC
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+
+@Component
+@EnableConfigurationProperties
+@ConfigurationProperties(prefix = "app")
+public class AppSettingReader {
+    private HashMap<String, String> role;
+
+    public HashMap<String, String> getRole() {
+        return role;
+    }
+
+    public void setRole(HashMap<String, String> role) {
+        this.role = role;
+    }
+#+END_SRC
+
+
+** take a portion of jpa entity in spring boot
+#+BEGIN_SRC
+With the newer Spring versions One can do as follows:
+If not using native query this can done as below:
+public interface ProjectMini {
+    String getProjectId();
+    String getProjectName();
+}
+public interface ProjectRepository extends JpaRepository<Project, String> { 
+    @Query("SELECT p FROM Project p")
+    List<ProjectMini> findAllProjectsMini();
+}
+Using native query the same can be done as below:
+public interface ProjectRepository extends JpaRepository<Project, String> { 
+    @Query(value = "SELECT projectId, projectName FROM project", nativeQuery = true)
+    List<ProjectMini> findAllProjectsMini();
+}
+
+#+END_SRC
+
+** Seed Spring boot classes with json from resources
+#+BEGIN_SRC
+@Component
+public class ApplicationStartupListener  implements ApplicationListener<ApplicationReadyEvent> {
+    /**
+     * This event is executed as late as conceivably possible to indicate that
+     * the application is ready to service requests.
+     */
+    private static final Logger logger = LoggerFactory.getLogger(ApplicationStartupListener.class);
+
+    @Autowired
+    AppSettingsRepository appSettingsRepository;
+
+    @Autowired
+    ComponentTagTypeRepository componentTagTypeRepository;
+
+    @Override
+    public void onApplicationEvent(final ApplicationReadyEvent event) {
+
+        try{
+            logger.debug("Initializing appSettings with Seed Data.");
+            String  appSettingsSeed = EntityUtils.getResourceAsString("data/appSettings-seed.json");
+            AppSettings[] appSettings = EntityUtils.parseJsonStringToTypedArray(AppSettings[].class, appSettingsSeed);
+
+            List<AppSettings> currentSettings = appSettingsRepository.findAll();
+
+            if(currentSettings==null||currentSettings.size()<=0){
+                for (AppSettings appsetting:appSettings
+                     ) {
+                    appsetting.setLastUpdated(EntityUtils.getTimeNow());
+                    appSettingsRepository.save(appsetting);
+                }
+                appSettingsRepository.flush();
+            }
+
+        }catch (Exception excp){
+            logger.error(EntityUtils.getStrackTraceAsString(excp));
+        }
+        return;
+    }
+}
+#+END_SRC
+
+
+#+BEGIN_SRC
+//EntityUtils
+    private static final Gson gson = new Gson();
+
+
+    public static Resource getResource(String relativePath) {
+        return new ClassPathResource(relativePath);
+    }
+
+    public static String getResourceAsString(String relativePath) {
+        Resource resource = new ClassPathResource(relativePath);
+        try (Reader reader = new InputStreamReader(resource.getInputStream(), UTF_8)) {
+            return FileCopyUtils.copyToString(reader);
+        } catch (IOException e) {
+            logger.error(EntityUtils.getStrackTraceAsString(e));
+            throw new UncheckedIOException(e);
+        }
+    }
+
+
+
+    public static String getStrackTraceAsString(Exception exc){
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        exc.printStackTrace(pw);
+        return sw.toString();
+    }
+
+public  static Date getTimeNow(){
+        Calendar today = Calendar.getInstance();
+        today.clear(Calendar.HOUR); today.clear(Calendar.MINUTE); today.clear(Calendar.SECOND);
+        return today.getTime();
+    }
+
+    public static String getCurrentDateTimeAsString(){
+        String pattern = "EEEEE-dd-MMMMM-yyyy-HH-mm-ss-SSSZ";
+        SimpleDateFormat simpleDateFormat =
+                new SimpleDateFormat(pattern, new Locale("en", "US"));
+        String date = simpleDateFormat.format(new Date());
+        return date;
+    }
+
+    public static <T> T map(Class<T> type, Object[] tuple){
+        List<Class<?>> tupleTypes = new ArrayList<>();
+        for(Object field : tuple){
+            tupleTypes.add(field.getClass());
+        }
+        try {
+            Constructor<T> ctor = type.getConstructor(tupleTypes.toArray(new Class<?>[tuple.length]));
+            return ctor.newInstance(tuple);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static <T> List<T> mapPojoToTypedList(Class<T> type, List<Object[]> records){
+        List<T> result = new LinkedList<>();
+        for(Object[] record : records){
+            result.add(map(type, record));
+        }
+        return result;
+    }
+
+    public static <T> List<T> getResultList(Query query, Class<T> type){
+        @SuppressWarnings("unchecked")
+        List<Object[]> records = query.getResultList();
+        return mapPojoToTypedList(type, records);
+    }
+
+    public static <T> T parseJsonStringToTypedObject(Type type,String jsonString){
+        T resultList = gson.fromJson(jsonString,type);
+        return resultList;
+    }
+
+    public static <T> T[] parseJsonStringToTypedArray(Type type,String jsonString){
+        T[] resultList = gson.fromJson(jsonString,type);
+        return resultList;
+    }
+
+#+END_SRC
+
+** Losing JPA connection after some idle time java.sql.SQLNonTransientConnectionException: Could not read resultset: Connection reset
+
+#+BEGIN_SRC
+spring.datasource.max-active=10
+spring.datasource.max-idle=30
+spring.datasource.max-wait=60
+spring.datasource.test-while-idle=true
+spring.datasource.min-evictable-idle-time-millis=1000
+spring.datasource.time-between-eviction-runs-millis=6000
+spring.datasource.validationQuery=SELECT 1
+spring.datasource.testOnBorrow=true
+spring.datasource.dbcp.test-while-idle=true
+spring.datasource.dbcp.time-between-eviction-runs-millis=6000
+spring.datasource.dbcp.validationQuery=SELECT 1
+spring.datasource.dbcp.testOnBorrow=true
+#+END_SRC
+
+
+** Java SFTP upload download from to S3
+
+#+BEGIN_SRC
+import com.amazonaws.services.s3.model.*;
+import com.jvcdp.model.EntityUtils;
+import com.jcraft.jsch.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.SdkClientException;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+@RestController()
+@RequestMapping(value = "/home")
+public class DashboardController {
+
+    private static final Logger logger = LoggerFactory.getLogger(DashboardController.class);
+
+
+    @GetMapping(value = "")
+    public ResponseEntity<StreamingResponseBody> fetch(@RequestParam(name="bucketName", required = true) String bucketName,
+            @RequestParam(name="fileObjKeyName", required = true) String fileObjKeyName
+            ){
+        ResponseEntity<String> responseEntity = null;
+        LocalDateTime localDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formatDateTime = localDateTime.format(formatter);
+        Regions clientRegion = Regions.AP_SOUTHEAST_1;
+        //File is downloaded now lets place it to s3
+        AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+                .withRegion(clientRegion)
+                .build();
+        String outputFileNameNormalized = fileObjKeyName.replace('/','-').replace('\\','-');
+        String responseHeaderContentDisp = String.format("attachment; filename=\"%s\"",outputFileNameNormalized );
+        // Upload a file as a new object with ContentType and title specified.
+        GetObjectRequest request = new GetObjectRequest(bucketName, fileObjKeyName);
+        ObjectMetadata metadata = new ObjectMetadata();
+        final S3Object obj = s3Client.getObject(request);
+        final S3ObjectInputStream inputStream = obj.getObjectContent();
+        StreamingResponseBody responseBody = outputStream -> {
+            int numberOfBytesToWrite;
+            byte[] data = new byte[1024];
+            while ((numberOfBytesToWrite = inputStream.read(data, 0, data.length)) != -1) {
+                System.out.println("Writing some bytes..");
+                outputStream.write(data, 0, numberOfBytesToWrite);
+            }
+            inputStream.close();
+        };
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, responseHeaderContentDisp)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(responseBody);
+    }
+
+    @PostMapping(value = "")
+    public ResponseEntity<String> download(
+            @RequestParam(name="remoteHost", required = true) String remoteHost,
+            @RequestParam(name="username", required = true) String username,
+            @RequestParam(name="password", required = true) String password,
+            @RequestParam(name="remoteFile", required = true) String remoteFile,
+            @RequestParam(name="bucketName", required = true) String bucketName,
+            @RequestParam(name="fileObjKeyName", required = true) String fileObjKeyName,
+            @RequestParam(name="remotePort", required = false) Integer remotePort){
+        ResponseEntity<String> responseEntity = null;
+        Regions clientRegion = Regions.AP_SOUTHEAST_1;
+        LocalDateTime localDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formatDateTime = localDateTime.format(formatter);
+
+
+
+        //added for sftp functionality
+        try {
+            boolean localCacheDir = new File("tmp/data/s3/download").mkdirs();
+            String localFilePath = new File("tmp/data/s3/download", remoteFile).getAbsolutePath();
+            logger.debug("Saving file to: "+localFilePath);
+            JSch jsch = new JSch();
+            remotePort=(remotePort==null || remotePort.toString().isEmpty())?22:remotePort;
+            Session jschSession = jsch.getSession(username, remoteHost,remotePort);
+            java.util.Properties config = new java.util.Properties();
+            config.put("StrictHostKeyChecking", "no");
+            jschSession.setConfig(config);
+
+            jschSession.setPassword(password);
+            jschSession.connect();
+
+            ChannelSftp channelSftp = (ChannelSftp) jschSession.openChannel("sftp");
+            channelSftp.connect();
+
+            channelSftp.get(remoteFile, localFilePath);
+            channelSftp.exit();
+
+
+            //File is downloaded now lets place it to s3
+            AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+                    .withRegion(clientRegion)
+                    .build();
+            // Upload a file as a new object with ContentType and title specified.
+            PutObjectRequest request = new PutObjectRequest(bucketName, fileObjKeyName, new File(localFilePath));
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentType(MediaType.APPLICATION_OCTET_STREAM.toString());
+            metadata.addUserMetadata("title", "jvcdpGwDownloadedObject");
+            request.setMetadata(metadata);
+            s3Client.putObject(request);
+            responseEntity=   ResponseEntity.status(HttpStatus.OK).body("file was downloaded successfully!");
+        }
+        catch (JSchException e) {
+            logger.error(EntityUtils.getStrackTraceAsString(e));
+            e.printStackTrace();
+            responseEntity=  ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("There was an error executing your request!" + EntityUtils.getStrackTraceAsString(e));
+        } catch (SftpException e) {
+            logger.error(EntityUtils.getStrackTraceAsString(e));
+            e.printStackTrace();
+            responseEntity=   ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("There was an error executing your request!" + EntityUtils.getStrackTraceAsString(e));
+        } catch (AmazonServiceException e) {
+            // The call was transmitted successfully, but Amazon S3 couldn't process
+            // it, so it responseEntity= ed an error response.
+            logger.error(EntityUtils.getStrackTraceAsString(e));
+            e.printStackTrace();
+            responseEntity=   ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("There was an error executing your request!" + EntityUtils.getStrackTraceAsString(e));
+        } catch (SdkClientException e) {
+            // Amazon S3 couldn't be contacted for a response, or the client
+            // couldn't parse the response from Amazon S3.
+            logger.error(EntityUtils.getStrackTraceAsString(e));
+            e.printStackTrace();
+            responseEntity=   ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("There was an error executing your request!" + EntityUtils.getStrackTraceAsString(e));
+        }catch (Exception e) {
+            //Catch any other type of exception and log it as well
+            logger.error(EntityUtils.getStrackTraceAsString(e));
+            e.printStackTrace();
+            responseEntity=   ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("There was an error executing your request!" + EntityUtils.getStrackTraceAsString(e));
+        }finally {
+            boolean deleteCache = EntityUtils.deleteDirectory(new File("tmp/data"));
+        }
+
+        return  responseEntity;
+    }
+}
+
+#+END_SRC

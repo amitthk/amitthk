@@ -127,14 +127,32 @@
 - object range 0byest to 5TB. one bucket can store unlimited objects. S3 = unlimited storage.
 - Durability - will my data be there in future - 99.99999 (11 nines) 
 
+- The total volume of data and number of objects you can store are unlimited. Individual Amazon S3 objects can range in size from a minimum of 0 bytes to a maximum of 5 terabytes. 
+- The largest object that can be uploaded in a single PUT is 5 gigabytes. For objects larger than 100 megabytes, customers should consider using the Multipart Upload capability.
+
 - availabilty - can i access my data right now - 99.99%
 
 - Storage classes
   - Standard/ general purpose - low first-byte latency and hight throughput
+    - Designed for durability of 99.999999999% of objects across multiple Availability Zones
+    - Designed for 99.99% availability over a given year
+  - Amazon S3 Intelligent-Tiering (S3 Intelligent-Tiering)
+    - For unknown or unpredictable access patterns
+    - S3 monitors access patterns of the objects in S3 Intelligent-Tiering, and moves the ones that have not been accessed for 30 consecutive days to the infrequent access tier. If an object in the infrequent access tier is accessed, it is automatically moved back to the frequent access tier
+    - durability of 99.999999999%, 99.9% availability over a given year
+    - Resilient against events that impact an entire Availability Zone
+
   - Infrequent access - same durability, low latency and hight throughput - designed for long-lived less frequent
+    - accessed less frequently, but requires rapid access when needed. S3 Standard-IA offers the high durability, high throughput, and low latency of S3 Standard, with a low per GB storage price and per GB retrieval fee
+    - durability of 99.999999999%, 99.9% availability over a given year
     - lower per-GB montly cost
     - minimum object size 128KB. minimum duration 30 days, and per-GB retrieval cost
     - suitable for data tored for longer than 30 days
+  - Amazon S3 One Zone-Infrequent Access (S3 One Zone-IA)
+    - 99.5% availability, Because S3 One Zone-IA stores data in a single AWS Availability Zone, data stored in this storage class will be lost in the event of Availability Zone destruction.
+
+
+
   - Reduced redundancy -  archive - lower durability (4 nines). suitable for derived data that can be reproduced like thumbnails.
   - Glacier - issue a restore command - 3 to 5 hours later copied to S3 RRS.
   - 5% of s3 data free every month
@@ -146,6 +164,17 @@
   - coarse grained - ACLs
   - fine grained - bucket policies, AWS IAM policies, query-string auth.
 
+|                                    | S3 Standard             | S3 Intelligent-Tiering* | S3 Standard-IA          | S3 One Zone-IA†         | S3 Glacier              | "S3 Glacier Deep Archive" |
+| Designed for durability            | "99.999999999%(11 9’s)" | "99.999999999%(11 9’s)" | "99.999999999%(11 9’s)" | "99.999999999%(11 9’s)" | "99.999999999%(11 9’s)" | "99.999999999%(11 9’s)"   |
+| Designed for availability          | 99.99%                  | 99.90%                  | 99.90%                  | 99.50%                  | 99.99%                  | 99.99%                    |
+| Availability SLA                   | 99.90%                  | 99%                     | 99%                     | 99%                     | 99.90%                  | 99.90%                    |
+| Availability Zones                 | ≥3                      | ≥3                      | ≥3                      | 1                       | ≥3                      | ≥3                        |
+| Minimum capacity charge per object | N/A                     | N/A                     | 128KB                   | 128KB                   | 40KB                    | 40KB                      |
+| Minimum storage duration charge    | N/A                     | 30 days                 | 30 days                 | 30 days                 | 90 days                 | 180 days                  |
+| Retrieval fee                      | N/A                     | N/A                     | per GB retrieved        | per GB retrieved        | per GB retrieved        | per GB retrieved          |
+| First byte latency                 | milliseconds            | millseconds             | milliseconds            | milliseconds            | select minutes or hours | select hours              |
+| Storage type                       | Object                  | Object                  | Object                  | Object                  | Object                  | Object                    |
+| Lifecycle transitions              | Yes                     | Yes                     | Yes                     | Yes                     | Yes                     | Yes                       |
 
 
 ***** EBS
@@ -289,6 +318,48 @@ used both as storage class (lifecyle management) and independent archival storag
 - S3 Zone Apex support
 - Management Console
  
+
+- vpc
+
+A VPC is limited to a region, which means you can’t have a VPC spanning regions. 
+Within a VPC, you have all the AZs that are part of the region where the VPC belongs
+•  Subnets are AZ specific. For multiple AZs, create multiple subnets.
+
+•  VPC are region specific. For multiple regions, create different VPCs.'
+If you create more than one subnet in a VPC, the CIDR blocks of the subnets cannot overlap. 
+
+From any subnet AWS reserves, the first four IP addresses and the last IP address are for internal networking purposes, and they are not available for your usage. Always keep this in mind while calculating the number of IP addresses in a subnet.
+if a subnet does not have an Internet gateway in the route table, any servers that are part of that subnet won’t be able to access the Internet. Each subnet must have a route table at any time. How
+
+However, you can associate multiple subnets with the same route table.
+VPC’s default route table (known as the main route table) is created automatically, and you can’t modify it. VPC comes with an implicit router that is not visible. 
+
+Using a NAT device, you can enable any instance in a private subnet to connect to the Internet, but this does not mean the Internet can initiate a connection to the instance.
+Please note that NAT devices can be used only for IPv4 traffic; they can’t be used for IPv6. 
+
+There are two types of NAT devices available within AWS.
+
+•  NAT instances
+
+•  NAT gateways
+
+A security group is like a virtual firewall that can be assigned to any instance running in a virtual private cloud. A security group defines what traffic can flow inside and outside a particular instance. Since it is instance specific, you can have different security groups for different instances. The security group is applied at the instance level and not at the subnet level. Therefore, even within a subnet, you can have different security groups for different instances. You can attach up to five different security groups to each instance. You can even attach the same security group to a different instance. A security group is stateful. This means if you send a request from your instance, and vice versa, traffic is allowed. For example, if you allow incoming traffic via SSH on port 22, the outgoing traffic via SSH on port 22 will be allowed. 
+
+An NACL is a layer of security that acts as a firewall at the subnet level. Since an NACL is optional, you have the option of configuring it or not
+
+VPC endpoint does is give you the ability to connect to VPC and S3 directly using a private connection. Therefore, the traffic never leaves the Amazon network. Currently, the VPC endpoint is available only for S3 and DynamoDB. 
+
+Amazon provides DNS servers that are used to resolve the address of any instance running inside VPC. Public IPv4 addresses enable communication over the Internet, and private IPv4 addresses enable communication within an internal network (within VPC). 
+
+You can also use your own DNS server and create a new set of DHCP options for your VPC
+
+DHCP Option Sets: Dynamic Host Configuration Protocol (DHCP) option sets are used to specify host configurations for instances in your VPC, including the default domain name and DNS server for your instances. AWS recommends that you create a DHCP options set for your AWS Directory Service directory and assign the DHCP options set to the VPC that your directory is in. This allows any instances in that VPC to point to the specified domain and DNS servers to resolve their domain names.For your VPC, Amazon automatically creates and associates a DHCP option set. It also sets two options in it that are domain name servers defaulted to AmazonProvidedDNS (which is an Amazon DNS server) and the domain name for your region.
+
+- Load balancers
+ - Application load balancers - suitable http,https -  Layer 7 -
+ - Network load balancers - layer 4 , ultra low latencies on million of requests
+ - Classic LB: http/https, layer 7, strict layer 4
+
 **** Management tools
  
 ***** cloudwatch

@@ -8,6 +8,99 @@
 #+BEGIN_SRC
 !connect jdbc:hive2://ec2-52-221-223-15.ap-southeast-1.compute.amazonaws.com:10000
 #+END_SRC
+
+Hive connect to Highly Available HA service via Zookeeper
+#+BEGIN_SRC 
+
+beeline
+!connect jdbc:hive2://<hive server2>:10000
+
+show databases;
+
+beeline -u "jdbc:hive2://zookeeperhost1:2181,zookeeperhost2:2181,zookeeperhost3:2181/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2"
+
+show databases
+
+#+END_SRC
+** Hive WebHCat and HCatalog
+
+curl -i http://<webHCat host_name>:50111/templeton/v1/status
+
+hcat -e "create table groups123(name string,placeholder string,id int) row format delimited fields terminated by ':' stored as textfile"
+
+hcat -e "desc groups123"
+
+beeline
+!connect jdbc:hive2://<hive server2>:10000
+
+userid/password
+hive/hive
+
+show databases;
+
+show tables
+
+
+describe fromatted group123
+
+** Impala Compare with Hive - Architecture and Performance
+
+#+BEGIN_SRC 
+select count(*) from ratings;
+
+SELECT users.age,
+       count(*)
+FROM ratings
+JOIN users ON(ratings.userid=users.userid)
+WHERE rating=5
+GROUP BY users.age;
+
+
+create database movielens;
+use movielens;
+
+CREATE TABLE ratings (
+  userid INT, 
+  movieid INT,
+  rating INT, 
+  tstamp STRING
+) ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '#'
+STORED AS TEXTFILE;
+
+CREATE TABLE movies (
+  movieid INT, 
+  title STRING,
+  genres ARRAY<STRING>
+) ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '#'
+COLLECTION ITEMS TERMINATED BY "|"
+STORED AS TEXTFILE;
+
+CREATE TABLE users (
+  userid INT, 
+  gender STRING, 
+  age INT,
+  occupation INT,
+  zipcode STRING
+) ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '#'
+STORED AS TEXTFILE;
+
+CREATE TABLE occupations (
+  id INT,
+  occupation STRING
+) ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '#'
+STORED AS TEXTFILE;
+
+LOAD DATA LOCAL INPATH 'ratings.t' OVERWRITE INTO TABLE ratings;
+LOAD DATA LOCAL INPATH 'movies.t' OVERWRITE INTO TABLE movies;
+LOAD DATA LOCAL INPATH 'users.t' OVERWRITE INTO TABLE users;
+LOAD DATA LOCAL INPATH 'occupation.dat' OVERWRITE INTO TABLE occupations;
+
+#+END_SRC
+
 *** Data preparation
 First, downlod MovieLens dataset from the following site.
 

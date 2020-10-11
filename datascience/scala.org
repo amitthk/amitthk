@@ -1,0 +1,112 @@
+* CCA175
+
+** read from files
+
+At scala prompt (REPL interface) you can enter paste mode by typing
+
+:paste
+
+exit paste mode by typing Ctrl+D afterward
+
+#+BEGIN_SRC 
+import scala.io.Source
+
+val orderItems = Source.fromFile("/Users/amitthk/projects/github/dgadiraju/data-master/retail_db/order_items/part-00000").getLines.toList
+orderItems(0)
+orderItems.take(10).foreach(println)
+orderItems.size
+
+val orderItemsFilter = orderItems.filter(orderItem => orderItem.split(",")(1).toInt == 2)
+val orderItemsMap = orderItemsFilter.map(orderItem => orderItem.split(",")(4).toFloat)
+
+orderItemsMap.sum
+
+orderItemsMap.reduce((total, orderItemSubtotal) => total + orderItemSubtotal)
+
+orderItemsMap.reduce(_ + _)
+
+#+END_SRC
+
+** As part of this topic, we will look into Creating RDD Using Data from HDFS
+
+
+*** RDD – Resilient Distributed Dataset
+In-memory
+Distributed
+Resilient
+Reading files from HDFS
+Reading files from the local file system and create RDD
+A quick overview of Transformations and Actions
+DAG and lazy evaluation
+Previewing the data using Actions
+
+*** Creating RDD -Validating files from a file system
+#+BEGIN_SRC 
+hadoop fs -ls /public/reatil_db/orders
+hadoop fs -tail /public/retail_db/orders/part-00000
+#+END_SRC
+
+*** create RDD using spark-shell
+#+BEGIN_SRC 
+spark-shell --master yarn \
+ --conf spark.ui.port = 12654 \
+ --num-executors 1 \
+ --executor-memory 512M
+
+val orders = sc.textFile("/public/retail_db/orders")
+#+END_SRC
+To see first 10 records from the table we use orders.take(10)
+Reading files from the local file system and creating RDD
+#+BEGIN_SRC 
+val productsRaw = scala.io.Source.fromFile("/data/retail_db/products/part-00000").getLines.toList
+val productsRDD = sc.parallelize(productsRaw)
+productsRDD.take(10)
+
+#+END_SRC
+
+
+** read from s3Client
+#+BEGIN_SRC 
+
+import com.amazonaws.auth.AWSCredentialsProvider
+import com.amazonaws.regions.Region
+import com.amazonaws.services.s3.AmazonS3Client
+import com.amazonaws.regions.ServiceAbbreviations
+import scala.collection.JavaConverters._
+import com.amazonaws.services.s3.model.{ Region => S3Region }
+import com.amazonaws.services.s3.model.S3ObjectSummary
+import com.amazonaws.services.s3.model.Bucket
+val credentials = new BasicAWSCredentials("AKIAIVZ7RETVDKIESVYA", "MkO/XD+1ivRIZKy8N65Uncsys4AaPzLZQNDQvTfR")
+val s3Client = new AmazonS3Client(credentials)
+val s3Object = s3Client.getObject(new GetObjectRequest("s3://atksv.mywire.org/data/retail_db/order_items/", "part-00000"))
+val myData = Source.fromInputStream(s3Object.getObjectContent())
+
+#+END_SRC
+
+
+** creating a scala build.sbt
+build.sbt
+#+BEGIN_SRC 
+name := "testproject"
+version:= "1.0.0"
+scalaVersion := "2.10.6"
+#+END_SRC
+
+mkdir -p src/main/scala
+
+vi src/main/scala/orderSummary.scala
+
+#+BEGIN_SRC 
+import scala.io.Source
+
+object orderSummary{
+    def main(args: Array[String]) = {
+        val orderId = args(1).toInt
+        val orderItems = Source.fromFile("/Users/amitthk/projects/data-master/retail_db/order_items/part-00000").getLines
+        val orderRevenue = orderItems.filter(orderitem => orderitem.split(",")(1).toInt == orderId).
+          map(orderitem => orderitem.split(",")(4).toFloat).
+          reduce((t, v) => t + v)
+        println(orderRevenue)
+    }
+}
+#+END_SRC

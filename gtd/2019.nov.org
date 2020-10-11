@@ -1,0 +1,123 @@
+* Openshift cluster
+200 cores per datacenter
+6TB ram
+~30tb ?
+
+Do we need a cluster storage? This will be highly resilient
+
+We do not need to oversubscribe the CPU as for operational workloads we manage cores in yarn
+
+To provide the Applications inventory
+
+Existing workloads
+ - Datanauts jobserver, airflow etc.
+ - SSO, Dag generation api
+ - DAAS components
+ - Sparkola ui
+
+Potential workloads
+ - Presto
+ - Alluxio
+ - Spark on K8S
+ - Analytical 
+   - ML models
+   - Development tools Mlflow, jupyterhub
+   - Spark on Kubernetes
+ - Kafka
+
+* Spark on Nomad
+
+- run alluxio and copy the alluxio client jar
+- figure out alluxio underfs - maybe glusterfs or san
+- jupyterhub - krb, ldap integration - swarm provisioner
+- alluxio ingest data and test with spark
+- impersonation
+- submit jobs see actual data going in
+
+Deploy alluxio on nomad 
+deploy presto jar to nomad
+service mesh
+
+Nomad service as normal user
+Harden
+Submit spark job success
+Alluxio fetch data
+Private ip to the cluster - shut down start up
+Copy the config to sparkola jobserver
+Test submit job from sparkola
+
+
+Blog the cluster
+
+Kerberize
+Ensure HA - perform chaos testing 
+High Mem, High CPU, ...
+Integrate bluetalon
+Integrate protegrity
+
+* Vault demo
+- Reply the email
+- Policy generator and UI usage
+  - Auto lodge two policies for a vault safe - read write and read only
+  - Once you generate tokens you're good to go
+  - Renewing the tokens
+- Lodge the id 2part to cyberark
+- Ansible direct integration
+- Jenkins integration
+- Openshift integration
+- Init container and load from vault
+- Spring boot on vault
+- Simple python app 
+- Curl based
+- Read write and read only policies
+- Vault as the safe
+
+* Jupyterhub on Docker Swarm, Openshift
+** jupyterhub
+- Dockerspawner jupyterhub on local machine
+- Local python install from package 
+  #+BEGIN_SRC 
+   yum install gcc openssl-devel bzip2-devel libffi-devel
+   cd /usr/src
+   wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz
+   tar xzf Python-3.7.3.tgz
+ 
+   cd Python-3.7.3
+   ./configure --enable-optimizations
+   make altinstall
+
+   #+END_SRC
+- package the singleuser instance and register the spawn with jupyterhub api
+- LDAP integration
+
+* Ada on aws
+- Desktopapp for adaalogin  python sdk
+- Alluxio design documentation
+
+* Ada ML
+- Lodge the id 2 part to cerberark for preprod
+
+Docker workloads on nomad
+Containerized alluxio on nomad
+
+
+
+ Vault - lodge id and other demo
+Desktop app for loge id
+ Take list from config files - destkop app
+Aws cli login and create presigned url - home pc
+ S3 browser
+ Teragen, terasort, performance testing
+ Aws developer training, aws security
+ Cloudera certified cert
+ Rhel certified Linux admin
+Ansible cert
+Openshift cert
+ pexpect spawn,   
+ Install jupyter
+ setup 5 node cluster
+ run spark job
+ install alluxio
+ run alluxio jobs
+ from jupyter run spark jobs
+ pay bills

@@ -432,6 +432,25 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 #+END_SRC
 
+*** Docker download only the rpms for packages
+
+~docker run -it -v $(pwd)/deps:/home centos:7 /bin/bash~
+
+#+BEGIN_SRC 
+yum install yum-plugin-downloadonly
+mkdir postgresql
+cd postgresql
+yum install --downloadonly --downloaddir=/home/postgresql postgresql-server postgresql-contrib postgres
+cd ..
+mkdir gcc
+cd gcc
+yum install --downloadonly --downloaddir=/home/gcc gcc openssl-devel bzip2-devel libffi-devel
+cd ..
+mkdir python36
+cd python36
+yum install --downloadonly --downloaddir=/home/python36 python36 python36-libs python36-pip
+
+#+END_SRC
 * Open shift login
 #+BEGIN_SRC 
 oc login -u test_user
@@ -445,6 +464,7 @@ oc create serviceaccount robot
 oc policy add-role-to-user admin system:serviceaccounts:test:robot
 oc serviceaccounts get-token robot
 #+END_SRC
+
 
 * Docker general notes
 - The problem
