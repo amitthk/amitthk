@@ -656,3 +656,98 @@ In the policies select s3 readonly/s3full access
     ]
 }
 #+END_SRC
+
+*** Ideal 
+
+**** Highly available
+AMI, EC2, S3, RDS, Autoscaling
+
+**** Faulttolerant
+AMI, EC2, Multi az, Elastic Load balancing
+
+**** Secure
+AWS CLI/Console, network ,App Layers.
+IAM, Policies, NACLs, Security Groups
+
+**** Durable
+Data survives
+EBS, Snapshots, S3, Glacier, RDS Multip Az
+
+**** Self Healing
+automatically repairs faults
+AMI, EC2, Auto Scaling, Userdata
+
+**** Automated
+little to no human intervenion
+AWS Cloudformation, Autoscaling, Userdata
+
+**** Cost-effective
+Pay for what u use/need
+Auto Scaling, Ec2 reserved/spot inst, Trusted advisor
+
+*** Best practices
+- design for failure
+
+- scale horizontallyy
+
+  - Elasticache, dynamodb, elb sticky sessions
+
+  - distributed processing
+
+    - parallelize and batch
+
+    - kinesis , EMR, Lambda
+
+  - disposable resources over fixed
+
+    - avoid configuration drift
+
+    - ec2 instances easily replaced
+
+  - Automate*
+
+    - Cloudformation
+
+    - Beanstalk
+
+    - Autoscaling
+
+    - Cloudwatch
+
+    - Thirdparty
+
+      - Ansible
+
+      - Chef
+
+      - Puppet
+
+    - SEcurity in layers
+
+      - VPC: Routes, NACLs, Security Groups
+
+      - IAM: Users, groups, roles, keys
+
+      - Leverage multiple accounts
+
+      - Protect master creds
+
+    - Loose coupling
+
+      - Microservices
+
+      - Failiures should not cascade
+
+      - ELB, SQS, Kinesis, Route53, Lambda
+
+    - Cost optimized
+
+      - Reserved instances
+
+      - Spot instances
+
+      - Cleanup after use
+
+      - Turn the lights off
+
+

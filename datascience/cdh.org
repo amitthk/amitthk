@@ -211,7 +211,43 @@ sudo file -s /dev/xvd*
 sudo yum -y update
 sudo yum -y instal ntp
 chkconfig ntpd on
+for i in `cat ~/hosts`; do ssh -i ./cdhstack_admin.pem centos@$i sudo yum install -y ntp ; done
+for i in `cat ~/hosts`; do ssh -i ./cdhstack_admin.pem centos@$i sudo systemctl start ntpd ; done
+for i in `cat ~/hosts`; do ssh -i ./cdhstack_admin.pem centos@$i sudo ntpdate -q $i ; done
+#+END_SRC
 
+vi /etc/ntp.conf
+
+add
+#+BEGIN_SRC 
+server ip-172-31-17-156.ap-southeast-1.compute.internal iburst
+server ip-172-31-20-223.ap-southeast-1.compute.internal iburst
+server ip-172-31-20-76.ap-southeast-1.compute.internal  iburst
+server ip-172-31-21-231.ap-southeast-1.compute.internal iburst
+server ip-172-31-23-217.ap-southeast-1.compute.internal iburst
+server ip-172-31-29-100.ap-southeast-1.compute.internal iburst
+#+END_SRC
+
+#+BEGIN_SRC 
+
+for i in `cat ~/hosts`; do scp -i ./cdhstack_admin.pem ./ntp.conf  centos@$i:~/.; done
+for i in `cat ~/hosts`; do ssh -i ./cdhstack_admin.pem centos@$i sudo mv /home/centos/ntp.conf /etc/ntp.conf; done
+for i in `cat ~/hosts`; do ssh -i ./cdhstack_admin.pem centos@$i sudo chkconfig ntpd on ; done
+
+for i in `cat ~/hosts`; do ssh -i ./cdhstack_admin.pem centos@$i sudo ntpdate -q $i ; done
+#+END_SRC
+
+Setting the date manually from google ntp:
+#+BEGIN_SRC 
+for i in `cat ~/hosts`; do ssh -i ./cdhstack_admin.pem centos@$i sudo systemctl stop ntpd; done
+for i in `cat ~/hosts`; do ssh -i ./cdhstack_admin.pem centos@$i sudo date -u --set="\"$(curl -H 'Cache-Control: no-cache' -sD - http://google.com |grep '^Date:' |cut -d' ' -f3-6)\"" ; done
+for i in `cat ~/hosts`; do ssh -i ./cdhstack_admin.pem centos@$i sudo systemctl start ntpd; done
+#+END_SRC
+
+Verify ntp is running
+
+#+BEGIN_SRC 
+for i in `cat ~/hosts`; do echo $i; ssh -i ./cdhstack_admin.pem centos@$i sudo netstat -taupn|grep udp|grep ntp; done
 #+END_SRC
 
 #+BEGIN_SRC 
