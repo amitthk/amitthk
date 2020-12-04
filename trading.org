@@ -1,0 +1,77 @@
+* trading
+
+** Types of Investment Products:
+
+- Stocks
+Dividend and Capital Gains
+Voting Rights
+Limited Liability
+
+
+- Exchange Traded Fund(ETF)
+Diversification
+Cost Effectiveness
+Accessibility to Local and global markets and asset classes
+
+Common categories of ETFs:
+
+1. By country or market – eg. STI, Shanghai Stock Exchange 50, S&P 500, etc.
+2. By market cap size – eg. large, mid and small cap
+3. By type of assets – eg. bonds, commodities, dividend yielding, etc.
+
+
+
+
+- Real Estate Investment Trust (REIT)
+Income Distribution
+Diversification
+Liquidity - compared to actual investment in property. REITs offer ease of converting to cash.
+
+
+- Bonds
+Predictable Income Stream
+Lower Potential Returns than other asset classes
+
+
+** Stocks
+
+tradingview.com
+finviz.com
+finance.google.com
+saxotrader.com/d/trading/open-positions
+
+*** Trend lines
+
+**** support and resistance
+
+*** MACD
+When macd line crosses above the red(signal) line the buy signal starts.
+when the blue line starts to converge and volume starts to fade, it is exit signal.
+
+When macd line crosses below the red (signal ) line it is a bearish signal (sell). and vice versa.
+
+
+*** RSI
+
+be careful of long term & short term trend
+
+relative strength indicator
+
+- overbought & oversold levels (over 70% is overbought below 30% is oversold)
+- bullish or bearish trend (above 50% bullish or below 50 bearish trend)
+- Breaks out above 30 buy. breaks below 70 sell.
+- can indicate momentum 
+
+*** stochastic
+
+- above 80 is overbought
+- below 20 is oversold
+- blue line crosses d line(red) and they cross above 20 => buy signal
+- narrow bottoms wide tops => bullish. vice versa
+
+*** Bolinger band
+Volatility indicator
+- wider band high Volatility
+- Bolinger band narrow - low Volatility - no much change in price
+
+*** fibonacci
