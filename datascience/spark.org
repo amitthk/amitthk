@@ -906,3 +906,50 @@ if __name__ == "__main__":
 
     query = tweetsDF.writeStream.outputMode("append").format("console").option("truncate", "false").trigger(processingTime="5 seconds").start().awaitTermination()
 #+END_SRC
+
+
+** Pyspark map reduce filter operations
+
+#+BEGIN_SRC
+orderItemsFile = open("/Users/amitthk/projects/github/dgadiraju/data-master/retail_db/order_items/part-00000","r")
+orderItemsRead = orderItemsFile.read()
+orderItems = orderItemsRead.splitlines()
+orderItems.count()
+orderItemsFilter = filter(lambda itm: int(itm.split(",")[1]) == 68880,orderItems)
+oiMap = map(lambda rec: float(rec.split(",")[4]),orderItemsFilter)
+oiRevenue = reduce(lambda itm,tot: tot+itm,oiMap)
+oiRevenue
+#+END_SRC
+
+#+BEGIN_SRC
+import sys
+
+def getRevenueForOrderId(path,itmId):
+    orderItemsFile = open(path,"r")
+    orderItemsRead = orderItemsFile.read()
+    orderItems = orderItemsRead.splitlines()
+    #orderItems.count()
+    orderItemsFilter = filter(lambda itm: int(itm.split(",")[1]) == 68880,orderItems)
+    oiMap = map(lambda rec: float(rec.split(",")[4]),orderItemsFilter)
+    oiRevenue = reduce(lambda itm,tot: tot+itm,oiMap)
+    return(oiRevenue)
+
+path = sys.argv[1]
+itmId = sys.argv[2]
+
+print(getRevenueForOrderId(path,itmId))
+
+#+END_SRC
+
+#+BEGIN_SRC
+dt = sc.textFile('/data/retail_db/order_items/part-00000')
+dt.count()
+wc = dt.flatMap(lambda l: l.split(',')).map(lambda a: (a,1)).reduceByKey(lambda x,y: x+y)
+for i in wc.take(5): print(i)
+wc.map(lambda rec: rec[0]+','+str(rec[1])).saveAsTextFile('/output/retail_db/wordcount')
+#+END_SRC
+
+#+BEGIN_SRC
+hdfs dfs -ls /output/retail_db/wordcount/
+hdfs dfs -tail /output/retail_db/wordcount/part-00000
+#+END_SRC

@@ -822,3 +822,16 @@ Auto Scaling, Ec2 reserved/spot inst, Trusted advisor
       - Turn the lights off
 
 
+*** SysOps
+
+
+#+BEGIN_SRC 
+aws ec2 describe-regions
+
+aws ec2 describe-availability-zones --region us-east-2
+
+aws ec2 –region us-east-2
+
+export AWS_DEFAULT-REGION=https://ec2.us-east-2.amazonaws.com
+
+#+END_SRC
