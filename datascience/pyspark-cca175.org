@@ -62,7 +62,10 @@ print(dataRDD.count())
 dataRDD.saveAsTextFile("/user/cloudera/pyspark/departments")
 #+END_SRC
 * Object files are not available in python
+#+BEGIN_SRC
+
 dataRDD.saveAsObjectFile("/user/cloudera/pyspark/departmentsObject")
+#+END_SRC
 
 * saveAsSequenceFile
 #+BEGIN_SRC
@@ -124,10 +127,16 @@ for rec in departmentsData.collect():
 #+END_SRC
 
 * Writing data in json format
-departmentsData.toJSON().saveAsTextFile("/user/cloudera/pyspark/departmentsJson")
+#+BEGIN_SRC
 
+departmentsData.toJSON().saveAsTextFile("/user/cloudera/pyspark/departmentsJson")
+#+END_SRC
 * Validating the data
+
+#+BEGIN_SRC
+
 hadoop fs -cat /user/cloudera/pyspark/departmentsJson/part*
+#+END_SRC
 
 * #############################################################################
 *  Developing word count program
