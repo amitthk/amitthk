@@ -470,7 +470,7 @@ use retail_db;
 create external table orders(order_id int, order_date string, order_customer_id int, order_status string) row format delimited fields terminated by ',' location '/data/retail_db/t0/orders';
 create table order_items (order_item_id int, order_item_order_id int, order_item_product_id int, order_item_quantity int, order_item_subtotal float, order_item_product_price float) row format delimited fields terminated by ',' location '/data/retail_db/t0/order_items';
 select * from retail_db.orders limit 5;
-select * from retailo_db.order_items limit 5;
+select * from retail_db.order_items limit 5;
 #+END_SRC
 
 #+BEGIN_SRC
