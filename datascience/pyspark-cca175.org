@@ -97,7 +97,7 @@ df.count()
 from pyspark import SparkContext, SparkConf
 conf = SparkConf().setAppName("pyspark")
 sc = SparkContext(conf=conf)
-dataRDD = sc.textFile("/data/retail_db/sqoop_import/departments")
+dataRDD = sc.textFile("/data/retail_db/t0/departments")
 for line in dataRDD.collect():
     print(line)
 dataRDD.saveAsTextFile("/data/retail_db/pyspark/departmentsTesting")
@@ -117,7 +117,7 @@ spark-submit --master yarn saveFile.py
 
 from pyspark import SparkContext
 
-dataRDD = sc.textFile("/data/retail_db/sqoop_import/departments")
+dataRDD = sc.textFile("/data/retail_db/t0/departments")
 for line in dataRDD.collect():
     print(line)
 
@@ -224,8 +224,8 @@ for i in dataReduceByKey.collect():
 **  Problem statement, get the revenue and number of orders from order_items on daily basis
 #+BEGIN_SRC
 
-ordersRDD = sc.textFile("/data/retail_db/sqoop_import/orders")
-orderItemsRDD = sc.textFile("/data/retail_db/sqoop_import/order_items")
+ordersRDD = sc.textFile("/data/retail_db/t0/orders")
+orderItemsRDD = sc.textFile("/data/retail_db/t0/order_items")
 
 ordersParsedRDD = ordersRDD.map(lambda rec: (int(rec.split(",")[0]), rec))
 orderItemsParsedRDD = orderItemsRDD.map(lambda rec: (int(rec.split(",")[1]), rec))
@@ -279,14 +279,14 @@ from pyspark.sql import SQLContext, Row
 sqlContext = SQLContext(sc)
 sqlContext.sql("set spark.sql.shuffle.partitions=10");
 
-ordersRDD = sc.textFile("/data/retail_db/sqoop_import/orders")
+ordersRDD = sc.textFile("/data/retail_db/t0/orders")
 ordersMap = ordersRDD.map(lambda o: o.split(","))
 orders = ordersMap.map(lambda o: Row(order_id=int(o[0]), order_date=o[1], \
 order_customer_id=int(o[2]), order_status=o[3]))
 ordersSchema = sqlContext.inferSchema(orders)
 ordersSchema.registerTempTable("orders")
 
-orderItemsRDD = sc.textFile("/data/retail_db/sqoop_import/order_items")
+orderItemsRDD = sc.textFile("/data/retail_db/t0/order_items")
 orderItemsMap = orderItemsRDD.map(lambda oi: oi.split(","))
 orderItems = orderItemsMap.map(lambda oi: Row(order_item_id=int(oi[0]), order_item_order_id=int(oi[1]), \
 order_item_product_id=int(oi[2]), order_item_quantity=int(oi[3]), order_item_subtotal=float(oi[4]), \
@@ -308,10 +308,10 @@ for data in joinAggData.collect():
 ** sum
 #+BEGIN_SRC
 
-ordersRDD = sc.textFile("/data/retail_db/sqoop_import/orders")
+ordersRDD = sc.textFile("/data/retail_db/t0/orders")
 ordersRDD.count()
 
-orderItemsRDD = sc.textFile("/data/retail_db/sqoop_import/order_items")
+orderItemsRDD = sc.textFile("/data/retail_db/t0/order_items")
 orderItemsMap = orderItemsRDD.map(lambda rec: float(rec.split(",")[4]))
 for i in orderItemsMap.take(5):
   print i
@@ -321,26 +321,26 @@ orderItemsReduce = orderItemsMap.reduce(lambda rev1, rev2: rev1 + rev2)
 * Get max priced product from products table
 ** There is one record which is messing up default , delimiters
 ** Clean it up (we will see how we can filter with out deleting the record later)
-hadoop fs -get /data/retail_db/sqoop_import/products
+hadoop fs -get /data/retail_db/t0/products
 * Delete the record with product_id 685
-hadoop fs -put -f products/part* /data/retail_db/sqoop_import/products
+hadoop fs -put -f products/part* /data/retail_db/t0/products
 
 * pyspark script to get the max priced product
 #+BEGIN_SRC
 
-productsRDD = sc.textFile("/data/retail_db/sqoop_import/products")
+productsRDD = sc.textFile("/data/retail_db/t0/products")
 productsMap = productsRDD.map(lambda rec: rec)
 productsMap.reduce(lambda rec1, rec2: (rec1 if((rec1.split(",")[4] != "" and rec2.split(",")[4] != "") and float(rec1.split(",")[4]) >= float(rec2.split(",")[4])) else rec2))
 #+END_SRC
 * 
 #+BEGIN_SRC
-revenue = sc.textFile("/data/retail_db/sqoop_import/order_items").map(lambda rec: float(rec.split(",")[4])).reduce(lambda rev1, rev2: rev1 + rev2)
-totalOrders = sc.textFile("/data/retail_db/sqoop_import/order_items").map(lambda rec: int(rec.split(",")[1])).distinct().count()
+revenue = sc.textFile("/data/retail_db/t0/order_items").map(lambda rec: float(rec.split(",")[4])).reduce(lambda rev1, rev2: rev1 + rev2)
+totalOrders = sc.textFile("/data/retail_db/t0/order_items").map(lambda rec: int(rec.split(",")[1])).distinct().count()
 #+END_SRC
 * Number of orders by status
 #+BEGIN_SRC
 
-ordersRDD = sc.textFile("/data/retail_db/sqoop_import/orders")
+ordersRDD = sc.textFile("/data/retail_db/t0/orders")
 ordersMap = ordersRDD.map(lambda rec:  (rec.split(",")[3], 1))
 for i in ordersMap.countByKey().items(): print(i)
 #+END_SRC
@@ -360,7 +360,7 @@ for recs in ordersByStatus.collect():
 * Key orderDate and orderStatus
 #+BEGIN_SRC
 
-ordersRDD = sc.textFile("/data/retail_db/sqoop_import/orders")
+ordersRDD = sc.textFile("/data/retail_db/t0/orders")
 ordersMapRDD = ordersRDD.map(lambda rec: ((rec.split(",")[1], rec.split(",")[3]), 1))
 ordersByStatusPerDay = ordersMapRDD.reduceByKey(lambda v1, v2: v1+v2)
 
@@ -371,8 +371,8 @@ for i in ordersByStatusPerDay.collect():
 * Total Revenue per day
 #+BEGIN_SRC
 
-ordersRDD = sc.textFile("/data/retail_db/sqoop_import/orders")
-orderItemsRDD = sc.textFile("/data/retail_db/sqoop_import/order_items")
+ordersRDD = sc.textFile("/data/retail_db/t0/orders")
+orderItemsRDD = sc.textFile("/data/retail_db/t0/order_items")
 
 ordersParsedRDD = ordersRDD.map(lambda rec: (rec.split(",")[0], rec))
 orderItemsParsedRDD = orderItemsRDD.map(lambda rec: (rec.split(",")[1], rec))
@@ -395,8 +395,8 @@ for i in revenuePerDay.collect(): print(i)
 - Parse data and apply average logic
 #+BEGIN_SRC
 
-ordersRDD = sc.textFile("/data/retail_db/sqoop_import/orders")
-orderItemsRDD = sc.textFile("/data/retail_db/sqoop_import/order_items")
+ordersRDD = sc.textFile("/data/retail_db/t0/orders")
+orderItemsRDD = sc.textFile("/data/retail_db/t0/order_items")
 
 ordersParsedRDD = ordersRDD.map(lambda rec: (rec.split(",")[0], rec))
 orderItemsParsedRDD = orderItemsRDD.map(lambda rec: (rec.split(",")[1], rec))
@@ -427,8 +427,8 @@ avgRevenuePerDay = revenuePerDay.map(lambda x: (x[0], x[1][0]/x[1][1]))
 * Customer id with max revenue
 #+BEGIN_SRC
 
-ordersRDD = sc.textFile("/data/retail_db/sqoop_import/orders")
-orderItemsRDD = sc.textFile("/data/retail_db/sqoop_import/order_items")
+ordersRDD = sc.textFile("/data/retail_db/t0/orders")
+orderItemsRDD = sc.textFile("/data/retail_db/t0/order_items")
 
 ordersParsedRDD = ordersRDD.map(lambda rec: (rec.split(",")[0], rec))
 orderItemsParsedRDD = orderItemsRDD.map(lambda rec: (rec.split(",")[1], rec))
@@ -506,7 +506,7 @@ order by q1.order_date;
 *  Filter data into a smaller dataset using Spark
 #+BEGIN_SRC
 
-ordersRDD = sc.textFile("/data/retail_db/sqoop_import/orders")
+ordersRDD = sc.textFile("/data/retail_db/t0/orders")
 for i in ordersRDD.filter(lambda line: line.split(",")[3] == "COMPLETE").take(5): print(i)
 
 for i in ordersRDD.filter(lambda line: "PENDING" in line.split(",")[3]).take(5): print(i)
@@ -526,8 +526,8 @@ for i in ordersRDD.filter(lambda line: int(line.split(",")[0]) > 1000 and line.s
 ** Filter data which amount to greater than 1000$
 #+BEGIN_SRC
 
-ordersRDD = sc.textFile("/data/retail_db/sqoop_import/orders")
-orderItemsRDD = sc.textFile("/data/retail_db/sqoop_import/order_items")
+ordersRDD = sc.textFile("/data/retail_db/t0/orders")
+orderItemsRDD = sc.textFile("/data/retail_db/t0/order_items")
 
 ordersParsedRDD = ordersRDD.filter(lambda rec: rec.split(",")[3] in "CANCELED").map(lambda rec: (int(rec.split(",")[0]), rec))
 orderItemsParsedRDD = orderItemsRDD.map(lambda rec: (int(rec.split(",")[1]), float(rec.split(",")[4])))
@@ -544,7 +544,7 @@ for i in ordersJoinOrderItems.filter(lambda rec: rec[1][0] >= 1000).take(5): pri
 ** Global sorting and ranking
 #+BEGIN_SRC
 
-orders = sc.textFile("/data/retail_db/sqoop_import/orders")
+orders = sc.textFile("/data/retail_db/t0/orders")
 for i in orders.map(lambda rec: (int(rec.split(",")[0]), rec)).sortByKey().collect(): print(i)
 for i in orders.map(lambda rec: (int(rec.split(",")[0]), rec)).sortByKey(False).take(5): print(i)
 for i in orders.map(lambda rec: (int(rec.split(",")[0]), rec)).top(5): print(i)
@@ -589,7 +589,7 @@ def getTop(rec):
       x.append(j)
   return (y for y in x)
 
-products = sc.textFile("/data/retail_db/sqoop_import/products")
+products = sc.textFile("/data/retail_db/t0/products")
 productsMap = products.map(lambda rec: (rec.split(",")[1], rec))
 productsGroupBy = productsMap.groupByKey()
 for i in productsGroupBy.collect(): print(i)
