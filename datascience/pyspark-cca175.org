@@ -8,6 +8,70 @@
 - JDBC
 - To connect to remote database using jdbc
 - It works only from spark 1.3.0 or later
+
+* Contents
+
+** Official
+*** Transform, Stage, and Store
+- Convert a set of data values in a given format stored in HDFS into new data values or a new data format and write them into HDFS.
+- Load data from HDFS for use in Spark applications
+
+- Write the results back into HDFS using Spark
+
+- Read and write files in a variety of file formats
+
+- Perform standard extract, transform, load (ETL) processes on data using the Spark API
+*** Data Analysis
+- Use Spark SQL to interact with the metastore programmatically in your applications. Generate reports by using queries against loaded data.
+- Use metastore tables as an input source or an output sink for Spark applications
+
+- Understand the fundamentals of querying datasets in Spark
+
+- Filter data using Spark
+
+- Write queries that calculate aggregate statistics
+
+- Join disparate datasets using Spark
+
+- Produce ranked or sorted data
+*** Configuration
+- This is a practical exam and the candidate should be familiar with all aspects of generating a result, not just writing code.
+
+- Supply command-line options to change your application configuration, such as increasing available memory
+
+
+** Importants
+** read write files from different formats
+- hive joins in spark
+- connecting to mariadb and uploading data
+- transformations and aggregations
+** hdfs cluster cli operations
+- backups and hdfs snapshots
+- logs and cluster settings
+- resource manager pool templates
+- queues and allocations
+**  spark python
+- spark scala
+- sqoop import
+- avro
+- hive queries
+** import mysql to hdfs using sqoop
+- export mysql to hdfs using sqoop
+- change delimiter and file format of data with sqoop
+- realtime / near real time with flume
+- hdfs commands
+** ETL
+- read & write to hdfs with spark
+- join, aggregate, filter using spark
+- ranked and sorted results with spark
+** Data Analysis
+- read/create tables in hive meta store
+- extract avro schema using avro tools
+- store table in hive & hms in avro
+- table in hive using external schema file
+- improve query performance by partitioning hive table
+- evolve avro schema using json files
+
 * Either you need to run pyspark with driver-class-path or set environment variable with os.environ
 #+BEGIN_SRC
 pyspark --driver-class-path /usr/share/java/mysql-connector-java.jar
@@ -24,7 +88,7 @@ for rec in df.collect():
 
 df.count()
 #+END_SRC
-* #############################################################################
+* <<<<<==============>>>>>
 
 * Developing simple scala based applications for spark
 * Save this to a file with py extension
@@ -46,7 +110,7 @@ spark-submit --master local saveFile.py
 * master yarn will run in yarn mode
 spark-submit --master yarn saveFile.py
 
-* #############################################################################
+* <<<<<==============>>>>>
 
 *  Load data from HDFS and storing results back to HDFS using Spark
 #+BEGIN_SRC
@@ -138,7 +202,7 @@ departmentsData.toJSON().saveAsTextFile("/data/retail_db/pyspark/departmentsJson
 hadoop fs -cat /data/retail_db/pyspark/departmentsJson/part*
 #+END_SRC
 
-* #############################################################################
+* <<<<<==============>>>>>
 *  Developing word count program
 -  Create a file and type few lines and save it as wordcount.txt and copy to HDFS
 -  to /data/retail_db/wordcount.txt
@@ -154,7 +218,7 @@ dataReduceByKey.saveAsTextFile("/data/retail_db/wordcountoutput")
 for i in dataReduceByKey.collect():
   print(i)
 #+END_SRC
-* #############################################################################
+* <<<<<==============>>>>>
 
 *  Join disparate datasets together using Spark
 **  Problem statement, get the revenue and number of orders from order_items on daily basis
@@ -238,7 +302,7 @@ group by o.order_date order by o.order_date")
 for data in joinAggData.collect():
   print(data)
 #+END_SRC
-* #############################################################################
+* <<<<<==============>>>>>
 
 *  Calculate aggregate statistics (e.g., average or sum) using Spark
 ** sum
@@ -437,7 +501,7 @@ group by q.order_date) q2
 on q1.order_date = q2.order_date and q1.order_item_subtotal = q2.order_item_subtotal
 order by q1.order_date;
 #+END_SRC
-* #########################################################################################
+* <<<<<==============>>>>>
 
 *  Filter data into a smaller dataset using Spark
 #+BEGIN_SRC
@@ -473,7 +537,7 @@ ordersJoinOrderItems = orderItemsAgg.join(ordersParsedRDD)
 
 for i in ordersJoinOrderItems.filter(lambda rec: rec[1][0] >= 1000).take(5): print(i)
 #+END_SRC
-* #########################################################
+* <<<<<==============>>>>>
 
 *  Write a query that produces ranked or sorted data using Spark
 
