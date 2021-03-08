@@ -104,6 +104,21 @@ for line in dataRDD.collect():
 dataRDD.saveAsTextFile("/data/retail_db/pyspark/departmentsTesting")
 #+END_SRC
 
+* read json save avro
+#+BEGIN_SRC
+spark/bin/pyspark --master spark://spark-master:7077 --packages org.apache.spark:spark-avro_2.11:2.4.0
+#+END_SRC
+
+#+BEGIN_SRC
+#TBC
+path = '/data/retail_db_json/order_items'
+oiDF = spark.read.json(path)
+oiDF.createOrReplaceTempView('tmpOrderItems')
+oiDF.sql("select * from tmpOrderItems limit 10").show()
+oiDFItms = spark.sql("select * from tmpOrderItems")
+oiDFItms.write.format('avro').save("/data/order_items_avro")
+#+END_SRC
+
 * Run using this command
 * master local will run in spark native mode
 spark-submit --master local saveFile.py
