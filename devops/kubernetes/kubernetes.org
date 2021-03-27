@@ -29,8 +29,22 @@ https://github.com/kubernetes/kubernetes/tree/release-1.10/examples
 
 https://github.com/wardviaene/kubernetes-course
 
+** kubectl config
+~/.kube/config
+
+kubectl --help | less
+kubectl config view
+
+
+kubectl run NAME --image=image [--env="key=value"] [--port=port] [--replicas=replicas] [--dry-run=bool]
+[--overrides=inline-json] [--command] -- [COMMAND] [args...] [options]
+
+
 ** pods
 kubectl get nodes
+
+
+
 
 =====
 #pod.yaml
