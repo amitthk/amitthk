@@ -34,10 +34,24 @@ https://github.com/wardviaene/kubernetes-course
 
 kubectl --help | less
 kubectl config view
+kubectl config set-context --current --namespace=<insert-namespace-name-here>
 
 
 kubectl run NAME --image=image [--env="key=value"] [--port=port] [--replicas=replicas] [--dry-run=bool]
 [--overrides=inline-json] [--command] -- [COMMAND] [args...] [options]
+
+<background>
+kubectl proxy --port=8001 &
+
+curl http://localhost:8001/
+curl http://localhost:8002/api/v1/namespaces/default/pods
+
+kubectl auth can-i
+
+kubectl get deployments nginx --export -o yaml
+kubectl replace -f nginx.yaml
+kubectl apply -f nginx.yaml
+
 
 
 ** pods
