@@ -7,9 +7,6 @@ spec:
     storage: 5G
   accessModes:
     - ReadWriteOnce
-  claimRef:
-    namespace: default
-    name: gcloud-pv-claim
   gcePersistentDisk:
     pdName: pd-amitthk
     fsType: ext4

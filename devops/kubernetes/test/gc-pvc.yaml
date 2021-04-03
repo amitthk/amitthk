@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gcloud-pvc1
+spec:
+  volumeName: gcloud-pv
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 5G
+  accessModes:
+    - ReadWriteOnce
