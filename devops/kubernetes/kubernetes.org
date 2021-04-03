@@ -30,6 +30,7 @@ https://github.com/kubernetes/kubernetes/tree/release-1.10/examples
 https://github.com/wardviaene/kubernetes-course
 
 ** kubectl config
+#+BEGIN_SRC 
 ~/.kube/config
 
 kubectl --help | less
@@ -51,6 +52,7 @@ kubectl auth can-i
 kubectl get deployments nginx --export -o yaml
 kubectl replace -f nginx.yaml
 kubectl apply -f nginx.yaml
+#+END_SRC
 
 
 
