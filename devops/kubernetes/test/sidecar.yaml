@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: sleepy
+  name: sleepy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: sleepy
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: sleepy
+    spec:
+      containers:
+      - command:
+          - sh
+          - "-c"
+          - |
+            while true; do
+              date >> /html/index.html;
+              sleep 1;
+            done
+        image: busybox
+        name: sleepy
+        volumeMounts:
+        - name: html
+          mountPath: /html
+      - image: httpd 
+        name: wakey
+        volumeMounts:
+        - name: html
+          mountPath: /var/www/html
+        resources: {}
+      volumes:
+      - name: html
+        emptyDir: {}
+status: {}

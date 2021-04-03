@@ -12,14 +12,37 @@ kind: ReplicationController
 metadata:
     name: helloworld-controller
 spec:
- 
+
+#+BEGIN_SRC 
+filetype plugin indent on
+set ts=2 sts=2 sw=2 expandtab
+#+END_SRC
 
 =====
+
+kubectl config view
+
+
 * pods
 
 kubectl get pods 
 kubectl describe pod  "<full pod name>
 kubectl delete pod helloworld-contoller-omw85
+
+** run a pod and expose it
+#+BEGIN_SRC 
+kubectl run busybox --image=busybox --namespace=ckad-pr --port=80 --expose  --restart=Never --dry-run=true -o yaml --command "sh -c" "while true; do echo \"\$(date)\" >> /var/log/time.log; sleep 5; done;" | vi -
+#+END_SRC
+
+** getting inside a container in a pod
+#+BEGIN_SRC 
+kubectl exec -it sleepy-6c4fc46f6f-n2vbd --container wakey /bin/bash
+#+END_SRC
+
+** getting the logs of a particular pod
+#+BEGIN_SRC 
+kubectl get event --field-selector involvedObject.name=busybox
+#+END_SRC
 
 * replication controllers
 

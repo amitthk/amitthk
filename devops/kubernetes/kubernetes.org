@@ -58,6 +58,20 @@ kubectl apply -f nginx.yaml
 kubectl get nodes
 
 
+*** run a pod and expose it
+#+BEGIN_SRC 
+kubectl run busybox --image=busybox --namespace=ckad-pr --port=80 --expose  --restart=Never --dry-run=true -o yaml --command "sh -c" "while true; do echo \"\$(date)\" >> /var/log/time.log; sleep 5; done;" | vi -
+#+END_SRC
+
+*** getting inside a container in a pod
+#+BEGIN_SRC 
+kubectl exec -it sleepy-6c4fc46f6f-n2vbd --container wakey /bin/bash
+#+END_SRC
+
+*** getting the logs of a particular pod
+#+BEGIN_SRC 
+kubectl get event --field-selector involvedObject.name=busybox
+#+END_SRC
 
 
 =====
