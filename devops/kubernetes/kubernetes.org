@@ -219,6 +219,13 @@ kubectl rollout undo deployment hello-deploy --to-revision=1
 
 ** healthchecks
 
+*** startup probe
+
+#+BEGIN_SRC 
+
+
+#+END_SRC
+
 *** livenessprobe
 
 #+BEGIN_SRC 
@@ -273,6 +280,27 @@ containersready
 
 ** monitoring
 heapster, influxdb, grafana
+
+** persistence
+
+hostpath volume
+
+#+BEGIN_SRC 
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: db-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /data/db
+#+END_SRC
+
+
+
 
 ** run k8s locally using docker
 

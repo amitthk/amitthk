@@ -496,6 +496,73 @@ i insert, a appends, I inserts at start of line, A to end of line
 
 d, 2dd, u
 
+**** commands
+
+- show numbers
+:set nu 
+
+- Search patterns
+/<pattern>
+n for next
+N for previous
+
+- substitute line patterns 
+. (dot) - The current line.
+$ - The last line.
+% - All lines.
+
+- search and replace 
+
+:s/foo/bar/g	Change each 'foo' to 'bar' in the current line.
+:%s/foo/bar/g	Change each 'foo' to 'bar' in all the lines.
+:5,12s/foo/bar/g	Change each 'foo' to 'bar' for all lines from line 5 to line 12 (inclusive).
+:'a,'bs/foo/bar/g	Change each 'foo' to 'bar' for all lines from mark a to mark b inclusive (see Note below).
+:'<,'>s/foo/bar/g	When compiled with +visual, change each 'foo' to 'bar' for all lines within a visual selection. Vim automatically appends the visual selection range ('<,'>) for any ex command when you select an area and enter :. Also, see Note below.
+:.,$s/foo/bar/g	Change each 'foo' to 'bar' for all lines from the current line (.) to the last line ($) inclusive.
+:.,+2s/foo/bar/g	Change each 'foo' to 'bar' for the current line (.) and the two next lines (+2).
+:g/^baz/s/foo/bar/g	Change each 'foo' to 'bar' in each line starting with 'baz'.
+
+
+
+- visual mode
+command 'v' to enter visual mode. Select lines and then 
+:s/^/#/g     #==> to comment out the selectd lines
+
+:s/^#//g     #==> remove the comment
+
+- undo redo
+'u'
+Ctrl+R or :redo
+
+
+
+
+
+- delete lines
+
+:[start],[end]d
+
+e.g.
+
+Here are a few examples:
+
+:.,$d - From the current line to the end of the file.
+:.,1d - From the current line to the beginning of the file.
+10,$d - From the 10th line to the end of the file.
+
+
+global match a pattern to delete lines
+
+:g/<pattern>/d
+
+:g/foo/d - Delete all lines containing the string “foo”. It also removes line where “foo” is embedded in larger words, such as “football”.
+:g!/foo/d - Delete all lines not containing the string “foo”.
+:g/^#/d - Remove all comments from a Bash script. The pattern ^# means each line beginning with #.
+:g/^$/d - Remove all blank lines. The pattern ^$ matches all empty lines.
+:g/^\s*$/d - Remove all blank lines. Unlike the previous command, this also removes the blank lines that have zero or more whitespace characters (\s*).
+
+
+
 *** Grep
 - For searching a string in the directory tree recursively :
 ~grep -rl alvin .
