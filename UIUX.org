@@ -99,3 +99,16 @@ export class ChildModule { }
 ng update @angular/cli --migrate-only --from=1.6.8
 ng update @angular/cli @angular/core
 #+END_SRC
+
+** Angular json to table
+
+#+BEGIN_SRC
+  <table class="table table-compact" *ngIf="dtlList.length">
+      <tr>
+        <th *ngFor="let kv of dtlList[0] | keyvalue">{{kv.key}}</th>
+      </tr>
+      <tr *ngFor="let itm of dtlList">
+        <td *ngFor="let col of itm | keyvalue">{{col.value}}</td>
+      </tr>
+    </table>
+#+END_SRC
