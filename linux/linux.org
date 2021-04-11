@@ -496,10 +496,69 @@ i insert, a appends, I inserts at start of line, A to end of line
 
 d, 2dd, u
 
+**** yaml editing profile
+~/.vimrc
+#+BEGIN_SRC
+filetype plugin indent on
+set ts=2 sts=2 sw=2 exapandtab 
+#+END_SRC
+
 **** commands
 
 - show numbers
 :set nu 
+
+- Window motions
+<ctrl>d Scroll down (half a screen)
+<ctrl>u Scroll up (half a screen)
+<ctrl>f Page forward
+<ctrl>b Page backward
+/string Search forward
+?string Search backward
+<ctrl>l Redraw screen
+<ctrl>g Display current line number and
+file information
+n Repeat search
+N Repeat search reverse
+G Go to last line
+nG Go to line n
+:n Go to line n
+z<CR> Reposition window: cursor at top
+z. Reposition window: cursor in middle
+z- Reposition window: cursor at bottom
+
+- Input commands (end with Esc)
+a Append after cursor
+i Insert before cursor
+o Open line below
+O Open line above
+:r file Insert file after current line
+Any of these commands leaves vi in input mode until you
+press Esc. Pressing the RETURN key will not take you out
+of input mode.
+
+
+- File management commands
+:w name Write edit buffer to file name
+:wq Write to file and quit
+:q! Quit without saving changes
+ZZ Same as :wq
+:sh Execute shell commands (<ctrl>d)
+
+- Undo commands
+u Undo last change
+U Undo all changes on line
+
+- Rearrangement commands
+yy or Y Yank (copy) line to general buffer
+“z6yy Yank 6 lines to buffer z
+yw Yank word to general buffer
+“a9dd Delete 9 lines to buffer a
+“A9dd Delete 9 lines; Append to buffer a
+“ap Put text from buffer a after cursor
+p Put general buffer after cursor
+P Put general buffer before cursor
+J Join lines
 
 - Search patterns
 /<pattern>

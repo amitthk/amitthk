@@ -1,0 +1,70 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: database
+  name: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: database
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: database
+    spec:
+      containers:
+      - image: alpine
+        name: database
+        resources: {}
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: frontend
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: frontend
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: frontend
+    spec:
+      containers:
+      - image: alpine
+        name: frontend
+        resources: {}
+status: {}
+---
+
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: db-networkpolicy
+  namespace: ckad-pr
+spec:
+  podSelector:
+    matchLabels:
+      run: database
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          run: frontend
+

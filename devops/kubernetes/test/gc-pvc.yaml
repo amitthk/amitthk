@@ -2,6 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: gcloud-pvc1
+  namespace: ckad-pr
 spec:
   volumeName: gcloud-pv
   storageClassName: ""

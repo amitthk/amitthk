@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: nginx-cm
+  name: nginx-cm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: nginx-cm
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: nginx-cm
+    spec:
+      containers:
+      - env:
+        - name: VAR1
+          valueFrom:
+            configMapKeyRef:
+              name: cfgvals
+              key: VAR1
+        image: nginx
+        name: nginx-cm
+        resources: {}
+status: {}
