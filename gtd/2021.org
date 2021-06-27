@@ -1,5 +1,20 @@
 * in box
 
+- USB VGA
+- Screen arm
+- Check salary slip
+
+
+** make CV
+
+*** Collect all personal project details
+
+** Take driving tests
+
+** fill up papers
+
+
+
 ** cr for sftpgw
 
 ** cr for cap-gov tenant consumptions
@@ -11,6 +26,19 @@
 - Json bulk insert for static alloc db
 - parse excel, bulk upload for static alloc
 
+
+- explore data in SIT
+- expose endpoint in SIT
+- setup pcf manifest
+- setup POC node mvn
+- consumer in UI
+- Validate the units of measure both static + dyn
+- convert the ci cd to dynamic deploy
+- static allocation should consume from cdh
+- validate cm data
+- report for BALA
+- email hr feedback on interviews
+- validate the capacity data units of measure
 
 
 ** fix cap-gov compliance dashboard
