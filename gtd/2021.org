@@ -1,0 +1,63 @@
+* in box
+
+** cr for sftpgw
+
+** cr for cap-gov tenant consumptions
+
+** fix cap-gov tenant consumptions
+
+- make single insert work in local
+- mariadb database for static alloc
+- Json bulk insert for static alloc db
+- parse excel, bulk upload for static alloc
+
+
+
+** fix cap-gov compliance dashboard
+
+** bcproxy2 fix 
+
+** research and confirm o0n manulife ILP
+
+** connect & test cm-api
+
+** elasticsearch query api
+
+** prepare and send out the report for continuous compliances
+
+
+
+* unplanned and urgent
+
+** continuous compliance report for presentation tomorrow
+
+** explore and validate the data for yarn utilization for cap gov dashboard 
+
+** s3 traversal data generate report
+
+** cap-gov documentation project
+
+** Creating a Nomad spark cluster from scratch 
+
+* Next actions
+
+* waiting for
+
+* projects
+
+** Australia PR certificates 
+
+*** collect MIMS document and file it 
+
+*** collect Xchanging documents and file it
+
+*** Improve IELTS / PET scores
+
+
+** Canada PR
+
+*** Improve IELTS Score
+
+* someday/maybe
+
+* Done
