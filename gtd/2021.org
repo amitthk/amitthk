@@ -9,6 +9,9 @@
 
 *** Collect all personal project details
 
+*** In the interntional format
+
+*** update capacity governance project, nomad spark, cdh devops, openshift 
 ** Take driving tests
 
 ** fill up papers
